@@ -2,7 +2,7 @@
 
 WAKE is an evidence-first causal market response console for the Bitget hackathon. It turns a confirmed on-chain incident into a causal exposure graph, a bounded paper-trade decision, and an immutable decision trail.
 
-The current build is a focused interactive demo: switch incidents, inspect graph nodes, review evidence, run or reject a paper action, open the position view, and replay the investigation state.
+The current build is the v0.3 submission slice: switch incidents, inspect incident-specific graph nodes, review evidence, run or reject a paper action, persist a local paper ledger, export a verifiable evidence packet, and replay the investigation state.
 
 ## Run locally
 
