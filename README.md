@@ -22,7 +22,7 @@ WAKE keeps execution in paper mode by default. The real-data boundaries are read
 - Bitget Demo Trading uses `BITGET_API_KEY`, `BITGET_SECRET_KEY`, and `BITGET_PASSPHRASE`, with `WAKE_EXECUTION_MODE=bitget-demo` as the explicit opt-in.
 - `npm run data:capture -- ...` writes a real chain receipt plus Bitget market window to `data/incidents/` and adds a SHA-256 integrity hash.
 
-Copy `env.example` to a local environment file and never commit credentials. WAKE does not enable live trading; the execution route is restricted to Bitget Demo Trading.
+Copy `env.example` to `.env.local` and never commit credentials. WAKE does not enable live trading; the execution route is restricted to Bitget Demo Trading.
 
 ## Validate the deployable build
 
