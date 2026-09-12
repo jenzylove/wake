@@ -119,7 +119,7 @@ export default function Home() {
         <div className="topbar-left">
           <button className="mobile-menu" onClick={() => setMobileNav((value) => !value)} aria-label="Toggle navigation"><Menu size={18} /></button>
           <div className="brand-mark"><span>↯</span></div>
-          <div><div className="brand-name">AFTERSHOCK</div><div className="brand-kicker">MARKET CONSEQUENCE ENGINE</div></div>
+          <div><div className="brand-name">WAKE</div><div className="brand-kicker">EVIDENCE BEFORE EXECUTION</div></div>
         </div>
         <div className="topbar-center"><div className="system-status"><StatusDot tone="lime" /> SYSTEM OPERATIONAL</div><div className="network-status"><Radio size={13} /> 3 CHAINS · 12 WATCHERS</div></div>
         <div className="topbar-right"><Button variant="ghost" size="icon-sm" className="top-icon" aria-label="Notifications"><Bell size={16} /></Button><Button variant="outline" size="sm" className="paper-button"><CircleDollarSign size={14} /> PAPER MODE <ChevronDown size={13} /></Button><div className="avatar">AK</div></div>
@@ -138,7 +138,7 @@ export default function Home() {
             <button className="nav-item"><TimerReset size={15} /> Replay lab</button>
             <button className="nav-item"><SlidersHorizontal size={15} /> Risk policy</button>
           </div>
-          <div className="sidebar-footer"><div className="coverage-card"><div className="coverage-head"><span>WATCH COVERAGE</span><span className="coverage-percent">87%</span></div><div className="coverage-track"><span /></div><div className="coverage-copy">Ethereum · Base · Arbitrum</div></div><div className="agent-id"><div className="agent-avatar"><BrainCircuit size={15} /></div><div><div className="agent-name">agent.aftershock</div><div className="agent-sub">key: 0x…a91f · verified</div></div><ShieldCheck size={14} className="verified-icon" /></div></div>
+          <div className="sidebar-footer"><div className="coverage-card"><div className="coverage-head"><span>WATCH COVERAGE</span><span className="coverage-percent">87%</span></div><div className="coverage-track"><span /></div><div className="coverage-copy">Ethereum · Base · Arbitrum</div></div><div className="agent-id"><div className="agent-avatar"><BrainCircuit size={15} /></div><div><div className="agent-name">agent.wake</div><div className="agent-sub">key: 0x…a91f · verified</div></div><ShieldCheck size={14} className="verified-icon" /></div></div>
         </aside>
 
         <section className="main-canvas">

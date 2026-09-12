@@ -1,6 +1,6 @@
-# AFTERSHOCK × ActionGraph
+# WAKE
 
-AFTERSHOCK is an evidence-first market consequence console for the Bitget hackathon. It turns a confirmed on-chain incident into a causal exposure graph, a bounded paper-trade decision, and an immutable decision trail.
+WAKE is an evidence-first causal market response console for the Bitget hackathon. It turns a confirmed on-chain incident into a causal exposure graph, a bounded paper-trade decision, and an immutable decision trail.
 
 The current build is a focused interactive demo: switch incidents, inspect graph nodes, review evidence, run or reject a paper action, open the position view, and replay the investigation state.
 

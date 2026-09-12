@@ -227,7 +227,7 @@ The product is complete when:
 
 ### Submission separation rule
 
-This is an independent submission from AFTERSHOCK. RESIDUAL must not depend on ActionGraph, onchain incident logic, exploit fixtures, or contagion terminology.
+This is an independent submission from WAKE. RESIDUAL must not depend on ActionGraph, onchain incident logic, exploit fixtures, or contagion terminology.
 
 Its story is:
 

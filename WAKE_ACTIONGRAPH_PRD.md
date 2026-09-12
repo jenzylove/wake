@@ -1,14 +1,14 @@
-# PRD 1 — AFTERSHOCK + ACTIONGRAPH
+# PRD 1 — WAKE + ACTIONGRAPH
 
 ## 1. Product contract
 
 ### Product name
 
-AFTERSHOCK — Market Consequence Engine
+WAKE — Causal Market Response
 
 ### One-line thesis
 
-AFTERSHOCK discovers when a real onchain or market event creates an economically exposed asset that the market has not fully repriced, then chooses to trade, hedge, monitor, or abstain.
+WAKE discovers when a real onchain or market event creates an economically exposed asset that the market has not fully repriced, then chooses to trade, hedge, monitor, or abstain.
 
 ### Problem
 
@@ -22,7 +22,7 @@ That skips the important question:
 
 > Who actually absorbs the economic damage or benefit?
 
-A protocol exploit may affect a collateral asset, lending market, governance token, stablecoin, or correlated Bitget instrument. AFTERSHOCK maps those consequences before deciding whether a trade exists.
+A protocol exploit may affect a collateral asset, lending market, governance token, stablecoin, or correlated Bitget instrument. WAKE maps those consequences before deciding whether a trade exists.
 
 ### Primary user
 
@@ -54,7 +54,7 @@ The system must never turn a third-party alert directly into an order.
 
 ### Core product boundary
 
-AFTERSHOCK is not:
+WAKE is not:
 
 - a generic exploit alert dashboard;
 - a sentiment bot;

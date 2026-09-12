@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AFTERSHOCK · Market Consequence Engine",
-  description: "Evidence-backed incident investigation, exposure mapping, and paper execution for Bitget markets.",
+  title: "WAKE · Causal Market Response",
+  description: "Evidence-backed incident investigation, causal exposure mapping, and paper execution for Bitget markets.",
   other: {
     "codex-preview": "development",
   },
