@@ -27,6 +27,7 @@ WAKE keeps execution in paper mode by default. The real-data boundaries are read
 - `npm run bitget:verify` performs a read-only Demo Trading account preflight with `paptrading: 1`; it never places an order.
 - `GET /api/watchers/run` performs a server-side pass over validated adapters; `vercel.json` schedules it every 15 minutes. Planned chain coverage is never treated as live.
 - `GET/POST /api/position/observations` records server-fetched Bitget marks in an append-only local runtime store. Hosted Vercel history still needs a durable storage provider.
+- Vercel Hobby accepts the included watcher cron at once per day; call `GET /api/watchers/run` from an external scheduler for a shorter cadence, or move the project to a plan that supports frequent cron jobs.
 - `GET/POST /api/investigator` is the server-only Anthropic interpretation boundary. Set `ANTHROPIC_API_KEY` to enable it; deterministic numbers, gates, and execution remain authoritative.
 
 Copy `env.example` to `.env.local` and never commit credentials. WAKE does not enable live trading; the execution route is restricted to Bitget Demo Trading.

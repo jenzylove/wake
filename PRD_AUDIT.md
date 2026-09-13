@@ -22,7 +22,7 @@ This audit is against [`WAKE_ACTIONGRAPH_PRD.md`](./WAKE_ACTIONGRAPH_PRD.md), no
 | ActionGraph node and edge metadata | Implemented | Nodes expose inferred types; edges carry relation, source, timestamp, direction, magnitude, evidence ref, confidence, and observed/inferred status |
 | Deterministic numbers, AI interpretation boundary | Implemented as an optional boundary | Consequence ranges, residuals, and risk checks stay deterministic; `/api/investigator` sends only the evidence context to a server-side Anthropic reviewer, validates its structured response, and never accepts AI numbers or execution instructions |
 | Causal falsifier | Implemented | Six explicit checks cover collateral, debt cap, absorption, association, repricing, and invalidation evidence |
-| Workflow state machine | Implemented for captured/replay records | State transitions are timestamped and exported; live watcher transitions are not yet running continuously |
+| Workflow state machine | Implemented for captured/replay records | State transitions are timestamped and exported; the hosted native watcher cadence is plan-limited to once daily on Vercel Hobby, while the route is ready for an external shorter-cadence scheduler |
 | Bitget paper executor | Implemented | Local paper receipts are tied to an investigation run; Bitget Demo adapter is isolated and separately authenticated |
 | Live monitor | Partial | Position surface polls Bitget public mark price every 15 seconds and sends server-owned observations; local append-only persistence works, but hosted Vercel history still needs a durable provider |
 
@@ -51,7 +51,7 @@ This audit is against [`WAKE_ACTIONGRAPH_PRD.md`](./WAKE_ACTIONGRAPH_PRD.md), no
 ## Remaining work, in priority order
 
 1. Configure a durable hosted runtime store for watcher runs and position observations. The route, export field, and append-only interface exist; Vercel’s ephemeral filesystem must not be treated as history. Add a private Vercel Blob store and `BLOB_READ_WRITE_TOKEN` to make hosted history durable.
-2. Extend the watcher worker from scheduled validated mark/receipt passes to resolver-backed discovery. The scheduler currently records its pass and refuses to claim automatic discovery for planned chains.
+2. Extend the watcher worker from scheduled validated mark/receipt passes to resolver-backed discovery. The scheduler currently records its pass and refuses to claim automatic discovery for planned chains; Vercel Hobby also limits the native cron to once daily, so shorter cadence needs an external scheduler or a plan upgrade.
 3. Capture the full downstream AFX conversion/freeze trace so the contagion edge can move from inferred to observed; the existing packet intentionally does not overclaim it.
 4. Add follow-up recovery evidence for the AFX response case before changing its conditional monitor state.
 5. Keep the authenticated Bitget Demo route explicitly opt-in. The minimum-size open/close smoke test passed in hedge mode; live trading remains unsupported.
