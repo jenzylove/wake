@@ -4,7 +4,7 @@ import { chainEvidenceConfigStatus } from "@/lib/chain-evidence"
 export async function GET() {
   return Response.json({
     product: "WAKE",
-    version: "1.0.0",
+    version: "0.3.1",
     data: bitgetConfigStatus(),
     chainEvidence: chainEvidenceConfigStatus(),
     liveTrading: false,

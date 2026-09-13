@@ -6,12 +6,10 @@ import {
   ArrowDownRight,
   ArrowRight,
   Ban,
-  Bell,
   BrainCircuit,
   Check,
   CheckCircle2,
   ChevronDown,
-  CircleDollarSign,
   Copy,
   Code2,
   Crosshair,
@@ -29,7 +27,6 @@ import {
   Network,
   Pause,
   Play,
-  Radio,
   RefreshCw,
   ScanSearch,
   ShieldCheck,
@@ -49,14 +46,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   createPaperOrder,
+  deriveGraphEdges,
   deriveDecision,
+  evaluateRiskGate,
   exportEvidencePacket,
+  getGraphNodeType,
+  isTradeDecision,
+  coverageRegistry,
   incidents,
   type Decision,
   type EvidenceItem,
   type GraphNodeData,
   type PaperOrder,
+  type InvestigationRecord,
 } from "@/lib/wake-engine"
+
+type InvestigationRun = InvestigationRecord
+type MarketSnapshot = { symbol: string; markPrice: number; capturedAt: string; source: "bitget-public-ticker" }
 
 function StatusDot({ tone = "cyan" }: { tone?: string }) {
   return <span className={`status-dot status-${tone}`} aria-hidden="true" />
@@ -87,7 +93,11 @@ export default function Home() {
     const saved = window.localStorage.getItem("wake.paper-orders")
     if (!saved) return []
     try {
-      return JSON.parse(saved) as PaperOrder[]
+      const parsed = JSON.parse(saved) as Array<Partial<PaperOrder>>
+      if (!Array.isArray(parsed)) return []
+      return parsed
+        .filter((item) => item && typeof item.id === "string" && typeof item.incidentId === "string")
+        .map((item) => ({ ...item, runId: item.runId ?? "legacy-paper-run" })) as PaperOrder[]
     } catch {
       window.localStorage.removeItem("wake.paper-orders")
       return []
@@ -95,19 +105,86 @@ export default function Home() {
   })
   const [copiedReceipt, setCopiedReceipt] = React.useState(false)
   const [mobileNav, setMobileNav] = React.useState(false)
+  const [lastRun, setLastRun] = React.useState<InvestigationRun | null>(null)
+  const [runHistory, setRunHistory] = React.useState<InvestigationRun[]>(() => {
+    if (typeof window === "undefined") return []
+    const saved = window.localStorage.getItem("wake.investigation-runs")
+    if (!saved) return []
+    try {
+      const parsed = JSON.parse(saved) as InvestigationRun[]
+      return Array.isArray(parsed) ? parsed.filter((run) => run && typeof run.id === "string" && typeof run.incidentId === "string") : []
+    } catch {
+      window.localStorage.removeItem("wake.investigation-runs")
+      return []
+    }
+  })
+  const [marketSnapshot, setMarketSnapshot] = React.useState<MarketSnapshot | null>(null)
+  const [actionNotice, setActionNotice] = React.useState<string | null>(null)
 
   const incident = incidents.find((item) => item.id === selectedId) ?? incidents[0]
+  const riskGate = evaluateRiskGate(incident)
+  const graphEdges = deriveGraphEdges(incident)
   const activeOrder = paperOrders.find((order) => order.incidentId === incident.id && order.status === "OPEN")
+  const isTrade = isTradeDecision(decision)
+  const unrealizedPnl = activeOrder?.entryPrice && marketSnapshot && activeOrder.entryPrice > 0
+    ? `${(((marketSnapshot.markPrice - activeOrder.entryPrice) / activeOrder.entryPrice) * (activeOrder.side === "SHORT" ? -100 : 100)).toFixed(2)}%`
+    : "n/a · entry mark unavailable"
   const selectedGraphNode = incident.graphNodes.find((node) => node.id === selectedNode) ?? incident.graphNodes[2]
+  const selectedEdge = graphEdges.find((edge) => edge.from === selectedGraphNode.id || edge.to === selectedGraphNode.id)
+  const isRealCapture = incident.provenance === "REAL_CAPTURE"
+  const provenanceLabel = isRealCapture ? "REAL CAPTURE" : "REPLAY FIXTURE · NOT LIVE"
+  const mispricing = incident.modeledDelta === null ? "n/a" : `${(incident.modeledDelta - incident.marketDelta).toFixed(1)}%`
+  const marketSummary = incident.modeledDelta === null ? `market ${incident.marketDelta.toFixed(2)}% · model not estimated` : `model ${incident.modeledDelta.toFixed(1)}% · market ${incident.marketDelta.toFixed(1)}%`
   const activePositionCount = paperOrders.filter((order) => order.status === "OPEN").length
 
   React.useEffect(() => {
     window.localStorage.setItem("wake.paper-orders", JSON.stringify(paperOrders))
   }, [paperOrders])
 
+  React.useEffect(() => {
+    window.localStorage.setItem("wake.investigation-runs", JSON.stringify(runHistory))
+  }, [runHistory])
+
+  React.useEffect(() => {
+    let mounted = true
+    const readSnapshot = async () => {
+      try {
+        const response = await fetch(`/api/market/ticker?symbol=${encodeURIComponent(incident.instrument)}`)
+        if (!response.ok) return
+        const snapshot = await response.json() as MarketSnapshot
+        if (mounted && snapshot.symbol && Number.isFinite(snapshot.markPrice)) setMarketSnapshot(snapshot)
+      } catch {
+        if (mounted) setMarketSnapshot(null)
+      }
+    }
+    void readSnapshot()
+    const interval = window.setInterval(readSnapshot, 15000)
+    return () => {
+      mounted = false
+      window.clearInterval(interval)
+    }
+  }, [incident.instrument])
+
   function runInvestigation() {
+    const runIncident = incident
     setIsRunning(true)
-    window.setTimeout(() => setIsRunning(false), 1600)
+    setActionNotice("Replaying the evidence snapshot and rerunning the risk gate…")
+    window.setTimeout(() => {
+      const completedAt = new Date().toISOString()
+      const runId = `run_${runIncident.id.slice(4).toLowerCase()}_${completedAt.replace(/[-:TZ.]/g, "").slice(0, 14)}`
+      const nextRiskGate = evaluateRiskGate(runIncident)
+      const nextDecision = deriveDecision(runIncident)
+      const nextRun: InvestigationRun = { id: runId, incidentId: runIncident.id, completedAt, decision: nextDecision, workflowState: runIncident.workflowState, riskGate: nextRiskGate }
+      setLastRun(nextRun)
+      setRunHistory((current) => [nextRun, ...current.filter((run) => run.id !== runId)].slice(0, 20))
+      setDecision(nextDecision)
+      setIsRunning(false)
+      setActionNotice(`${runId} recorded · ${nextRiskGate.passed ? "risk gate passed" : "NO TRADE gate held"}`)
+    }, 1600)
+  }
+
+  function enterWorkspace() {
+    document.getElementById("wake-workspace")?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
   function selectIncident(id: string) {
@@ -118,26 +195,39 @@ export default function Home() {
     setIsOpen(Boolean(nextOrder))
     setSelectedNode(nextIncident.graphNodes[2].id)
     setCopiedReceipt(false)
+    setMarketSnapshot(null)
+    setLastRun(runHistory.find((run) => run.incidentId === id) ?? null)
+    setActionNotice(null)
   }
 
   function openPaperPosition() {
+    if (!lastRun || lastRun.incidentId !== incident.id) {
+      setActionNotice("Run the investigation first. No paper order was created.")
+      return
+    }
+    if (!lastRun.riskGate.passed) {
+      setActionNotice("Risk gate held. WAKE recorded NO TRADE; no paper order was created.")
+      setDecision(deriveDecision(incident))
+      return
+    }
     const existing = paperOrders.find((order) => order.incidentId === incident.id && order.status === "OPEN")
     if (existing) {
       setIsOpen(true)
-      setDecision("TRADE")
+      setDecision(deriveDecision(incident))
       return
     }
 
-    const order = createPaperOrder(incident)
-    if (!order) {
-      setDecision("NO TRADE")
+    const runOrder = createPaperOrder(incident, lastRun.id, marketSnapshot?.markPrice ?? null)
+    if (!runOrder) {
+      setDecision(deriveDecision(incident))
       setIsOpen(false)
+      setActionNotice("NO TRADE recorded; the deterministic gate did not approve execution.")
       return
     }
-
-    setPaperOrders((current) => [...current.filter((item) => item.incidentId !== incident.id), order])
-    setDecision("TRADE")
+    setPaperOrders((current) => [...current.filter((item) => item.incidentId !== incident.id), runOrder])
+    setDecision(deriveDecision(incident))
     setIsOpen(true)
+    setActionNotice(`${runOrder.id} created in local paper mode · no Bitget request sent`)
   }
 
   function closePaperPosition() {
@@ -147,15 +237,17 @@ export default function Home() {
         : order
     )))
     setIsOpen(false)
+    setActionNotice("Position closed in the local paper ledger.")
   }
 
   function rejectThesis() {
     closePaperPosition()
-    setDecision("NO TRADE")
+    setDecision("NO_TRADE")
+    setActionNotice("Thesis rejected; no external order was sent.")
   }
 
   function exportPacket() {
-    const packet = exportEvidencePacket(incident, decision, paperOrders)
+    const packet = exportEvidencePacket(incident, decision, paperOrders, runHistory, marketSnapshot)
     const blob = new Blob([JSON.stringify(packet, null, 2)], { type: "application/json" })
     const url = URL.createObjectURL(blob)
     const anchor = document.createElement("a")
@@ -175,7 +267,7 @@ export default function Home() {
 
   return (
     <main className="app-shell">
-      <header className="topbar">
+      <header className="topbar hero-topbar">
         <div className="topbar-left">
           <button className="mobile-menu" onClick={() => setMobileNav((value) => !value)} aria-label="Toggle navigation">
             <Menu size={18} />
@@ -186,22 +278,41 @@ export default function Home() {
             <div className="brand-kicker">EVIDENCE BEFORE EXECUTION</div>
           </div>
         </div>
-        <div className="topbar-center">
-          <div className="system-status"><StatusDot tone="lime" /> SYSTEM OPERATIONAL</div>
-          <div className="network-status"><Radio size={13} /> 3 CHAINS · 12 WATCHERS</div>
-        </div>
+        <nav className="hero-nav" aria-label="Landing page navigation">
+          <button type="button" onClick={enterWorkspace}>WHY WAKE</button>
+          <button type="button" onClick={enterWorkspace}>EVIDENCE</button>
+          <button type="button" onClick={enterWorkspace}>WORKSPACE</button>
+        </nav>
         <div className="topbar-right">
-          <Button variant="ghost" size="icon-sm" className="top-icon" aria-label="Notifications"><Bell size={16} /></Button>
-          <Button variant="outline" size="sm" className="paper-button"><CircleDollarSign size={14} /> PAPER MODE <ChevronDown size={13} /></Button>
-          <div className="avatar">AK</div>
+          <button type="button" className="hero-nav-cta" onClick={enterWorkspace}>OPEN CONSOLE <ArrowRight size={13} /></button>
         </div>
       </header>
 
-      <div className="app-body">
+      <section className="wake-hero" aria-labelledby="wake-hero-title">
+        <div className="hero-scene" aria-hidden="true">
+          <img className="hero-scene-image" src="/wake-hero.png" alt="" />
+          <div className="hero-scene-vignette" />
+          <div className="hero-scene-glow" />
+        </div>
+        <div className="hero-copy">
+          <div className="hero-eyebrow"><span className="eyebrow-line" /> WAKE IS A MISSION</div>
+          <h1 id="wake-hero-title">When the chain moves,<br /><em>find what the market missed.</em></h1>
+          <p className="hero-description">On-chain incident response for market action you can explain, bound, and verify.</p>
+          <div className="hero-actions">
+            <Button size="sm" className="accent-button hero-primary" onClick={enterWorkspace}><ScanSearch size={14} /> ENTER RESPONSE ROOM <ArrowRight size={14} /></Button>
+            <button type="button" className="hero-secondary" onClick={enterWorkspace}>Explore WAKE <ArrowRight size={14} /></button>
+          </div>
+        </div>
+        <div className="hero-index" aria-hidden="true"><strong>01</strong><span>/ 04</span></div>
+        <div className="hero-side-note"><span>WAKE / 01</span><p>On-chain state <i>→</i> causal exposure <i>→</i> bounded action</p></div>
+        <div className="hero-scroll-cue" aria-hidden="true"><span>SCROLL TO INVESTIGATE</span><ChevronDown size={14} /></div>
+      </section>
+
+      <div className="app-body" id="wake-workspace">
         <aside className={`sidebar ${mobileNav ? "sidebar-open" : ""}`}>
           <div className="sidebar-nav">
             <div className="nav-label">WORKSPACE</div>
-            <button className="nav-item active"><ScanSearch size={15} /> Incident queue <span className="nav-count">03</span></button>
+            <button className="nav-item active"><ScanSearch size={15} /> Incident queue <span className="nav-count">{String(incidents.length).padStart(2, "0")}</span></button>
             <button className="nav-item"><Network size={15} /> ActionGraph <span className="live-pulse" /></button>
             <button className="nav-item"><Crosshair size={15} /> Positions <span className="nav-count muted">{String(activePositionCount).padStart(2, "0")}</span></button>
             <button className="nav-item"><History size={15} /> Decision log</button>
@@ -212,9 +323,9 @@ export default function Home() {
           </div>
           <div className="sidebar-footer">
             <div className="coverage-card">
-              <div className="coverage-head"><span>WATCH COVERAGE</span><span className="coverage-percent">87%</span></div>
-              <div className="coverage-track"><span /></div>
-              <div className="coverage-copy">Ethereum · Base · Arbitrum</div>
+              <div className="coverage-head"><span>VALIDATED COVERAGE</span><span className="coverage-percent">{coverageRegistry.filter((item) => item.status === "VALIDATED").length}/{coverageRegistry.length}</span></div>
+              <div className="coverage-track"><span style={{ width: `${(coverageRegistry.filter((item) => item.status === "VALIDATED").length / coverageRegistry.length) * 100}%` }} /></div>
+              <div className="coverage-copy">Base / Moonwell receipt · Bitget marks<br />Ethereum + Arbitrum resolvers planned</div>
             </div>
             <div className="agent-id">
               <div className="agent-avatar"><BrainCircuit size={15} /></div>
@@ -227,7 +338,7 @@ export default function Home() {
         <section className="main-canvas">
           <div className="page-heading">
             <div>
-              <div className="eyebrow"><span className="eyebrow-line" /> LIVE INCIDENT QUEUE</div>
+              <div className="eyebrow"><span className="eyebrow-line" /> INCIDENT QUEUE · EVIDENCE REGISTRY</div>
               <h1>Find the consequence,<br /><em>not just the headline.</em></h1>
             </div>
             <div className="heading-actions">
@@ -240,11 +351,16 @@ export default function Home() {
             </div>
           </div>
 
+          <div className="workspace-disclosure" role="status">
+            <span><StatusDot tone={isRealCapture ? "cyan" : "amber"} /> {provenanceLabel}</span>
+            <span>{actionNotice ?? (lastRun?.incidentId === incident.id ? `Last run ${lastRun.id} · ${lastRun.riskGate.passed ? "risk gate passed" : "risk gate held"}` : "Refresh graph to create a timestamped investigation run")}</span>
+          </div>
+
           <div className="workspace-grid">
             <Card className="incident-queue card-dark">
               <CardHeader className="card-head compact-head">
-                <div><CardTitle className="card-title">Event queue</CardTitle><div className="card-subtitle">WATCHING IN REAL TIME</div></div>
-                <Badge variant="outline" className="queue-badge"><StatusDot tone="lime" /> 03 ACTIVE</Badge>
+                <div><CardTitle className="card-title">Event queue</CardTitle><div className="card-subtitle">CAPTURED + REPLAYABLE INCIDENTS</div></div>
+                <Badge variant="outline" className="queue-badge"><StatusDot tone="cyan" /> {incidents.filter((item) => item.provenance === "REAL_CAPTURE").length} REAL · {incidents.filter((item) => item.provenance !== "REAL_CAPTURE").length} REPLAY</Badge>
               </CardHeader>
               <CardContent className="queue-content">
                 {incidents.map((item) => (
@@ -252,7 +368,7 @@ export default function Home() {
                     <div className="incident-row-top"><span className="incident-time">{item.time} UTC</span><span className={`state-label state-${item.state.toLowerCase()}`}>{item.state}</span></div>
                     <div className="incident-title">{item.title}</div>
                     <div className="incident-subtitle">{item.subtitle}</div>
-                    <div className="incident-row-bottom"><span className={`chain-pill chain-${item.accent}`}>{item.chain}</span><span>{item.kind}</span><span className="row-risk">{item.risk}</span></div>
+                    <div className="incident-row-bottom"><span className={`chain-pill chain-${item.accent}`}>{item.chain}</span><span>{item.kind}</span><span>{paperOrders.some((order) => order.incidentId === item.id && order.status === "OPEN") ? "POSITION OPEN" : "NO POSITION"}</span><span className="row-risk">{item.risk}</span></div>
                   </button>
                 ))}
                 <button className="load-more"><Activity size={13} /> View all observations <ArrowRight size={13} /></button>
@@ -269,14 +385,15 @@ export default function Home() {
                   <div className="hero-tags">
                     <Badge className="badge-confirmed"><CheckCircle2 size={12} /> {incident.state}</Badge>
                     <Badge className="badge-contagion"><GitBranch size={12} /> {incident.kind}</Badge>
+                    <Badge variant="outline" className={isRealCapture ? "capture-badge" : "fixture-badge"}>{provenanceLabel}</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="hero-card-content">
                   <div className="metric-strip">
-                    <Metric label="VALUE AT RISK" value={incident.risk} sub="modeled downstream loss" tone="orange" />
-                    <Metric label="MISPRICING" value={`${(incident.modeledDelta - incident.marketDelta).toFixed(1)}%`} sub={`model ${incident.modeledDelta.toFixed(1)}% · market ${incident.marketDelta.toFixed(1)}%`} tone="cyan" />
-                    <Metric label="CONFIDENCE" value={`${incident.confidence}%`} sub="causal graph confidence" tone="lime" />
-                    <Metric label="DECISION" value={decision} sub={isOpen ? "paper position open" : "awaiting action"} tone={decision === "TRADE" ? "violet" : "muted"} />
+                    <Metric label="VALUE AT RISK" value={incident.risk} sub={incident.modeledDelta === null ? "not estimated from capture" : "modeled downstream loss"} tone="orange" />
+                    <Metric label="MISPRICING" value={mispricing} sub={marketSummary} tone="cyan" />
+                    <Metric label="CONFIDENCE" value={incident.confidence === null ? "n/a" : `${incident.confidence}%`} sub="causal graph confidence" tone="lime" />
+                    <Metric label="DECISION" value={decision} sub={isOpen ? "paper position open" : "awaiting action"} tone={isTrade ? "violet" : "muted"} />
                   </div>
                 </CardContent>
               </Card>
@@ -307,7 +424,8 @@ export default function Home() {
                     <div className="graph-side-note">
                       <div className="side-note-label">SELECTED NODE</div>
                       <div className="side-note-value">{selectedGraphNode.label}</div>
-                      <div className="side-note-copy">Evidence linked · exposure bounded · market checked</div>
+                      <div className="side-note-copy">{getGraphNodeType(selectedGraphNode)} · {selectedEdge?.relation ?? "node"} · {selectedEdge?.epistemic.toLowerCase() ?? "evidence linked"} · {selectedEdge?.estimatedMagnitude ?? "n/a"}</div>
+                      <div className="side-note-ref">{selectedEdge?.evidenceRef ?? "packet"}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -323,7 +441,7 @@ export default function Home() {
                     {incident.evidence.map((item) => (
                       <div className="evidence-row" key={item.type}>
                         <ToneIcon tone={item.tone}><EvidenceGlyph icon={item.icon} /></ToneIcon>
-                        <div className="evidence-copy"><div className="evidence-label">{item.label}</div><div className="evidence-text">{item.text}</div><div className="evidence-ref"><Code2 size={11} /> {item.ref}</div></div>
+                        <div className="evidence-copy"><div className="evidence-label">{item.label} <span className="evidence-epistemic">{item.epistemic ?? (item.type === "EXPOSURE" ? "INFERRED" : "OBSERVED")}</span></div><div className="evidence-text">{item.text}</div><div className="evidence-ref"><Code2 size={11} /> {item.ref} · {isRealCapture ? "captured" : "replay fixture"}</div></div>
                         <Check size={14} className="evidence-check" />
                       </div>
                     ))}
@@ -331,22 +449,32 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                <Card className={`decision-card card-dark ${decision === "NO TRADE" ? "decision-no-trade" : ""}`}>
+              <Card className={`decision-card card-dark ${decision === "NO_TRADE" || decision === "MONITOR" ? "decision-no-trade" : ""}`}>
                   <CardHeader className="card-head">
-                    <div><CardTitle className="card-title"><Sparkles size={16} className="title-icon" /> Agent decision</CardTitle><div className="card-subtitle">CAUSAL FALSIFICATION PASSED</div></div>
-                    <div className="decision-confidence"><span>{incident.confidence}</span><small>/100</small></div>
+                    <div><CardTitle className="card-title"><Sparkles size={16} className="title-icon" /> Agent decision</CardTitle><div className="card-subtitle">{lastRun?.incidentId === incident.id ? (lastRun.riskGate.passed ? "RISK GATE PASSED · RUN RECORDED" : "RISK GATE HELD · NO TRADE") : "RUN INVESTIGATION BEFORE ACTION"}</div></div>
+                    <div className="decision-confidence"><span>{incident.confidence === null ? "—" : incident.confidence}</span><small>{incident.confidence === null ? "" : "/100"}</small></div>
                   </CardHeader>
                   <CardContent className="decision-content">
                     <div className="decision-verdict">
                       <div className="verdict-kicker">RECOMMENDATION</div>
-                      <div className={`verdict-value ${decision === "TRADE" ? "trade" : "no-trade"}`}>{decision}</div>
+                      <div className={`verdict-value ${isTrade ? "trade" : "no-trade"}`}>{decision}</div>
                       <div className="verdict-reason">{incident.decisionReason}</div>
                     </div>
                     <div className="decision-detail-grid">
-                      <div><span>Instrument</span><strong>{decision === "TRADE" ? incident.instrument : "—"}</strong></div>
-                      <div><span>Side</span><strong>{decision === "TRADE" ? incident.side : "—"}</strong></div>
-                      <div><span>Max loss</span><strong>{decision === "TRADE" ? incident.maxLoss : "$0"}</strong></div>
-                      <div><span>Invalidation</span><strong>{decision === "TRADE" ? incident.invalidation : "n/a"}</strong></div>
+                      <div><span>Instrument</span><strong>{isTrade ? incident.instrument : "—"}</strong></div>
+                      <div><span>Side</span><strong>{isTrade ? incident.side : "—"}</strong></div>
+                      <div><span>Max loss</span><strong>{isTrade ? incident.maxLoss : "$0"}</strong></div>
+                      <div><span>Invalidation</span><strong>{isTrade ? incident.invalidation : "n/a"}</strong></div>
+                      <div><span>Catalyst horizon</span><strong>{incident.catalystHorizon}</strong></div>
+                      <div><span>Consequence range</span><strong>{incident.consequence ? `${incident.consequence.minimumPct.toFixed(1)} / ${incident.consequence.basePct.toFixed(1)} / ${incident.consequence.maximumPct.toFixed(1)}%` : "n/a"}</strong></div>
+                    </div>
+                    <div className="model-note"><span>DETERMINISTIC MODEL</span><strong>{incident.consequence?.formula ?? "No consequence estimate: proxy edge is unproven"}</strong><small>{incident.consequence?.assumptions.join(" · ") ?? "The missing relationship is preserved as uncertainty, not filled with a proxy."}</small></div>
+                    <div className="risk-checks">
+                      {(lastRun?.incidentId === incident.id ? lastRun.riskGate : riskGate).checks.map((check) => <div className="risk-check" key={check.key}><span className={check.passed ? "risk-pass" : "risk-hold"}>{check.passed ? "PASS" : "HOLD"}</span><span>{check.label}</span><strong>{check.value}</strong><small>{check.threshold}</small></div>)}
+                    </div>
+                    <div className="falsification-block">
+                      <div className="falsification-head"><span>CAUSAL FALSIFIER</span><span>{incident.falsification.filter((check) => check.status === "SUPPORTED").length}/{incident.falsification.length} supported</span></div>
+                      {incident.falsification.map((check) => <div className="falsification-row" key={check.key}><span className={`falsification-status falsification-${check.status.toLowerCase()}`}>{check.status}</span><div><strong>{check.question}</strong><small>{check.answer} · {check.evidenceRef}</small></div></div>)}
                     </div>
                     <div className="decision-actions">
                       <Button size="sm" className="accent-button full-action" onClick={openPaperPosition}><Zap size={14} /> {activeOrder ? "POSITION OPEN" : "OPEN PAPER POSITION"}</Button>
@@ -357,25 +485,35 @@ export default function Home() {
               </div>
 
               <Tabs defaultValue="activity" className="detail-tabs">
-                <div className="tabs-header"><TabsList variant="line" className="tabs-list"><TabsTrigger value="activity">Decision log</TabsTrigger><TabsTrigger value="position">Position</TabsTrigger><TabsTrigger value="replay">Replay lab</TabsTrigger></TabsList><div className="tabs-live"><StatusDot tone="lime" /> autosaving evidence</div></div>
+                <div className="tabs-header"><TabsList variant="line" className="tabs-list"><TabsTrigger value="activity">Decision log</TabsTrigger><TabsTrigger value="position">Position</TabsTrigger><TabsTrigger value="replay">Replay lab</TabsTrigger></TabsList><div className="tabs-live"><StatusDot tone="amber" /> local evidence ledger</div></div>
                 <TabsContent value="activity" className="tab-panel">
                   <div className="timeline">
                     {incident.log.map((entry) => <div className="timeline-row" key={`${entry.time}-${entry.actor}`}><div className="timeline-time">{entry.time}</div><div className={`timeline-marker marker-${entry.tone}`} /><div className="timeline-body"><div className="timeline-actor">{entry.actor}</div><div className="timeline-text">{entry.text}</div></div></div>)}
+                    {incident.stateTransitions.map((transition) => <div className="timeline-row" key={`${transition.at}-${transition.to}`}><div className="timeline-time">{transition.at}</div><div className="timeline-marker marker-violet" /><div className="timeline-body"><div className="timeline-actor">STATE · {transition.actor}</div><div className="timeline-text">{transition.from ?? "START"} → {transition.to} · {transition.reason}</div></div></div>)}
                   </div>
-                  <div className="log-footer"><TerminalSquare size={13} /> Immutable run id <span>run_{incident.id.slice(4).toLowerCase()}_wake</span><ExternalLink size={12} /></div>
+                  <div className="log-footer"><TerminalSquare size={13} /> Latest immutable run id <span>{lastRun?.incidentId === incident.id ? lastRun.id : "not run"}</span><ExternalLink size={12} /></div>
                 </TabsContent>
                 <TabsContent value="position" className="tab-panel">
                   <div className="empty-tab">
                     <Crosshair size={18} />
-                    <div><strong>{activeOrder ? `${activeOrder.instrument} ${activeOrder.side.toLowerCase()} is open in paper mode` : "No active paper position"}</strong><span>{activeOrder ? `Receipt ${activeOrder.id} · max loss ${activeOrder.maxLoss} · monitoring every 15s` : "The agent will only write after the causal graph and risk gate pass."}</span></div>
+                    <div><strong>{activeOrder ? `${activeOrder.instrument} ${activeOrder.side.toLowerCase()} is open in paper mode` : "No active paper position"}</strong><span>{activeOrder ? `Receipt ${activeOrder.id} · max loss ${activeOrder.maxLoss} · local monitoring only` : "The agent will only write after the causal graph and risk gate pass."}</span></div>
                     {activeOrder && <Button variant="outline" size="sm" className="quiet-button" onClick={closePaperPosition}><X size={13} /> Close</Button>}
+                  </div>
+                  <div className="position-monitor">
+                    <div><span>Entry</span><strong>{activeOrder?.entry ?? "—"}</strong></div>
+                    <div><span>Current price</span><strong>{marketSnapshot ? `${marketSnapshot.markPrice.toFixed(4)} · observed` : "n/a · watcher unavailable"}</strong></div>
+                    <div><span>Unrealized P&amp;L</span><strong>{unrealizedPnl}</strong></div>
+                    <div><span>Thesis status</span><strong>{activeOrder ? "MONITORING" : "NO POSITION"}</strong></div>
+                    <div><span>Updated exposure</span><strong>{activeOrder ? incident.risk : "—"}</strong></div>
+                    <div><span>Exit condition</span><strong>{activeOrder ? activeOrder.invalidation : "—"}</strong></div>
+                    <div className="position-monitor-wide"><span>Latest observation</span><strong>{incident.log[0]?.text ?? "No observation recorded"}</strong></div>
                   </div>
                   {paperOrders.length > 0 && (
                     <div className="ledger-block">
                       <div className="ledger-head"><span>PAPER LEDGER</span><span>{paperOrders.length} RECEIPT{paperOrders.length === 1 ? "" : "S"}</span></div>
                       {[...paperOrders].reverse().map((order) => (
                         <div className="ledger-row" key={order.id}>
-                          <div><strong>{order.instrument} · {order.side}</strong><span>{order.incidentId} · {new Date(order.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · {order.mode}</span></div>
+                          <div><strong>{order.instrument} · {order.side}</strong><span>{order.incidentId} · {new Date(order.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · {order.mode} · {order.runId}</span></div>
                           <Badge className={order.status === "OPEN" ? "badge-confirmed" : "outline-badge"}>{order.status}</Badge>
                           <Button variant="ghost" size="icon-xs" className="top-icon" onClick={() => copyOrderReceipt(order)} aria-label="Copy paper receipt"><Copy size={13} /></Button>
                         </div>
@@ -386,6 +524,7 @@ export default function Home() {
                 </TabsContent>
                 <TabsContent value="replay" className="tab-panel">
                   <div className="empty-tab"><TimerReset size={18} /><div><strong>Replay the incident without changing the ledger</strong><span>Re-run the graph against the same evidence snapshot and compare the decision.</span></div><Button variant="outline" size="sm" className="quiet-button" onClick={runInvestigation}><Play size={13} /> {isRunning ? "Running…" : "Replay"}</Button></div>
+                  {runHistory.filter((run) => run.incidentId === incident.id).length > 0 && <div className="replay-history"><div className="ledger-head"><span>REPLAY RUNS · ORIGINAL LEDGER UNCHANGED</span><span>{runHistory.filter((run) => run.incidentId === incident.id).length}</span></div>{runHistory.filter((run) => run.incidentId === incident.id).map((run) => <div className="replay-history-row" key={run.id}><strong>{run.id}</strong><span>{run.decision} · {run.workflowState} · {new Date(run.completedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span><b className={run.riskGate.passed ? "risk-pass" : "risk-hold"}>{run.riskGate.passed ? "PASS" : "HOLD"}</b></div>)}</div>}
                 </TabsContent>
               </Tabs>
             </div>
@@ -397,9 +536,9 @@ export default function Home() {
           <Card className="pulse-card card-dark">
             <CardContent>
               <div className="pulse-orb"><div className="pulse-ring ring-one" /><div className="pulse-ring ring-two" /><div className="pulse-core"><Activity size={18} /></div></div>
-              <div className="pulse-state"><StatusDot tone="lime" /> SCANNING</div>
-              <div className="pulse-caption">The agent is watching for causal state changes across your configured protocols.</div>
-              <div className="pulse-stats"><div><strong>12</strong><span>watchers</span></div><div><strong>03</strong><span>incidents</span></div><div><strong>{String(activePositionCount).padStart(2, "0")}</strong><span>positions</span></div></div>
+              <div className="pulse-state"><StatusDot tone="amber" /> REPLAY MODE</div>
+              <div className="pulse-caption">The current queue is a deterministic replay surface. Live watcher adapters remain a separate capture boundary.</div>
+              <div className="pulse-stats"><div><strong>01</strong><span>capture</span></div><div><strong>{String(incidents.length).padStart(2, "0")}</strong><span>incidents</span></div><div><strong>{String(activePositionCount).padStart(2, "0")}</strong><span>positions</span></div></div>
             </CardContent>
           </Card>
           <Card className="rail-card card-dark">
@@ -407,11 +546,11 @@ export default function Home() {
             <CardContent className="policy-content"><PolicyRow label="Max incident risk" value="18% VaR" /><PolicyRow label="Max position loss" value={incident.maxLoss} /><PolicyRow label="Minimum liquidity" value="2.5×" /><PolicyRow label="Abstain on weak edge" value="ON" /><Button variant="outline" size="sm" className="quiet-button policy-button"><SlidersHorizontal size={13} /> Edit policy</Button></CardContent>
           </Card>
           <Card className="rail-card card-dark">
-            <CardHeader className="card-head"><CardTitle className="card-title"><Globe2 size={15} className="title-icon" /> Chain watchers</CardTitle><span className="tiny-live"><StatusDot tone="lime" /> LIVE</span></CardHeader>
-            <CardContent className="watcher-content"><Watcher name="Ethereum" detail="5 protocols" tone="cyan" /><Watcher name="Base" detail="4 protocols" tone="lime" /><Watcher name="Arbitrum" detail="3 protocols" tone="violet" /></CardContent>
+            <CardHeader className="card-head"><CardTitle className="card-title"><Globe2 size={15} className="title-icon" /> Coverage registry</CardTitle><span className="tiny-live"><StatusDot tone="amber" /> EXPLICIT</span></CardHeader>
+            <CardContent className="watcher-content">{coverageRegistry.filter((item) => item.chain !== "BITGET").map((item) => <Watcher key={`${item.chain}-${item.protocol}`} name={item.chain} detail={`${item.protocol} · ${item.resolver}`} tone={item.chain === "BASE" ? "lime" : item.chain === "ETH" ? "cyan" : "violet"} status={item.status} />)}<div className="watcher-footnote">Only validated resolvers are marked live; planned coverage is not claimed.</div></CardContent>
           </Card>
           <div className="rail-callout"><div className="callout-icon"><ShieldCheck size={16} /></div><div><strong>Proof over prediction.</strong><p>Every action is attached to evidence, a bounded loss model, and a reason to abstain.</p></div></div>
-          <div className="rail-footer"><span>v0.3.0 · local paper ledger</span><span>UTC</span></div>
+          <div className="rail-footer"><span>v0.3.1 · local paper ledger</span><span>UTC</span></div>
         </aside>
       </div>
     </main>
@@ -441,6 +580,6 @@ function PolicyRow({ label, value }: { label: string; value: string }) {
   return <div className="policy-row"><CheckCircle2 size={14} /><span>{label}</span><strong>{value}</strong></div>
 }
 
-function Watcher({ name, detail, tone }: { name: string; detail: string; tone: string }) {
-  return <div className="watcher-row"><StatusDot tone={tone} /><div><strong>{name}</strong><span>{detail}</span></div><span className="watcher-state">SYNCED</span></div>
+function Watcher({ name, detail, tone, status }: { name: string; detail: string; tone: string; status: "VALIDATED" | "PLANNED" }) {
+  return <div className="watcher-row"><StatusDot tone={status === "VALIDATED" ? tone : "amber"} /><div><strong>{name}</strong><span>{detail}</span></div><span className={`watcher-state watcher-${status.toLowerCase()}`}>{status}</span></div>
 }

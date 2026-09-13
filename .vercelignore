@@ -1,0 +1,19 @@
+# Never upload local credentials or runtime secrets.
+.env
+.env.*
+!.env.example
+*.pem
+
+# Local-only build and tool state.
+node_modules
+.git
+.vercel
+.sites-runtime
+.agents
+.codex
+.wrangler
+.vinext
+dist
+outputs
+work
+*.log

@@ -17,6 +17,7 @@ const symbol = required("symbol").toUpperCase()
 const startTime = Number(required("start"))
 const endTime = Number(required("end"))
 if (!/^INC-[A-Z0-9-]+$/i.test(incident)) throw new Error("incident must look like INC-REAL-001")
+if (!/^\d+$/.test(chainId)) throw new Error("chain-id must be a numeric EVM chain id")
 if (!/^0x[a-fA-F0-9]{64}$/.test(txHash)) throw new Error("tx must be a 32-byte transaction hash")
 if (!/^[A-Z0-9_-]{2,20}$/.test(symbol)) throw new Error("symbol is invalid")
 if (!Number.isFinite(startTime) || !Number.isFinite(endTime) || startTime >= endTime) throw new Error("start and end must be valid millisecond timestamps")
@@ -59,6 +60,7 @@ async function fetchReceipt(chain, tx) {
     const payload = await response.json()
     if (!response.ok || payload.error) throw new Error(payload.error?.message || "RPC receipt request failed")
     if (!payload.result) throw new Error("Transaction receipt was not found")
+    if (payload.result.transactionHash && payload.result.transactionHash.toLowerCase() !== tx.toLowerCase()) throw new Error("RPC returned a receipt for a different transaction")
     return payload.result
   }
   if (!process.env.ETHERSCAN_API_KEY) throw new Error("Set CHAIN_RPC_URL or ETHERSCAN_API_KEY before capturing chain evidence")
@@ -67,14 +69,34 @@ async function fetchReceipt(chain, tx) {
   const response = await fetch(url)
   const payload = await response.json()
   if (!response.ok || !payload.result) throw new Error(payload.message || "Etherscan receipt request failed")
+  if (payload.result.transactionHash && payload.result.transactionHash.toLowerCase() !== tx.toLowerCase()) throw new Error("Explorer returned a receipt for a different transaction")
   return payload.result
 }
 
 async function fetchBitgetCandles(pair, start, end) {
-  const url = new URL("https://api.bitget.com/api/v2/mix/market/history-mark-candles")
-  url.search = new URLSearchParams({ symbol: pair, productType: "USDT-FUTURES", granularity: "1m", startTime: String(start), endTime: String(end), limit: "1000" }).toString()
-  const response = await fetch(url)
-  const payload = await response.json()
-  if (!response.ok || payload.code !== "00000") throw new Error(payload.msg || "Bitget historical market request failed")
-  return (payload.data || []).map(([timestamp, open, high, low, close, baseVolume, quoteVolume]) => ({ timestamp: Number(timestamp), open: Number(open), high: Number(high), low: Number(low), close: Number(close), baseVolume: Number(baseVolume), quoteVolume: Number(quoteVolume) }))
+  const captured = []
+  let pageEnd = end
+  let reachedStart = false
+  for (let pageNumber = 0; pageNumber < 700; pageNumber += 1) {
+    const url = new URL("https://api.bitget.com/api/v2/mix/market/history-mark-candles")
+    url.search = new URLSearchParams({ symbol: pair, productType: "USDT-FUTURES", granularity: "1m", startTime: String(start), endTime: String(pageEnd), limit: "200" }).toString()
+    const response = await fetch(url)
+    const payload = await response.json()
+    if (!response.ok || payload.code !== "00000") throw new Error(payload.msg || "Bitget historical market request failed")
+    const page = (payload.data || []).map(([timestamp, open, high, low, close, baseVolume, quoteVolume]) => ({ timestamp: Number(timestamp), open: Number(open), high: Number(high), low: Number(low), close: Number(close), baseVolume: Number(baseVolume), quoteVolume: Number(quoteVolume) }))
+    if (page.length === 0) break
+    captured.push(...page)
+    const oldest = Math.min(...page.map((candle) => candle.timestamp))
+    if (oldest <= start) {
+      reachedStart = true
+      break
+    }
+    if (oldest >= pageEnd) throw new Error("Bitget returned a non-advancing candle page")
+    pageEnd = oldest - 1
+  }
+  if (!reachedStart) throw new Error("Bitget market capture was incomplete before reaching the requested start time")
+  const unique = new Map(captured.filter((candle) => candle.timestamp >= start && candle.timestamp <= end).map((candle) => [candle.timestamp, candle]))
+  const candles = [...unique.values()].sort((left, right) => left.timestamp - right.timestamp)
+  if (candles.length === 0) throw new Error("Bitget returned no candles for the requested window")
+  return candles
 }

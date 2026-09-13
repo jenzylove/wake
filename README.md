@@ -1,8 +1,10 @@
 # WAKE
 
-WAKE is an evidence-first causal market response console for the Bitget hackathon. It turns a confirmed on-chain incident into a causal exposure graph, a bounded paper-trade decision, and an immutable decision trail.
+WAKE is an evidence-first causal market response console for the Bitget hackathon. It turns a confirmed on-chain incident into a causal exposure graph, a bounded paper-trade decision, and a verifiable decision trail.
 
-The current build is the v0.3 submission slice: switch incidents, inspect incident-specific graph nodes, review evidence, run or reject a paper action, persist a local paper ledger, export a verifiable evidence packet, and replay the investigation state.
+The current build is the hardened v0.3 slice: switch incidents, inspect incident-specific graph nodes and edge evidence, run the causal falsifier and deterministic risk gate, persist a local paper ledger, export a verifiable evidence packet, and replay the investigation state without mutating the ledger. See [`PRD_AUDIT.md`](./PRD_AUDIT.md) for the line-by-line implementation boundary.
+
+The queue now opens on a real capture from the 27 August 2026 Moonwell MAMO incident on Base. The packet preserves the verified transaction receipt, 60 one-minute Bitget ETHUSDT mark candles, and its SHA-256 integrity hash. WAKE correctly keeps this case at `NO_TRADE`: the receipt does not prove an ETH-specific residual edge. The other three records are explicitly labeled replay fixtures and are retained to exercise the paper-decision flow.
 
 ## Run locally
 
@@ -21,6 +23,8 @@ WAKE keeps execution in paper mode by default. The real-data boundaries are read
 - Chain evidence capture uses `CHAIN_RPC_URL` or an `ETHERSCAN_API_KEY`.
 - Bitget Demo Trading uses `BITGET_API_KEY`, `BITGET_SECRET_KEY`, and `BITGET_PASSPHRASE`, with `WAKE_EXECUTION_MODE=bitget-demo` as the explicit opt-in.
 - `npm run data:capture -- ...` writes a real chain receipt plus Bitget market window to `data/incidents/` and adds a SHA-256 integrity hash.
+- `npm run data:verify` recomputes the included capture’s SHA-256 hash and fails if the packet changed.
+- `npm run bitget:verify` performs a read-only Demo Trading account preflight with `paptrading: 1`; it never places an order.
 
 Copy `env.example` to `.env.local` and never commit credentials. WAKE does not enable live trading; the execution route is restricted to Bitget Demo Trading.
 

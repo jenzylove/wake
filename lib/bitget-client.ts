@@ -10,6 +10,13 @@ export type BitgetCandle = {
   quoteVolume: number
 }
 
+export type BitgetMarketSnapshot = {
+  symbol: string
+  markPrice: number
+  capturedAt: string
+  source: "bitget-public-ticker"
+}
+
 export type BitgetDemoOrderInput = {
   symbol: string
   side: "buy" | "sell"
@@ -23,6 +30,8 @@ type BitgetEnvelope<T> = {
   requestTime?: number
   data: T
 }
+
+type BitgetHttpMethod = "GET" | "POST"
 
 function sortedQuery(params: Record<string, string | number | undefined>) {
   return Object.entries(params)
@@ -59,6 +68,47 @@ async function readBitget<T>(path: string, query: Record<string, string | number
   return payload.data
 }
 
+function bitgetCredentials() {
+  const apiKey = process.env.BITGET_API_KEY
+  const secretKey = process.env.BITGET_SECRET_KEY
+  const passphrase = process.env.BITGET_PASSPHRASE
+  if (!apiKey || !secretKey || !passphrase) {
+    throw new Error("Bitget demo credentials are not configured")
+  }
+  return { apiKey, secretKey, passphrase }
+}
+
+async function signedBitget<T>(method: BitgetHttpMethod, path: string, body = "") {
+  const { apiKey, secretKey, passphrase } = bitgetCredentials()
+  const timestamp = String(Date.now())
+  const signature = await sign(`${timestamp}${method}${path}${body}`, secretKey)
+  const response = await fetch(`${BITGET_API_BASE}${path}`, {
+    method,
+    headers: {
+      "ACCESS-KEY": apiKey,
+      "ACCESS-SIGN": signature,
+      "ACCESS-TIMESTAMP": timestamp,
+      "ACCESS-PASSPHRASE": passphrase,
+      "Content-Type": "application/json",
+      locale: "en-US",
+      paptrading: "1",
+    },
+    body: method === "POST" ? body : undefined,
+  })
+  const payload = await response.json() as BitgetEnvelope<T>
+  if (!response.ok || payload.code !== "00000") {
+    throw new Error(`Bitget demo request failed: ${payload.msg || response.statusText}`)
+  }
+  return payload
+}
+
+export async function getBitgetDemoAccount() {
+  return signedBitget<unknown>(
+    "GET",
+    "/api/v2/mix/account/account?marginCoin=USDT&productType=USDT-FUTURES&symbol=BTCUSDT",
+  )
+}
+
 export async function getHistoricalMarkCandles({
   symbol,
   startTime,
@@ -91,12 +141,20 @@ export async function getHistoricalMarkCandles({
   } satisfies BitgetCandle))
 }
 
+export async function getBitgetMarkSnapshot(symbol: string): Promise<BitgetMarketSnapshot> {
+  const rows = await readBitget<Array<{ symbol?: string; markPrice?: string; lastPr?: string }>>("/api/v2/mix/market/ticker", {
+    symbol,
+    productType: "USDT-FUTURES",
+  })
+  const row = rows[0]
+  const markPrice = Number(row?.markPrice || row?.lastPr)
+  if (!row || !Number.isFinite(markPrice) || markPrice <= 0) throw new Error("Bitget returned no valid mark price")
+  return { symbol, markPrice, capturedAt: new Date().toISOString(), source: "bitget-public-ticker" }
+}
+
 export async function placeBitgetDemoOrder(input: BitgetDemoOrderInput) {
-  const apiKey = process.env.BITGET_API_KEY
-  const secretKey = process.env.BITGET_SECRET_KEY
-  const passphrase = process.env.BITGET_PASSPHRASE
-  if (!apiKey || !secretKey || !passphrase) {
-    throw new Error("Bitget demo credentials are not configured")
+  if ((process.env.WAKE_EXECUTION_MODE ?? "paper") !== "bitget-demo") {
+    throw new Error("WAKE is in paper mode; Bitget Demo execution is disabled")
   }
 
   const path = "/api/v2/mix/order/place-order"
@@ -112,26 +170,7 @@ export async function placeBitgetDemoOrder(input: BitgetDemoOrderInput) {
     force: "gtc",
     clientOid: input.clientOid,
   })
-  const timestamp = String(Date.now())
-  const signature = await sign(`${timestamp}POST${path}${body}`, secretKey)
-  const response = await fetch(`${BITGET_API_BASE}${path}`, {
-    method: "POST",
-    headers: {
-      "ACCESS-KEY": apiKey,
-      "ACCESS-SIGN": signature,
-      "ACCESS-TIMESTAMP": timestamp,
-      "ACCESS-PASSPHRASE": passphrase,
-      "Content-Type": "application/json",
-      "locale": "en-US",
-      "paptrading": "1",
-    },
-    body,
-  })
-  const payload = await response.json() as BitgetEnvelope<unknown>
-  if (!response.ok || payload.code !== "00000") {
-    throw new Error(`Bitget demo order failed: ${payload.msg || response.statusText}`)
-  }
-  return payload
+  return signedBitget<unknown>("POST", path, body)
 }
 
 export function bitgetConfigStatus() {
