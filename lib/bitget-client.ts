@@ -1,3 +1,5 @@
+import https from "node:https"
+
 const BITGET_API_BASE = "https://api.bitget.com"
 
 export type BitgetCandle = {
@@ -17,9 +19,21 @@ export type BitgetMarketSnapshot = {
   source: "bitget-public-ticker"
 }
 
+export type BitgetContractInfo = {
+  symbol: string
+  minTradeNum: string
+  sizeMultiplier: string
+  minTradeUSDT: string
+  volumePlace: string
+  pricePlace: string
+}
+
 export type BitgetDemoOrderInput = {
   symbol: string
   side: "buy" | "sell"
+  tradeSide: "open" | "close"
+  posSide?: "long" | "short"
+  reduceOnly?: "YES" | "NO"
   size: string
   clientOid: string
 }
@@ -32,6 +46,31 @@ type BitgetEnvelope<T> = {
 }
 
 type BitgetHttpMethod = "GET" | "POST"
+
+async function bitgetFetch(url: string, init: RequestInit = {}) {
+  const bitgetIp = process.env.BITGET_API_IP || "104.18.14.166"
+  if (!bitgetIp) return fetch(url, init)
+  const parsed = new URL(url)
+  const headers = Object.fromEntries(new Headers(init.headers).entries())
+  headers.Host = parsed.hostname
+  return new Promise<Response>((resolve, reject) => {
+    const request = https.request({
+      hostname: bitgetIp,
+      port: 443,
+      servername: parsed.hostname,
+      path: `${parsed.pathname}${parsed.search}`,
+      method: init.method || "GET",
+      headers,
+    }, (response) => {
+      const chunks: Buffer[] = []
+      response.on("data", (chunk: Buffer) => chunks.push(chunk))
+      response.on("end", () => resolve(new Response(Buffer.concat(chunks), { status: response.statusCode || 502, headers: response.headers as Record<string, string> })))
+    })
+    request.on("error", reject)
+    if (typeof init.body === "string") request.write(init.body)
+    request.end()
+  })
+}
 
 function sortedQuery(params: Record<string, string | number | undefined>) {
   return Object.entries(params)
@@ -58,7 +97,7 @@ async function sign(message: string, secretKey: string) {
 
 async function readBitget<T>(path: string, query: Record<string, string | number | undefined>) {
   const queryString = sortedQuery(query)
-  const response = await fetch(`${BITGET_API_BASE}${path}?${queryString}`, {
+  const response = await bitgetFetch(`${BITGET_API_BASE}${path}?${queryString}`, {
     headers: { "Content-Type": "application/json", locale: "en-US" },
   })
   const payload = await response.json() as BitgetEnvelope<T>
@@ -82,7 +121,7 @@ async function signedBitget<T>(method: BitgetHttpMethod, path: string, body = ""
   const { apiKey, secretKey, passphrase } = bitgetCredentials()
   const timestamp = String(Date.now())
   const signature = await sign(`${timestamp}${method}${path}${body}`, secretKey)
-  const response = await fetch(`${BITGET_API_BASE}${path}`, {
+  const response = await bitgetFetch(`${BITGET_API_BASE}${path}`, {
     method,
     headers: {
       "ACCESS-KEY": apiKey,
@@ -152,6 +191,23 @@ export async function getBitgetMarkSnapshot(symbol: string): Promise<BitgetMarke
   return { symbol, markPrice, capturedAt: new Date().toISOString(), source: "bitget-public-ticker" }
 }
 
+export async function getBitgetContractInfo(symbol: string): Promise<BitgetContractInfo> {
+  const rows = await readBitget<Array<Record<string, string>>>('/api/v2/mix/market/contracts', {
+    productType: "USDT-FUTURES",
+    symbol,
+  })
+  const row = rows[0]
+  if (!row) throw new Error("Bitget returned no contract metadata")
+  return {
+    symbol,
+    minTradeNum: row.minTradeNum || row.minTradeSize || "",
+    sizeMultiplier: row.sizeMultiplier || "",
+    minTradeUSDT: row.minTradeUSDT || "",
+    volumePlace: row.volumePlace || "",
+    pricePlace: row.pricePlace || "",
+  }
+}
+
 export async function placeBitgetDemoOrder(input: BitgetDemoOrderInput) {
   if ((process.env.WAKE_EXECUTION_MODE ?? "paper") !== "bitget-demo") {
     throw new Error("WAKE is in paper mode; Bitget Demo execution is disabled")
@@ -165,7 +221,9 @@ export async function placeBitgetDemoOrder(input: BitgetDemoOrderInput) {
     marginCoin: "USDT",
     size: input.size,
     side: input.side,
-    tradeSide: "open",
+    tradeSide: input.tradeSide,
+    ...(input.posSide ? { posSide: input.posSide } : {}),
+    ...(input.reduceOnly ? { reduceOnly: input.reduceOnly } : {}),
     orderType: "market",
     force: "gtc",
     clientOid: input.clientOid,

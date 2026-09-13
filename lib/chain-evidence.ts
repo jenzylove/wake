@@ -1,5 +1,15 @@
 const ETHERSCAN_API = "https://api.etherscan.io/v2/api"
 
+// The configured RPC remains the preferred source. These public endpoints only
+// make the capture CLI useful across the validated EVM chains when a single
+// provider URL is scoped to one network. They are read-only and a missing
+// receipt still fails the capture.
+const PUBLIC_RPC_BY_CHAIN: Record<string, string> = {
+  "1": "https://ethereum.publicnode.com",
+  "8453": "https://mainnet.base.org",
+  "42161": "https://arb1.arbitrum.io/rpc",
+}
+
 export type ChainReceipt = {
   transactionHash: string
   blockNumber: string
@@ -39,7 +49,7 @@ async function etherscanReceipt(apiKey: string, chainId: string, txHash: string)
 }
 
 export async function getChainReceipt({ chainId, txHash }: { chainId: string; txHash: string }) {
-  const rpcUrl = process.env.CHAIN_RPC_URL
+  const rpcUrl = process.env[`CHAIN_RPC_URL_${chainId}`] || PUBLIC_RPC_BY_CHAIN[chainId] || process.env.CHAIN_RPC_URL
   const etherscanKey = process.env.ETHERSCAN_API_KEY
   if (rpcUrl) return rpcReceipt(rpcUrl, txHash)
   if (etherscanKey) return etherscanReceipt(etherscanKey, chainId, txHash)
@@ -48,7 +58,7 @@ export async function getChainReceipt({ chainId, txHash }: { chainId: string; tx
 
 export function chainEvidenceConfigStatus() {
   return {
-    rpcConfigured: Boolean(process.env.CHAIN_RPC_URL),
+    rpcConfigured: Boolean(process.env.CHAIN_RPC_URL || Object.keys(PUBLIC_RPC_BY_CHAIN).some((chainId) => process.env[`CHAIN_RPC_URL_${chainId}`])),
     etherscanConfigured: Boolean(process.env.ETHERSCAN_API_KEY),
     configured: Boolean(process.env.CHAIN_RPC_URL || process.env.ETHERSCAN_API_KEY),
   }

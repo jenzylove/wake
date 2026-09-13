@@ -24,11 +24,12 @@ if (!Number.isFinite(startTime) || !Number.isFinite(endTime) || startTime >= end
 if (endTime - startTime > 90 * 24 * 60 * 60 * 1000) throw new Error("Bitget capture windows cannot exceed 90 days")
 
 const receipt = await fetchReceipt(chainId, txHash)
+const blockTimestamp = await fetchBlockTimestamp(chainId, receipt)
 const candles = await fetchBitgetCandles(symbol, startTime, endTime)
 const packet = {
   schema: "wake.historical-capture.v1",
   capturedAt: new Date().toISOString(),
-  incident: { id: incident, chainId, txHash },
+  incident: { id: incident, chainId, txHash, blockTimestamp },
   sources: {
     chain: process.env.CHAIN_RPC_URL ? "json-rpc" : "etherscan-v2",
     market: "bitget-public-history-mark-candles",
@@ -51,8 +52,9 @@ function required(name) {
 }
 
 async function fetchReceipt(chain, tx) {
-  if (process.env.CHAIN_RPC_URL) {
-    const response = await fetch(process.env.CHAIN_RPC_URL, {
+  const rpcUrl = process.env[`CHAIN_RPC_URL_${chain}`] || publicRpcForChain(chain) || process.env.CHAIN_RPC_URL
+  if (rpcUrl) {
+    const response = await fetch(rpcUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_getTransactionReceipt", params: [tx] }),
@@ -71,6 +73,29 @@ async function fetchReceipt(chain, tx) {
   if (!response.ok || !payload.result) throw new Error(payload.message || "Etherscan receipt request failed")
   if (payload.result.transactionHash && payload.result.transactionHash.toLowerCase() !== tx.toLowerCase()) throw new Error("Explorer returned a receipt for a different transaction")
   return payload.result
+}
+
+async function fetchBlockTimestamp(chain, receipt) {
+  const logTimestamp = receipt.logs?.find((log) => log.blockTimestamp)?.blockTimestamp
+  if (logTimestamp) return Number.parseInt(logTimestamp, 16)
+  const rpcUrl = process.env[`CHAIN_RPC_URL_${chain}`] || publicRpcForChain(chain) || process.env.CHAIN_RPC_URL
+  if (!rpcUrl || !receipt.blockNumber) throw new Error("The receipt has no timestamp and no chain RPC is available for block metadata")
+  const response = await fetch(rpcUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "eth_getBlockByNumber", params: [receipt.blockNumber, false] }),
+  })
+  const payload = await response.json()
+  if (!response.ok || payload.error || !payload.result?.timestamp) throw new Error(payload.error?.message || "Block timestamp request failed")
+  return Number.parseInt(payload.result.timestamp, 16)
+}
+
+function publicRpcForChain(chain) {
+  return {
+    "1": "https://ethereum.publicnode.com",
+    "8453": "https://mainnet.base.org",
+    "42161": "https://arb1.arbitrum.io/rpc",
+  }[chain]
 }
 
 async function fetchBitgetCandles(pair, start, end) {

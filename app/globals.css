@@ -226,6 +226,25 @@ h1 em { color: var(--cyan); font-style: normal; }
 .model-note span, .falsification-head, .ledger-head { color: #66858e; font: 800 8px var(--font-mono); letter-spacing: .1em; }
 .model-note strong { color: #c8dedd; font: 700 9px var(--font-mono); line-height: 1.4; }
 .model-note small { color: #6d8991; font-size: 9px; line-height: 1.35; }
+.ai-review { display: grid; gap: 10px; margin: 13px 0 2px; padding: 12px; border: 1px solid #31506a; border-radius: 5px; background: linear-gradient(135deg, rgba(111, 80, 190, .13), rgba(8, 25, 38, .78)); }
+.ai-review-head { display: flex; justify-content: space-between; gap: 10px; color: #9b8be7; font: 800 8px var(--font-mono); letter-spacing: .08em; }
+.ai-review-head span { display: flex; align-items: center; gap: 6px; }
+.ai-review-head strong { color: #cbd9dc; font-weight: 700; }
+.ai-review p { margin: 0; color: #c0d0d3; font-size: 10px; line-height: 1.48; }
+.ai-review-hypothesis { display: grid; gap: 4px; padding-top: 8px; border-top: 1px solid #284256; }
+.ai-review-hypothesis span, .ai-review-next span { color: #6d8c96; font: 800 8px var(--font-mono); letter-spacing: .08em; }
+.ai-review-hypothesis strong { color: #d7e5e5; font: 700 9px/1.4 var(--font-mono); }
+.ai-review-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.ai-review-grid > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 5px 7px; padding: 7px; border: 1px solid #254155; border-radius: 4px; background: rgba(7, 18, 29, .48); }
+.ai-review-grid strong { color: #bdd1d3; font: 700 8px var(--font-mono); align-self: center; }
+.ai-review-grid small { grid-column: 1 / -1; color: #76949b; font-size: 8px; line-height: 1.35; }
+.ai-verdict { padding-top: 1px; font: 800 7px var(--font-mono); letter-spacing: .04em; }
+.ai-supports { color: var(--lime); }
+.ai-weakens { color: #ef7f8a; }
+.ai-unknown { color: var(--orange); }
+.ai-review-next { display: grid; gap: 4px; padding-top: 8px; border-top: 1px solid #284256; }
+.ai-review-next small { color: #849fa5; font-size: 9px; line-height: 1.4; }
+.ai-review-foot { color: #617d87; font: 8px/1.4 var(--font-mono); }
 .falsification-block { display: grid; gap: 7px; padding: 12px 0 13px; border-bottom: 1px solid #2b3452; }
 .falsification-head { display: flex; justify-content: space-between; }
 .falsification-row { display: grid; grid-template-columns: 77px minmax(0, 1fr); gap: 8px; align-items: start; }

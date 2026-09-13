@@ -10,4 +10,4 @@ npm run data:capture -- --incident INC-REAL-001 --chain-id 1 --tx 0x... --symbol
 
 Set `CHAIN_RPC_URL` or `ETHERSCAN_API_KEY` for the chain receipt. Bitget market history is a public endpoint and does not require an API key. Generated captures should be reviewed before being used as a judge-facing scenario.
 
-The repository includes `inc-real-moonwell-20260827.json`, captured from Base transaction `0xee2b75648c288e0e57678a177d54aec2e8ecb8920842c72e8784186c18c88b18` with a one-hour ETHUSDT window.
+The repository includes three verified captures: Moonwell/Base (`inc-real-moonwell-20260827.json`), AFX/Arbitrum bridge outflow (`inc-real-afx-20260722.json`), and AFX/Arbitrum recovery response (`inc-real-afx-resolution-20260723.json`). Run `npm run data:verify` to verify every packet before presenting it.

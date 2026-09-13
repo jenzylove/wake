@@ -4,7 +4,7 @@ WAKE is an evidence-first causal market response console for the Bitget hackatho
 
 The current build is the hardened v0.3 slice: switch incidents, inspect incident-specific graph nodes and edge evidence, run the causal falsifier and deterministic risk gate, persist a local paper ledger, export a verifiable evidence packet, and replay the investigation state without mutating the ledger. See [`PRD_AUDIT.md`](./PRD_AUDIT.md) for the line-by-line implementation boundary.
 
-The queue now opens on a real capture from the 27 August 2026 Moonwell MAMO incident on Base. The packet preserves the verified transaction receipt, 60 one-minute Bitget ETHUSDT mark candles, and its SHA-256 integrity hash. WAKE correctly keeps this case at `NO_TRADE`: the receipt does not prove an ETH-specific residual edge. The other three records are explicitly labeled replay fixtures and are retained to exercise the paper-decision flow.
+The queue now includes three real, timestamped captures: the 27 August 2026 Moonwell MAMO incident on Base, the 22 July 2026 AFX bridge outflow on Arbitrum, and the 23 July AFX recovery-response transaction. Each packet preserves a verified receipt, a Bitget ETHUSDT market window, and a SHA-256 integrity hash. Moonwell remains `NO_TRADE` because its receipt does not prove an ETH-specific residual edge; the AFX drain exercises the contagion path, while the recovery response remains conditional until funds-return evidence exists. The remaining records are explicitly labeled replay fixtures.
 
 ## Run locally
 
@@ -23,10 +23,15 @@ WAKE keeps execution in paper mode by default. The real-data boundaries are read
 - Chain evidence capture uses `CHAIN_RPC_URL` or an `ETHERSCAN_API_KEY`.
 - Bitget Demo Trading uses `BITGET_API_KEY`, `BITGET_SECRET_KEY`, and `BITGET_PASSPHRASE`, with `WAKE_EXECUTION_MODE=bitget-demo` as the explicit opt-in.
 - `npm run data:capture -- ...` writes a real chain receipt plus Bitget market window to `data/incidents/` and adds a SHA-256 integrity hash.
-- `npm run data:verify` recomputes the included capture’s SHA-256 hash and fails if the packet changed.
+- `npm run data:verify` recomputes every capture’s SHA-256 hash and fails if any packet changed.
 - `npm run bitget:verify` performs a read-only Demo Trading account preflight with `paptrading: 1`; it never places an order.
+- `GET /api/watchers/run` performs a server-side pass over validated adapters; `vercel.json` schedules it every 15 minutes. Planned chain coverage is never treated as live.
+- `GET/POST /api/position/observations` records server-fetched Bitget marks in an append-only local runtime store. Hosted Vercel history still needs a durable storage provider.
+- `GET/POST /api/investigator` is the server-only Anthropic interpretation boundary. Set `ANTHROPIC_API_KEY` to enable it; deterministic numbers, gates, and execution remain authoritative.
 
 Copy `env.example` to `.env.local` and never commit credentials. WAKE does not enable live trading; the execution route is restricted to Bitget Demo Trading.
+
+The one-time Demo smoke test is deliberately opt-in and opens/closes the minimum BTCUSDT size. In PowerShell: `$env:WAKE_EXECUTION_MODE="bitget-demo"; node scripts/test-bitget-demo-order.mjs --confirm-demo-order`. The close helper requires the exact expected size and hedge-mode `posSide` before it sends anything.
 
 ## Validate the deployable build
 

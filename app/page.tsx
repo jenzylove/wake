@@ -63,6 +63,22 @@ import {
 
 type InvestigationRun = InvestigationRecord
 type MarketSnapshot = { symbol: string; markPrice: number; capturedAt: string; source: "bitget-public-ticker" }
+type PositionObservation = { observationId: string; positionId: string; incidentId: string; symbol: string; side: "LONG" | "SHORT"; entryPrice: number | null; markPrice: number; capturedAt: string; source: "bitget-public-ticker" }
+type PositionObservationReceipt = { observation: PositionObservation; persisted: boolean; storage?: { mode?: string } }
+type InvestigatorReview = {
+  source: string
+  model: string
+  generatedAt: string
+  result: {
+    interpretation: string
+    causalHypothesis: string
+    actionBias: Decision
+    confidence: number
+    falsification: Array<{ key: string; verdict: "SUPPORTS" | "WEAKENS" | "UNKNOWN"; explanation: string; evidenceRefs: string[] }>
+    evidenceToSeek: string[]
+    limitations: string[]
+  }
+}
 
 function StatusDot({ tone = "cyan" }: { tone?: string }) {
   return <span className={`status-dot status-${tone}`} aria-hidden="true" />
@@ -120,6 +136,10 @@ export default function Home() {
   })
   const [marketSnapshot, setMarketSnapshot] = React.useState<MarketSnapshot | null>(null)
   const [actionNotice, setActionNotice] = React.useState<string | null>(null)
+  const [aiReview, setAiReview] = React.useState<InvestigatorReview | null>(null)
+  const [aiBusy, setAiBusy] = React.useState(false)
+  const [observationReceipt, setObservationReceipt] = React.useState<PositionObservationReceipt | null>(null)
+  const [observationHistory, setObservationHistory] = React.useState<PositionObservation[]>([])
 
   const incident = incidents.find((item) => item.id === selectedId) ?? incidents[0]
   const riskGate = evaluateRiskGate(incident)
@@ -147,12 +167,42 @@ export default function Home() {
 
   React.useEffect(() => {
     let mounted = true
+    const loadObservations = async () => {
+      try {
+        const response = await fetch(`/api/position/observations?incidentId=${encodeURIComponent(incident.id)}`)
+        if (!response.ok) return
+        const payload = await response.json() as { observations?: PositionObservation[] }
+        if (!mounted) return
+        const observations = Array.isArray(payload.observations) ? payload.observations : []
+        setObservationHistory(observations)
+        const latest = observations.at(-1)
+        setObservationReceipt(latest ? { observation: latest, persisted: true } : null)
+      } catch {
+        if (mounted) setObservationHistory([])
+      }
+    }
+    void loadObservations()
+    return () => { mounted = false }
+  }, [incident.id])
+
+  React.useEffect(() => {
+    let mounted = true
     const readSnapshot = async () => {
       try {
         const response = await fetch(`/api/market/ticker?symbol=${encodeURIComponent(incident.instrument)}`)
         if (!response.ok) return
         const snapshot = await response.json() as MarketSnapshot
-        if (mounted && snapshot.symbol && Number.isFinite(snapshot.markPrice)) setMarketSnapshot(snapshot)
+        if (mounted && snapshot.symbol && Number.isFinite(snapshot.markPrice)) {
+          setMarketSnapshot(snapshot)
+          if (activeOrder) {
+            const observationResponse = await fetch("/api/position/observations", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ positionId: activeOrder.id, incidentId: incident.id, symbol: activeOrder.instrument, side: activeOrder.side, entryPrice: activeOrder.entryPrice }) })
+            if (observationResponse.ok) {
+              const receipt = await observationResponse.json() as PositionObservationReceipt
+              setObservationReceipt(receipt)
+              setObservationHistory((current) => [...current.filter((item) => item.observationId !== receipt.observation.observationId), receipt.observation].slice(-250))
+            }
+          }
+        }
       } catch {
         if (mounted) setMarketSnapshot(null)
       }
@@ -163,7 +213,7 @@ export default function Home() {
       mounted = false
       window.clearInterval(interval)
     }
-  }, [incident.instrument])
+  }, [activeOrder, incident.id, incident.instrument])
 
   function runInvestigation() {
     const runIncident = incident
@@ -198,6 +248,8 @@ export default function Home() {
     setMarketSnapshot(null)
     setLastRun(runHistory.find((run) => run.incidentId === id) ?? null)
     setActionNotice(null)
+    setAiReview(null)
+    setObservationReceipt(null)
   }
 
   function openPaperPosition() {
@@ -240,6 +292,22 @@ export default function Home() {
     setActionNotice("Position closed in the local paper ledger.")
   }
 
+  async function runAiReview() {
+    setAiBusy(true)
+    setActionNotice("Sending the evidence packet to the server-side investigator…")
+    try {
+      const response = await fetch("/api/investigator", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ incidentId: incident.id }) })
+      const payload = await response.json() as InvestigatorReview | { error?: string }
+      if (!response.ok || !("result" in payload)) throw new Error("error" in payload ? payload.error || "Investigator unavailable" : "Investigator unavailable")
+      setAiReview(payload)
+      setActionNotice(`${payload.model} review recorded · deterministic risk gate remains authoritative`)
+    } catch (error) {
+      setActionNotice(error instanceof Error ? error.message : "Investigator unavailable")
+    } finally {
+      setAiBusy(false)
+    }
+  }
+
   function rejectThesis() {
     closePaperPosition()
     setDecision("NO_TRADE")
@@ -247,7 +315,7 @@ export default function Home() {
   }
 
   function exportPacket() {
-    const packet = exportEvidencePacket(incident, decision, paperOrders, runHistory, marketSnapshot)
+    const packet = exportEvidencePacket(incident, decision, paperOrders, runHistory, marketSnapshot, observationHistory.filter((item) => item.incidentId === incident.id))
     const blob = new Blob([JSON.stringify(packet, null, 2)], { type: "application/json" })
     const url = URL.createObjectURL(blob)
     const anchor = document.createElement("a")
@@ -435,7 +503,7 @@ export default function Home() {
                 <Card className="evidence-card card-dark">
                   <CardHeader className="card-head">
                     <div><CardTitle className="card-title"><FileCheck2 size={16} className="title-icon" /> Evidence packet</CardTitle><div className="card-subtitle">WHY THE GRAPH IS ALLOWED TO EXIST</div></div>
-                    <div className="evidence-head-actions"><Badge variant="outline" className="outline-badge">{incident.evidence.length} SOURCES</Badge><Button variant="ghost" size="icon-xs" className="top-icon" onClick={exportPacket} aria-label="Export evidence packet"><Download size={14} /></Button></div>
+                    <div className="evidence-head-actions"><Badge variant="outline" className="outline-badge">{incident.evidence.length} SOURCES</Badge><Button variant="ghost" size="icon-xs" className="top-icon" onClick={runAiReview} disabled={aiBusy} aria-label="Run server-side investigator review"><Sparkles size={14} /></Button><Button variant="ghost" size="icon-xs" className="top-icon" onClick={exportPacket} aria-label="Export evidence packet"><Download size={14} /></Button></div>
                   </CardHeader>
                   <CardContent className="evidence-content">
                     {incident.evidence.map((item) => (
@@ -445,6 +513,16 @@ export default function Home() {
                         <Check size={14} className="evidence-check" />
                       </div>
                     ))}
+                    {aiReview && (
+                      <div className="ai-review">
+                        <div className="ai-review-head"><span><Sparkles size={12} /> SERVER-SIDE INVESTIGATOR</span><strong>{aiReview.model} · {aiReview.result.confidence}/100</strong></div>
+                        <p>{aiReview.result.interpretation}</p>
+                        <div className="ai-review-hypothesis"><span>CAUSAL READING</span><strong>{aiReview.result.causalHypothesis}</strong></div>
+                        <div className="ai-review-grid">{aiReview.result.falsification.map((check) => <div key={check.key}><span className={`ai-verdict ai-${check.verdict.toLowerCase()}`}>{check.verdict}</span><strong>{check.key}</strong><small>{check.explanation}</small></div>)}</div>
+                        {aiReview.result.evidenceToSeek.length > 0 && <div className="ai-review-next"><span>WHAT WOULD CHANGE THE READ</span><small>{aiReview.result.evidenceToSeek.join(" · ")}</small></div>}
+                        <div className="ai-review-foot">AI interprets the supplied packet only. Numbers, risk, and execution remain deterministic.</div>
+                      </div>
+                    )}
                     <Button variant="ghost" size="sm" className="evidence-link" onClick={exportPacket}><Download size={13} /> Export verifiable JSON packet <ArrowRight size={13} /></Button>
                   </CardContent>
                 </Card>
@@ -506,7 +584,7 @@ export default function Home() {
                     <div><span>Thesis status</span><strong>{activeOrder ? "MONITORING" : "NO POSITION"}</strong></div>
                     <div><span>Updated exposure</span><strong>{activeOrder ? incident.risk : "—"}</strong></div>
                     <div><span>Exit condition</span><strong>{activeOrder ? activeOrder.invalidation : "—"}</strong></div>
-                    <div className="position-monitor-wide"><span>Latest observation</span><strong>{incident.log[0]?.text ?? "No observation recorded"}</strong></div>
+                    <div className="position-monitor-wide"><span>Latest server observation</span><strong>{observationReceipt ? `${observationReceipt.observation.markPrice.toFixed(4)} · ${new Date(observationReceipt.observation.capturedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })} · ${observationReceipt.persisted ? "stored" : "not durable in this host"}` : incident.log[0]?.text ?? "No observation recorded"}</strong></div>
                   </div>
                   {paperOrders.length > 0 && (
                     <div className="ledger-block">

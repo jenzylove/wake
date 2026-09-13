@@ -1,5 +1,8 @@
 {
   "framework": "vite",
   "buildCommand": "NITRO_PRESET=vercel vite build",
-  "outputDirectory": ".output"
+  "outputDirectory": ".output",
+  "crons": [
+    { "path": "/api/watchers/run", "schedule": "*/15 * * * *" }
+  ]
 }
