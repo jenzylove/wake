@@ -45,7 +45,7 @@ This audit is against [`WAKE_ACTIONGRAPH_PRD.md`](./WAKE_ACTIONGRAPH_PRD.md), no
 | Contagion trade case | Implemented with a bounded real capture | AFX/Arbitrum has a verified receipt, decoded 24.15M USDC outflow, Bitget market window, explicit uncertainty, and a real contagion decision path; downstream conversion remains an inferred edge |
 | False causal link | Implemented | Moonwell capture correctly abstains because the ETH-specific residual edge is not proven |
 | Resolution or invalidation case | Implemented as conditional real evidence | AFX recovery-response transaction and post-response market window are captured; the UI correctly treats a recovery request as a signal, not proof that funds were recovered |
-| Judge opens without credentials | Implemented | Hosted app is paper-only and does not receive private `.env.local` values |
+| Judge opens without credentials | Implemented | Hosted app is public, paper-only, and does not receive private `.env.local` values |
 | Reproducible calculations and evidence export | Implemented | `npm run data:verify` checks the included packet hash |
 
 ## Remaining work, in priority order
