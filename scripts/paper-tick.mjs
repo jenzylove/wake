@@ -132,6 +132,11 @@ async function main() {
       closedThisTick.push(closed)
       appendJsonl("trades.jsonl", closed)
       state.realizedPnlUsd = Number(((state.realizedPnlUsd ?? 0) + closed.realizedPnlUsd).toFixed(4))
+      if (exitReason === "STOP") {
+        // Stand down on this symbol rather than immediately re-entering the
+        // trade that just stopped out.
+        state.cooldownUntil = { ...(state.cooldownUntil ?? {}), [position.symbol]: now + CONFIG.stopCooldownMs }
+      }
     } else {
       stillOpen.push(position)
     }
@@ -150,6 +155,7 @@ async function main() {
       openSymbols,
       openCount: state.openPositions.length,
       now,
+      cooldownUntil: state.cooldownUntil ?? {},
     })
 
     const hadDislocation = verdict.reason !== "no dislocation above trigger" && verdict.reason !== "ineligible instrument or incomplete book"
@@ -192,6 +198,7 @@ async function main() {
       size: verdict.order.size,
       notionalUsd: Number(notionalUsd.toFixed(4)),
       stopPrice: verdict.order.stopPrice,
+      stopRate: verdict.order.stopRate,
       maxLossUsd: Number(verdict.order.maxLossUsd.toFixed(2)),
       entryBasisRate: verdict.order.entryBasisRate,
       currentBasisRate: verdict.order.entryBasisRate,
