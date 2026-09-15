@@ -1,117 +1,9 @@
 {
   "schema": "wake.paper.state.v1",
   "startedAt": "2026-09-15T18:59:01.153Z",
-  "equityUsd": 97560.6951,
-  "realizedPnlUsd": -1997.6384,
+  "equityUsd": 95309.8693,
+  "realizedPnlUsd": -4492.4476,
   "openPositions": [
-    {
-      "id": "wake-p2-lskusdt-20260915210825",
-      "tier": 2,
-      "strategy": "basis-funding-dislocation",
-      "symbol": "LSKUSDT",
-      "side": "LONG",
-      "status": "OPEN",
-      "openedAt": "2026-09-15T21:08:25.160Z",
-      "entryPrice": 0.3741,
-      "entryMidPrice": 0.374,
-      "size": 110233.63472333601,
-      "notionalUsd": 41238.4028,
-      "stopPrice": 0.36961079999999996,
-      "maxLossUsd": 494.86,
-      "entryBasisRate": -0.011256144048336728,
-      "currentBasisRate": -0.011796811124452501,
-      "entryFundingRate": -0.001382,
-      "modeledRate": 0.008135686429002037,
-      "residualRate": 0.005878773521277379,
-      "entryFeeUsd": 24.743,
-      "entrySlippageUsd": 11.0234,
-      "fundingUsd": 16.12592426529558,
-      "unrealizedPnlUsd": -99.2103,
-      "lastMarkPrice": 0.3732,
-      "lastTickAt": "2026-09-15T22:58:20.597Z",
-      "evidence": {
-        "observed": {
-          "markPrice": 0.3736,
-          "indexPrice": 0.3778531697073465,
-          "basisRate": -0.011256144048336728,
-          "fundingRate": -0.001382,
-          "usdtVolume24h": 73480932.361,
-          "bidPr": 0.3739,
-          "askPr": 0.3741,
-          "spreadRate": 0.0005347593582887112
-        },
-        "model": {
-          "expectedReversionRate": 0.006753686429002036,
-          "expectedFundingRate": 0.001382,
-          "modeledRate": 0.008135686429002037,
-          "residualRate": 0.005878773521277379,
-          "cost": {
-            "total": 0.0022569129077246574,
-            "entry": 0.0011284564538623287,
-            "exit": 0.0011284564538623287,
-            "spreadRate": 0.0002673796791443556,
-            "impactRate": 0.00026107677471797316,
-            "feeRate": 0.0006,
-            "provenance": {
-              "spread": "OBSERVED · Bitget public ticker bidPr/askPr at decision time",
-              "impact": "ESTIMATED · linear overflow beyond observed top of book size",
-              "fee": "ESTIMATED · Bitget published USDT-M taker rate, standard tier"
-            }
-          },
-          "formula": "modeled = |basis| * reversionFraction + max(0, receivedFunding) * intervals ; residual = modeled - roundTripCost",
-          "provenance": {
-            "basis": "OBSERVED · (markPrice - indexPrice) / indexPrice from Bitget public ticker",
-            "funding": "OBSERVED · fundingRate from Bitget public ticker",
-            "reversionFraction": "ESTIMATED · assumed share of basis closed over the target hold",
-            "modeled": "COMPUTED · deterministic function of the two observed rates"
-          }
-        },
-        "checks": [
-          {
-            "key": "liquidity",
-            "label": "24h quote volume",
-            "passed": true,
-            "value": "$73,480,932",
-            "threshold": ">= $10,000,000"
-          },
-          {
-            "key": "spread",
-            "label": "Quoted spread",
-            "passed": true,
-            "value": "5.35 bps",
-            "threshold": "<= 20.00 bps"
-          },
-          {
-            "key": "residual",
-            "label": "Residual edge after cost",
-            "passed": true,
-            "value": "58.79 bps",
-            "threshold": ">= 5.00 bps"
-          },
-          {
-            "key": "concurrency",
-            "label": "Concurrent positions",
-            "passed": true,
-            "value": "0",
-            "threshold": "< 6"
-          },
-          {
-            "key": "duplicate",
-            "label": "No open position in symbol",
-            "passed": true,
-            "value": "none",
-            "threshold": "none open"
-          },
-          {
-            "key": "clip-size",
-            "label": "Clip vs 24h volume",
-            "passed": true,
-            "value": "0.056%",
-            "threshold": "<= 0.200%"
-          }
-        ]
-      }
-    },
     {
       "id": "wake-p2-astrusdt-20260915224302",
       "tier": 2,
@@ -128,16 +20,16 @@
       "stopRate": 0.03478663472501036,
       "maxLossUsd": 489.89,
       "entryBasisRate": -0.01739331736250518,
-      "currentBasisRate": -0.015570473581599655,
+      "currentBasisRate": -0.013824485266384289,
       "entryFundingRate": -0.011877,
       "modeledRate": 0.022312990417503106,
       "residualRate": 0.018172784078497282,
       "entryFeeUsd": 8.4496,
       "entrySlippageUsd": 10.3549,
-      "fundingUsd": 5.374575528979684,
-      "unrealizedPnlUsd": -22.7808,
-      "lastMarkPrice": 0.006789,
-      "lastTickAt": "2026-09-15T22:58:20.597Z",
+      "fundingUsd": 17.86433953201641,
+      "unrealizedPnlUsd": -207.0978,
+      "lastMarkPrice": 0.0067,
+      "lastTickAt": "2026-09-15T23:34:21.913Z",
       "evidence": {
         "observed": {
           "markPrice": 0.006795,
@@ -227,122 +119,6 @@
           }
         ]
       }
-    },
-    {
-      "id": "wake-p2-vthousdt-20260915224302",
-      "tier": 2,
-      "strategy": "basis-funding-dislocation",
-      "symbol": "VTHOUSDT",
-      "side": "LONG",
-      "status": "OPEN",
-      "openedAt": "2026-09-15T22:43:02.827Z",
-      "entryPrice": 0.0007637,
-      "entryMidPrice": 0.00076325,
-      "size": 33161847.87989416,
-      "notionalUsd": 25325.7032,
-      "stopPrice": 0.0007489273584157831,
-      "stopRate": 0.019343513924599865,
-      "maxLossUsd": 489.89,
-      "entryBasisRate": -0.009671756962299933,
-      "currentBasisRate": -0.004917313076533892,
-      "entryFundingRate": -0.002737,
-      "modeledRate": 0.00854005417737996,
-      "residualRate": 0.005017271429665803,
-      "entryFeeUsd": 15.1954,
-      "entrySlippageUsd": 14.9228,
-      "fundingUsd": 2.3524714357863137,
-      "unrealizedPnlUsd": -295.1404,
-      "lastMarkPrice": 0.0007548,
-      "lastTickAt": "2026-09-15T22:58:20.597Z",
-      "evidence": {
-        "observed": {
-          "markPrice": 0.0007636,
-          "indexPrice": 0.0007710574805559,
-          "basisRate": -0.009671756962299933,
-          "fundingRate": -0.002737,
-          "usdtVolume24h": 19724827.69736,
-          "bidPr": 0.0007628,
-          "askPr": 0.0007637,
-          "spreadRate": 0.0011791680314444384
-        },
-        "model": {
-          "expectedReversionRate": 0.005803054177379959,
-          "expectedFundingRate": 0.002737,
-          "modeledRate": 0.00854005417737996,
-          "residualRate": 0.005017271429665803,
-          "cost": {
-            "total": 0.0035227827477141566,
-            "entry": 0.0017613913738570783,
-            "exit": 0.0017613913738570783,
-            "spreadRate": 0.0005895840157222192,
-            "impactRate": 0.000571807358134859,
-            "feeRate": 0.0006,
-            "provenance": {
-              "spread": "OBSERVED · Bitget public ticker bidPr/askPr at decision time",
-              "impact": "ESTIMATED · linear overflow beyond observed top of book size",
-              "fee": "ESTIMATED · Bitget published USDT-M taker rate, standard tier"
-            }
-          },
-          "formula": "modeled = |basis| * reversionFraction + max(0, receivedFunding) * intervals ; residual = modeled - roundTripCost",
-          "provenance": {
-            "basis": "OBSERVED · (markPrice - indexPrice) / indexPrice from Bitget public ticker",
-            "funding": "OBSERVED · fundingRate from Bitget public ticker",
-            "reversionFraction": "ESTIMATED · assumed share of basis closed over the target hold",
-            "modeled": "COMPUTED · deterministic function of the two observed rates"
-          }
-        },
-        "checks": [
-          {
-            "key": "liquidity",
-            "label": "24h quote volume",
-            "passed": true,
-            "value": "$19,724,828",
-            "threshold": ">= $10,000,000"
-          },
-          {
-            "key": "spread",
-            "label": "Quoted spread",
-            "passed": true,
-            "value": "11.79 bps",
-            "threshold": "<= 20.00 bps"
-          },
-          {
-            "key": "residual",
-            "label": "Residual edge after cost",
-            "passed": true,
-            "value": "50.17 bps",
-            "threshold": ">= 5.00 bps"
-          },
-          {
-            "key": "concurrency",
-            "label": "Concurrent positions",
-            "passed": true,
-            "value": "2",
-            "threshold": "< 6"
-          },
-          {
-            "key": "duplicate",
-            "label": "No open position in symbol",
-            "passed": true,
-            "value": "none",
-            "threshold": "none open"
-          },
-          {
-            "key": "cooldown",
-            "label": "Not in stop cooldown",
-            "passed": true,
-            "value": "clear",
-            "threshold": "240m after a stop"
-          },
-          {
-            "key": "clip-size",
-            "label": "Clip vs 24h volume",
-            "passed": true,
-            "value": "0.128%",
-            "threshold": "<= 0.200%"
-          }
-        ]
-      }
     }
   ],
   "lastLogged": {
@@ -356,7 +132,13 @@
     "ASTRUSDT:duplicate": "2026-09-15T22:53:04.639Z",
     "VTHOUSDT:duplicate": "2026-09-15T22:53:04.639Z",
     "ASTRUSDT:spread,duplicate": "2026-09-15T22:58:20.597Z",
-    "VTHOUSDT:duplicate,clip-size": "2026-09-15T22:58:20.597Z"
+    "VTHOUSDT:duplicate,clip-size": "2026-09-15T22:58:20.597Z",
+    "LSKUSDT:cooldown": "2026-09-15T23:34:21.913Z",
+    "VTHOUSDT:cooldown": "2026-09-15T23:34:21.913Z"
   },
-  "tickCount": 11
+  "tickCount": 12,
+  "cooldownUntil": {
+    "LSKUSDT": 1789529661913,
+    "VTHOUSDT": 1789529661913
+  }
 }

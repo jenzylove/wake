@@ -1,56 +1,56 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-15T22:58:22.623Z",
+  "generatedAt": "2026-09-15T23:34:22.464Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-15T22:58:20.597Z",
-    "days": 0.166,
-    "equityPoints": 11,
+    "to": "2026-09-15T23:34:21.913Z",
+    "days": 0.191,
+    "equityPoints": 12,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
     "sharpeAnnualisedFromHourly": null,
     "sharpeAnnualisedFromDaily": null,
-    "sharpeSampleSizeHourly": 4,
+    "sharpeSampleSizeHourly": 5,
     "sharpeSampleSizeDaily": 0,
     "sharpeMinimumSamples": {
       "hourly": 24,
       "daily": 5
     },
-    "sharpeWithheldReason": "Withheld. 4 of 24 hourly returns collected; annualising fewer is not meaningful.",
-    "maxDrawdownRate": -0.024149086271567866,
+    "sharpeWithheldReason": "Withheld. 5 of 24 hourly returns collected; annualising fewer is not meaningful.",
+    "maxDrawdownRate": -0.04666297274318576,
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
-    "maxDrawdownTroughAt": "2026-09-15T22:58:20.597Z",
+    "maxDrawdownTroughAt": "2026-09-15T23:34:21.913Z",
     "winRate": 0,
-    "totalReturnRate": -0.024393049000000055
+    "totalReturnRate": -0.04690130699999995
   },
   "trades": {
-    "closed": 2,
-    "open": 3,
+    "closed": 4,
+    "open": 1,
     "wins": 0,
-    "losses": 2,
+    "losses": 4,
     "profitFactor": 0,
     "avgWinUsd": 0,
-    "avgLossUsd": -998.8192000000001,
-    "avgHoldHours": 1.08,
+    "avgLossUsd": -1123.1119,
+    "avgHoldHours": 1.36,
     "exitReasons": {
-      "STOP": 2
+      "STOP": 4
     }
   },
   "costs": {
-    "totalFeesUsd": 98.73,
-    "totalFundingUsd": 14.76,
-    "totalSlippageUsd": 48.37,
-    "totalNotionalUsd": 83229.88,
-    "turnoverVsEquity": 0.83,
+    "totalFeesUsd": 177.14,
+    "totalFundingUsd": 44.86,
+    "totalSlippageUsd": 100.26,
+    "totalNotionalUsd": 149793.99,
+    "turnoverVsEquity": 1.5,
     "note": "Fees at the Bitget published taker rate. Slippage is the observed half spread plus a linear overflow term. Funding is the observed rate accrued per 8h interval."
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 97560.7,
-    "totalPnlUsd": -2439.3,
-    "realizedPnlUsd": -1997.64,
-    "openUnrealizedUsd": -441.67
+    "currentUsd": 95309.87,
+    "totalPnlUsd": -4690.13,
+    "realizedPnlUsd": -4492.45,
+    "openUnrealizedUsd": -197.68
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -59,9 +59,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 11,
+    "tickCount": 12,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-15T22:58:20.597Z",
+    "lastTickAt": "2026-09-15T23:34:21.913Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -87,9 +87,8 @@
       "abstained": 52,
       "reasons": {
         "no dislocation above trigger": 49,
-        "spread,duplicate": 1,
         "duplicate": 1,
-        "duplicate,clip-size": 1
+        "cooldown": 2
       }
     }
   }
