@@ -1,5 +1,5 @@
 {
-  "name": "site-creator-vinext-starter",
+  "name": "wake-causal-market-response",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -14,7 +14,9 @@
     "db:generate": "drizzle-kit generate",
     "data:capture": "node --env-file-if-exists=.env.local scripts/capture-real-incident.mjs",
     "data:verify": "node scripts/verify-capture.mjs",
-    "bitget:verify": "node --env-file-if-exists=.env.local scripts/verify-bitget-demo.mjs"
+    "bitget:verify": "node --env-file-if-exists=.env.local scripts/verify-bitget-demo.mjs",
+    "paper:tick": "node --env-file-if-exists=.env.local scripts/paper-tick.mjs",
+    "paper:calibrate": "node scripts/paper/calibrate.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

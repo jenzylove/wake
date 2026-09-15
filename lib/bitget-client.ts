@@ -47,9 +47,22 @@ type BitgetEnvelope<T> = {
 
 type BitgetHttpMethod = "GET" | "POST"
 
+const BITGET_TIMEOUT_MS = Number(process.env.BITGET_TIMEOUT_MS || 10000)
+
+// DNS is the default path. BITGET_API_IP is an explicit opt in for networks that
+// cannot resolve api.bitget.com; it pins a single edge address, so it must never
+// be the default. A stale pinned address takes every market surface down at once.
 async function bitgetFetch(url: string, init: RequestInit = {}) {
-  const bitgetIp = process.env.BITGET_API_IP || "104.18.14.166"
-  if (!bitgetIp) return fetch(url, init)
+  const bitgetIp = process.env.BITGET_API_IP?.trim()
+  if (!bitgetIp) {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), BITGET_TIMEOUT_MS)
+    try {
+      return await fetch(url, { ...init, signal: controller.signal })
+    } finally {
+      clearTimeout(timer)
+    }
+  }
   const parsed = new URL(url)
   const headers = Object.fromEntries(new Headers(init.headers).entries())
   headers.Host = parsed.hostname
@@ -61,11 +74,13 @@ async function bitgetFetch(url: string, init: RequestInit = {}) {
       path: `${parsed.pathname}${parsed.search}`,
       method: init.method || "GET",
       headers,
+      timeout: BITGET_TIMEOUT_MS,
     }, (response) => {
       const chunks: Buffer[] = []
       response.on("data", (chunk: Buffer) => chunks.push(chunk))
       response.on("end", () => resolve(new Response(Buffer.concat(chunks), { status: response.statusCode || 502, headers: response.headers as Record<string, string> })))
     })
+    request.on("timeout", () => request.destroy(new Error(`Bitget request timed out after ${BITGET_TIMEOUT_MS}ms`)))
     request.on("error", reject)
     if (typeof init.body === "string") request.write(init.body)
     request.end()

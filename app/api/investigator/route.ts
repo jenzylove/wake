@@ -1,4 +1,5 @@
 import { anthropicConfigStatus, investigateWithAnthropic } from "@/lib/anthropic-investigator"
+import { checkRateLimit, clientKey } from "@/lib/rate-limit"
 import { deriveDecision, deriveGraphEdges, evaluateRiskGate, incidents } from "@/lib/wake-engine"
 
 export async function GET() {
@@ -6,6 +7,14 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const limit = checkRateLimit({ key: clientKey(request, "investigator"), limit: 3, windowMs: 60_000, dailyLimit: 40 })
+  if (!limit.allowed) {
+    return Response.json(
+      { error: `Investigator rate limit: ${limit.reason}`, retryAfterSeconds: limit.retryAfterSeconds },
+      { status: 429, headers: { "retry-after": String(limit.retryAfterSeconds) } },
+    )
+  }
+
   try {
     const body = await request.json() as { incidentId?: string }
     const incident = incidents.find((item) => item.id === body.incidentId)

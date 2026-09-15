@@ -34,7 +34,7 @@ type AnthropicResponse = {
 export function anthropicConfigStatus() {
   return {
     configured: Boolean(process.env.ANTHROPIC_API_KEY),
-    model: process.env.ANTHROPIC_MODEL || "claude-sonnet-4-5",
+    model: process.env.ANTHROPIC_MODEL || "claude-opus-5",
     serverOnly: true,
   }
 }
@@ -43,7 +43,7 @@ export async function investigateWithAnthropic(context: IncidentContext) {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) throw new Error("ANTHROPIC_API_KEY is not configured on the server")
 
-  const model = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-5"
+  const model = process.env.ANTHROPIC_MODEL || "claude-opus-5"
   const response = await fetch(ANTHROPIC_API, {
     method: "POST",
     headers: {

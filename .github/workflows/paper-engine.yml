@@ -1,0 +1,72 @@
+name: WAKE paper engine
+
+# Runs the paper trading engine on a schedule and commits the resulting log.
+#
+# The commit history on data/paper/ is the audit trail: each tick is a separate
+# timestamped commit signed by the Actions runner, which is what makes the claim
+# "this log was produced live during the competition window" checkable rather
+# than asserted. Nothing here touches a real exchange account.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Why this manual tick was run"
+        required: false
+        default: "manual tick"
+
+permissions:
+  contents: write
+
+# Never let two ticks write the ledger at once.
+concurrency:
+  group: wake-paper-engine
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run paper tick
+        id: tick
+        run: node scripts/paper-tick.mjs | tee tick.log
+
+      - name: Commit ledger
+        run: |
+          set -euo pipefail
+          git config user.name "jenzylove"
+          git config user.email "jennifereze12@gmail.com"
+
+          if [ -z "$(git status --porcelain data/paper)" ]; then
+            echo "No ledger change this tick."
+            exit 0
+          fi
+
+          SUMMARY=$(tail -n 1 tick.log | sed 's/^\[wake-paper\] //')
+          git add data/paper
+          # [skip ci] keeps Vercel from redeploying on every tick. The app reads
+          # the ledger live from raw.githubusercontent.com instead.
+          git commit -m "paper tick: ${SUMMARY} [skip ci]"
+
+          # The schedule can overlap with a push, so rebase before publishing.
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              echo "Ledger published on attempt ${attempt}."
+              exit 0
+            fi
+            echo "Publish attempt ${attempt} failed, retrying."
+            sleep 5
+          done
+          echo "Could not publish ledger after 3 attempts."
+          exit 1

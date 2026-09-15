@@ -1,0 +1,86 @@
+{
+  "schema": "wake.paper.metrics.v1",
+  "generatedAt": "2026-09-15T18:59:01.936Z",
+  "window": {
+    "from": "2026-09-15T18:59:01.153Z",
+    "to": "2026-09-15T18:59:01.153Z",
+    "days": 0,
+    "equityPoints": 1,
+    "note": "Live paper run. Figures are observed from the committed log, not backtested."
+  },
+  "headline": {
+    "sharpeAnnualisedFromHourly": null,
+    "sharpeAnnualisedFromDaily": null,
+    "sharpeSampleSizeHourly": 0,
+    "sharpeSampleSizeDaily": 0,
+    "maxDrawdownRate": 0,
+    "maxDrawdownPeakAt": null,
+    "maxDrawdownTroughAt": null,
+    "winRate": null,
+    "totalReturnRate": -0.00024999999999997247
+  },
+  "trades": {
+    "closed": 0,
+    "open": 1,
+    "wins": 0,
+    "losses": 0,
+    "profitFactor": null,
+    "avgWinUsd": 0,
+    "avgLossUsd": 0,
+    "avgHoldHours": null,
+    "exitReasons": {}
+  },
+  "costs": {
+    "totalFeesUsd": 0,
+    "totalFundingUsd": 0,
+    "totalSlippageUsd": 0,
+    "totalNotionalUsd": 0,
+    "turnoverVsEquity": 0,
+    "note": "Fees at the Bitget published taker rate. Slippage is the observed half spread plus a linear overflow term. Funding is the observed rate accrued per 8h interval."
+  },
+  "equity": {
+    "startingUsd": 100000,
+    "currentUsd": 99975,
+    "totalPnlUsd": -25,
+    "realizedPnlUsd": 0,
+    "openUnrealizedUsd": -25
+  },
+  "provenance": {
+    "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
+    "fees": "ESTIMATED · Bitget published USDT-M taker rate, standard tier",
+    "slippage": "OBSERVED · half of the quoted spread at decision time, plus modelled overflow",
+    "funding": "OBSERVED · fundingRate from the Bitget public ticker"
+  },
+  "engine": {
+    "tickCount": 1,
+    "startedAt": "2026-09-15T18:59:01.153Z",
+    "lastTickAt": "2026-09-15T18:59:01.153Z",
+    "config": {
+      "minUsdtVolume24h": 10000000,
+      "maxSpreadRate": 0.002,
+      "basisTriggerRate": 0.0025,
+      "fundingTriggerRate": 0.001,
+      "reversionFraction": 0.6,
+      "targetHoldMs": 28800000,
+      "minResidualRate": 0.0005,
+      "riskPerTradeRate": 0.005,
+      "stopRate": 0.012,
+      "maxConcurrent": 6,
+      "maxHoldMs": 86400000,
+      "takeProfitFraction": 0.25,
+      "maxNotionalShareOfVolume": 0.002
+    },
+    "universeSize": 52,
+    "lastScan": {
+      "evaluated": 52,
+      "triggered": 3,
+      "opened": 1,
+      "abstained": 51,
+      "reasons": {
+        "no dislocation above trigger": 49,
+        "clip-size": 1,
+        "residual,clip-size": 1
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { getBitgetMarkSnapshot } from "@/lib/bitget-client"
+import { checkRateLimit, clientKey } from "@/lib/rate-limit"
 import { appendRuntimeRecord, readRuntimeRecords, runtimeStoreStatus } from "@/lib/runtime-store"
 
 type PositionObservation = {
@@ -27,6 +28,14 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const limit = checkRateLimit({ key: clientKey(request, "observations"), limit: 6, windowMs: 60_000, dailyLimit: 600 })
+  if (!limit.allowed) {
+    return Response.json(
+      { error: `Observation rate limit: ${limit.reason}`, retryAfterSeconds: limit.retryAfterSeconds },
+      { status: 429, headers: { "retry-after": String(limit.retryAfterSeconds) } },
+    )
+  }
+
   try {
     const body = await request.json() as { positionId?: string; incidentId?: string; symbol?: string; side?: "LONG" | "SHORT"; entryPrice?: number | null }
     if (!body.positionId || !body.incidentId || !validSymbol(body.symbol) || !["LONG", "SHORT"].includes(body.side || "")) return Response.json({ error: "Invalid position observation payload" }, { status: 400 })
