@@ -63,10 +63,18 @@ jobs:
               echo "No ledger change to publish."
               return 0
             fi
-            SUMMARY=$(tail -n 1 tick.log | sed 's/^\[wake-paper\] //')
+            # Take the tick summary line specifically. A plain tail picks up a
+            # trailing CLOSE line on ticks that closed a position.
+            SUMMARY=$(grep '^\[wake-paper\]' tick.log | tail -n 1 | sed 's/^\[wake-paper\] //')
+            CLOSES=$(grep -c '^  CLOSE ' tick.log || true)
+            if [ "${CLOSES}" -gt 0 ]; then
+              SUMMARY="${SUMMARY} closed=${CLOSES}"
+            fi
             git add data/paper
-            # [skip ci] keeps Vercel from redeploying on every tick. The app reads
-            # the ledger live from raw.githubusercontent.com instead.
+            # Vercel does not honour [skip ci] here, so the real guard is the
+            # project's ignore build command, which skips any commit that touches
+            # nothing outside data/paper. The marker stays for other consumers.
+            # The app reads the ledger live from raw.githubusercontent.com.
             git commit -m "paper tick: ${SUMMARY} [skip ci]"
             for attempt in 1 2 3; do
               if git pull --rebase --autostash origin main && git push origin HEAD:main; then
