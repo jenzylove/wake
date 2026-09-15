@@ -1,15 +1,15 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-15T20:18:14.736Z",
+  "generatedAt": "2026-09-15T20:28:16.743Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-15T20:18:14.335Z",
-    "days": 0.055,
-    "equityPoints": 3,
+    "to": "2026-09-15T20:28:16.396Z",
+    "days": 0.062,
+    "equityPoints": 4,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
-    "sharpeAnnualisedFromHourly": -113.23964438413482,
+    "sharpeAnnualisedFromHourly": -483.9349746610431,
     "sharpeAnnualisedFromDaily": null,
     "sharpeSampleSizeHourly": 2,
     "sharpeSampleSizeDaily": 0,
@@ -17,7 +17,7 @@
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
     "maxDrawdownTroughAt": "2026-09-15T20:18:14.335Z",
     "winRate": 0,
-    "totalReturnRate": -0.010976747999999925
+    "totalReturnRate": -0.005416401999999931
   },
   "trades": {
     "closed": 1,
@@ -42,10 +42,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 98902.33,
-    "totalPnlUsd": -1097.67,
+    "currentUsd": 99458.36,
+    "totalPnlUsd": -541.64,
     "realizedPnlUsd": -1072.74,
-    "openUnrealizedUsd": -24.94
+    "openUnrealizedUsd": 531.1
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -54,9 +54,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 3,
+    "tickCount": 4,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-15T20:18:14.335Z",
+    "lastTickAt": "2026-09-15T20:28:16.396Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -72,15 +72,16 @@
       "takeProfitFraction": 0.25,
       "maxNotionalShareOfVolume": 0.002
     },
-    "universeSize": 54,
+    "universeSize": 55,
     "lastScan": {
-      "evaluated": 54,
+      "evaluated": 55,
       "triggered": 3,
-      "opened": 1,
-      "abstained": 53,
+      "opened": 0,
+      "abstained": 55,
       "reasons": {
-        "no dislocation above trigger": 51,
+        "no dislocation above trigger": 52,
         "clip-size": 1,
+        "duplicate": 1,
         "residual,clip-size": 1
       }
     }
