@@ -1,26 +1,36 @@
 name: WAKE paper engine
 
-# Runs the paper trading engine on a schedule and commits the resulting log.
+# Runs the paper trading engine and commits the resulting log.
 #
-# The commit history on data/paper/ is the audit trail: each tick is a separate
-# timestamped commit signed by the Actions runner, which is what makes the claim
+# The commit history on data/paper/ is the audit trail: each tick lands as its
+# own timestamped commit from the Actions runner, which is what makes the claim
 # "this log was produced live during the competition window" checkable rather
 # than asserted. Nothing here touches a real exchange account.
+#
+# Scheduling note. GitHub delays and silently drops scheduled runs on free
+# repositories, and a */10 schedule asks for six punctual firings an hour at the
+# busiest minutes of the clock. Instead this asks for one firing an hour, at an
+# off-peak minute, and does its own ticking inside the job. A missed hour costs
+# an hour of log density rather than everything.
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    # Hourly, deliberately off the top of the hour to dodge scheduler contention.
+    - cron: "7 * * * *"
+  push:
+    branches: [main]
+    paths-ignore:
+      - "data/paper/**"
   workflow_dispatch:
     inputs:
-      reason:
-        description: "Why this manual tick was run"
+      ticks:
+        description: "How many ticks to run in this job"
         required: false
-        default: "manual tick"
+        default: "6"
 
 permissions:
   contents: write
 
-# Never let two ticks write the ledger at once.
 concurrency:
   group: wake-paper-engine
   cancel-in-progress: false
@@ -28,7 +38,8 @@ concurrency:
 jobs:
   tick:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # Six ticks at ten minute spacing is fifty minutes, plus headroom.
+    timeout-minutes: 70
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,35 +49,49 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Run paper tick
-        id: tick
-        run: node scripts/paper-tick.mjs | tee tick.log
-
-      - name: Commit ledger
+      - name: Tick, commit, repeat
+        env:
+          TICKS: ${{ github.event.inputs.ticks || '6' }}
+          INTERVAL_SECONDS: "600"
         run: |
-          set -euo pipefail
+          set -uo pipefail
           git config user.name "jenzylove"
           git config user.email "jennifereze12@gmail.com"
 
-          if [ -z "$(git status --porcelain data/paper)" ]; then
-            echo "No ledger change this tick."
-            exit 0
-          fi
-
-          SUMMARY=$(tail -n 1 tick.log | sed 's/^\[wake-paper\] //')
-          git add data/paper
-          # [skip ci] keeps Vercel from redeploying on every tick. The app reads
-          # the ledger live from raw.githubusercontent.com instead.
-          git commit -m "paper tick: ${SUMMARY} [skip ci]"
-
-          # The schedule can overlap with a push, so rebase before publishing.
-          for attempt in 1 2 3; do
-            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
-              echo "Ledger published on attempt ${attempt}."
-              exit 0
+          publish() {
+            if [ -z "$(git status --porcelain data/paper)" ]; then
+              echo "No ledger change to publish."
+              return 0
             fi
-            echo "Publish attempt ${attempt} failed, retrying."
-            sleep 5
+            SUMMARY=$(tail -n 1 tick.log | sed 's/^\[wake-paper\] //')
+            git add data/paper
+            # [skip ci] keeps Vercel from redeploying on every tick. The app reads
+            # the ledger live from raw.githubusercontent.com instead.
+            git commit -m "paper tick: ${SUMMARY} [skip ci]"
+            for attempt in 1 2 3; do
+              if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+                echo "Published on attempt ${attempt}."
+                return 0
+              fi
+              echo "Publish attempt ${attempt} failed, retrying."
+              sleep 5
+            done
+            echo "Could not publish after 3 attempts."
+            return 1
+          }
+
+          for i in $(seq 1 "${TICKS}"); do
+            echo "::group::tick ${i} of ${TICKS}"
+            if node scripts/paper-tick.mjs | tee tick.log; then
+              publish || echo "Publish failed on tick ${i}; continuing."
+            else
+              # A single failed tick must not end the run. The next one retries,
+              # and a gap in the equity curve is honest about what happened.
+              echo "Tick ${i} failed. Continuing to the next interval."
+            fi
+            echo "::endgroup::"
+
+            if [ "${i}" -lt "${TICKS}" ]; then
+              sleep "${INTERVAL_SECONDS}"
+            fi
           done
-          echo "Could not publish ledger after 3 attempts."
-          exit 1
