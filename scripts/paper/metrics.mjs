@@ -6,6 +6,12 @@
 
 const MS_PER_HOUR = 3600_000
 
+// Annualising a Sharpe from a handful of returns produces a large number that
+// means nothing. Below these sample sizes the figure is withheld and the reason
+// is reported instead, because a confident wrong number is worse than a gap.
+const MIN_HOURLY_RETURNS = 24
+const MIN_DAILY_RETURNS = 5
+
 function mean(values) {
   if (!values.length) return 0
   return values.reduce((sum, v) => sum + v, 0) / values.length
@@ -38,8 +44,8 @@ function simpleReturns(curve) {
   return out
 }
 
-function sharpe(returns, periodsPerYear) {
-  if (returns.length < 2) return null
+function sharpe(returns, periodsPerYear, minimumSamples) {
+  if (returns.length < minimumSamples) return null
   const sd = stdev(returns)
   if (sd === 0) return null
   return (mean(returns) / sd) * Math.sqrt(periodsPerYear)
@@ -111,10 +117,14 @@ export function computeMetrics({ equityCurve, trades, startingEquityUsd }) {
       note: "Live paper run. Figures are observed from the committed log, not backtested.",
     },
     headline: {
-      sharpeAnnualisedFromHourly: sharpe(hourlyReturns, 24 * 365),
-      sharpeAnnualisedFromDaily: sharpe(dailyReturns, 365),
+      sharpeAnnualisedFromHourly: sharpe(hourlyReturns, 24 * 365, MIN_HOURLY_RETURNS),
+      sharpeAnnualisedFromDaily: sharpe(dailyReturns, 365, MIN_DAILY_RETURNS),
       sharpeSampleSizeHourly: hourlyReturns.length,
       sharpeSampleSizeDaily: dailyReturns.length,
+      sharpeMinimumSamples: { hourly: MIN_HOURLY_RETURNS, daily: MIN_DAILY_RETURNS },
+      sharpeWithheldReason: hourlyReturns.length < MIN_HOURLY_RETURNS
+        ? `Withheld. ${hourlyReturns.length} of ${MIN_HOURLY_RETURNS} hourly returns collected; annualising fewer is not meaningful.`
+        : null,
       maxDrawdownRate: dd.rate,
       maxDrawdownPeakAt: dd.peakAt,
       maxDrawdownTroughAt: dd.troughAt,

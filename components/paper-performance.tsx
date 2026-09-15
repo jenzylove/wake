@@ -39,6 +39,7 @@ type PaperPayload = {
       sharpeAnnualisedFromHourly: number | null
       sharpeAnnualisedFromDaily: number | null
       sharpeSampleSizeHourly: number
+      sharpeWithheldReason?: string | null
       maxDrawdownRate: number
       winRate: number | null
       totalReturnRate: number
@@ -137,8 +138,12 @@ export function PaperPerformance() {
       <div className="paper-metrics">
         <div className="paper-cell">
           <div className="paper-label">SHARPE · ANNUALISED</div>
-          <div className="paper-value value-cyan">{ratio(sharpe)}</div>
-          <div className="paper-sub">from {head?.sharpeSampleSizeHourly ?? 0} hourly returns</div>
+          <div className="paper-value value-cyan">{sharpe === null || sharpe === undefined ? "pending" : ratio(sharpe)}</div>
+          <div className="paper-sub">
+            {head?.sharpeWithheldReason
+              ? `${head.sharpeSampleSizeHourly ?? 0} of 24 hourly returns`
+              : `from ${head?.sharpeSampleSizeHourly ?? 0} hourly returns`}
+          </div>
         </div>
         <div className="paper-cell">
           <div className="paper-label">MAX DRAWDOWN</div>

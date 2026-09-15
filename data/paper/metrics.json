@@ -1,23 +1,28 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-15T22:53:04.978Z",
+  "generatedAt": "2026-09-15T22:58:22.623Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-15T22:53:04.639Z",
-    "days": 0.163,
-    "equityPoints": 10,
+    "to": "2026-09-15T22:58:20.597Z",
+    "days": 0.166,
+    "equityPoints": 11,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
-    "sharpeAnnualisedFromHourly": -100.71538462123844,
+    "sharpeAnnualisedFromHourly": null,
     "sharpeAnnualisedFromDaily": null,
     "sharpeSampleSizeHourly": 4,
     "sharpeSampleSizeDaily": 0,
-    "maxDrawdownRate": -0.020018291572893254,
+    "sharpeMinimumSamples": {
+      "hourly": 24,
+      "daily": 5
+    },
+    "sharpeWithheldReason": "Withheld. 4 of 24 hourly returns collected; annualising fewer is not meaningful.",
+    "maxDrawdownRate": -0.024149086271567866,
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
-    "maxDrawdownTroughAt": "2026-09-15T22:53:04.639Z",
+    "maxDrawdownTroughAt": "2026-09-15T22:58:20.597Z",
     "winRate": 0,
-    "totalReturnRate": -0.02026328700000002
+    "totalReturnRate": -0.024393049000000055
   },
   "trades": {
     "closed": 2,
@@ -42,10 +47,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 97973.67,
-    "totalPnlUsd": -2026.33,
+    "currentUsd": 97560.7,
+    "totalPnlUsd": -2439.3,
     "realizedPnlUsd": -1997.64,
-    "openUnrealizedUsd": -28.69
+    "openUnrealizedUsd": -441.67
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -54,9 +59,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 10,
+    "tickCount": 11,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-15T22:53:04.639Z",
+    "lastTickAt": "2026-09-15T22:58:20.597Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -82,7 +87,9 @@
       "abstained": 52,
       "reasons": {
         "no dislocation above trigger": 49,
-        "duplicate": 3
+        "spread,duplicate": 1,
+        "duplicate": 1,
+        "duplicate,clip-size": 1
       }
     }
   }
