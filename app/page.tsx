@@ -80,6 +80,8 @@ type InvestigatorReview = {
   }
 }
 
+import { PaperPerformance } from "@/components/paper-performance"
+
 function StatusDot({ tone = "cyan" }: { tone?: string }) {
   return <span className={`status-dot status-${tone}`} aria-hidden="true" />
 }
@@ -423,6 +425,8 @@ export default function Home() {
             <span><StatusDot tone={isRealCapture ? "cyan" : "amber"} /> {provenanceLabel}</span>
             <span>{actionNotice ?? (lastRun?.incidentId === incident.id ? `Last run ${lastRun.id} · ${lastRun.riskGate.passed ? "risk gate passed" : "risk gate held"}` : "Refresh graph to create a timestamped investigation run")}</span>
           </div>
+
+          <PaperPerformance />
 
           <div className="workspace-grid">
             <Card className="incident-queue card-dark">
