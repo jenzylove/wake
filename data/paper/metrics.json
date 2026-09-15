@@ -1,23 +1,23 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-15T18:59:01.936Z",
+  "generatedAt": "2026-09-15T19:00:57.888Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-15T18:59:01.153Z",
-    "days": 0,
-    "equityPoints": 1,
+    "to": "2026-09-15T19:00:57.286Z",
+    "days": 0.001,
+    "equityPoints": 2,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
     "sharpeAnnualisedFromHourly": null,
     "sharpeAnnualisedFromDaily": null,
-    "sharpeSampleSizeHourly": 0,
+    "sharpeSampleSizeHourly": 1,
     "sharpeSampleSizeDaily": 0,
-    "maxDrawdownRate": 0,
-    "maxDrawdownPeakAt": null,
-    "maxDrawdownTroughAt": null,
+    "maxDrawdownRate": -0.00223332233058271,
+    "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
+    "maxDrawdownTroughAt": "2026-09-15T19:00:57.286Z",
     "winRate": null,
-    "totalReturnRate": -0.00024999999999997247
+    "totalReturnRate": -0.002482764000000026
   },
   "trades": {
     "closed": 0,
@@ -40,10 +40,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 99975,
-    "totalPnlUsd": -25,
+    "currentUsd": 99751.72,
+    "totalPnlUsd": -248.28,
     "realizedPnlUsd": 0,
-    "openUnrealizedUsd": -25
+    "openUnrealizedUsd": -248.28
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -52,9 +52,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 1,
+    "tickCount": 2,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-15T18:59:01.153Z",
+    "lastTickAt": "2026-09-15T19:00:57.286Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -74,11 +74,12 @@
     "lastScan": {
       "evaluated": 52,
       "triggered": 3,
-      "opened": 1,
-      "abstained": 51,
+      "opened": 0,
+      "abstained": 52,
       "reasons": {
         "no dislocation above trigger": 49,
         "clip-size": 1,
+        "duplicate": 1,
         "residual,clip-size": 1
       }
     }
