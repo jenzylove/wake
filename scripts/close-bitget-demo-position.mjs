@@ -26,7 +26,7 @@ async function request(method, requestPath, body = "", signed = false) {
   const signature = signed ? createHmac("sha256", secretKey).update(`${timestamp}${method}${requestPath}${body}`).digest("base64") : null
   const headers = { Host: "api.bitget.com", "Content-Type": "application/json", locale: "en-US", ...(signed ? { "ACCESS-KEY": apiKey, "ACCESS-SIGN": signature, "ACCESS-TIMESTAMP": timestamp, "ACCESS-PASSPHRASE": passphrase, paptrading: "1" } : {}) }
   return new Promise((resolve, reject) => {
-    const req = https.request({ hostname: process.env.BITGET_API_IP || "104.18.14.166", port: 443, servername: "api.bitget.com", path: requestPath, method, headers }, (response) => {
+    const req = https.request({ hostname: process.env.BITGET_API_IP?.trim() || "api.bitget.com", port: 443, servername: "api.bitget.com", path: requestPath, method, headers }, (response) => {
       let text = ""
       response.on("data", (chunk) => { text += chunk })
       response.on("end", () => {

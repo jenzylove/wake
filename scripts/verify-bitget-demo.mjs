@@ -1,5 +1,6 @@
 import { createHmac } from "node:crypto"
 import https from "node:https"
+import { writeBitgetArtifact } from "./bitget/artifact.mjs"
 
 const apiKey = process.env.BITGET_API_KEY
 const secretKey = process.env.BITGET_SECRET_KEY
@@ -15,7 +16,7 @@ const signature = createHmac("sha256", secretKey)
   .update(`${timestamp}GET${requestPath}`)
   .digest("base64")
 
-const hostname = process.env.BITGET_API_IP || "104.18.14.166"
+const hostname = process.env.BITGET_API_IP?.trim() || "api.bitget.com"
 const request = https.request({
   hostname,
   port: 443,
@@ -39,7 +40,7 @@ const request = https.request({
     try {
       const payload = JSON.parse(body)
       const ok = payload.code === "00000"
-      console.log(JSON.stringify({
+      const result = {
         ok,
         demo: true,
         httpStatus: response.statusCode,
@@ -47,7 +48,29 @@ const request = https.request({
         msg: payload.msg,
         paptrading: "1",
         accountDataPresent: payload.data !== undefined,
-      }, null, 2))
+      }
+
+      // Write the evidence. A read only preflight is still the only proof that
+      // the Demo credentials and the signing path actually work.
+      const { filePath, integrity } = writeBitgetArtifact({
+        label: "preflight",
+        summary: {
+          kind: "read-only account preflight",
+          ok,
+          placedOrder: false,
+          note: "Account read against Bitget Demo Trading with paptrading: 1. No order was sent.",
+        },
+        interactions: [{
+          step: "account-preflight",
+          method: "GET",
+          path: requestPath,
+          requestHeaders: { Host: "api.bitget.com", "Content-Type": "application/json", locale: "en-US", paptrading: "1", "ACCESS-KEY": apiKey, "ACCESS-SIGN": signature, "ACCESS-PASSPHRASE": passphrase },
+          httpStatus: response.statusCode,
+          response: payload,
+        }],
+      })
+
+      console.log(JSON.stringify({ ...result, artifact: filePath, integrity }, null, 2))
       process.exit(ok ? 0 : 1)
     } catch {
       console.error(`Bitget returned a non-JSON response (HTTP ${response.statusCode})`)

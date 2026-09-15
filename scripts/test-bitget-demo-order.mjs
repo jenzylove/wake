@@ -1,5 +1,6 @@
 import { createHmac } from "node:crypto"
 import https from "node:https"
+import { writeBitgetArtifact } from "./bitget/artifact.mjs"
 
 if (!process.argv.includes("--confirm-demo-order")) {
   throw new Error("This smoke test can place and close one minimum-size Demo order. Re-run with --confirm-demo-order to authorize it.")
@@ -37,7 +38,7 @@ try {
   closeError = error instanceof Error ? error.message : "Close order failed"
 }
 
-console.log(JSON.stringify({
+const result = {
   ok: !closeError,
   demo: true,
   symbol,
@@ -49,7 +50,30 @@ console.log(JSON.stringify({
   closeError,
   paptrading: "1",
   note: closeError ? "The Demo open was accepted but the automatic close failed; inspect the Demo position before retrying." : "Minimum-size Demo order opened and immediately closed.",
-}, null, 2))
+}
+
+// The evidence, not the assertion. Order parameters and exchange responses are
+// preserved; credentials and signatures are redacted by the writer.
+const { filePath, integrity } = writeBitgetArtifact({
+  label: "smoke-open-close",
+  summary: {
+    kind: "minimum size open and close",
+    ok: !closeError,
+    placedOrder: true,
+    symbol,
+    size,
+    posMode: account.data?.posMode ?? null,
+    note: result.note,
+  },
+  interactions: [
+    { step: "contract-metadata", method: "GET", path: `/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${symbol}`, response: contract },
+    { step: "account-read", method: "GET", path: "/api/v2/mix/account/account?marginCoin=USDT&productType=USDT-FUTURES&symbol=BTCUSDT", requestHeaders: { paptrading: "1", "ACCESS-KEY": apiKey, "ACCESS-SIGN": "[signed]", "ACCESS-PASSPHRASE": passphrase }, response: account },
+    { step: "open-order", method: "POST", path: "/api/v2/mix/order/place-order", requestBody: { symbol, productType: "USDT-FUTURES", marginMode: "isolated", marginCoin: "USDT", size, side: "buy", tradeSide: "open", ...(posSide ? { posSide } : {}), orderType: "market", force: "gtc", clientOid: openOid }, requestHeaders: { paptrading: "1", "ACCESS-KEY": apiKey, "ACCESS-SIGN": "[signed]", "ACCESS-PASSPHRASE": passphrase }, response: opened },
+    { step: "close-order", method: "POST", path: "/api/v2/mix/order/place-order", requestBody: closed ? { symbol, size, side: posSide === "long" ? "buy" : "sell", tradeSide: "close", ...(posSide ? { posSide } : {}), orderType: "market", force: "gtc" } : null, requestHeaders: { paptrading: "1", "ACCESS-KEY": apiKey, "ACCESS-SIGN": "[signed]", "ACCESS-PASSPHRASE": passphrase }, response: closed, error: closeError },
+  ],
+})
+
+console.log(JSON.stringify({ ...result, artifact: filePath, integrity }, null, 2))
 if (closeError) process.exit(1)
 
 async function request(method, requestPath, body = "", signed = false) {
@@ -61,7 +85,7 @@ async function request(method, requestPath, body = "", signed = false) {
     locale: "en-US",
     ...(signed ? { "ACCESS-KEY": apiKey, "ACCESS-SIGN": signature, "ACCESS-TIMESTAMP": timestamp, "ACCESS-PASSPHRASE": passphrase, paptrading: "1" } : {}),
   }
-  const hostname = process.env.BITGET_API_IP || "104.18.14.166"
+  const hostname = process.env.BITGET_API_IP?.trim() || "api.bitget.com"
   return new Promise((resolve, reject) => {
     const req = https.request({ hostname, port: 443, servername: "api.bitget.com", path: requestPath, method, headers }, (response) => {
       let bodyText = ""
