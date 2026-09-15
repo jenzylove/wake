@@ -15,7 +15,6 @@ import {
   Crosshair,
   Database,
   Download,
-  ExternalLink,
   FileCheck2,
   GitBranch,
   Globe2,
@@ -25,7 +24,6 @@ import {
   LockKeyhole,
   Menu,
   Network,
-  Pause,
   Play,
   RefreshCw,
   ScanSearch,
@@ -154,6 +152,7 @@ export default function Home() {
   const selectedGraphNode = incident.graphNodes.find((node) => node.id === selectedNode) ?? incident.graphNodes[2]
   const selectedEdge = graphEdges.find((edge) => edge.from === selectedGraphNode.id || edge.to === selectedGraphNode.id)
   const isRealCapture = incident.provenance === "REAL_CAPTURE"
+  const isComputed = incident.numbersProvenance === "COMPUTED"
   const provenanceLabel = isRealCapture ? "REAL CAPTURE" : "REPLAY FIXTURE · NOT LIVE"
   const mispricing = incident.modeledDelta === null ? "n/a" : `${(incident.modeledDelta - incident.marketDelta).toFixed(1)}%`
   const marketSummary = incident.modeledDelta === null ? `market ${incident.marketDelta.toFixed(2)}% · model not estimated` : `model ${incident.modeledDelta.toFixed(1)}% · market ${incident.marketDelta.toFixed(1)}%`
@@ -463,7 +462,7 @@ export default function Home() {
                 <CardContent className="hero-card-content">
                   <div className="metric-strip">
                     <Metric label="VALUE AT RISK" value={incident.risk} sub={incident.modeledDelta === null ? "not estimated from capture" : "modeled downstream loss"} tone="orange" />
-                    <Metric label="MISPRICING" value={mispricing} sub={marketSummary} tone="cyan" />
+                    <Metric label="MISPRICING" value={mispricing} sub={`${marketSummary} · ${isComputed ? "computed from capture" : "authored scenario"}`} tone="cyan" />
                     <Metric label="CONFIDENCE" value={incident.confidence === null ? "n/a" : `${incident.confidence}%`} sub="causal graph confidence" tone="lime" />
                     <Metric label="DECISION" value={decision} sub={isOpen ? "paper position open" : "awaiting action"} tone={isTrade ? "violet" : "muted"} />
                   </div>
@@ -473,7 +472,7 @@ export default function Home() {
               <Card className="graph-card card-dark">
                 <CardHeader className="card-head graph-head">
                   <div><CardTitle className="card-title"><Network size={16} className="title-icon" /> ActionGraph</CardTitle><div className="card-subtitle">CAUSAL EXPOSURE MAP · {incident.id}</div></div>
-                  <div className="graph-actions"><span className="graph-key"><span className="legend-dot solid" /> observed</span><span className="graph-key"><span className="legend-dot ring" /> inferred</span><Button variant="ghost" size="icon-xs" className="top-icon" aria-label="Open graph"><ExternalLink size={14} /></Button></div>
+                  <div className="graph-actions"><span className="graph-key"><span className="legend-dot solid" /> observed</span><span className="graph-key"><span className="legend-dot ring" /> inferred</span></div>
                 </CardHeader>
                 <CardContent className="graph-content">
                   <div className="graph-stage">
@@ -573,7 +572,7 @@ export default function Home() {
                     {incident.log.map((entry) => <div className="timeline-row" key={`${entry.time}-${entry.actor}`}><div className="timeline-time">{entry.time}</div><div className={`timeline-marker marker-${entry.tone}`} /><div className="timeline-body"><div className="timeline-actor">{entry.actor}</div><div className="timeline-text">{entry.text}</div></div></div>)}
                     {incident.stateTransitions.map((transition) => <div className="timeline-row" key={`${transition.at}-${transition.to}`}><div className="timeline-time">{transition.at}</div><div className="timeline-marker marker-violet" /><div className="timeline-body"><div className="timeline-actor">STATE · {transition.actor}</div><div className="timeline-text">{transition.from ?? "START"} → {transition.to} · {transition.reason}</div></div></div>)}
                   </div>
-                  <div className="log-footer"><TerminalSquare size={13} /> Latest immutable run id <span>{lastRun?.incidentId === incident.id ? lastRun.id : "not run"}</span><ExternalLink size={12} /></div>
+                  <div className="log-footer"><TerminalSquare size={13} /> Latest immutable run id <span>{lastRun?.incidentId === incident.id ? lastRun.id : "not run"}</span></div>
                 </TabsContent>
                 <TabsContent value="position" className="tab-panel">
                   <div className="empty-tab">
@@ -614,7 +613,7 @@ export default function Home() {
         </section>
 
         <aside className="right-rail">
-          <div className="rail-heading"><div><div className="eyebrow"><span className="eyebrow-line" /> RUN STATUS</div><h2>Agent pulse</h2></div><Button variant="ghost" size="icon-xs" className="top-icon" aria-label="Pause agent"><Pause size={14} /></Button></div>
+          <div className="rail-heading"><div><div className="eyebrow"><span className="eyebrow-line" /> RUN STATUS</div><h2>Agent pulse</h2></div></div>
           <Card className="pulse-card card-dark">
             <CardContent>
               <div className="pulse-orb"><div className="pulse-ring ring-one" /><div className="pulse-ring ring-two" /><div className="pulse-core"><Activity size={18} /></div></div>
@@ -624,8 +623,16 @@ export default function Home() {
             </CardContent>
           </Card>
           <Card className="rail-card card-dark">
-            <CardHeader className="card-head"><CardTitle className="card-title"><LockKeyhole size={15} className="title-icon" /> Policy gate</CardTitle><Badge className="badge-confirmed">PASS</Badge></CardHeader>
-            <CardContent className="policy-content"><PolicyRow label="Max incident risk" value="18% VaR" /><PolicyRow label="Max position loss" value={incident.maxLoss} /><PolicyRow label="Minimum liquidity" value="2.5×" /><PolicyRow label="Abstain on weak edge" value="ON" /><Button variant="outline" size="sm" className="quiet-button policy-button"><SlidersHorizontal size={13} /> Edit policy</Button></CardContent>
+            <CardHeader className="card-head"><CardTitle className="card-title"><LockKeyhole size={15} className="title-icon" /> Risk gate</CardTitle><Badge className={riskGate.passed ? "badge-confirmed" : "outline-badge"}>{riskGate.passed ? "PASS" : "HOLD"}</Badge></CardHeader>
+            <CardContent className="policy-content">
+              {riskGate.checks.map((check) => (
+                <div className="gate-row" key={check.key}>
+                  <span className={check.passed ? "gate-tick gate-pass" : "gate-tick gate-hold"}>{check.passed ? "PASS" : "HOLD"}</span>
+                  <div className="gate-body"><strong>{check.label}</strong><small>{check.value} · needs {check.threshold}</small></div>
+                </div>
+              ))}
+              <div className="gate-note">These are the five checks the engine actually runs. The decision above is their conjunction.</div>
+            </CardContent>
           </Card>
           <Card className="rail-card card-dark">
             <CardHeader className="card-head"><CardTitle className="card-title"><Globe2 size={15} className="title-icon" /> Coverage registry</CardTitle><span className="tiny-live"><StatusDot tone="amber" /> EXPLICIT</span></CardHeader>
@@ -656,10 +663,6 @@ function EvidenceGlyph({ icon }: { icon: EvidenceItem["icon"] }) {
   if (icon === "onchain") return <Database size={15} />
   if (icon === "exposure") return <GitBranch size={15} />
   return <LineChart size={15} />
-}
-
-function PolicyRow({ label, value }: { label: string; value: string }) {
-  return <div className="policy-row"><CheckCircle2 size={14} /><span>{label}</span><strong>{value}</strong></div>
 }
 
 function Watcher({ name, detail, tone, status }: { name: string; detail: string; tone: string; status: "VALIDATED" | "PLANNED" }) {

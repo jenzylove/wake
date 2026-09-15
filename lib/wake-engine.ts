@@ -1,6 +1,7 @@
 import realMoonwellCapture from "@/data/incidents/inc-real-moonwell-20260827.json"
 import realAfxCapture from "@/data/incidents/inc-real-afx-20260722.json"
 import realAfxResolutionCapture from "@/data/incidents/inc-real-afx-resolution-20260723.json"
+import { computeConfidence, modelConsequence } from "@/lib/consequence-model"
 
 export type IncidentState = "CONFIRMED" | "INVESTIGATING" | "RESOLVED"
 export type WorkflowState = "WATCHING" | "ANOMALY_DETECTED" | "INVESTIGATING" | "INCIDENT_CONFIRMED" | "EXPOSURE_MAPPING" | "MARKET_CHECK" | "CAUSAL_CHALLENGE" | "TRADE_READY" | "RISK_APPROVED" | "POSITION_OPEN" | "MONITORING" | "CLOSED" | "NO_TRADE"
@@ -130,6 +131,13 @@ export type Incident = {
   evidence: EvidenceItem[]
   log: LogEntry[]
   provenance?: DataProvenance
+  /**
+   * Where the modelled numbers came from. COMPUTED means the consequence and
+   * confidence are functions of observed packet data. AUTHORED_SCENARIO means a
+   * human wrote them for a replay case, which is legitimate for a fixture and
+   * must never be presented as a measurement.
+   */
+  numbersProvenance?: "COMPUTED" | "AUTHORED_SCENARIO"
   capture?: {
     schema: string
     capturedAt: string
@@ -199,6 +207,19 @@ const realAfxResolutionMarketMove = ((realAfxResolutionMarketEnd.close - realAfx
 const realAfxResolutionTime = new Date(realAfxResolutionCapture.incident.blockTimestamp * 1000).toISOString().slice(11, 19)
 const realAfxOutflowUsdc = Number(BigInt(realAfxCapture.receipt.logs[0].data) / BigInt("1000000"))
 
+// The consequence is computed from the packet, not authored. sigma and traded
+// value are observed over the same window as the receipt; the conversion share
+// is the one judgement call and it is swept rather than asserted.
+const realAfxConsequence = modelConsequence({
+  grossFlowUsd: realAfxOutflowUsdc,
+  windowQuoteVolumeUsd: realAfxCapture.liquidity.observed.quoteVolumeUsd,
+  windowSigma: realAfxCapture.liquidity.observed.windowSigma,
+})
+const realAfxConfidence = computeConfidence({
+  evidenceEpistemics: ["OBSERVED", "INFERRED", "OBSERVED"],
+  falsificationStatuses: ["FAILED", "UNRESOLVED", "UNRESOLVED", "SUPPORTED", "FAILED", "SUPPORTED"],
+})
+
 const realMoonwellFalsification: FalsificationCheck[] = [
   { key: "collateral", question: "Is ETH actually accepted as collateral in the captured loss path?", status: "UNRESOLVED", answer: "The receipt proves a MAMO borrow, not an ETH collateral relationship.", evidenceRef: realMoonwellCapture.incident.txHash },
   { key: "debt-cap", question: "Is the exposed debt cap material to ETHUSDT?", status: "UNRESOLVED", answer: "No ETH-specific debt cap is present in this capture.", evidenceRef: "forum.moonwell.fi/t/post-mortem-mamo-market-incident-on-base/2208" },
@@ -264,6 +285,7 @@ const directTransitions: StateTransition[] = [
 const realMoonwellIncident: Incident = {
   id: realMoonwellCapture.incident.id,
   provenance: "REAL_CAPTURE",
+  numbersProvenance: "COMPUTED",
   time: capturedTime,
   title: "Moonwell MAMO borrow",
   subtitle: "final USDC borrow · Base",
@@ -328,49 +350,44 @@ const realAfxFalsification: FalsificationCheck[] = [
   { key: "debt-cap", question: "Is the debt cap material?", status: "UNRESOLVED", answer: "The AFX bridge drain is material, but no lending debt cap is part of the captured path.", evidenceRef: "https://www.coindesk.com/tech/2026/07/23/arbitrum-based-afx-trade-drained-of-usd24-million-after-bridge-keys-compromised", blocksTrade: false },
   { key: "absorbed", question: "Has the loss already been absorbed?", status: "UNRESOLVED", answer: "The receipt confirms the bridge outflow; downstream exchange absorption is not asserted by this packet.", evidenceRef: `https://arbiscan.io/tx/${realAfxCapture.incident.txHash}`, blocksTrade: false },
   { key: "association", question: "Is the downstream relationship only associative?", status: "SUPPORTED", answer: "The captured bridge outflow and the reported conversion path make ETHUSDT the downstream market instrument; the relationship is still labeled inferred at the market edge.", evidenceRef: "https://layerzero.network/blog/kelpdao-incident-statement", blocksTrade: false },
-  { key: "repriced", question: "Has the market already repriced the proven consequence?", status: "FAILED", answer: `The captured ETHUSDT window moved ${realAfxMarketMove.toFixed(2)}% while the deterministic consequence model remains above the action threshold.`, evidenceRef: `${realAfxCapture.sources.market} · ${realAfxCapture.capturedAt}`, blocksTrade: false },
+  { key: "repriced", question: "Has the market already repriced the proven consequence?", status: "SUPPORTED", answer: `The captured ETHUSDT window moved ${realAfxMarketMove.toFixed(2)}%, which already exceeds the ${realAfxConsequence?.basePct ?? 0}% base case and sits inside the ${realAfxConsequence?.maximumPct ?? 0}% full conversion ceiling. On this evidence the move is priced.`, evidenceRef: `${realAfxCapture.sources.market} · ${realAfxCapture.capturedAt}`, blocksTrade: false },
   { key: "invalidation", question: "What evidence would invalidate the proposed action?", status: "SUPPORTED", answer: "A proven freeze before the conversion leg, or evidence that the ETH flow did not originate from the AFX outflow, invalidates the contagion action.", evidenceRef: "https://arbiscan.io/address/0x627654b2782bfc57580ecd11d40869b350b6ebac", blocksTrade: false },
 ]
 
 const realAfxTransitions: StateTransition[] = [
   { from: "WATCHING", to: "INCIDENT_CONFIRMED", at: realAfxTime, actor: "CAPTURE", reason: `Arbitrum receipt ${realAfxCapture.receipt.status} preserved at block ${realAfxBlock}.` },
   { from: "INCIDENT_CONFIRMED", to: "EXPOSURE_MAPPING", at: realAfxTime, actor: "ACTIONGRAPH", reason: `Decoded ${realAfxOutflowUsdc.toLocaleString()} USDC leaving the AFX bridge contract.` },
-  { from: "EXPOSURE_MAPPING", to: "CAUSAL_CHALLENGE", at: realAfxTime, actor: "CAUSAL FALSIFIER", reason: "Tested direct outflow, downstream ETH flow, absorption, repricing, and invalidation evidence." },
-  { from: "CAUSAL_CHALLENGE", to: "TRADE_READY", at: realAfxTime, actor: "CAUSAL FALSIFIER", reason: "The direct outflow and downstream market path survived the available challenge; unresolved absorption remains visible." },
-  { from: "TRADE_READY", to: "RISK_APPROVED", at: realAfxTime, actor: "RISK GATE", reason: "Position size is capped against a bounded loss and a preserved market snapshot." },
+  { from: "EXPOSURE_MAPPING", to: "MARKET_CHECK", at: realAfxTime, actor: "CONSEQUENCE MODEL", reason: `Square root impact on $${(realAfxCapture.liquidity.observed.quoteVolumeUsd / 1e6).toFixed(2)}M of observed traded value gives a base case of ${realAfxConsequence?.basePct ?? 0}% and a full conversion ceiling of ${realAfxConsequence?.maximumPct ?? 0}%.` },
+  { from: "MARKET_CHECK", to: "CAUSAL_CHALLENGE", at: realAfxTime, actor: "CAUSAL FALSIFIER", reason: "Tested direct outflow, downstream ETH flow, absorption, repricing, and invalidation evidence." },
+  { from: "CAUSAL_CHALLENGE", to: "NO_TRADE", at: realAfxTime, actor: "RISK GATE", reason: `Held. Modelled impact does not exceed the ${realAfxMarketMove.toFixed(2)}% the market had already moved, and computed confidence of ${realAfxConfidence?.value ?? 0} is below the 75 threshold.` },
 ]
 
 const realAfxIncident: Incident = {
   id: realAfxCapture.incident.id,
   provenance: "REAL_CAPTURE",
+  numbersProvenance: "COMPUTED",
   time: realAfxTime,
   title: "AFX bridge outflow",
   subtitle: "24.15M USDC · Arbitrum",
   state: "CONFIRMED",
-  workflowState: "RISK_APPROVED",
+  workflowState: "NO_TRADE",
   kind: "CONTAGION",
   chain: "ARB",
   risk: "$24.15M USDC",
   move: `${realAfxMarketMove >= 0 ? "+" : ""}${realAfxMarketMove.toFixed(2)}%`,
-  confidence: 88,
+  confidence: realAfxConfidence?.value ?? null,
   accent: "amber",
-  modeledDelta: 5.4,
+  modeledDelta: realAfxConsequence?.basePct ?? null,
   marketDelta: Number(realAfxMarketMove.toFixed(2)),
   instrument: realAfxCapture.market.symbol,
   side: "SHORT",
   maxLoss: "$1,200",
   invalidation: "Freeze before ETH conversion · source path disproven",
   positionSize: "10% of incident VaR",
-  decisionReason: "The real receipt proves a material bridge outflow and the evidence packet preserves the downstream ETH market window. WAKE treats the market edge as inferred and keeps absorption uncertainty visible.",
+  decisionReason: "The receipt proves a material bridge outflow and the contagion path is traced. The consequence model then refuses the trade: even if the entire outflow converted and hit this instrument inside the window, square root impact on the observed traded value is smaller than the move the market had already made. WAKE abstains rather than size a position on a gap that is not there.",
   catalystHorizon: "minutes to 2h after bridge outflow",
   falsification: realAfxFalsification,
-  consequence: {
-    minimumPct: 2.1,
-    basePct: 5.4,
-    maximumPct: 9.8,
-    formula: "24.15M USDC bridge outflow → observed conversion path → ETHUSDT liquidity impact; ranges are scenario outputs, not realized loss",
-    assumptions: ["24,150,000 USDC decoded from the preserved ERC-20 Transfer log", "Downstream ETH conversion is supported by the incident evidence, but not all exchange execution is in this receipt", "Market impact is bounded by the captured Bitget ETHUSDT window and explicit invalidation checks"],
-  },
+  consequence: realAfxConsequence,
   stateTransitions: realAfxTransitions,
   graphNodes: [
     { id: "afx-event", nodeType: "event", className: "node-incident", tone: "orange", icon: "incident", kicker: `OBSERVED · BLOCK ${realAfxBlock}`, label: "AFX bridge drain", detail: `${realAfxOutflowUsdc.toLocaleString()} USDC` },
@@ -388,7 +405,8 @@ const realAfxIncident: Incident = {
   log: [
     { time: realAfxTime, actor: "CAPTURE", text: `Arbitrum receipt verified at block ${realAfxBlock}; ${realAfxOutflowUsdc.toLocaleString()} USDC outflow decoded.`, tone: "cyan" },
     { time: realAfxTime, actor: "ACTIONGRAPH", text: "Bridge inventory → downstream ETH market edge mapped as observed then inferred.", tone: "violet" },
-    { time: realAfxTime, actor: "RISK GATE", text: "Contagion path approved with bounded size; unresolved absorption remains an explicit monitor condition.", tone: "lime" },
+    { time: realAfxTime, actor: "CONSEQUENCE MODEL", text: `Impact computed from observed traded value and realised volatility: ${realAfxConsequence?.minimumPct ?? 0}% to ${realAfxConsequence?.maximumPct ?? 0}%, base ${realAfxConsequence?.basePct ?? 0}%.`, tone: "cyan" },
+    { time: realAfxTime, actor: "RISK GATE", text: "Held. The traced contagion path is real; the size of it is not. No paper order was written.", tone: "orange" },
   ],
   capture: {
     schema: realAfxCapture.schema,
@@ -420,6 +438,7 @@ const realAfxResolutionFalsification: FalsificationCheck[] = [
 const realAfxResolutionIncident: Incident = {
   id: realAfxResolutionCapture.incident.id,
   provenance: "REAL_CAPTURE",
+  numbersProvenance: "COMPUTED",
   time: realAfxResolutionTime,
   title: "AFX recovery response",
   subtitle: "white-hat settlement request · Arbitrum",
@@ -429,25 +448,21 @@ const realAfxResolutionIncident: Incident = {
   chain: "ARB",
   risk: "$24.15M incident",
   move: `${realAfxResolutionMarketMove >= 0 ? "+" : ""}${realAfxResolutionMarketMove.toFixed(2)}%`,
-  confidence: 79,
+  confidence: null,
   accent: "cyan",
-  modeledDelta: 2.2,
+  modeledDelta: null,
   marketDelta: Number(realAfxResolutionMarketMove.toFixed(2)),
   instrument: realAfxResolutionCapture.market.symbol,
   side: "LONG",
   maxLoss: "$600",
   invalidation: "Recovery request fails · attacker continues outflow",
   positionSize: "5% of incident VaR",
-  decisionReason: "A real on-chain response message marks the beginning of resolution, but the packet does not pretend that a recovery request equals recovered funds. WAKE keeps the action conditional on follow-up evidence.",
+  decisionReason: "A real on-chain response message marks the beginning of resolution, but a recovery request moves no money, so there is no flow to model. WAKE holds the incident in monitor rather than invent a resolution premium.",
   catalystHorizon: "response window · follow-up required",
   falsification: realAfxResolutionFalsification,
-  consequence: {
-    minimumPct: 0.5,
-    basePct: 2.2,
-    maximumPct: 4.5,
-    formula: "public recovery action → expected pressure reduction on ETHUSDT; range is conditional and not a claim of recovered funds",
-    assumptions: ["The response transaction is addressed to the identified AFX exploiter wallet", "A recovery request is treated as a resolution signal, not settlement proof", "The action is invalidated by continued attacker outflow or failed recovery evidence"],
-  },
+  // A recovery request moves no money. There is no flow to put through the
+  // impact model, so the packet declines to produce a number at all.
+  consequence: null,
   stateTransitions: [
     { from: "WATCHING", to: "INCIDENT_CONFIRMED", at: realAfxResolutionTime, actor: "CAPTURE", reason: `Arbitrum response transaction preserved at block ${Number.parseInt(realAfxResolutionCapture.receipt.blockNumber, 16)}.` },
     { from: "INCIDENT_CONFIRMED", to: "CAUSAL_CHALLENGE", at: realAfxResolutionTime, actor: "CAUSAL FALSIFIER", reason: "Tested whether a recovery request proves absorption or only signals intent." },
@@ -496,6 +511,7 @@ export const incidents: Incident[] = [
   {
     id: "INC-0921",
     provenance: "REPLAY_FIXTURE",
+    numbersProvenance: "AUTHORED_SCENARIO",
     time: "14:32:18",
     title: "Oracle deviation",
     subtitle: "rsETH collateral on Aave v3",
@@ -542,6 +558,7 @@ export const incidents: Incident[] = [
   {
     id: "INC-0918",
     provenance: "REPLAY_FIXTURE",
+    numbersProvenance: "AUTHORED_SCENARIO",
     time: "13:58:44",
     title: "Bridge mint anomaly",
     subtitle: "USDC supply delta on Arbitrum",
@@ -587,6 +604,7 @@ export const incidents: Incident[] = [
   {
     id: "INC-0907",
     provenance: "REPLAY_FIXTURE",
+    numbersProvenance: "AUTHORED_SCENARIO",
     time: "11:16:05",
     title: "Treasury transfer",
     subtitle: "Dormant multisig → exchange",
@@ -633,7 +651,12 @@ export const incidents: Incident[] = [
 ]
 
 export function deriveDecision(incident: Incident): Decision {
-  if (incident.modeledDelta === null || incident.confidence === null) return incident.state === "INVESTIGATING" ? "MONITOR" : "NO_TRADE"
+  // An unresolved question that is flagged as blocking is not the same as a
+  // dead thesis. It is an open investigation, so it reads as MONITOR.
+  const hasOpenBlocker = incident.falsification.some((check) => check.blocksTrade === true && check.status === "UNRESOLVED")
+  if (incident.modeledDelta === null || incident.confidence === null) {
+    return hasOpenBlocker || incident.state === "INVESTIGATING" ? "MONITOR" : "NO_TRADE"
+  }
   const residual = incident.modeledDelta - incident.marketDelta
   if (residual >= 1.2 && incident.confidence >= 75) {
     if (incident.kind === "CONTAGION") return "TRADE_CONTAGION"
@@ -706,8 +729,9 @@ export function createPaperOrder(incident: Incident, runId = `run_${incident.id.
 
 export function exportEvidencePacket(incident: Incident, decision: Decision, paperOrders: PaperOrder[], investigationRuns: InvestigationRecord[] = [], marketSnapshot: MarketSnapshot | null = null, positionObservations: unknown[] = []) {
   return {
-    schema: "wake.evidence.v0.3",
+    schema: "wake.evidence.v0.4",
     provenance: incident.provenance ?? "REPLAY_FIXTURE",
+    numbersProvenance: incident.numbersProvenance ?? "AUTHORED_SCENARIO",
     capture: incident.capture ?? null,
     marketSnapshot,
     generatedAt: new Date().toISOString(),
