@@ -1,7 +1,7 @@
 import realMoonwellCapture from "@/data/incidents/inc-real-moonwell-20260827.json"
 import realAfxCapture from "@/data/incidents/inc-real-afx-20260722.json"
 import realAfxResolutionCapture from "@/data/incidents/inc-real-afx-resolution-20260723.json"
-import { computeConfidence, modelConsequence } from "@/lib/consequence-model"
+import { computeConfidence, modelConsequence, type ConsequenceInputs } from "@/lib/consequence-model"
 
 export type IncidentState = "CONFIRMED" | "INVESTIGATING" | "RESOLVED"
 export type WorkflowState = "WATCHING" | "ANOMALY_DETECTED" | "INVESTIGATING" | "INCIDENT_CONFIRMED" | "EXPOSURE_MAPPING" | "MARKET_CHECK" | "CAUSAL_CHALLENGE" | "TRADE_READY" | "RISK_APPROVED" | "POSITION_OPEN" | "MONITORING" | "CLOSED" | "NO_TRADE"
@@ -157,6 +157,8 @@ export type Incident = {
    * must never be presented as a measurement.
    */
   numbersProvenance?: "COMPUTED" | "AUTHORED_SCENARIO"
+  /** Observed model inputs, present when the consequence was computed. */
+  consequenceInputs?: ConsequenceInputs
   capture?: {
     schema: string
     capturedAt: string
@@ -403,6 +405,11 @@ const realAfxIncident: Incident = {
   risk: "$24.15M USDC",
   move: `${realAfxMarketMove >= 0 ? "+" : ""}${realAfxMarketMove.toFixed(2)}%`,
   confidence: realAfxConfidence?.value ?? null,
+  consequenceInputs: {
+    grossFlowUsd: realAfxOutflowUsdc,
+    windowQuoteVolumeUsd: realAfxCapture.liquidity.observed.quoteVolumeUsd,
+    windowSigma: realAfxCapture.liquidity.observed.windowSigma,
+  },
   accent: "amber",
   modeledDelta: realAfxConsequence?.basePct ?? null,
   marketDelta: Number(realAfxMarketMove.toFixed(2)),
@@ -693,6 +700,11 @@ export const incidents: Incident[] = [
   },
 ]
 
+export const GATE_THRESHOLDS = {
+  minConfidence: 75,
+  minResidualPct: 1.2,
+} as const
+
 export function deriveDecision(incident: Incident): Decision {
   // An unresolved question that is flagged as blocking is not the same as a
   // dead thesis. It is an open investigation, so it reads as MONITOR.
@@ -701,7 +713,7 @@ export function deriveDecision(incident: Incident): Decision {
     return hasOpenBlocker || incident.state === "INVESTIGATING" ? "MONITOR" : "NO_TRADE"
   }
   const residual = incident.modeledDelta - incident.marketDelta
-  if (residual >= 1.2 && incident.confidence >= 75) {
+  if (residual >= GATE_THRESHOLDS.minResidualPct && incident.confidence >= GATE_THRESHOLDS.minConfidence) {
     if (incident.kind === "CONTAGION") return "TRADE_CONTAGION"
     if (incident.state === "RESOLVED") return "TRADE_RESOLUTION"
     return "TRADE_DIRECT"
@@ -777,8 +789,8 @@ export function evaluateRiskGate(incident: Incident): RiskGate {
   const residual = incident.modeledDelta === null ? null : incident.modeledDelta - incident.marketDelta
   const blockingFalsifiers = incident.falsification.filter((check) => check.blocksTrade === true)
   const checks: RiskCheck[] = [
-    { key: "confidence", label: "Causal confidence", passed: incident.confidence !== null && incident.confidence >= 75, value: incident.confidence === null ? "n/a" : `${incident.confidence}%`, threshold: "≥ 75%" },
-    { key: "residual", label: "Residual edge", passed: residual !== null && residual >= 1.2, value: residual === null ? "n/a" : `${residual.toFixed(1)}%`, threshold: "≥ 1.2%" },
+    { key: "confidence", label: "Causal confidence", passed: incident.confidence !== null && incident.confidence >= GATE_THRESHOLDS.minConfidence, value: incident.confidence === null ? "n/a" : `${incident.confidence}%`, threshold: "≥ 75%" },
+    { key: "residual", label: "Residual edge", passed: residual !== null && residual >= GATE_THRESHOLDS.minResidualPct, value: residual === null ? "n/a" : `${residual.toFixed(1)}%`, threshold: "≥ 1.2%" },
     { key: "loss-bound", label: "Maximum loss bound", passed: incident.maxLoss !== "$0", value: incident.maxLoss, threshold: "defined" },
     { key: "evidence", label: "Evidence packet", passed: incident.evidence.length >= 3, value: `${incident.evidence.length} sources`, threshold: "≥ 3 sources" },
     { key: "causal", label: "Causal challenge", passed: blockingFalsifiers.length === 0, value: blockingFalsifiers.length === 0 ? "no blocking checks" : `${blockingFalsifiers.length} blocking check${blockingFalsifiers.length === 1 ? "" : "s"}`, threshold: "0 blocking checks" },

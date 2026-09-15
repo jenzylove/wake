@@ -79,6 +79,7 @@ type InvestigatorReview = {
 }
 
 import { PaperPerformance } from "@/components/paper-performance"
+import { StressTest } from "@/components/stress-test"
 
 function StatusDot({ tone = "cyan" }: { tone?: string }) {
   return <span className={`status-dot status-${tone}`} aria-hidden="true" />
@@ -605,6 +606,15 @@ export default function Home() {
                 </TabsContent>
                 <TabsContent value="replay" className="tab-panel">
                   <div className="empty-tab"><TimerReset size={18} /><div><strong>Replay the incident without changing the ledger</strong><span>Re-run the graph against the same evidence snapshot and compare the decision.</span></div><Button variant="outline" size="sm" className="quiet-button" onClick={runInvestigation}><Play size={13} /> {isRunning ? "Running…" : "Replay"}</Button></div>
+                  {incident.consequenceInputs && (
+                    <StressTest
+                      key={incident.id}
+                      inputs={incident.consequenceInputs}
+                      marketDeltaPct={incident.marketDelta}
+                      confidence={incident.confidence}
+                      instrument={incident.instrument}
+                    />
+                  )}
                   {runHistory.filter((run) => run.incidentId === incident.id).length > 0 && <div className="replay-history"><div className="ledger-head"><span>REPLAY RUNS · ORIGINAL LEDGER UNCHANGED</span><span>{runHistory.filter((run) => run.incidentId === incident.id).length}</span></div>{runHistory.filter((run) => run.incidentId === incident.id).map((run) => <div className="replay-history-row" key={run.id}><strong>{run.id}</strong><span>{run.decision} · {run.workflowState} · {new Date(run.completedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span><b className={run.riskGate.passed ? "risk-pass" : "risk-hold"}>{run.riskGate.passed ? "PASS" : "HOLD"}</b></div>)}</div>}
                 </TabsContent>
               </Tabs>
