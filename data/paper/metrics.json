@@ -1,27 +1,27 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-15T21:08:25.499Z",
+  "generatedAt": "2026-09-15T22:43:03.222Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-15T21:08:25.160Z",
-    "days": 0.09,
-    "equityPoints": 8,
+    "to": "2026-09-15T22:43:02.827Z",
+    "days": 0.156,
+    "equityPoints": 9,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
-    "sharpeAnnualisedFromHourly": -155.75723062034075,
+    "sharpeAnnualisedFromHourly": -59.49774775388445,
     "sharpeAnnualisedFromDaily": null,
-    "sharpeSampleSizeHourly": 3,
+    "sharpeSampleSizeHourly": 4,
     "sharpeSampleSizeDaily": 0,
     "maxDrawdownRate": -0.0199788087021755,
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
     "maxDrawdownTroughAt": "2026-09-15T21:08:25.160Z",
     "winRate": 0,
-    "totalReturnRate": -0.02022381399999995
+    "totalReturnRate": -0.016242600999999968
   },
   "trades": {
     "closed": 2,
-    "open": 1,
+    "open": 3,
     "wins": 0,
     "losses": 2,
     "profitFactor": 0,
@@ -42,10 +42,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 97977.62,
-    "totalPnlUsd": -2022.38,
+    "currentUsd": 98375.74,
+    "totalPnlUsd": -1624.26,
     "realizedPnlUsd": -1997.64,
-    "openUnrealizedUsd": -24.74
+    "openUnrealizedUsd": 373.38
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -54,9 +54,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 8,
+    "tickCount": 9,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-15T21:08:25.160Z",
+    "lastTickAt": "2026-09-15T22:43:02.827Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -67,20 +67,22 @@
       "minResidualRate": 0.0005,
       "riskPerTradeRate": 0.005,
       "stopRate": 0.012,
+      "stopBasisMultiple": 2,
+      "stopCooldownMs": 14400000,
       "maxConcurrent": 6,
       "maxHoldMs": 86400000,
       "takeProfitFraction": 0.25,
       "maxNotionalShareOfVolume": 0.002
     },
-    "universeSize": 53,
+    "universeSize": 52,
     "lastScan": {
-      "evaluated": 53,
+      "evaluated": 52,
       "triggered": 3,
-      "opened": 1,
-      "abstained": 52,
+      "opened": 2,
+      "abstained": 50,
       "reasons": {
-        "no dislocation above trigger": 50,
-        "clip-size": 2
+        "no dislocation above trigger": 49,
+        "duplicate": 1
       }
     }
   }
