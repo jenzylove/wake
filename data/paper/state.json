@@ -1,56 +1,56 @@
 {
   "schema": "wake.paper.state.v1",
   "startedAt": "2026-09-15T18:59:01.153Z",
-  "equityUsd": 98972.1666,
-  "realizedPnlUsd": -1072.7369,
+  "equityUsd": 97977.6186,
+  "realizedPnlUsd": -1997.6384,
   "openPositions": [
     {
-      "id": "wake-p2-lskusdt-20260915201814",
+      "id": "wake-p2-lskusdt-20260915210825",
       "tier": 2,
       "strategy": "basis-funding-dislocation",
       "symbol": "LSKUSDT",
       "side": "LONG",
       "status": "OPEN",
-      "openedAt": "2026-09-15T20:18:14.335Z",
-      "entryPrice": 0.382,
-      "entryMidPrice": 0.3819,
-      "size": 108804.23603839442,
-      "notionalUsd": 41563.2182,
-      "stopPrice": 0.37741600000000003,
-      "maxLossUsd": 498.76,
-      "entryBasisRate": -0.012981538509319551,
-      "currentBasisRate": -0.011590547787776295,
-      "entryFundingRate": -0.001308,
-      "modeledRate": 0.00909692310559173,
-      "residualRate": 0.006851386397548917,
-      "entryFeeUsd": 24.9379,
-      "entrySlippageUsd": 10.8804,
-      "fundingUsd": 4.558928965418671,
-      "unrealizedPnlUsd": 65.2825,
-      "lastMarkPrice": 0.3826,
-      "lastTickAt": "2026-09-15T20:58:23.006Z",
+      "openedAt": "2026-09-15T21:08:25.160Z",
+      "entryPrice": 0.3741,
+      "entryMidPrice": 0.374,
+      "size": 110233.63472333601,
+      "notionalUsd": 41238.4028,
+      "stopPrice": 0.36961079999999996,
+      "maxLossUsd": 494.86,
+      "entryBasisRate": -0.011256144048336728,
+      "currentBasisRate": -0.011256144048336728,
+      "entryFundingRate": -0.001382,
+      "modeledRate": 0.008135686429002037,
+      "residualRate": 0.005878773521277379,
+      "entryFeeUsd": 24.743,
+      "entrySlippageUsd": 11.0234,
+      "fundingUsd": 0,
+      "unrealizedPnlUsd": 0,
+      "lastMarkPrice": 0.3736,
+      "lastTickAt": "2026-09-15T21:08:25.160Z",
       "evidence": {
         "observed": {
-          "markPrice": 0.382,
-          "indexPrice": 0.3870241691559352,
-          "basisRate": -0.012981538509319551,
-          "fundingRate": -0.001308,
-          "usdtVolume24h": 75154991.4863,
-          "bidPr": 0.3818,
-          "askPr": 0.382,
-          "spreadRate": 0.0005236973029589774
+          "markPrice": 0.3736,
+          "indexPrice": 0.3778531697073465,
+          "basisRate": -0.011256144048336728,
+          "fundingRate": -0.001382,
+          "usdtVolume24h": 73480932.361,
+          "bidPr": 0.3739,
+          "askPr": 0.3741,
+          "spreadRate": 0.0005347593582887112
         },
         "model": {
-          "expectedReversionRate": 0.00778892310559173,
-          "expectedFundingRate": 0.001308,
-          "modeledRate": 0.00909692310559173,
-          "residualRate": 0.006851386397548917,
+          "expectedReversionRate": 0.006753686429002036,
+          "expectedFundingRate": 0.001382,
+          "modeledRate": 0.008135686429002037,
+          "residualRate": 0.005878773521277379,
           "cost": {
-            "total": 0.002245536708042813,
-            "entry": 0.0011227683540214065,
-            "exit": 0.0011227683540214065,
-            "spreadRate": 0.0002618486514794887,
-            "impactRate": 0.0002609197025419178,
+            "total": 0.0022569129077246574,
+            "entry": 0.0011284564538623287,
+            "exit": 0.0011284564538623287,
+            "spreadRate": 0.0002673796791443556,
+            "impactRate": 0.00026107677471797316,
             "feeRate": 0.0006,
             "provenance": {
               "spread": "OBSERVED · Bitget public ticker bidPr/askPr at decision time",
@@ -71,21 +71,21 @@
             "key": "liquidity",
             "label": "24h quote volume",
             "passed": true,
-            "value": "$75,154,991",
+            "value": "$73,480,932",
             "threshold": ">= $10,000,000"
           },
           {
             "key": "spread",
             "label": "Quoted spread",
             "passed": true,
-            "value": "5.24 bps",
+            "value": "5.35 bps",
             "threshold": "<= 20.00 bps"
           },
           {
             "key": "residual",
             "label": "Residual edge after cost",
             "passed": true,
-            "value": "68.51 bps",
+            "value": "58.79 bps",
             "threshold": ">= 5.00 bps"
           },
           {
@@ -106,7 +106,7 @@
             "key": "clip-size",
             "label": "Clip vs 24h volume",
             "passed": true,
-            "value": "0.055%",
+            "value": "0.056%",
             "threshold": "<= 0.200%"
           }
         ]
@@ -115,9 +115,10 @@
   ],
   "lastLogged": {
     "ASTRUSDT:clip-size": "2026-09-15T18:59:01.153Z",
-    "LSKUSDT:opened": "2026-09-15T20:18:14.335Z",
+    "LSKUSDT:opened": "2026-09-15T21:08:25.160Z",
     "VTHOUSDT:residual,clip-size": "2026-09-15T18:59:01.153Z",
-    "LSKUSDT:duplicate": "2026-09-15T19:00:57.286Z"
+    "LSKUSDT:duplicate": "2026-09-15T19:00:57.286Z",
+    "VTHOUSDT:clip-size": "2026-09-15T21:08:25.160Z"
   },
-  "tickCount": 7
+  "tickCount": 8
 }
