@@ -38,6 +38,23 @@ export type GraphEdgeData = {
   evidenceRef: string
 }
 
+/**
+ * A declared edge. Each incident states its own relationships rather than
+ * inheriting a fixed five edge template, so a graph can have the shape the
+ * evidence actually supports.
+ */
+export type GraphEdgeSpec = {
+  from: string
+  to: string
+  relation: GraphRelation
+  epistemic: EpistemicStatus
+  evidenceRef: string
+  estimatedMagnitude?: string
+  /** Points subtracted from incident confidence for this specific link. */
+  confidencePenalty?: number
+  source?: string
+}
+
 export type EvidenceItem = {
   type: "ONCHAIN" | "EXPOSURE" | "MARKET"
   label: string
@@ -128,6 +145,8 @@ export type Incident = {
   consequence: ConsequenceModel | null
   stateTransitions: StateTransition[]
   graphNodes: GraphNodeData[]
+  /** Declared edges. Falls back to a derived chain when a fixture omits them. */
+  graphEdges?: GraphEdgeSpec[]
   evidence: EvidenceItem[]
   log: LogEntry[]
   provenance?: DataProvenance
@@ -317,6 +336,14 @@ const realMoonwellIncident: Incident = {
     { id: "real-action", className: "node-route-a", tone: "violet", icon: "abstain", kicker: "ACTION · ABSTAIN", label: "NO TRADE", detail: "edge unproven" },
     { id: "real-monitor", className: "node-route-b", tone: "orange", icon: "action", kicker: "ALTERNATE", label: "MONITOR", detail: "await linked evidence" },
   ],
+  graphEdges: [
+    { from: "real-protocol", to: "real-collateral", relation: "controls", epistemic: "OBSERVED", evidenceRef: realMoonwellCapture.incident.txHash, estimatedMagnitude: "market listing" },
+    { from: "real-event", to: "real-collateral", relation: "impacts", epistemic: "OBSERVED", evidenceRef: realMoonwellCapture.incident.txHash, estimatedMagnitude: "receipt status 0x1" },
+    // This is the link the capture does not prove, and it is why WAKE abstains.
+    { from: "real-collateral", to: "real-market", relation: "depends_on", epistemic: "INFERRED", confidencePenalty: 20, evidenceRef: "forum.moonwell.fi/t/post-mortem-mamo-market-incident-on-base/2208", estimatedMagnitude: "unproven ETH link", source: "Bitget" },
+    { from: "real-market", to: "real-action", relation: "trades_as", epistemic: "INFERRED", confidencePenalty: 20, evidenceRef: `${realMoonwellCapture.sources.market} · ${realMoonwellCapture.capturedAt}`, estimatedMagnitude: "0% · abstain", source: "Bitget" },
+    { from: "real-market", to: "real-monitor", relation: "invalidates", epistemic: "INFERRED", confidencePenalty: 10, evidenceRef: `${realMoonwellCapture.sources.market} · ${realMoonwellCapture.capturedAt}`, estimatedMagnitude: "await linked evidence", source: "Bitget" },
+  ],
   evidence: [
     { type: "ONCHAIN", label: "Receipt captured", text: `Base RPC returned status 0x1 at block ${capturedBlock}; ${realMoonwellCapture.receipt.logs.length} logs are preserved.`, ref: realMoonwellCapture.incident.txHash, tone: "cyan", icon: "onchain", epistemic: "OBSERVED" },
     { type: "EXPOSURE", label: "Causal link remains bounded", text: "The receipt alone does not establish that ETHUSDT should absorb the Moonwell incident; the proposed proxy relationship is marked inferred.", ref: "forum.moonwell.fi/t/post-mortem-mamo-market-incident-on-base/2208", tone: "lime", icon: "exposure", epistemic: "INFERRED" },
@@ -397,6 +424,15 @@ const realAfxIncident: Incident = {
     { id: "afx-action", nodeType: "action", className: "node-route-a", tone: "violet", icon: "action", kicker: "ACTION · CONTAGION", label: "ETH short", detail: "bounded · paper" },
     { id: "afx-alternate", nodeType: "action", className: "node-route-b", tone: "orange", icon: "abstain", kicker: "ALTERNATE", label: "MONITOR", detail: "if freeze confirmed" },
   ],
+  graphEdges: [
+    { from: "afx-protocol", to: "afx-exposure", relation: "controls", epistemic: "OBSERVED", evidenceRef: `https://arbiscan.io/tx/${realAfxCapture.incident.txHash}`, estimatedMagnitude: "bridge held the inventory" },
+    { from: "afx-event", to: "afx-exposure", relation: "impacts", epistemic: "OBSERVED", evidenceRef: `https://arbiscan.io/tx/${realAfxCapture.incident.txHash}`, estimatedMagnitude: `${realAfxOutflowUsdc.toLocaleString()} USDC` },
+    // Reported conversion path, not a traced one. The penalty is the honest cost
+    // of an edge the receipt does not carry.
+    { from: "afx-exposure", to: "afx-market", relation: "depends_on", epistemic: "INFERRED", confidencePenalty: 15, evidenceRef: "https://www.coindesk.com/tech/2026/07/23/arbitrum-based-afx-trade-drained-of-usd24-million-after-bridge-keys-compromised", estimatedMagnitude: `${realAfxConsequence?.basePct ?? 0}% modelled`, source: "Bitget" },
+    { from: "afx-market", to: "afx-action", relation: "trades_as", epistemic: "INFERRED", confidencePenalty: 15, evidenceRef: `${realAfxCapture.sources.market} · ${realAfxCapture.capturedAt}`, estimatedMagnitude: "held · residual below threshold", source: "Bitget" },
+    { from: "afx-market", to: "afx-alternate", relation: "invalidates", epistemic: "INFERRED", confidencePenalty: 8, evidenceRef: `${realAfxCapture.sources.market} · ${realAfxCapture.capturedAt}`, estimatedMagnitude: "if freeze confirmed", source: "Bitget" },
+  ],
   evidence: [
     { type: "ONCHAIN", label: "Bridge receipt captured", text: `Arbitrum RPC returned status 0x1 at block ${realAfxBlock}; the preserved ERC-20 log decodes to ${realAfxOutflowUsdc.toLocaleString()} USDC.`, ref: `https://arbiscan.io/tx/${realAfxCapture.incident.txHash}`, tone: "cyan", icon: "onchain", epistemic: "OBSERVED" },
     { type: "EXPOSURE", label: "Downstream flow mapped", text: "The incident evidence maps the bridge outflow to a reported ETH conversion path; the market edge remains inferred until the full downstream trace is captured.", ref: "https://www.coindesk.com/tech/2026/07/23/arbitrum-based-afx-trade-drained-of-usd24-million-after-bridge-keys-compromised", tone: "lime", icon: "exposure", epistemic: "INFERRED" },
@@ -475,6 +511,13 @@ const realAfxResolutionIncident: Incident = {
     { id: "afx-resolution-market", nodeType: "bitget_instrument", className: "node-market", tone: "violet", icon: "market", kicker: "BITGET · MARK", label: "ETHUSDT", detail: `${realAfxResolutionMarketMove.toFixed(2)}% response window` },
     { id: "afx-resolution-action", nodeType: "action", className: "node-route-a", tone: "violet", icon: "action", kicker: "ACTION · RESOLUTION", label: "ETH long", detail: "conditional · paper" },
     { id: "afx-resolution-alternate", nodeType: "action", className: "node-route-b", tone: "orange", icon: "abstain", kicker: "INVALIDATES", label: "MONITOR", detail: "until recovery proven" },
+  ],
+  graphEdges: [
+    { from: "afx-resolution-protocol", to: "afx-resolution-event", relation: "controls", epistemic: "OBSERVED", evidenceRef: `https://arbiscan.io/tx/${realAfxResolutionCapture.incident.txHash}`, estimatedMagnitude: "AFX authored the response" },
+    { from: "afx-resolution-event", to: "afx-resolution-exposure", relation: "impacts", epistemic: "OBSERVED", evidenceRef: `https://arbiscan.io/tx/${realAfxResolutionCapture.incident.txHash}`, estimatedMagnitude: "addressed to exploiter wallet" },
+    { from: "afx-resolution-exposure", to: "afx-resolution-market", relation: "depends_on", epistemic: "INFERRED", confidencePenalty: 20, evidenceRef: `${realAfxResolutionCapture.sources.market} · ${realAfxResolutionCapture.capturedAt}`, estimatedMagnitude: "no flow to model", source: "Bitget" },
+    { from: "afx-resolution-market", to: "afx-resolution-action", relation: "resolved_by", epistemic: "INFERRED", confidencePenalty: 25, evidenceRef: `${realAfxResolutionCapture.sources.market} · ${realAfxResolutionCapture.capturedAt}`, estimatedMagnitude: "conditional on recovery proof", source: "Bitget" },
+    { from: "afx-resolution-market", to: "afx-resolution-alternate", relation: "invalidates", epistemic: "INFERRED", confidencePenalty: 10, evidenceRef: `https://arbiscan.io/tx/${realAfxResolutionCapture.incident.txHash}`, estimatedMagnitude: "until recovery proven", source: "Bitget" },
   ],
   evidence: [
     { type: "ONCHAIN", label: "Response transaction captured", text: "The real Arbitrum transaction carries a public recovery message addressed to the identified AFX exploiter wallet.", ref: `https://arbiscan.io/tx/${realAfxResolutionCapture.incident.txHash}`, tone: "cyan", icon: "onchain", epistemic: "OBSERVED" },
@@ -680,15 +723,54 @@ export function getGraphNodeType(node: GraphNodeData): GraphNodeType {
 }
 
 export function deriveGraphEdges(incident: Incident): GraphEdgeData[] {
-  const [event, exposure, protocol, market, action, alternate] = incident.graphNodes
-  const [onchain, exposureEvidence, marketEvidence] = incident.evidence
-  return [
-    { id: `${event.id}-${exposure.id}`, from: event.id, to: exposure.id, relation: "impacts", epistemic: "OBSERVED", confidence: incident.confidence, source: incident.chain, timestamp: incident.time, direction: "forward", estimatedMagnitude: incident.risk, evidenceRef: onchain.ref },
-    { id: `${exposure.id}-${protocol.id}`, from: exposure.id, to: protocol.id, relation: "collateralizes", epistemic: "INFERRED", confidence: incident.confidence === null ? null : Math.max(0, incident.confidence - 4), source: incident.chain, timestamp: incident.time, direction: "forward", estimatedMagnitude: incident.risk, evidenceRef: exposureEvidence.ref },
-    { id: `${protocol.id}-${market.id}`, from: protocol.id, to: market.id, relation: "tracks", epistemic: "INFERRED", confidence: incident.confidence === null ? null : Math.max(0, incident.confidence - 8), source: "Bitget", timestamp: incident.time, direction: "forward", estimatedMagnitude: `${incident.marketDelta.toFixed(1)}%`, evidenceRef: marketEvidence.ref },
-    { id: `${market.id}-${action.id}`, from: market.id, to: action.id, relation: "trades_as", epistemic: "INFERRED", confidence: incident.confidence, source: "Bitget", timestamp: incident.time, direction: "forward", estimatedMagnitude: incident.positionSize, evidenceRef: marketEvidence.ref },
-    { id: `${market.id}-${alternate.id}`, from: market.id, to: alternate.id, relation: "invalidates", epistemic: "INFERRED", confidence: incident.confidence, source: "Bitget", timestamp: incident.time, direction: "forward", estimatedMagnitude: incident.invalidation, evidenceRef: marketEvidence.ref },
-  ]
+  const nodeIds = new Set(incident.graphNodes.map((node) => node.id))
+  const withConfidence = (penalty = 0) =>
+    incident.confidence === null ? null : Math.max(0, incident.confidence - penalty)
+
+  if (incident.graphEdges?.length) {
+    return incident.graphEdges
+      // An edge pointing at a node that does not exist is a data error, not
+      // something to render. Drop it rather than draw a dangling line.
+      .filter((edge) => nodeIds.has(edge.from) && nodeIds.has(edge.to))
+      .map((edge) => ({
+        id: `${edge.from}-${edge.to}`,
+        from: edge.from,
+        to: edge.to,
+        relation: edge.relation,
+        epistemic: edge.epistemic,
+        confidence: withConfidence(edge.confidencePenalty ?? 0),
+        source: edge.source ?? incident.chain,
+        timestamp: incident.time,
+        direction: "forward",
+        estimatedMagnitude: edge.estimatedMagnitude ?? incident.risk,
+        evidenceRef: edge.evidenceRef,
+      }))
+  }
+
+  // Fallback for fixtures that do not declare edges: chain whatever nodes are
+  // present. This no longer assumes six nodes and three evidence items.
+  const nodes = incident.graphNodes
+  const evidenceRef = (index: number) =>
+    incident.evidence[Math.min(index, Math.max(incident.evidence.length - 1, 0))]?.ref ?? "no evidence reference"
+  const relations: GraphRelation[] = ["impacts", "collateralizes", "tracks", "trades_as", "invalidates"]
+
+  const edges: GraphEdgeData[] = []
+  for (let i = 0; i < nodes.length - 1; i += 1) {
+    edges.push({
+      id: `${nodes[i].id}-${nodes[i + 1].id}`,
+      from: nodes[i].id,
+      to: nodes[i + 1].id,
+      relation: relations[Math.min(i, relations.length - 1)],
+      epistemic: i === 0 ? "OBSERVED" : "INFERRED",
+      confidence: withConfidence(i * 4),
+      source: i >= 2 ? "Bitget" : incident.chain,
+      timestamp: incident.time,
+      direction: "forward",
+      estimatedMagnitude: incident.risk,
+      evidenceRef: evidenceRef(i),
+    })
+  }
+  return edges
 }
 
 export function evaluateRiskGate(incident: Incident): RiskGate {
