@@ -36,7 +36,9 @@ WAKE makes two different kinds of claim and never blends them.
 
 **Tier 1 · causal incident.** A real on chain event, a traced exposure graph, a falsification pass, and a decision. Incidents of the size this tier cares about are rare, so it produces very few trades. All three real captures currently abstain, each for a computed reason.
 
-**Tier 2 · market dislocation.** A perpetual whose mark has pulled away from its own index is quoting a carry the funding mechanism exists to close. This tier fades that gap. It is microstructure, not contagion, and it is labelled as such everywhere it appears. It exists because a paper log with one trade cannot produce a Sharpe ratio.
+**Tier 2 · delta neutral basis arbitrage.** When a perpetual is rich to its own spot market by more than both round trips cost, sell the perpetual and buy spot in equal notional. The pair is delta neutral, so it earns the gap closing plus funding received while short, and a move in the underlying nets out between the legs. It is microstructure, not contagion, and it is labelled as such everywhere it appears.
+
+The first version of this tier held only the perpetual leg, and the live log falsified it inside a day: the basis converged in 8 of 10 trades and every one still lost, because one leg cannot express a spread. Worse, a wide trigger selected instruments whose mark and index diverge structurally rather than from mispricing, six of nine had no spot listing at all, and several were tokenised equity perpetuals whose index goes stale when the underlying market closes. Requiring a tradeable spot leg fixes both problems at once. The whole episode is in `data/paper/config-changes.jsonl` with the attribution.
 
 Both tiers pass through the same risk gate and write to the same ledger. Every trade record carries its tier.
 

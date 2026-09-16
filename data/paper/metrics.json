@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-16T05:22:58.515Z",
+  "generatedAt": "2026-09-16T05:24:28.719Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-16T05:22:58.072Z",
-    "days": 0.433,
-    "equityPoints": 22,
+    "to": "2026-09-16T05:24:27.595Z",
+    "days": 0.434,
+    "equityPoints": 26,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -21,37 +21,38 @@
     "maxDrawdownRate": -0.07737435558889716,
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
     "maxDrawdownTroughAt": "2026-09-16T04:42:51.521Z",
-    "winRate": 0.08333333333333333,
-    "totalReturnRate": -0.04087875799999996
+    "winRate": 0.15384615384615385,
+    "totalReturnRate": -0.024014992000000013
   },
   "trades": {
-    "closed": 12,
-    "open": 1,
-    "wins": 1,
+    "closed": 13,
+    "open": 0,
+    "wins": 2,
     "losses": 11,
-    "profitFactor": 0.01517809678748188,
-    "avgWinUsd": 127.2498,
+    "profitFactor": 0.7135540700837225,
+    "avgWinUsd": 2991.1396,
     "avgLossUsd": -762.1616727272728,
-    "avgHoldHours": 2.56,
+    "avgHoldHours": 2.4,
     "exitReasons": {
       "STOP": 9,
-      "TAKE_PROFIT": 3
+      "TAKE_PROFIT": 3,
+      "STRATEGY_RETIRED": 1
     }
   },
   "costs": {
-    "totalFeesUsd": 511.69,
-    "totalFundingUsd": 156.78,
+    "totalFeesUsd": 556.24,
+    "totalFundingUsd": 158.14,
     "totalSlippageUsd": 196.25,
-    "totalNotionalUsd": 428024.33,
-    "turnoverVsEquity": 4.28,
+    "totalNotionalUsd": 462203.27,
+    "turnoverVsEquity": 4.62,
     "note": "Fees at the Bitget published taker rate. Slippage is the observed half spread plus a linear overflow term. Funding is the observed rate accrued per 8h interval."
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 95912.12,
-    "totalPnlUsd": -4087.88,
-    "realizedPnlUsd": -8256.53,
-    "openUnrealizedUsd": 4168.65
+    "currentUsd": 97598.5,
+    "totalPnlUsd": -2401.5,
+    "realizedPnlUsd": -2401.5,
+    "openUnrealizedUsd": 0
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -60,37 +61,51 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 22,
+    "tickCount": 23,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-16T05:22:58.072Z",
+    "lastTickAt": "2026-09-16T05:24:27.595Z",
+    "strategy": "delta-neutral-basis",
     "config": {
-      "minUsdtVolume24h": 10000000,
-      "maxSpreadRate": 0.002,
-      "basisTriggerRate": 0.0025,
-      "fundingTriggerRate": 0.001,
-      "reversionFraction": 0.6,
-      "targetHoldMs": 28800000,
-      "minResidualRate": 0.0005,
-      "riskPerTradeRate": 0.005,
-      "stopRate": 0.012,
-      "stopBasisMultiple": 2,
-      "stopCooldownMs": 14400000,
-      "maxConcurrent": 6,
-      "maxHoldMs": 86400000,
-      "takeProfitFraction": 0.25,
-      "maxNotionalShareOfVolume": 0.002
+      "minPerpUsdtVolume24h": 1000000,
+      "minSpotUsdtVolume24h": 100000,
+      "maxLegSpreadRate": 0.0025,
+      "minGapRate": 0.002,
+      "minNetEdgeRate": 0.0008,
+      "takeProfitFraction": 0.3,
+      "divergenceStopMultiple": 2.5,
+      "maxHoldMs": 172800000,
+      "maxConcurrent": 4,
+      "notionalShareOfEquity": 0.05,
+      "maxNotionalShareOfVolume": 0.002,
+      "stopCooldownMs": 14400000
     },
-    "universeSize": 51,
+    "universeSize": 105,
     "lastScan": {
-      "evaluated": 51,
-      "triggered": 3,
+      "perpsScanned": 787,
+      "spotSymbols": 1761,
+      "pairsWithBothLegs": 105,
+      "evaluated": 105,
+      "triggered": 15,
       "opened": 0,
-      "abstained": 51,
+      "abstained": 105,
       "reasons": {
-        "no dislocation above trigger": 48,
-        "duplicate": 1,
-        "residual,cooldown,clip-size": 1,
-        "clip-size": 1
+        "gap below trigger": 90,
+        "hedgeable,net-edge,clip-size": 5,
+        "hedgeable,spread,clip-size": 1,
+        "hedgeable,spread,net-edge,clip-size": 4,
+        "hedgeable,clip-size": 1,
+        "hedgeable,net-edge,cooldown,clip-size": 1,
+        "net-edge": 2,
+        "net-edge,clip-size": 1
+      },
+      "openingEnabled": true,
+      "edgeBps": {
+        "best": 274.36,
+        "median": -50.68,
+        "worst": -184.21,
+        "hedgeable": 3,
+        "clearedCost": 2,
+        "sampled": 15
       }
     }
   }

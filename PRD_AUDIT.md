@@ -58,7 +58,11 @@ The 13 September audit overclaimed in two places. Both are recorded here rather 
 
 ## Tier 2, an addition beyond the PRD
 
-The PRD describes a causal incident agent. Incidents of that size are rare, and a paper log with one trade cannot produce a Sharpe ratio, which the track scores. Tier 2 was added for that reason and is labelled as a different claim everywhere it appears: perpetual basis and funding dislocation on Bitget USDT-M futures. It is microstructure, not contagion.
+The PRD describes a causal incident agent. Incidents of that size are rare, and a paper log with one trade cannot produce a Sharpe ratio, which the track scores. Tier 2 was added for that reason and is labelled as a different claim everywhere it appears: delta neutral perpetual versus spot basis arbitrage on Bitget. It is microstructure, not contagion.
+
+Its first version was falsified by its own log and replaced. It held one leg of a two leg idea, so although the basis converged in 8 of 10 trades, all 10 lost, with $7,444 of the loss from directional price movement against $432 of fees. It also suffered adverse selection: six of the nine instruments it traded have no spot listing, several being tokenised equity perpetuals whose index goes stale when the underlying market closes, so the apparent basis was the market pricing gap risk rather than a mispricing. Requiring a tradeable spot leg and holding both legs fixes both faults. The transition, attribution and the alternatives tested are recorded in `data/paper/config-changes.jsonl`.
+
+Testing the fix against live books produced a further result worth stating plainly: **no delta neutral trade on Bitget clears taker costs in the submission window.** Gap arbitrage clears on 0 of 343 pairs at any volume floor, because wider gaps carry proportionally wider spreads. Funding carry is profitable on 0 of 76 liquid positive funding pairs over five days, because funding at 5 to 11 percent annualised earns 7 to 15 bps against 24 to 45 bps of round trip cost. The gate therefore refuses nearly everything, and on ticks where it opens nothing it records the edge distribution across the scanned universe so the refusal is quantified rather than merely counted.
 
 | Property | Status |
 | --- | --- |

@@ -1,198 +1,215 @@
-import { roundTripCostRate } from "./cost-model.mjs"
+import { roundTripCostRate, TAKER_FEE_RATE } from "./cost-model.mjs"
 
-// WAKE tier 2: perpetual basis and funding dislocation.
+// WAKE tier 2 · delta neutral perpetual basis arbitrage.
 //
-// Tier 1 is the causal incident path and is unchanged. Tier 2 exists because a
-// causal incident of the size WAKE cares about is rare, and a paper log with one
-// trade cannot produce a Sharpe. It is a different claim and is labelled as one:
-// this is a microstructure dislocation trade, not a contagion thesis.
+// ---------------------------------------------------------------------------
+// Why this replaced the previous strategy
+// ---------------------------------------------------------------------------
+// v1 faded the gap between a perpetual's mark and its index while holding only
+// the perpetual. The live log falsified it in a day: basis converged in 8 of 10
+// trades and all 10 still lost money, with $7,444 of the $7,724 loss coming from
+// directional price movement and only $432 from fees.
 //
-// The economic claim is narrow and checkable. A perpetual whose mark has pulled
-// away from its own index is quoting a carry that the funding mechanism is built
-// to close. We fade that gap, we size against a bounded stop, and we only take it
-// when the modelled reversion clears the observed round trip cost.
+// Two root causes, both visible in the log:
 //
-// Every number below is computed from the observed ticker. None are literals.
+//   1. One leg cannot express a spread. Convergence happened by the index moving
+//      toward the mark, not the mark toward the index, so holding the perpetual
+//      earned none of it. Two trades exited on TAKE_PROFIT, meaning the basis
+//      reached target, and still lost money.
+//
+//   2. Adverse selection. A 25 bps trigger selected instruments whose mark and
+//      index diverge for structural reasons rather than mispricing. Six of the
+//      nine instruments traded have no spot listing at all, and several are
+//      tokenised equity perpetuals. When the underlying market is closed the
+//      perpetual trades on while the index sits stale, so the apparent basis is
+//      the market pricing overnight gap risk. Fading it is selling gap
+//      insurance, which is the opposite of an edge.
+//
+// v2 fixes both. It requires a tradeable spot leg, it trades only the direction
+// whose hedge is executable without borrow, and it holds both legs so the
+// position earns convergence rather than direction.
+//
+// The trade: when the perpetual is rich to spot by more than the cost of both
+// round trips, sell the perpetual and buy spot in equal notional. The position
+// is delta neutral, so it earns the gap closing plus any funding received while
+// short, and a move in the underlying nets out.
 
 export const CONFIG = {
-  // Calibrated 2026-09-15 against a live Bitget ticker snapshot of 787 perps.
-  // A $10M 24h floor leaves 52 instruments with a real book. Round trip taker
-  // cost is ~12 bps of fee plus the full observed spread, so a basis trade only
-  // clears cost above roughly 25 bps of dislocation. The triggers below are set
-  // at that economic break even rather than at a level that manufactures trades.
-  minUsdtVolume24h: Number(process.env.WAKE_MIN_VOLUME ?? 10_000_000),
-  maxSpreadRate: Number(process.env.WAKE_MAX_SPREAD ?? 0.0020),
-  basisTriggerRate: Number(process.env.WAKE_BASIS_TRIGGER ?? 0.0025),
-  fundingTriggerRate: Number(process.env.WAKE_FUNDING_TRIGGER ?? 0.0010),
-  reversionFraction: Number(process.env.WAKE_REVERSION_FRACTION ?? 0.6),
-  targetHoldMs: Number(process.env.WAKE_TARGET_HOLD_MS ?? 8 * 60 * 60 * 1000),
-  minResidualRate: Number(process.env.WAKE_MIN_RESIDUAL ?? 0.0005),
-  riskPerTradeRate: Number(process.env.WAKE_RISK_PER_TRADE ?? 0.005),
-  // Stop floor. The effective stop is scaled off the dislocation being faded,
-  // because a stop narrower than the gap you are fading gets taken out by noise
-  // in that same gap before the thesis can resolve. See stopRateFor().
-  stopRate: Number(process.env.WAKE_STOP_RATE ?? 0.012),
-  stopBasisMultiple: Number(process.env.WAKE_STOP_BASIS_MULTIPLE ?? 2.0),
-  /** Minutes to stand down on a symbol after being stopped out of it. */
-  stopCooldownMs: Number(process.env.WAKE_STOP_COOLDOWN_MS ?? 4 * 60 * 60 * 1000),
-  maxConcurrent: Number(process.env.WAKE_MAX_CONCURRENT ?? 6),
-  maxHoldMs: Number(process.env.WAKE_MAX_HOLD_MS ?? 24 * 60 * 60 * 1000),
-  takeProfitFraction: Number(process.env.WAKE_TAKE_PROFIT_FRACTION ?? 0.25),
-  // A paper clip that would be an implausible share of real daily turnover is
-  // not a trade, it is a backtest artifact. Hard cap it rather than trusting the
-  // impact term to price it honestly.
+  // Both legs must be liquid. The perpetual floor is unchanged; the spot floor
+  // exists because a hedge you cannot fill is not a hedge.
+  minPerpUsdtVolume24h: Number(process.env.WAKE_MIN_PERP_VOLUME ?? 1_000_000),
+  minSpotUsdtVolume24h: Number(process.env.WAKE_MIN_SPOT_VOLUME ?? 100_000),
+
+  // Widest quoted spread we will cross on either leg.
+  maxLegSpreadRate: Number(process.env.WAKE_MAX_LEG_SPREAD ?? 0.0025),
+
+  // Minimum gap before we look, and minimum edge left after both round trips.
+  minGapRate: Number(process.env.WAKE_MIN_GAP ?? 0.0020),
+  minNetEdgeRate: Number(process.env.WAKE_MIN_NET_EDGE ?? 0.0008),
+
+  // Exit when the gap has closed to this fraction of where it started.
+  takeProfitFraction: Number(process.env.WAKE_TAKE_PROFIT_FRACTION ?? 0.3),
+
+  // A delta neutral pair has no directional stop. It has a divergence stop: if
+  // the gap widens far beyond entry the premise is wrong, so cut it.
+  divergenceStopMultiple: Number(process.env.WAKE_DIVERGENCE_STOP ?? 2.5),
+
+  maxHoldMs: Number(process.env.WAKE_MAX_HOLD_MS ?? 48 * 60 * 60 * 1000),
+  maxConcurrent: Number(process.env.WAKE_MAX_CONCURRENT ?? 4),
+
+  // Notional per leg, as a share of equity. Delta neutral so this is not
+  // directional exposure, but both legs still carry execution and funding risk.
+  notionalShareOfEquity: Number(process.env.WAKE_NOTIONAL_SHARE ?? 0.05),
   maxNotionalShareOfVolume: Number(process.env.WAKE_MAX_VOLUME_SHARE ?? 0.002),
+
+  stopCooldownMs: Number(process.env.WAKE_STOP_COOLDOWN_MS ?? 4 * 60 * 60 * 1000),
 }
 
-/**
- * Give the trade room proportional to the move it is fading, never less than the
- * floor. Position size is derived from this, so a wider stop automatically means
- * a smaller clip and identical risk per trade.
- */
-export function stopRateFor(basisRate) {
-  return Math.max(CONFIG.stopRate, Math.abs(basisRate) * CONFIG.stopBasisMultiple)
-}
+export const OPENING_ENABLED = process.env.WAKE_OPENING_ENABLED !== "false"
 
 const num = (value) => {
   const parsed = Number(value)
   return Number.isFinite(parsed) ? parsed : null
 }
 
-/** Perpetuals only, with a live two sided book and a real index. */
-export function isEligible(row) {
-  if (row.deliveryStatus) return false
-  if (row.deliveryTime) return false
-  const mark = num(row.markPrice)
-  const index = num(row.indexPrice)
-  const bid = num(row.bidPr)
-  const ask = num(row.askPr)
-  const volume = num(row.usdtVolume)
-  if (mark === null || index === null || bid === null || ask === null || volume === null) return false
-  if (mark <= 0 || index <= 0 || bid <= 0 || ask <= 0 || ask < bid) return false
-  return true
+const spreadRate = (bid, ask) => {
+  if (!(bid > 0) || !(ask > 0) || ask < bid) return null
+  return (ask - bid) / ((ask + bid) / 2)
 }
 
 /**
- * Reads one ticker row into a decision. Returns the full reasoning either way so
- * that an abstention is logged with the same detail as a fill.
+ * A candidate needs a live two sided book on both legs. The spot requirement is
+ * the change that matters: it removes every perpetual-only listing, which is
+ * where the previous strategy did all of its losing.
  */
-export function evaluate(row, { equityUsd, openSymbols, openCount, now, cooldownUntil = {} }) {
-  const symbol = row.symbol
-  const base = { symbol, at: new Date(now).toISOString(), tier: 2 }
-  const coolingDown = Number(cooldownUntil[symbol] ?? 0) > now
+export function isEligible(perp, spot) {
+  if (!perp || !spot) return false
+  if (perp.deliveryStatus || perp.deliveryTime) return false
+  const fields = [perp.markPrice, perp.bidPr, perp.askPr, perp.usdtVolume, spot.bidPr, spot.askPr, spot.lastPr, spot.usdtVolume]
+  if (fields.some((value) => num(value) === null || num(value) <= 0)) return false
+  if (num(perp.askPr) < num(perp.bidPr) || num(spot.askPr) < num(spot.bidPr)) return false
+  return true
+}
 
-  if (!isEligible(row)) {
-    return { ...base, decision: "NO_TRADE", reason: "ineligible instrument or incomplete book", checks: [] }
+export function evaluate({ perp, spot }, { equityUsd, openSymbols, openCount, now, cooldownUntil = {} }) {
+  const symbol = perp?.symbol ?? spot?.symbol ?? "UNKNOWN"
+  const base = { symbol, at: new Date(now).toISOString(), tier: 2, strategy: "delta-neutral-basis" }
+
+  if (!isEligible(perp, spot)) {
+    return { ...base, decision: "NO_TRADE", reason: "no tradeable spot leg or incomplete book", checks: [] }
   }
 
-  const mark = num(row.markPrice)
-  const index = num(row.indexPrice)
-  const bid = num(row.bidPr)
-  const ask = num(row.askPr)
-  const volume = num(row.usdtVolume)
-  const funding = num(row.fundingRate) ?? 0
+  const perpBid = num(perp.bidPr)
+  const perpAsk = num(perp.askPr)
+  const spotBid = num(spot.bidPr)
+  const spotAsk = num(spot.askPr)
+  const perpMid = (perpBid + perpAsk) / 2
+  const spotMid = (spotBid + spotAsk) / 2
+  const funding = num(perp.fundingRate) ?? 0
 
-  // OBSERVED: the dislocation itself.
-  const basis = (mark - index) / index
-  const fundingTriggered = Math.abs(funding) >= CONFIG.fundingTriggerRate
-  const basisTriggered = Math.abs(basis) >= CONFIG.basisTriggerRate
+  // OBSERVED: the gap between two things we can actually trade.
+  const gapRate = (perpMid - spotMid) / spotMid
 
-  if (!basisTriggered && !fundingTriggered) {
+  // We sell the perpetual and buy spot. The opposite direction would need to
+  // short spot, which needs borrow we do not model, so it is never taken.
+  const executable = gapRate > 0
+
+  if (Math.abs(gapRate) < CONFIG.minGapRate) {
     return {
       ...base,
       decision: "NO_TRADE",
-      reason: "no dislocation above trigger",
-      observed: { basisRate: basis, fundingRate: funding, usdtVolume24h: volume },
+      reason: "gap below trigger",
+      observed: { gapRate, fundingRate: funding, perpVolume: num(perp.usdtVolume), spotVolume: num(spot.usdtVolume) },
       checks: [],
     }
   }
 
-  // Fade the dislocation. Basis leads when present; funding is the tiebreak.
-  const signalRate = basisTriggered ? basis : funding
-  const side = signalRate > 0 ? "SHORT" : "LONG"
+  const perpSpread = spreadRate(perpBid, perpAsk) ?? 1
+  const spotSpread = spreadRate(spotBid, spotAsk) ?? 1
+  const notionalUsd = equityUsd * CONFIG.notionalShareOfEquity
 
-  // COMPUTED consequence model. Expected move is the share of the basis we
-  // expect the funding mechanism to close over the target hold, plus the funding
-  // carry earned by holding the receiving side across that window.
-  const expectedReversionRate = Math.abs(basis) * CONFIG.reversionFraction
-  const fundingIntervals = CONFIG.targetHoldMs / (8 * 60 * 60 * 1000)
-  const expectedFundingRate = Math.max(0, (side === "SHORT" ? funding : -funding)) * fundingIntervals
-  const modeledRate = expectedReversionRate + expectedFundingRate
-
-  const stopRate = stopRateFor(basis)
-  const notionalUsd = (equityUsd * CONFIG.riskPerTradeRate) / stopRate
-  const restingSize = side === "SHORT" ? num(row.bidSz) : num(row.askSz)
-  const cost = roundTripCostRate({ bidPr: bid, askPr: ask, notionalUsd, restingSize, price: mark })
-  if (!cost) {
-    return { ...base, decision: "NO_TRADE", reason: "could not price execution cost", checks: [] }
+  // Both legs cross, both legs pay taker, on entry and on exit.
+  const perpCost = roundTripCostRate({ bidPr: perpBid, askPr: perpAsk, notionalUsd, restingSize: num(perp.bidSz), price: perpMid })
+  const spotCost = roundTripCostRate({ bidPr: spotBid, askPr: spotAsk, notionalUsd, restingSize: num(spot.askSz), price: spotMid })
+  if (!perpCost || !spotCost) {
+    return { ...base, decision: "NO_TRADE", reason: "could not price execution cost on both legs", checks: [] }
   }
+  const totalCostRate = perpCost.total + spotCost.total
 
-  const residualRate = modeledRate - cost.total
-  const spreadRate = cost.spreadRate * 2
+  // Short perpetual receives funding when funding is positive. It is a bonus,
+  // not the thesis, so only a non negative contribution is counted.
+  const expectedFundingRate = Math.max(0, funding)
+  const modelledRate = Math.abs(gapRate) + expectedFundingRate
+  const netEdgeRate = modelledRate - totalCostRate
+
+  const perpVolume = num(perp.usdtVolume)
+  const spotVolume = num(spot.usdtVolume)
+  const coolingDown = Number(cooldownUntil[symbol] ?? 0) > now
 
   const checks = [
-    { key: "liquidity", label: "24h quote volume", passed: volume >= CONFIG.minUsdtVolume24h, value: `$${Math.round(volume).toLocaleString()}`, threshold: `>= $${CONFIG.minUsdtVolume24h.toLocaleString()}` },
-    { key: "spread", label: "Quoted spread", passed: spreadRate <= CONFIG.maxSpreadRate, value: `${(spreadRate * 1e4).toFixed(2)} bps`, threshold: `<= ${(CONFIG.maxSpreadRate * 1e4).toFixed(2)} bps` },
-    { key: "residual", label: "Residual edge after cost", passed: residualRate >= CONFIG.minResidualRate, value: `${(residualRate * 1e4).toFixed(2)} bps`, threshold: `>= ${(CONFIG.minResidualRate * 1e4).toFixed(2)} bps` },
-    { key: "concurrency", label: "Concurrent positions", passed: openCount < CONFIG.maxConcurrent, value: `${openCount}`, threshold: `< ${CONFIG.maxConcurrent}` },
-    { key: "duplicate", label: "No open position in symbol", passed: !openSymbols.has(symbol), value: openSymbols.has(symbol) ? "already open" : "none", threshold: "none open" },
-    { key: "cooldown", label: "Not in stop cooldown", passed: !coolingDown, value: coolingDown ? "cooling down" : "clear", threshold: `${Math.round(CONFIG.stopCooldownMs / 60000)}m after a stop` },
-    { key: "clip-size", label: "Clip vs 24h volume", passed: notionalUsd <= volume * CONFIG.maxNotionalShareOfVolume, value: `${((notionalUsd / volume) * 100).toFixed(3)}%`, threshold: `<= ${(CONFIG.maxNotionalShareOfVolume * 100).toFixed(3)}%` },
+    { key: "opening-enabled", label: "Strategy opening enabled", passed: OPENING_ENABLED, value: OPENING_ENABLED ? "enabled" : "halted", threshold: "enabled" },
+    { key: "hedgeable", label: "Hedge executable without borrow", passed: executable, value: executable ? "short perp / long spot" : "would need spot borrow", threshold: "perp richer than spot" },
+    { key: "perp-liquidity", label: "Perp 24h volume", passed: perpVolume >= CONFIG.minPerpUsdtVolume24h, value: `$${Math.round(perpVolume).toLocaleString()}`, threshold: `>= $${CONFIG.minPerpUsdtVolume24h.toLocaleString()}` },
+    { key: "spot-liquidity", label: "Spot 24h volume", passed: spotVolume >= CONFIG.minSpotUsdtVolume24h, value: `$${Math.round(spotVolume).toLocaleString()}`, threshold: `>= $${CONFIG.minSpotUsdtVolume24h.toLocaleString()}` },
+    { key: "spread", label: "Widest leg spread", passed: Math.max(perpSpread, spotSpread) <= CONFIG.maxLegSpreadRate, value: `${(Math.max(perpSpread, spotSpread) * 1e4).toFixed(1)} bps`, threshold: `<= ${(CONFIG.maxLegSpreadRate * 1e4).toFixed(0)} bps` },
+    { key: "net-edge", label: "Edge after both round trips", passed: netEdgeRate >= CONFIG.minNetEdgeRate, value: `${(netEdgeRate * 1e4).toFixed(1)} bps`, threshold: `>= ${(CONFIG.minNetEdgeRate * 1e4).toFixed(0)} bps` },
+    { key: "concurrency", label: "Concurrent pairs", passed: openCount < CONFIG.maxConcurrent, value: `${openCount}`, threshold: `< ${CONFIG.maxConcurrent}` },
+    { key: "duplicate", label: "No open pair in symbol", passed: !openSymbols.has(symbol), value: openSymbols.has(symbol) ? "already open" : "none", threshold: "none open" },
+    { key: "cooldown", label: "Not in stop cooldown", passed: !coolingDown, value: coolingDown ? "cooling down" : "clear", threshold: `${Math.round(CONFIG.stopCooldownMs / 60000)}m after a divergence stop` },
+    { key: "clip-size", label: "Clip vs thinner leg volume", passed: notionalUsd <= Math.min(perpVolume, spotVolume) * CONFIG.maxNotionalShareOfVolume, value: `${((notionalUsd / Math.min(perpVolume, spotVolume)) * 100).toFixed(3)}%`, threshold: `<= ${(CONFIG.maxNotionalShareOfVolume * 100).toFixed(3)}%` },
   ]
 
   const observed = {
-    markPrice: mark,
-    indexPrice: index,
-    basisRate: basis,
-    fundingRate: funding,
-    usdtVolume24h: volume,
-    bidPr: bid,
-    askPr: ask,
-    spreadRate,
+    perpMid, spotMid, gapRate, fundingRate: funding,
+    perpSpreadRate: perpSpread, spotSpreadRate: spotSpread,
+    perpVolume, spotVolume,
   }
   const model = {
-    expectedReversionRate,
+    gapRate,
     expectedFundingRate,
-    modeledRate,
-    residualRate,
-    cost,
-    formula: "modeled = |basis| * reversionFraction + max(0, receivedFunding) * intervals ; residual = modeled - roundTripCost",
+    modelledRate,
+    totalCostRate,
+    netEdgeRate,
+    perpCost, spotCost,
+    formula: "edge = |perpMid - spotMid| / spotMid + max(0, fundingRate) - (perp round trip + spot round trip)",
     provenance: {
-      basis: "OBSERVED · (markPrice - indexPrice) / indexPrice from Bitget public ticker",
-      funding: "OBSERVED · fundingRate from Bitget public ticker",
-      reversionFraction: "ESTIMATED · assumed share of basis closed over the target hold",
-      modeled: "COMPUTED · deterministic function of the two observed rates",
+      gap: "OBSERVED · mid prices from the Bitget public perpetual and spot tickers",
+      funding: "OBSERVED · fundingRate from the perpetual ticker",
+      cost: "OBSERVED spread plus ESTIMATED published taker fee, charged on both legs both ways",
     },
+    deltaNeutral: true,
   }
 
   const passed = checks.every((check) => check.passed)
   if (!passed) {
-    return { ...base, decision: "NO_TRADE", reason: checks.filter((c) => !c.passed).map((c) => c.key).join(","), side, observed, model, checks }
+    return { ...base, decision: "NO_TRADE", reason: checks.filter((c) => !c.passed).map((c) => c.key).join(","), observed, model, checks }
   }
 
-  const entryPrice = side === "SHORT" ? bid : ask
-  const size = notionalUsd / entryPrice
+  // Sell the perpetual at its bid, buy spot at its ask. Both cross.
+  const perpEntry = perpBid
+  const spotEntry = spotAsk
+  const perpSize = notionalUsd / perpEntry
+  const spotSize = notionalUsd / spotEntry
 
   return {
     ...base,
-    decision: "TRADE_DISLOCATION",
-    reason: basisTriggered ? "basis dislocation above trigger" : "funding dislocation above trigger",
-    side,
+    decision: "TRADE_BASIS_ARB",
+    reason: "perpetual rich to spot beyond both round trips",
     observed,
     model,
     checks,
     order: {
       symbol,
-      side,
-      entryPrice,
-      size,
       notionalUsd,
-      stopPrice: side === "SHORT" ? entryPrice * (1 + stopRate) : entryPrice * (1 - stopRate),
-      stopRate,
-      targetBasisRate: basis * CONFIG.takeProfitFraction,
-      entryBasisRate: basis,
-      maxLossUsd: equityUsd * CONFIG.riskPerTradeRate,
-      entryCostRate: cost.entry,
+      entryGapRate: gapRate,
+      targetGapRate: gapRate * CONFIG.takeProfitFraction,
+      divergenceStopGapRate: gapRate * CONFIG.divergenceStopMultiple,
+      legs: {
+        perp: { side: "SHORT", entryPrice: perpEntry, size: perpSize, feeUsd: notionalUsd * TAKER_FEE_RATE },
+        spot: { side: "LONG", entryPrice: spotEntry, size: spotSize, feeUsd: notionalUsd * TAKER_FEE_RATE },
+      },
+      // Worst case is the gap widening to the divergence stop, on notional.
+      maxLossUsd: notionalUsd * Math.abs(gapRate) * (CONFIG.divergenceStopMultiple - 1) + notionalUsd * totalCostRate,
     },
   }
 }

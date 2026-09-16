@@ -1,126 +1,9 @@
 {
   "schema": "wake.paper.state.v1",
   "startedAt": "2026-09-15T18:59:01.153Z",
-  "equityUsd": 95912.1242,
-  "realizedPnlUsd": -8256.5286,
-  "openPositions": [
-    {
-      "id": "wake-p2-lskusdt-20260916044251",
-      "tier": 2,
-      "strategy": "basis-funding-dislocation",
-      "symbol": "LSKUSDT",
-      "side": "LONG",
-      "status": "OPEN",
-      "openedAt": "2026-09-16T04:42:51.521Z",
-      "entryPrice": 0.4824,
-      "entryMidPrice": 0.4823,
-      "size": 70851.86424451256,
-      "notionalUsd": 34178.9393,
-      "stopPrice": 0.47575440978835687,
-      "stopRate": 0.01377609911202969,
-      "maxLossUsd": 470.85,
-      "entryBasisRate": -0.006888049556014845,
-      "currentBasisRate": -0.006794685447054477,
-      "entryFundingRate": -0.000657,
-      "modeledRate": 0.004789829733608907,
-      "residualRate": 0.002762818347457465,
-      "entryFeeUsd": 20.5074,
-      "entrySlippageUsd": 7.0852,
-      "fundingUsd": 1.8150036072090812,
-      "unrealizedPnlUsd": 4187.3452,
-      "lastMarkPrice": 0.5415,
-      "lastTickAt": "2026-09-16T05:22:58.072Z",
-      "evidence": {
-        "observed": {
-          "markPrice": 0.4826,
-          "indexPrice": 0.4859472285921508,
-          "basisRate": -0.006888049556014845,
-          "fundingRate": -0.000657,
-          "usdtVolume24h": 84772953.6303,
-          "bidPr": 0.4822,
-          "askPr": 0.4824,
-          "spreadRate": 0.00041467965996263315
-        },
-        "model": {
-          "expectedReversionRate": 0.0041328297336089065,
-          "expectedFundingRate": 0.000657,
-          "modeledRate": 0.004789829733608907,
-          "residualRate": 0.002762818347457465,
-          "cost": {
-            "total": 0.002027011386151442,
-            "entry": 0.001013505693075721,
-            "exit": 0.001013505693075721,
-            "spreadRate": 0.00020733982998131657,
-            "impactRate": 0.00020616586309440445,
-            "feeRate": 0.0006,
-            "provenance": {
-              "spread": "OBSERVED · Bitget public ticker bidPr/askPr at decision time",
-              "impact": "ESTIMATED · linear overflow beyond observed top of book size",
-              "fee": "ESTIMATED · Bitget published USDT-M taker rate, standard tier"
-            }
-          },
-          "formula": "modeled = |basis| * reversionFraction + max(0, receivedFunding) * intervals ; residual = modeled - roundTripCost",
-          "provenance": {
-            "basis": "OBSERVED · (markPrice - indexPrice) / indexPrice from Bitget public ticker",
-            "funding": "OBSERVED · fundingRate from Bitget public ticker",
-            "reversionFraction": "ESTIMATED · assumed share of basis closed over the target hold",
-            "modeled": "COMPUTED · deterministic function of the two observed rates"
-          }
-        },
-        "checks": [
-          {
-            "key": "liquidity",
-            "label": "24h quote volume",
-            "passed": true,
-            "value": "$84,772,954",
-            "threshold": ">= $10,000,000"
-          },
-          {
-            "key": "spread",
-            "label": "Quoted spread",
-            "passed": true,
-            "value": "4.15 bps",
-            "threshold": "<= 20.00 bps"
-          },
-          {
-            "key": "residual",
-            "label": "Residual edge after cost",
-            "passed": true,
-            "value": "27.63 bps",
-            "threshold": ">= 5.00 bps"
-          },
-          {
-            "key": "concurrency",
-            "label": "Concurrent positions",
-            "passed": true,
-            "value": "0",
-            "threshold": "< 6"
-          },
-          {
-            "key": "duplicate",
-            "label": "No open position in symbol",
-            "passed": true,
-            "value": "none",
-            "threshold": "none open"
-          },
-          {
-            "key": "cooldown",
-            "label": "Not in stop cooldown",
-            "passed": true,
-            "value": "clear",
-            "threshold": "240m after a stop"
-          },
-          {
-            "key": "clip-size",
-            "label": "Clip vs 24h volume",
-            "passed": true,
-            "value": "0.040%",
-            "threshold": "<= 0.200%"
-          }
-        ]
-      }
-    }
-  ],
+  "equityUsd": 97598.5008,
+  "realizedPnlUsd": -2401.4992,
+  "openPositions": [],
   "lastLogged": {
     "ASTRUSDT:clip-size": "2026-09-15T18:59:01.153Z",
     "LSKUSDT:opened": "2026-09-16T04:42:51.521Z",
@@ -163,9 +46,24 @@
     "SNXXUSDT:cooldown": "2026-09-16T05:02:55.022Z",
     "VTHOUSDT:cooldown,clip-size": "2026-09-16T05:12:56.620Z",
     "VTHOUSDT:residual,cooldown,clip-size": "2026-09-16T05:22:58.072Z",
-    "龙虾USDT:clip-size": "2026-09-16T05:22:58.072Z"
+    "龙虾USDT:clip-size": "2026-09-16T05:22:58.072Z",
+    "ALGOUSDT:hedgeable,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "IOSTUSDT:hedgeable,spread,clip-size": "2026-09-16T05:24:27.595Z",
+    "MINAUSDT:hedgeable,spread,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "ASTRUSDT:hedgeable,spread,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "COTIUSDT:hedgeable,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "ACEUSDT:hedgeable,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "AXLUSDT:hedgeable,clip-size": "2026-09-16T05:24:27.595Z",
+    "VTHOUSDT:hedgeable,net-edge,cooldown,clip-size": "2026-09-16T05:24:27.595Z",
+    "PIUSDT:hedgeable,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "TUTUSDT:hedgeable,spread,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "LAUSDT:hedgeable,spread,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "CROSSUSDT:hedgeable,net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "AINUSDT:net-edge": "2026-09-16T05:24:27.595Z",
+    "LABUSDT:net-edge,clip-size": "2026-09-16T05:24:27.595Z",
+    "POWERUSDT:net-edge": "2026-09-16T05:24:27.595Z"
   },
-  "tickCount": 22,
+  "tickCount": 23,
   "cooldownUntil": {
     "LSKUSDT": 1789529661913,
     "VTHOUSDT": 1789549976620,
@@ -173,5 +71,7 @@
     "SKHYUSDT": 1789548171521,
     "SNXXUSDT": 1789548171521,
     "KORUUSDT": 1789548171521
-  }
+  },
+  "reconciledAt": "2026-09-16T05:24:27.407Z",
+  "reconciliationNote": "This session and the Actions runner both ticked during the v1 to v2 transition and each closed positions independently. State is rebuilt from the union of trades.jsonl keeping the earliest close per position id, so no close is double counted."
 }
