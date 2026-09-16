@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-16T05:02:55.463Z",
+  "generatedAt": "2026-09-16T05:12:56.978Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-16T05:02:55.022Z",
-    "days": 0.419,
-    "equityPoints": 20,
+    "to": "2026-09-16T05:12:56.620Z",
+    "days": 0.426,
+    "equityPoints": 21,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -21,37 +21,37 @@
     "maxDrawdownRate": -0.07737435558889716,
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
     "maxDrawdownTroughAt": "2026-09-16T04:42:51.521Z",
-    "winRate": 0,
-    "totalReturnRate": -0.03964936299999999
+    "winRate": 0.08333333333333333,
+    "totalReturnRate": -0.04244201000000003
   },
   "trades": {
-    "closed": 10,
-    "open": 3,
-    "wins": 0,
-    "losses": 10,
-    "profitFactor": 0,
-    "avgWinUsd": 0,
-    "avgLossUsd": -772.3827100000001,
-    "avgHoldHours": 3,
+    "closed": 12,
+    "open": 1,
+    "wins": 1,
+    "losses": 11,
+    "profitFactor": 0.01517809678748188,
+    "avgWinUsd": 127.2498,
+    "avgLossUsd": -762.1616727272728,
+    "avgHoldHours": 2.56,
     "exitReasons": {
-      "STOP": 8,
-      "TAKE_PROFIT": 2
+      "STOP": 9,
+      "TAKE_PROFIT": 3
     }
   },
   "costs": {
-    "totalFeesUsd": 432.2,
-    "totalFundingUsd": 152.86,
-    "totalSlippageUsd": 146.22,
-    "totalNotionalUsd": 361553.62,
-    "turnoverVsEquity": 3.62,
+    "totalFeesUsd": 511.69,
+    "totalFundingUsd": 156.78,
+    "totalSlippageUsd": 196.25,
+    "totalNotionalUsd": 428024.33,
+    "turnoverVsEquity": 4.28,
     "note": "Fees at the Bitget published taker rate. Slippage is the observed half spread plus a linear overflow term. Funding is the observed rate accrued per 8h interval."
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 96035.06,
-    "totalPnlUsd": -3964.94,
-    "realizedPnlUsd": -7723.83,
-    "openUnrealizedUsd": 3758.89
+    "currentUsd": 95755.8,
+    "totalPnlUsd": -4244.2,
+    "realizedPnlUsd": -8256.53,
+    "openUnrealizedUsd": 4012.33
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -60,9 +60,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 20,
+    "tickCount": 21,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-16T05:02:55.022Z",
+    "lastTickAt": "2026-09-16T05:12:56.620Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -80,20 +80,17 @@
       "takeProfitFraction": 0.25,
       "maxNotionalShareOfVolume": 0.002
     },
-    "universeSize": 50,
+    "universeSize": 51,
     "lastScan": {
-      "evaluated": 50,
-      "triggered": 10,
-      "opened": 1,
-      "abstained": 49,
+      "evaluated": 51,
+      "triggered": 3,
+      "opened": 0,
+      "abstained": 51,
       "reasons": {
-        "no dislocation above trigger": 40,
+        "no dislocation above trigger": 48,
         "duplicate": 1,
-        "duplicate,clip-size": 1,
-        "residual": 3,
-        "residual,clip-size": 1,
-        "clip-size": 1,
-        "cooldown": 2
+        "cooldown,clip-size": 1,
+        "residual,clip-size": 1
       }
     }
   }
