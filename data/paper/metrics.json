@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-16T00:04:28.003Z",
+  "generatedAt": "2026-09-16T00:14:29.826Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-16T00:04:27.647Z",
-    "days": 0.212,
-    "equityPoints": 15,
+    "to": "2026-09-16T00:14:29.442Z",
+    "days": 0.219,
+    "equityPoints": 16,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -18,11 +18,11 @@
       "daily": 5
     },
     "sharpeWithheldReason": "Withheld. 6 of 24 hourly returns collected; annualising fewer is not meaningful.",
-    "maxDrawdownRate": -0.048880055013753476,
+    "maxDrawdownRate": -0.04940553938484615,
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
-    "maxDrawdownTroughAt": "2026-09-16T00:04:27.647Z",
+    "maxDrawdownTroughAt": "2026-09-16T00:14:29.442Z",
     "winRate": 0,
-    "totalReturnRate": -0.049117835
+    "totalReturnRate": -0.049643187999999894
   },
   "trades": {
     "closed": 4,
@@ -47,10 +47,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 95088.22,
-    "totalPnlUsd": -4911.78,
+    "currentUsd": 95035.68,
+    "totalPnlUsd": -4964.32,
     "realizedPnlUsd": -4492.45,
-    "openUnrealizedUsd": -419.34
+    "openUnrealizedUsd": -471.87
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -59,9 +59,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 15,
+    "tickCount": 16,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-16T00:04:27.647Z",
+    "lastTickAt": "2026-09-16T00:14:29.442Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -82,14 +82,16 @@
     "universeSize": 52,
     "lastScan": {
       "evaluated": 52,
-      "triggered": 10,
-      "opened": 4,
-      "abstained": 48,
+      "triggered": 7,
+      "opened": 0,
+      "abstained": 52,
       "reasons": {
-        "no dislocation above trigger": 42,
+        "no dislocation above trigger": 45,
         "spread,duplicate": 1,
-        "cooldown": 2,
-        "clip-size": 2,
+        "cooldown": 1,
+        "spread,cooldown": 1,
+        "residual": 1,
+        "duplicate": 2,
         "spread,residual,clip-size": 1
       }
     }
