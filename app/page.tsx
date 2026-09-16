@@ -122,6 +122,8 @@ export default function Home() {
   })
   const [copiedReceipt, setCopiedReceipt] = React.useState(false)
   const [mobileNav, setMobileNav] = React.useState(false)
+  const [detailTab, setDetailTab] = React.useState("activity")
+  const [navTarget, setNavTarget] = React.useState("queue")
   const [lastRun, setLastRun] = React.useState<InvestigationRun | null>(null)
   const [runHistory, setRunHistory] = React.useState<InvestigationRun[]>(() => {
     if (typeof window === "undefined") return []
@@ -233,6 +235,18 @@ export default function Home() {
       setIsRunning(false)
       setActionNotice(`${runId} recorded · ${nextRiskGate.passed ? "risk gate passed" : "NO TRADE gate held"}`)
     }, 1600)
+  }
+
+  function goTo(target: string) {
+    setNavTarget(target)
+    const tabFor: Record<string, string> = { positions: "position", log: "activity", replay: "replay" }
+    if (tabFor[target]) setDetailTab(tabFor[target])
+    if (target === "packets") { exportPacket(); return }
+    const anchor: Record<string, string> = {
+      queue: "queue-anchor", graph: "graph-anchor", positions: "tabs-anchor",
+      log: "tabs-anchor", replay: "tabs-anchor", policy: "policy-anchor",
+    }
+    document.getElementById(anchor[target] ?? "wake-workspace")?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
   function enterWorkspace() {
@@ -382,14 +396,14 @@ export default function Home() {
         <aside className={`sidebar ${mobileNav ? "sidebar-open" : ""}`}>
           <div className="sidebar-nav">
             <div className="nav-label">WORKSPACE</div>
-            <button className="nav-item active"><ScanSearch size={15} /> Incident queue <span className="nav-count">{String(incidents.length).padStart(2, "0")}</span></button>
-            <button className="nav-item"><Network size={15} /> ActionGraph <span className="live-pulse" /></button>
-            <button className="nav-item"><Crosshair size={15} /> Positions <span className="nav-count muted">{String(activePositionCount).padStart(2, "0")}</span></button>
-            <button className="nav-item"><History size={15} /> Decision log</button>
+            <button className={`nav-item ${navTarget === "queue" ? "active" : ""}`} onClick={() => goTo("queue")}><ScanSearch size={15} /> Incident queue <span className="nav-count">{String(incidents.length).padStart(2, "0")}</span></button>
+            <button className={`nav-item ${navTarget === "graph" ? "active" : ""}`} onClick={() => goTo("graph")}><Network size={15} /> ActionGraph</button>
+            <button className={`nav-item ${navTarget === "positions" ? "active" : ""}`} onClick={() => goTo("positions")}><Crosshair size={15} /> Positions <span className="nav-count muted">{String(activePositionCount).padStart(2, "0")}</span></button>
+            <button className={`nav-item ${navTarget === "log" ? "active" : ""}`} onClick={() => goTo("log")}><History size={15} /> Decision log</button>
             <div className="nav-label nav-label-spaced">EVIDENCE</div>
-            <button className="nav-item"><FileCheck2 size={15} /> Evidence packets</button>
-            <button className="nav-item"><TimerReset size={15} /> Replay lab</button>
-            <button className="nav-item"><SlidersHorizontal size={15} /> Risk policy</button>
+            <button className="nav-item" onClick={() => goTo("packets")}><FileCheck2 size={15} /> Export evidence packet</button>
+            <button className={`nav-item ${navTarget === "replay" ? "active" : ""}`} onClick={() => goTo("replay")}><TimerReset size={15} /> Replay lab</button>
+            <button className={`nav-item ${navTarget === "policy" ? "active" : ""}`} onClick={() => goTo("policy")}><SlidersHorizontal size={15} /> Risk gate</button>
           </div>
           <div className="sidebar-footer">
             <div className="coverage-card">
@@ -429,7 +443,7 @@ export default function Home() {
           <PaperPerformance />
 
           <div className="workspace-grid">
-            <Card className="incident-queue card-dark">
+            <Card className="incident-queue card-dark" id="queue-anchor">
               <CardHeader className="card-head compact-head">
                 <div><CardTitle className="card-title">Event queue</CardTitle><div className="card-subtitle">CAPTURED + REPLAYABLE INCIDENTS</div></div>
                 <Badge variant="outline" className="queue-badge"><StatusDot tone="cyan" /> {incidents.filter((item) => item.provenance === "REAL_CAPTURE").length} REAL · {incidents.filter((item) => item.provenance !== "REAL_CAPTURE").length} REPLAY</Badge>
@@ -470,7 +484,7 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="graph-card card-dark">
+              <Card className="graph-card card-dark" id="graph-anchor">
                 <CardHeader className="card-head graph-head">
                   <div><CardTitle className="card-title"><Network size={16} className="title-icon" /> ActionGraph</CardTitle><div className="card-subtitle">CAUSAL EXPOSURE MAP · {incident.id}</div></div>
                   <div className="graph-actions"><span className="graph-key"><span className="legend-dot solid" /> observed</span><span className="graph-key"><span className="legend-dot ring" /> inferred</span></div>
@@ -566,8 +580,8 @@ export default function Home() {
                 </Card>
               </div>
 
-              <Tabs defaultValue="activity" className="detail-tabs">
-                <div className="tabs-header"><TabsList variant="line" className="tabs-list"><TabsTrigger value="activity">Decision log</TabsTrigger><TabsTrigger value="position">Position</TabsTrigger><TabsTrigger value="replay">Replay lab</TabsTrigger></TabsList><div className="tabs-live"><StatusDot tone="amber" /> local evidence ledger</div></div>
+              <Tabs value={detailTab} onValueChange={setDetailTab} className="detail-tabs" id="tabs-anchor">
+                <div className="tabs-header"><TabsList variant="line" className="tabs-list"><TabsTrigger value="activity">Decision log</TabsTrigger><TabsTrigger value="position">Position</TabsTrigger><TabsTrigger value="replay">Replay lab</TabsTrigger></TabsList><div className="tabs-live"><StatusDot tone="amber" /> paper orders are session local · decisions are server derived at /api/incidents</div></div>
                 <TabsContent value="activity" className="tab-panel">
                   <div className="timeline">
                     {incident.log.map((entry) => <div className="timeline-row" key={`${entry.time}-${entry.actor}`}><div className="timeline-time">{entry.time}</div><div className={`timeline-marker marker-${entry.tone}`} /><div className="timeline-body"><div className="timeline-actor">{entry.actor}</div><div className="timeline-text">{entry.text}</div></div></div>)}
@@ -627,12 +641,12 @@ export default function Home() {
           <Card className="pulse-card card-dark">
             <CardContent>
               <div className="pulse-orb"><div className="pulse-ring ring-one" /><div className="pulse-ring ring-two" /><div className="pulse-core"><Activity size={18} /></div></div>
-              <div className="pulse-state"><StatusDot tone="amber" /> REPLAY MODE</div>
+              <div className="pulse-state"><StatusDot tone="amber" /> PAPER MODE · NO LIVE TRADING</div>
               <div className="pulse-caption">The current queue is a deterministic replay surface. Live watcher adapters remain a separate capture boundary.</div>
-              <div className="pulse-stats"><div><strong>01</strong><span>capture</span></div><div><strong>{String(incidents.length).padStart(2, "0")}</strong><span>incidents</span></div><div><strong>{String(activePositionCount).padStart(2, "0")}</strong><span>positions</span></div></div>
+              <div className="pulse-stats"><div><strong>{String(incidents.filter((item) => item.provenance === "REAL_CAPTURE").length).padStart(2, "0")}</strong><span>captures</span></div><div><strong>{String(incidents.length).padStart(2, "0")}</strong><span>incidents</span></div><div><strong>{String(activePositionCount).padStart(2, "0")}</strong><span>positions</span></div></div>
             </CardContent>
           </Card>
-          <Card className="rail-card card-dark">
+          <Card className="rail-card card-dark" id="policy-anchor">
             <CardHeader className="card-head"><CardTitle className="card-title"><LockKeyhole size={15} className="title-icon" /> Risk gate</CardTitle><Badge className={riskGate.passed ? "badge-confirmed" : "outline-badge"}>{riskGate.passed ? "PASS" : "HOLD"}</Badge></CardHeader>
             <CardContent className="policy-content">
               {riskGate.checks.map((check) => (
