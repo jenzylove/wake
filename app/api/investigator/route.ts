@@ -1,11 +1,16 @@
 import { anthropicConfigStatus, investigateWithAnthropic } from "@/lib/anthropic-investigator"
 import { deriveDecision, deriveGraphEdges, evaluateRiskGate, incidents } from "@/lib/wake-engine"
+import { authorizeOperatorRequest } from "@/lib/request-auth.mjs"
 
 export async function GET() {
   return Response.json({ product: "WAKE", investigator: anthropicConfigStatus() })
 }
 
 export async function POST(request: Request) {
+  if (process.env.WAKE_PUBLIC_INVESTIGATOR !== "1") {
+    const authorization = authorizeOperatorRequest(request)
+    if (!authorization.ok) return Response.json({ error: authorization.error }, { status: authorization.status })
+  }
   try {
     const body = await request.json() as { incidentId?: string }
     const incident = incidents.find((item) => item.id === body.incidentId)
@@ -40,6 +45,7 @@ export async function POST(request: Request) {
       graph: { nodes: incident.graphNodes, edges: deriveGraphEdges(incident) },
       riskGate: { deterministicDecision: deriveDecision(incident), gate: evaluateRiskGate(incident) },
       allowedEvidenceRefs,
+      allowedFalsificationKeys: incident.falsification.map((item) => item.key),
     })
     return Response.json({ source: "anthropic-server-investigator", generatedAt: new Date().toISOString(), ...result })
   } catch (error) {

@@ -1,5 +1,6 @@
 import { getBitgetMarkSnapshot } from "@/lib/bitget-client"
 import { appendRuntimeRecord, readRuntimeRecords, runtimeStoreStatus } from "@/lib/runtime-store"
+import { authorizeOperatorRequest } from "@/lib/request-auth.mjs"
 
 type PositionObservation = {
   observationId: string
@@ -27,6 +28,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const authorization = authorizeOperatorRequest(request)
+  if (!authorization.ok) return Response.json({ error: authorization.error }, { status: authorization.status })
   try {
     const body = await request.json() as { positionId?: string; incidentId?: string; symbol?: string; side?: "LONG" | "SHORT"; entryPrice?: number | null }
     if (!body.positionId || !body.incidentId || !validSymbol(body.symbol) || !["LONG", "SHORT"].includes(body.side || "")) return Response.json({ error: "Invalid position observation payload" }, { status: 400 })

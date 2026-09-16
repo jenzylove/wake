@@ -61,7 +61,7 @@ async function request(method, requestPath, body = "", signed = false) {
     locale: "en-US",
     ...(signed ? { "ACCESS-KEY": apiKey, "ACCESS-SIGN": signature, "ACCESS-TIMESTAMP": timestamp, "ACCESS-PASSPHRASE": passphrase, paptrading: "1" } : {}),
   }
-  const hostname = process.env.BITGET_API_IP || "104.18.14.166"
+  const hostname = process.env.BITGET_API_IP || "api.bitget.com"
   return new Promise((resolve, reject) => {
     const req = https.request({ hostname, port: 443, servername: "api.bitget.com", path: requestPath, method, headers }, (response) => {
       let bodyText = ""

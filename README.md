@@ -1,171 +1,67 @@
 # WAKE
 
-WAKE is an evidence-first causal market response console for the Bitget hackathon. It turns a confirmed on-chain incident into a causal exposure graph, a bounded paper-trade decision, and a verifiable decision trail.
+WAKE is an evidence-first causal market-response system for the Bitget hackathon. It turns a confirmed on-chain incident into an explicit ActionGraph, challenges the proposed causal path, and records a bounded trade, monitor, hedge, or abstention decision with exportable evidence.
 
-The current build is the hardened v0.3 slice: switch incidents, inspect incident-specific graph nodes and edge evidence, run the causal falsifier and deterministic risk gate, persist a local paper ledger, export a verifiable evidence packet, and replay the investigation state without mutating the ledger. See [`PRD_AUDIT.md`](./PRD_AUDIT.md) for the line-by-line implementation boundary.
+The repository is paper-only by default. It does not support Bitget live trading.
 
-The queue now includes three real, timestamped captures: the 27 August 2026 Moonwell MAMO incident on Base, the 22 July 2026 AFX bridge outflow on Arbitrum, and the 23 July AFX recovery-response transaction. Each packet preserves a verified receipt, a Bitget ETHUSDT market window, and a SHA-256 integrity hash. Moonwell remains `NO_TRADE` because its receipt does not prove an ETH-specific residual edge; the AFX drain exercises the contagion path, while the recovery response remains conditional until funds-return evidence exists. The remaining records are explicitly labeled replay fixtures.
+## What is real today
 
-## Run locally
+- Three timestamped capture packets: Moonwell/Base, the AFX/Arbitrum bridge outflow, and the AFX response transaction.
+- Successful chain receipts and Bitget ETHUSDT mark-candle windows preserved with SHA-256 integrity hashes.
+- Incident-specific ActionGraph edges with source, evidence reference, confidence, magnitude, and observed/inferred status.
+- Deterministic decision and falsification policy. A blocking falsifier cannot display a trade recommendation.
+- Local paper receipts tied to investigation runs.
+- A server-only, decision-bound Bitget Demo adapter protected by an operator secret and an opening-notional cap.
+- An optional Anthropic evidence reviewer. Its labels cannot change deterministic numbers, the risk gate, or execution.
+
+The AFX consequence percentages are deterministic scenario assumptions, not a calibrated market-impact model. The captured mark-candle feed contains no useful volume, spread, funding, or open-interest evidence, so exchange-quality execution gating remains a substantive blocker. See [`AUDIT_2026-09-16.md`](./AUDIT_2026-09-16.md).
+
+## Run and verify
 
 ```sh
 npm install
 npm run dev
 ```
 
-The app is served at `http://127.0.0.1:5173` in the portable profile.
-
-## v1.0 data path
-
-WAKE keeps execution in paper mode by default. The real-data boundaries are ready without placing secrets in the browser:
-
-- Bitget historical mark candles use the public API and need no key.
-- Chain evidence capture uses `CHAIN_RPC_URL` or an `ETHERSCAN_API_KEY`.
-- Bitget Demo Trading uses `BITGET_API_KEY`, `BITGET_SECRET_KEY`, and `BITGET_PASSPHRASE`, with `WAKE_EXECUTION_MODE=bitget-demo` as the explicit opt-in.
-- `npm run data:capture -- ...` writes a real chain receipt plus Bitget market window to `data/incidents/` and adds a SHA-256 integrity hash.
-- `npm run data:verify` recomputes every capture’s SHA-256 hash and fails if any packet changed.
-- `npm run bitget:verify` performs a read-only Demo Trading account preflight with `paptrading: 1`; it never places an order.
-- `GET /api/watchers/run` performs a server-side pass over validated adapters; `vercel.json` schedules it every 15 minutes. Planned chain coverage is never treated as live.
-- `GET/POST /api/position/observations` records server-fetched Bitget marks in an append-only local runtime store. Hosted Vercel history still needs a durable storage provider.
-- Vercel Hobby accepts the included watcher cron at once per day; call `GET /api/watchers/run` from an external scheduler for a shorter cadence, or move the project to a plan that supports frequent cron jobs.
-- `GET/POST /api/investigator` is the server-only Anthropic interpretation boundary. Set `ANTHROPIC_API_KEY` to enable it; deterministic numbers, gates, and execution remain authoritative.
-
-Copy `env.example` to `.env.local` and never commit credentials. WAKE does not enable live trading; the execution route is restricted to Bitget Demo Trading.
-
-The one-time Demo smoke test is deliberately opt-in and opens/closes the minimum BTCUSDT size. In PowerShell: `$env:WAKE_EXECUTION_MODE="bitget-demo"; node scripts/test-bitget-demo-order.mjs --confirm-demo-order`. The close helper requires the exact expected size and hedge-mode `posSide` before it sends anything.
-
-## Validate the deployable build
+The portable development server defaults to `http://127.0.0.1:5173`.
 
 ```sh
 npm run lint
+npm run typecheck
+npm test
+npm run data:verify
 npm run build
 ```
 
----
+`data:verify` checks packet schema, receipt success, transaction identity, candle ordering and OHLC invariants, incident-window alignment, and integrity hashes.
 
-A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
+## Configuration
 
-A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
+Copy `env.example` to `.env.local`. Never commit credentials.
 
-## Prerequisites
+Key boundaries:
 
-- Node.js `>=22.13.0`
-- Portable: Windows, macOS, or Linux; no Bash required
-- Managed Linux: managed Linux runtime with Bash, `flock`, `curl`, `sha256sum`, and GNU `timeout`
-- Git is required only for publishing
+- `CHAIN_RPC_URL` or `ETHERSCAN_API_KEY`: chain evidence capture.
+- Public Bitget market data: no key required.
+- `BITGET_API_KEY`, `BITGET_SECRET_KEY`, `BITGET_PASSPHRASE`: Demo Trading only, always sent with `paptrading: 1`.
+- `WAKE_EXECUTION_MODE=bitget-demo`: explicit Demo-order opt-in; default is `paper`.
+- `WAKE_OPERATOR_SECRET`: required for hosted Demo orders, observation writes, and the investigator unless public investigator access is explicitly enabled.
+- `WAKE_MAX_DEMO_NOTIONAL_USDT`: opening-order hard cap; defaults to `100`.
+- `WAKE_SCHEDULER_SECRET` or Vercel `CRON_SECRET`: required for hosted watcher runs.
+- `BITGET_API_IP`: optional DNS workaround. Normal deployments resolve `api.bitget.com` directly.
+- `BLOB_READ_WRITE_TOKEN`: optional private Vercel Blob persistence for runtime records.
 
-## Sites Lifecycle
+`npm run bitget:verify` makes the smallest read-only Demo account request and never places an order. The separate smoke-test script is explicitly confirmed and is not part of normal builds or CI.
 
-The Sites initializer copies the shared starter and selects managed-linux only when `SITES_MANAGED_LINUX_CONTAINER=1`; otherwise it selects portable. It saves the selection only in ignored `.sites-runtime/execution-profile.json`. Both profiles copy/configure first, then use the plugin's separate `install-dependencies.mjs` step to measure installation independently. Edit source under `app/` and follow the Sites skill for installation, preview, builds, and publishing.
+## API safety
 
-Whenever reopening or moving a checkout, run `node <plugin-root>/scripts/configure-execution-profile.mjs` before project commands. Profile changes do not alter tracked source or require reinstalling otherwise-valid dependencies; restart an existing preview to use the new selection. Do not commit or upload `.sites-runtime/`.
+- `POST /api/bitget/demo-order` accepts a known `incidentId`, derives symbol and side server-side, requires the deterministic decision and risk gate for opens, enforces Bitget contract limits, and applies the configured notional cap.
+- `POST /api/position/observations` is operator-protected. The public UI keeps its 15-second mark observations in the browser session instead of allowing anonymous durable writes.
+- `GET /api/watchers/run` fails closed on hosted deployments without a scheduler secret.
+- `POST /api/investigator` is operator-protected unless `WAKE_PUBLIC_INVESTIGATOR=1` is deliberately set.
 
-This starter does not use `wrangler.jsonc`.
+## Current product boundary
 
-`install:ci` runs `npm ci` once against the shared lockfile, disables parent-workspace discovery, and includes required dev/optional dependencies despite production/omit settings. Sharp defaults to prebuilt binaries unless explicitly configured otherwise. Do not overlap installers.
+The included queue is a deterministic replay and evidence-review surface. The watcher validates configured adapters and records passes, but it does not yet discover arbitrary new incidents. Vercel Hobby runs the included cron once daily; a shorter cadence requires an external scheduler or a different plan.
 
-- **Portable:** Preserve host HOME, npm cache, registry, proxy, temporary paths, retry/concurrency settings, and lifecycle-script policy. Use `--prefer-offline --no-audit --no-fund`.
-- **Managed Linux:** Use the existing project-local HOME/cache/tmp setup and Linux install lock, tarball preflight, and timeout. Restore the image-seeded npm cache only when its lockfile hash matches; retain network fallback. Builds keep their existing timeout. These helpers are not invoked by the portable profile.
-
-`scripts/sites-env.mjs` preserves the caller's HOME, npm cache, proxy, XDG, and temporary-directory configuration while defaulting Wrangler and Miniflare state to the checkout. If npm reports an unwritable cache, select a writable path with `npm_config_cache` for that install. The `dev` and `start` scripts also keep Wrangler logs inside the checkout. Generated `.sites-runtime/` and `.wrangler/` directories are disposable and ignored by Git.
-
-On portable, `npm run dev` uses `vinext dev` with HMR, starting at port 5173. Vinext records the running server in ignored `.vinext/` state, rejects an ordinary duplicate launch, and recovers stale state after a stopped process; exactly simultaneous starts can race. Pass `--port <port>` or `--hostname <host>` after `npm run dev --` when needed; keep portable previews on loopback.
-
-On managed Linux, use `sites-preview start` only for requested browser QA. The project's dev script runs Vite and accepts the supervisor's `--host 0.0.0.0 --port 4173 --strictPort` arguments. The internal browser uses `http://terminal.local:4173/`; it is not a user-facing URL. The supervisor owns the preview lifecycle. The ignored local profile survives the supervisor's cleared process environment.
-
-The portable profile simulates ChatGPT sign-in only for loopback development requests. Visit `/signin-with-chatgpt?return_to=/` to sign in as `local_seedy` (`seedy@sites.test`, display name `Seedy`) and `/signout-with-chatgpt?return_to=/` to sign out. The development cookie preserves that identity across server restarts. Mock auth is disabled in the managed-linux profile and is not included in production builds; hosted authentication remains dispatch-owned.
-
-The Worker uses `vinext/server/fetch-handler`, including Vinext's config-aware image handling. After building, `npm start` runs that Worker locally through Wrangler on `127.0.0.1`, sharing `.wrangler/state` with dev preview and local D1 migrations; it does not deploy the site or simulate sign-in. Use the URL printed by the server. Pass `npm start -- --port <port>` to select a different built-preview port.
-
-Local previews use Miniflare's placeholder `Request.cf` metadata without a network lookup. Set `CLOUDFLARE_CF_FETCH_ENABLED=true` to opt into fetching preview metadata; this setting does not change hosted request metadata.
-
-Local tool usage metrics are disabled by default. Set `WRANGLER_SEND_METRICS=true` to opt in.
-
-## Included Shape
-
-- edit site code under `app/`
-- `app/chatgpt-auth.ts` provides optional dispatch-owned ChatGPT sign-in helpers
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
-- `@cloudflare/workers-types` provides Worker types; `cloudflare-env.d.ts` declares optional `DB`/`BUCKET` bindings—update these declarations if binding names change
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
-
-The user ID is stable for the same user on the same Site and different across Sites. Use it as the durable user key; use email and name for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive `oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty `name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by `oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
-```
-
-## Optional Dispatch-Owned ChatGPT Sign-In
-
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use the returned `userId` as the stable user key for user-owned records; do not use email as a durable identifier.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send anonymous visitors through Sign in with ChatGPT.
-- In a Server Component, start sign-in with `<a href={chatGPTSignInPath(returnTo)} target="_top">`. The auth helper module is server-only; do not import it into a Client Component.
-- Do not use `fetch`, XHR, a client-side router, or a framework link that can prefetch the sign-in route. SIWC must start as a top-level navigation.
-- Never request the AuthAPI authorization endpoint directly. The dispatch-owned `/signin-with-chatgpt` route must start the SIWC flow.
-- Use `chatGPTSignOutPath(returnTo)` for browser sign-out links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the OAuth cookies, and identity header injection. Do not implement app routes for those reserved paths. Routes that do not import and call the helper remain anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the Sites hosting platform's access policy controls for workspace-wide restrictions, or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Local D1 migrations
-
-For a D1-backed local preview, generate SQL with `npm run db:generate`. Build once through the Sites skill's build entrypoint (or `npm run build` for standalone use) to generate `dist/server/wrangler.json`, rebuilding if bindings change. From the project root, apply each pending migration in order:
-
-```sh
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_example.sql
-```
-
-Replace the filename with the pending migration and `DB` with your D1 binding name if different. Use `.wrangler/state`, not `.wrangler/state/v3`; Wrangler adds the versioned directories. Do not replay migrations already applied locally. This updates only the preview database; publishing applies production migrations separately.
-
-## Diagnostic Commands
-
-- `npm run install:ci`: perform the one locked dependency install
-- `npm run dev`: start the Vite/Vinext development server
-- `npm run build`: build the deployable Sites artifact
-- `npm run start`: preview the built Worker locally with D1/R2 support
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-When using the Sites plugin, follow its skill instructions for installation, builds, and publishing. These npm commands remain available for standalone use.
-
-The portable build runs Vinext directly without a host `timeout` command. The managed-linux build uses `scripts/build-verified.sh` and its existing `SITES_BUILD_TIMEOUT` setting.
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+The full target is in [`WAKE_ACTIONGRAPH_PRD.md`](./WAKE_ACTIONGRAPH_PRD.md). The current severity audit and winning-path blockers are in [`AUDIT_2026-09-16.md`](./AUDIT_2026-09-16.md).

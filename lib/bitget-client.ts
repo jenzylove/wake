@@ -48,7 +48,7 @@ type BitgetEnvelope<T> = {
 type BitgetHttpMethod = "GET" | "POST"
 
 async function bitgetFetch(url: string, init: RequestInit = {}) {
-  const bitgetIp = process.env.BITGET_API_IP || "104.18.14.166"
+  const bitgetIp = process.env.BITGET_API_IP
   if (!bitgetIp) return fetch(url, init)
   const parsed = new URL(url)
   const headers = Object.fromEntries(new Headers(init.headers).entries())
@@ -161,23 +161,40 @@ export async function getHistoricalMarkCandles({
   granularity?: string
   limit?: number
 }) {
-  const rows = await readBitget<string[][]>("/api/v2/mix/market/history-mark-candles", {
-    symbol,
-    productType: "USDT-FUTURES",
-    granularity,
-    startTime,
-    endTime,
-    limit,
-  })
-  return rows.map(([timestamp, open, high, low, close, baseVolume, quoteVolume]) => ({
-    timestamp: Number(timestamp),
-    open: Number(open),
-    high: Number(high),
-    low: Number(low),
-    close: Number(close),
-    baseVolume: Number(baseVolume),
-    quoteVolume: Number(quoteVolume),
-  } satisfies BitgetCandle))
+  const captured: BitgetCandle[] = []
+  let pageEnd = endTime
+  let reachedStart = false
+  for (let pageNumber = 0; pageNumber < 10; pageNumber += 1) {
+    const rows = await readBitget<string[][]>("/api/v2/mix/market/history-mark-candles", {
+      symbol,
+      productType: "USDT-FUTURES",
+      granularity,
+      startTime,
+      endTime: pageEnd,
+      limit: Math.min(limit, 200),
+    })
+    const page = rows.map(([timestamp, open, high, low, close, baseVolume, quoteVolume]) => ({
+      timestamp: Number(timestamp),
+      open: Number(open),
+      high: Number(high),
+      low: Number(low),
+      close: Number(close),
+      baseVolume: Number(baseVolume),
+      quoteVolume: Number(quoteVolume),
+    } satisfies BitgetCandle))
+    if (page.length === 0) break
+    captured.push(...page)
+    const oldest = Math.min(...page.map((candle) => candle.timestamp))
+    if (oldest <= startTime) {
+      reachedStart = true
+      break
+    }
+    if (oldest >= pageEnd) throw new Error("Bitget returned a non-advancing candle page")
+    pageEnd = oldest - 1
+  }
+  if (!reachedStart) throw new Error("Bitget market response did not cover the requested start time")
+  return [...new Map(captured.filter((candle) => candle.timestamp >= startTime && candle.timestamp < endTime).map((candle) => [candle.timestamp, candle])).values()]
+    .sort((left, right) => left.timestamp - right.timestamp)
 }
 
 export async function getBitgetMarkSnapshot(symbol: string): Promise<BitgetMarketSnapshot> {

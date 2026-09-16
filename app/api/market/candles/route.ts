@@ -8,8 +8,8 @@ export async function GET(request: Request) {
   if (!/^[A-Z0-9_-]{2,20}$/.test(symbol) || !Number.isFinite(startTime) || !Number.isFinite(endTime) || startTime >= endTime) {
     return Response.json({ error: "Use a valid symbol and startTime before endTime" }, { status: 400 })
   }
-  if (endTime - startTime > 90 * 24 * 60 * 60 * 1000) {
-    return Response.json({ error: "Bitget public history is limited to a 90-day capture window" }, { status: 400 })
+  if (endTime - startTime > 24 * 60 * 60 * 1000) {
+    return Response.json({ error: "The public API route is capped at a 24-hour window; use the authenticated capture CLI for larger evidence jobs" }, { status: 400 })
   }
 
   try {

@@ -15,7 +15,7 @@ const signature = createHmac("sha256", secretKey)
   .update(`${timestamp}GET${requestPath}`)
   .digest("base64")
 
-const hostname = process.env.BITGET_API_IP || "104.18.14.166"
+const hostname = process.env.BITGET_API_IP || "api.bitget.com"
 const request = https.request({
   hostname,
   port: 443,
