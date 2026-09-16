@@ -36,7 +36,7 @@ export function WakeOrb() {
 
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       renderer.toneMapping = THREE.ACESFilmicToneMapping
-      renderer.toneMappingExposure = 1.04
+      renderer.toneMappingExposure = 0.95
       renderer.outputColorSpace = THREE.SRGBColorSpace
       renderer.setClearColor(0x000000, 0)
 
@@ -51,7 +51,7 @@ export function WakeOrb() {
           fragmentShader: `varying vec3 vP;
             void main(){
               float h = vP.y*0.5+0.5;
-              vec3 low = vec3(0.86,0.80,0.74), mid = vec3(0.94,0.94,0.96), top = vec3(1.0);
+              vec3 low = vec3(0.78,0.62,0.48), mid = vec3(0.90,0.90,0.94), top = vec3(1.0);
               vec3 c = mix(low, mid, smoothstep(0.0,0.55,h));
               c = mix(c, top, smoothstep(0.55,1.0,h));
               gl_FragColor = vec4(c,1.0);
@@ -85,13 +85,13 @@ export function WakeOrb() {
       const rings: Array<{ mesh: import("three").Mesh; offset: number }> = []
       for (let i = 0; i < ringCount; i += 1) {
         const mesh = new THREE.Mesh(
-          new THREE.TorusGeometry(1, 0.031, 20, 180),
+          new THREE.TorusGeometry(1, 0.048, 20, 180),
           new THREE.MeshStandardMaterial({
             color: new THREE.Color(i === 0 ? ACCENT : ACCENT_SOFT),
             roughness: 0.28,
             metalness: 0.05,
             emissive: new THREE.Color(ACCENT),
-            emissiveIntensity: 0.16,
+            emissiveIntensity: 0.32,
             transparent: true,
             opacity: 0.9,
           }),
@@ -111,16 +111,19 @@ export function WakeOrb() {
       const shell = new THREE.Mesh(
         new THREE.SphereGeometry(1.94, 96, 72),
         new THREE.MeshPhysicalMaterial({
-          transmission: 1,
-          thickness: 1.35,
-          roughness: 0.16,
-          ior: 1.44,
+          transmission: 0.94,
+          thickness: 0.9,
+          roughness: 0.09,
+          ior: 1.38,
           clearcoat: 1,
-          clearcoatRoughness: 0.12,
+          clearcoatRoughness: 0.08,
           metalness: 0,
+          transparent: true,
+          opacity: 0.96,
+          envMapIntensity: 0.75,
           color: new THREE.Color(0xffffff),
-          attenuationColor: new THREE.Color(0xdfe6f2),
-          attenuationDistance: 5.2,
+          attenuationColor: new THREE.Color(0xe8dccf),
+          attenuationDistance: 3.4,
         }),
       )
       scene.add(shell)
