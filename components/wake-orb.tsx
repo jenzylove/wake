@@ -75,7 +75,7 @@ export function WakeOrb() {
       scene.environment = envMap
 
       const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100)
-      camera.position.set(0, 0, 7.4)
+      camera.position.set(0, 0, 7.1)
 
       const group = new THREE.Group()
       scene.add(group)
@@ -85,7 +85,7 @@ export function WakeOrb() {
       const rings: Array<{ mesh: import("three").Mesh; offset: number }> = []
       for (let i = 0; i < ringCount; i += 1) {
         const mesh = new THREE.Mesh(
-          new THREE.TorusGeometry(1, 0.048, 20, 180),
+          new THREE.TorusGeometry(1, 0.042, 20, 180),
           new THREE.MeshStandardMaterial({
             color: new THREE.Color(i === 0 ? ACCENT : ACCENT_SOFT),
             roughness: 0.28,
@@ -96,34 +96,52 @@ export function WakeOrb() {
             opacity: 0.9,
           }),
         )
-        mesh.rotation.x = Math.PI / 2.42
+        mesh.rotation.x = Math.PI / 2.3
         group.add(mesh)
         rings.push({ mesh, offset: i / ringCount })
       }
 
       // The disturbance that produced them.
       const core = new THREE.Mesh(
-        new THREE.SphereGeometry(0.2, 32, 24),
+        new THREE.SphereGeometry(0.17, 32, 24),
         new THREE.MeshStandardMaterial({ color: new THREE.Color(ACCENT), roughness: 0.22, metalness: 0.1, emissive: new THREE.Color(ACCENT), emissiveIntensity: 0.5 }),
       )
       group.add(core)
 
+      // A fresnel shell rather than a transmissive one. transmission needs a
+      // framebuffer copy that silently degrades to opaque frosted plastic on
+      // software and some mobile contexts, which buries everything inside it.
+      // Fresnel is bright at grazing angles and clear face on, so the shell
+      // reads as a thin glass bubble everywhere and the wavefronts stay the
+      // subject.
       const shell = new THREE.Mesh(
         new THREE.SphereGeometry(1.94, 96, 72),
-        new THREE.MeshPhysicalMaterial({
-          transmission: 0.94,
-          thickness: 0.9,
-          roughness: 0.09,
-          ior: 1.38,
-          clearcoat: 1,
-          clearcoatRoughness: 0.08,
-          metalness: 0,
+        new THREE.ShaderMaterial({
           transparent: true,
-          opacity: 0.96,
-          envMapIntensity: 0.75,
-          color: new THREE.Color(0xffffff),
-          attenuationColor: new THREE.Color(0xe8dccf),
-          attenuationDistance: 3.4,
+          depthWrite: false,
+          side: THREE.DoubleSide,
+          uniforms: {
+            uRim: { value: new THREE.Color(0xffffff) },
+            uTint: { value: new THREE.Color(0xe9d9c8) },
+          },
+          vertexShader: `
+            varying vec3 vN; varying vec3 vV;
+            void main(){
+              vec4 wp = modelMatrix * vec4(position, 1.0);
+              vN = normalize(mat3(modelMatrix) * normal);
+              vV = normalize(cameraPosition - wp.xyz);
+              gl_Position = projectionMatrix * viewMatrix * wp;
+            }`,
+          fragmentShader: `
+            varying vec3 vN; varying vec3 vV;
+            uniform vec3 uRim; uniform vec3 uTint;
+            void main(){
+              float f = 1.0 - clamp(abs(dot(normalize(vN), normalize(vV))), 0.0, 1.0);
+              float rim = pow(f, 3.2);
+              float body = pow(f, 1.1) * 0.13;
+              vec3 c = mix(uTint, uRim, rim);
+              gl_FragColor = vec4(c, clamp(rim * 0.92 + body, 0.0, 1.0));
+            }`,
         }),
       )
       scene.add(shell)
@@ -150,7 +168,7 @@ export function WakeOrb() {
         for (const { mesh, offset } of rings) {
           // Each ring travels out, thins, and fades, then restarts.
           const p = (t * 0.17 + offset) % 1
-          const scale = 0.24 + p * 1.5
+          const scale = 0.2 + p * 1.62
           mesh.scale.setScalar(scale)
           const mat = mesh.material as import("three").MeshStandardMaterial
           mat.opacity = Math.sin(Math.PI * Math.min(p / 0.92, 1)) * 0.92
