@@ -1,32 +1,32 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-15T23:54:26.163Z",
+  "generatedAt": "2026-09-16T00:04:28.003Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-15T23:54:25.772Z",
-    "days": 0.205,
-    "equityPoints": 14,
+    "to": "2026-09-16T00:04:27.647Z",
+    "days": 0.212,
+    "equityPoints": 15,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
     "sharpeAnnualisedFromHourly": null,
     "sharpeAnnualisedFromDaily": null,
-    "sharpeSampleSizeHourly": 5,
-    "sharpeSampleSizeDaily": 0,
+    "sharpeSampleSizeHourly": 6,
+    "sharpeSampleSizeDaily": 1,
     "sharpeMinimumSamples": {
       "hourly": 24,
       "daily": 5
     },
-    "sharpeWithheldReason": "Withheld. 5 of 24 hourly returns collected; annualising fewer is not meaningful.",
-    "maxDrawdownRate": -0.04666297274318576,
+    "sharpeWithheldReason": "Withheld. 6 of 24 hourly returns collected; annualising fewer is not meaningful.",
+    "maxDrawdownRate": -0.048880055013753476,
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
-    "maxDrawdownTroughAt": "2026-09-15T23:34:21.913Z",
+    "maxDrawdownTroughAt": "2026-09-16T00:04:27.647Z",
     "winRate": 0,
-    "totalReturnRate": -0.046873991000000004
+    "totalReturnRate": -0.049117835
   },
   "trades": {
     "closed": 4,
-    "open": 1,
+    "open": 5,
     "wins": 0,
     "losses": 4,
     "profitFactor": 0,
@@ -47,10 +47,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 95312.6,
-    "totalPnlUsd": -4687.4,
+    "currentUsd": 95088.22,
+    "totalPnlUsd": -4911.78,
     "realizedPnlUsd": -4492.45,
-    "openUnrealizedUsd": -194.95
+    "openUnrealizedUsd": -419.34
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -59,9 +59,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 14,
+    "tickCount": 15,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-15T23:54:25.772Z",
+    "lastTickAt": "2026-09-16T00:04:27.647Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -82,13 +82,15 @@
     "universeSize": 52,
     "lastScan": {
       "evaluated": 52,
-      "triggered": 3,
-      "opened": 0,
-      "abstained": 52,
+      "triggered": 10,
+      "opened": 4,
+      "abstained": 48,
       "reasons": {
-        "no dislocation above trigger": 49,
-        "duplicate": 1,
-        "cooldown": 2
+        "no dislocation above trigger": 42,
+        "spread,duplicate": 1,
+        "cooldown": 2,
+        "clip-size": 2,
+        "spread,residual,clip-size": 1
       }
     }
   }
