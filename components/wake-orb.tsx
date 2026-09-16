@@ -1,0 +1,194 @@
+"use client"
+
+import * as React from "react"
+
+// A frosted glass sphere holding concentric wavefronts: the wake left behind
+// once something disturbs the surface. Rendered rather than faked with CSS
+// gradients, because transmission, refraction and a real specular response are
+// what separate glass from a balloon.
+
+const ACCENT = 0xc2672f
+const ACCENT_SOFT = 0xe2a06a
+
+export function WakeOrb() {
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null)
+  const [failed, setFailed] = React.useState(false)
+
+  React.useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    let disposed = false
+    let cleanup: (() => void) | undefined
+
+    void (async () => {
+      const THREE = await import("three")
+      if (disposed) return
+
+      let renderer: import("three").WebGLRenderer
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" })
+        if (!renderer.getContext()) throw new Error("no webgl")
+      } catch {
+        setFailed(true)
+        return
+      }
+
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+      renderer.toneMapping = THREE.ACESFilmicToneMapping
+      renderer.toneMappingExposure = 1.04
+      renderer.outputColorSpace = THREE.SRGBColorSpace
+      renderer.setClearColor(0x000000, 0)
+
+      // Studio dome plus softboxes. A dark room would read as a plastic ball;
+      // the sphere needs something bright and graded to refract.
+      const envScene = new THREE.Scene()
+      envScene.add(new THREE.Mesh(
+        new THREE.SphereGeometry(10, 48, 32),
+        new THREE.ShaderMaterial({
+          side: THREE.BackSide,
+          vertexShader: "varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }",
+          fragmentShader: `varying vec3 vP;
+            void main(){
+              float h = vP.y*0.5+0.5;
+              vec3 low = vec3(0.86,0.80,0.74), mid = vec3(0.94,0.94,0.96), top = vec3(1.0);
+              vec3 c = mix(low, mid, smoothstep(0.0,0.55,h));
+              c = mix(c, top, smoothstep(0.55,1.0,h));
+              gl_FragColor = vec4(c,1.0);
+            }`,
+        }),
+      ))
+      const softbox = (w: number, h: number, x: number, y: number, z: number, s = 3) => {
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(s, s, s), side: THREE.DoubleSide }))
+        m.position.set(x, y, z)
+        m.lookAt(0, 0, 0)
+        envScene.add(m)
+      }
+      softbox(4, 2.4, -4, 5, 5, 4.2)
+      softbox(3, 3, 5, 1, 4, 2.6)
+      softbox(6, 2, 0, -4, 3, 1.4)
+
+      const pmrem = new THREE.PMREMGenerator(renderer)
+      const envMap = pmrem.fromScene(envScene, 0.02).texture
+
+      const scene = new THREE.Scene()
+      scene.environment = envMap
+
+      const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100)
+      camera.position.set(0, 0, 7.4)
+
+      const group = new THREE.Group()
+      scene.add(group)
+
+      // The wake: rings expanding from the origin, each fading as it widens.
+      const ringCount = 5
+      const rings: Array<{ mesh: import("three").Mesh; offset: number }> = []
+      for (let i = 0; i < ringCount; i += 1) {
+        const mesh = new THREE.Mesh(
+          new THREE.TorusGeometry(1, 0.031, 20, 180),
+          new THREE.MeshStandardMaterial({
+            color: new THREE.Color(i === 0 ? ACCENT : ACCENT_SOFT),
+            roughness: 0.28,
+            metalness: 0.05,
+            emissive: new THREE.Color(ACCENT),
+            emissiveIntensity: 0.16,
+            transparent: true,
+            opacity: 0.9,
+          }),
+        )
+        mesh.rotation.x = Math.PI / 2.42
+        group.add(mesh)
+        rings.push({ mesh, offset: i / ringCount })
+      }
+
+      // The disturbance that produced them.
+      const core = new THREE.Mesh(
+        new THREE.SphereGeometry(0.2, 32, 24),
+        new THREE.MeshStandardMaterial({ color: new THREE.Color(ACCENT), roughness: 0.22, metalness: 0.1, emissive: new THREE.Color(ACCENT), emissiveIntensity: 0.5 }),
+      )
+      group.add(core)
+
+      const shell = new THREE.Mesh(
+        new THREE.SphereGeometry(1.94, 96, 72),
+        new THREE.MeshPhysicalMaterial({
+          transmission: 1,
+          thickness: 1.35,
+          roughness: 0.16,
+          ior: 1.44,
+          clearcoat: 1,
+          clearcoatRoughness: 0.12,
+          metalness: 0,
+          color: new THREE.Color(0xffffff),
+          attenuationColor: new THREE.Color(0xdfe6f2),
+          attenuationDistance: 5.2,
+        }),
+      )
+      scene.add(shell)
+
+      const resize = () => {
+        const rect = canvas.getBoundingClientRect()
+        const size = Math.max(1, Math.min(rect.width, rect.height))
+        renderer.setSize(size, size, false)
+        camera.aspect = 1
+        camera.updateProjectionMatrix()
+      }
+      resize()
+      const observer = new ResizeObserver(resize)
+      observer.observe(canvas)
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      const clock = new THREE.Clock()
+      let frame = 0
+
+      const tick = () => {
+        frame = requestAnimationFrame(tick)
+        const t = reduced ? 3.4 : clock.getElapsedTime()
+
+        for (const { mesh, offset } of rings) {
+          // Each ring travels out, thins, and fades, then restarts.
+          const p = (t * 0.17 + offset) % 1
+          const scale = 0.24 + p * 1.5
+          mesh.scale.setScalar(scale)
+          const mat = mesh.material as import("three").MeshStandardMaterial
+          mat.opacity = Math.sin(Math.PI * Math.min(p / 0.92, 1)) * 0.92
+        }
+        core.scale.setScalar(1 + Math.sin(t * 1.1) * 0.06)
+
+        group.rotation.y = Math.sin(t * 0.14) * 0.3
+        group.rotation.z = Math.cos(t * 0.11) * 0.12
+        shell.rotation.y = t * 0.035
+
+        renderer.render(scene, camera)
+        if (reduced) cancelAnimationFrame(frame)
+      }
+      tick()
+
+      cleanup = () => {
+        cancelAnimationFrame(frame)
+        observer.disconnect()
+        pmrem.dispose()
+        envMap.dispose()
+        renderer.dispose()
+        scene.traverse((o) => {
+          const mesh = o as import("three").Mesh
+          if (mesh.geometry) mesh.geometry.dispose()
+          const mat = mesh.material as import("three").Material | import("three").Material[] | undefined
+          if (Array.isArray(mat)) mat.forEach((m) => m.dispose())
+          else mat?.dispose()
+        })
+      }
+    })()
+
+    return () => {
+      disposed = true
+      cleanup?.()
+    }
+  }, [])
+
+  return (
+    <div className="orb-wrap" aria-hidden="true">
+      <div className="orb-glow" />
+      {failed ? <div className="orb-fallback" /> : <canvas ref={canvasRef} className="orb-canvas" />}
+    </div>
+  )
+}

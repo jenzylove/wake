@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "WAKE · Causal Market Response",
-  description: "Evidence-backed incident investigation, causal exposure mapping, and paper execution for Bitget markets.",
+  title: "WAKE · On-chain Incident Response",
+  description: "WAKE maps who actually absorbs an on-chain loss, prices it against real traded liquidity, and refuses the position when the arithmetic does not clear.",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: "/brand/favicon.svg",
+    shortcut: "/brand/favicon.svg",
+    apple: "/brand/favicon.svg",
   },
 };
 

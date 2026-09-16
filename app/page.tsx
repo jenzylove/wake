@@ -79,6 +79,7 @@ type InvestigatorReview = {
 
 import { PaperPerformance } from "@/components/paper-performance"
 import { StressTest } from "@/components/stress-test"
+import { WakeOrb } from "@/components/wake-orb"
 
 function StatusDot({ tone = "cyan" }: { tone?: string }) {
   return <span className={`status-dot status-${tone}`} aria-hidden="true" />
@@ -358,16 +359,8 @@ export default function Home() {
           <button className="mobile-menu" onClick={() => setMobileNav((value) => !value)} aria-label="Toggle navigation">
             <Menu size={18} />
           </button>
-          <div className="brand-mark" aria-hidden="true">
-            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-              <circle cx="4" cy="8.5" r="1.6" fill="currentColor" />
-              <path d="M7.4 4.6a6.2 6.2 0 0 1 0 7.8" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" opacity=".92" />
-              <path d="M10.6 2.9a9.4 9.4 0 0 1 0 11.2" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" opacity=".6" />
-              <path d="M13.8 1.6a12.3 12.3 0 0 1 0 13.8" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" opacity=".3" />
-            </svg>
-          </div>
           <div>
-            <div className="brand-name">WAKE</div>
+            <div className="brand-name">WAKE<sup>®</sup></div>
             <div className="brand-kicker">EVIDENCE BEFORE EXECUTION</div>
           </div>
         </div>
@@ -377,64 +370,42 @@ export default function Home() {
           <button type="button" onClick={enterWorkspace}>WORKSPACE</button>
         </nav>
         <div className="topbar-right">
-          <button type="button" className="hero-nav-cta" onClick={enterWorkspace}>OPEN CONSOLE <ArrowRight size={13} /></button>
+          <button type="button" className="hero-nav-cta" onClick={enterWorkspace}><span>Open the console</span><i /></button>
         </div>
       </header>
 
       <section className="wake-hero" aria-labelledby="wake-hero-title">
-        <div className="hero-scene" aria-hidden="true">
-          <div className="hero-field"><span /><span /><span /><span /><span /></div>
-          <div className="hero-frost" />
-          <div className="hero-glass">
-            <div className="orb orb-1" />
-            <div className="orb orb-2" />
-            <div className="orb orb-3" />
-            <div className="orb orb-4" />
-            <div className="hero-ring hero-ring-1" />
-            <div className="hero-ring hero-ring-2" />
-            <div className="hero-ring hero-ring-3" />
-          </div>
-        </div>
         <div className="hero-copy">
-          <div className="hero-eyebrow"><span className="eyebrow-line" /> EVIDENCE BEFORE EXECUTION</div>
-          <h1 className="hero-title" id="wake-hero-title">Proof, then<br /><em>position.</em></h1>
+          <p className="hero-eyebrow"><span className="eyebrow-line" /> On-chain incident response</p>
+          <h1 className="hero-title" id="wake-hero-title">
+            <span className="line">Most incidents</span>
+            <span className="line accent">are not a trade</span>
+            <span className="line">until they are<em>.</em></span>
+          </h1>
           <p className="hero-description">
-            WAKE reads a confirmed on-chain incident, maps who actually absorbs the damage, and prices it against real
-            traded liquidity. Most of the time it decides there is no trade, and shows the arithmetic either way.
+            WAKE maps who actually absorbs an on-chain loss, prices it against real traded liquidity, and refuses the
+            position when the arithmetic does not clear. It shows the working either way.
           </p>
-          <div className="hero-tags">
-            <span>CAUSAL EXPOSURE GRAPH</span>
-            <span>COMPUTED CONSEQUENCE</span>
-            <span>PAPER ONLY</span>
-          </div>
           <div className="hero-actions">
             <button type="button" className="hero-primary" onClick={enterWorkspace}>
-              Enter the response room <ArrowRight size={15} className="hero-arrow" />
+              <span className="hero-arrow">
+                <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </span>
+              See an incident taken apart
             </button>
-            <button type="button" className="hero-secondary" onClick={enterWorkspace}>See the evidence</button>
+            <button type="button" className="hero-secondary" onClick={enterWorkspace}>Read the evidence packet</button>
           </div>
+          <p className="hero-side-note">
+            Live paper run
+            <strong>{realCaptureCount} verified captures · {abstainedCaptureCount} held by the gate · paper only</strong>
+          </p>
         </div>
+        <WakeOrb />
         <div className="hero-strip">
-          <div>
-            <span>REAL CAPTURES</span>
-            <strong>{String(realCaptureCount).padStart(2, "0")}</strong>
-            <small>hashed, receipt verified</small>
-          </div>
-          <div>
-            <span>TIER 1 DECISIONS</span>
-            <strong>{realCaptureCount === abstainedCaptureCount ? "ABSTAIN" : `${abstainedCaptureCount}/${realCaptureCount}`}</strong>
-            <small>{abstainedCaptureCount === realCaptureCount ? "all captures, on computed residual" : "held on computed residual"}</small>
-          </div>
-          <div>
-            <span>CONSEQUENCE MODEL</span>
-            <strong>COMPUTED</strong>
-            <small>square root impact, observed inputs</small>
-          </div>
-          <div>
-            <span>EXECUTION</span>
-            <strong>PAPER</strong>
-            <small>no live trading path</small>
-          </div>
+          <div><span>Captures</span><strong>{String(realCaptureCount).padStart(2, "0")} verified</strong></div>
+          <div><span>Consequence</span><strong>Computed, not asserted</strong></div>
+          <div><span>Execution</span><strong>Paper only</strong></div>
+          <div><span>Evidence</span><strong>Hashed and re-derivable</strong></div>
         </div>
       </section>
 
