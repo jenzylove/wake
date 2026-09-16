@@ -75,7 +75,7 @@ export function WakeOrb() {
       scene.environment = envMap
 
       const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100)
-      camera.position.set(0, 0, 7.1)
+      camera.position.set(0, 0, 7.8)
 
       const group = new THREE.Group()
       scene.add(group)
@@ -96,7 +96,7 @@ export function WakeOrb() {
             opacity: 0.9,
           }),
         )
-        mesh.rotation.x = Math.PI / 2.3
+        mesh.rotation.x = Math.PI / 2.95
         group.add(mesh)
         rings.push({ mesh, offset: i / ringCount })
       }
@@ -122,7 +122,7 @@ export function WakeOrb() {
           side: THREE.DoubleSide,
           uniforms: {
             uRim: { value: new THREE.Color(0xffffff) },
-            uTint: { value: new THREE.Color(0xe9d9c8) },
+            uTint: { value: new THREE.Color(0xdfe3ea) },
           },
           vertexShader: `
             varying vec3 vN; varying vec3 vV;
@@ -138,9 +138,9 @@ export function WakeOrb() {
             void main(){
               float f = 1.0 - clamp(abs(dot(normalize(vN), normalize(vV))), 0.0, 1.0);
               float rim = pow(f, 3.2);
-              float body = pow(f, 1.1) * 0.13;
+              float body = pow(f, 1.4) * 0.05;
               vec3 c = mix(uTint, uRim, rim);
-              gl_FragColor = vec4(c, clamp(rim * 0.92 + body, 0.0, 1.0));
+              gl_FragColor = vec4(c, clamp(rim * 0.8 + body, 0.0, 1.0));
             }`,
         }),
       )
@@ -176,7 +176,7 @@ export function WakeOrb() {
         core.scale.setScalar(1 + Math.sin(t * 1.1) * 0.06)
 
         group.rotation.y = Math.sin(t * 0.14) * 0.3
-        group.rotation.z = Math.cos(t * 0.11) * 0.12
+        group.rotation.z = Math.cos(t * 0.11) * 0.07
         shell.rotation.y = t * 0.035
 
         renderer.render(scene, camera)
