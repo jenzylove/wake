@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-16T04:42:52.290Z",
+  "generatedAt": "2026-09-16T04:52:53.854Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-16T04:42:51.521Z",
-    "days": 0.405,
-    "equityPoints": 18,
+    "to": "2026-09-16T04:52:53.451Z",
+    "days": 0.412,
+    "equityPoints": 19,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -22,7 +22,7 @@
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
     "maxDrawdownTroughAt": "2026-09-16T04:42:51.521Z",
     "winRate": 0,
-    "totalReturnRate": -0.07760501200000003
+    "totalReturnRate": -0.05137111799999994
   },
   "trades": {
     "closed": 10,
@@ -48,10 +48,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 92239.5,
-    "totalPnlUsd": -7760.5,
+    "currentUsd": 94862.89,
+    "totalPnlUsd": -5137.11,
     "realizedPnlUsd": -7723.83,
-    "openUnrealizedUsd": -36.67
+    "openUnrealizedUsd": 2586.72
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -60,9 +60,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 18,
+    "tickCount": 19,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-16T04:42:51.521Z",
+    "lastTickAt": "2026-09-16T04:52:53.451Z",
     "config": {
       "minUsdtVolume24h": 10000000,
       "maxSpreadRate": 0.002,
@@ -80,17 +80,17 @@
       "takeProfitFraction": 0.25,
       "maxNotionalShareOfVolume": 0.002
     },
-    "universeSize": 51,
+    "universeSize": 50,
     "lastScan": {
-      "evaluated": 51,
-      "triggered": 5,
-      "opened": 2,
-      "abstained": 49,
+      "evaluated": 50,
+      "triggered": 4,
+      "opened": 0,
+      "abstained": 50,
       "reasons": {
         "no dislocation above trigger": 46,
-        "residual": 1,
-        "cooldown": 1,
-        "residual,clip-size": 1
+        "duplicate": 2,
+        "residual,clip-size": 1,
+        "cooldown": 1
       }
     }
   }
