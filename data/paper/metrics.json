@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-16T19:11:21.891Z",
+  "generatedAt": "2026-09-16T19:21:23.809Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-16T19:11:21.511Z",
-    "days": 1.009,
-    "equityPoints": 53,
+    "to": "2026-09-16T19:21:23.207Z",
+    "days": 1.016,
+    "equityPoints": 54,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 50,
+    "tickCount": 51,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-16T19:11:21.511Z",
+    "lastTickAt": "2026-09-16T19:21:23.207Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -79,30 +79,30 @@
       "maxNotionalShareOfVolume": 0.002,
       "stopCooldownMs": 14400000
     },
-    "universeSize": 90,
+    "universeSize": 91,
     "lastScan": {
       "perpsScanned": 787,
       "spotSymbols": 2241,
-      "pairsWithBothLegs": 90,
-      "evaluated": 90,
-      "triggered": 10,
+      "pairsWithBothLegs": 91,
+      "evaluated": 91,
+      "triggered": 15,
       "opened": 0,
-      "abstained": 90,
+      "abstained": 91,
       "reasons": {
-        "gap below trigger": 80,
-        "hedgeable,net-edge,clip-size": 7,
+        "gap below trigger": 76,
+        "hedgeable,net-edge,clip-size": 12,
         "hedgeable,spread,net-edge,clip-size": 1,
-        "hedgeable,net-edge": 1,
-        "hedgeable,spread,net-edge": 1
+        "hedgeable,spread,net-edge": 1,
+        "net-edge,clip-size": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": -11.62,
-        "median": -31.53,
-        "worst": -54.75,
-        "hedgeable": 0,
+        "best": -19.48,
+        "median": -47.16,
+        "worst": -67.69,
+        "hedgeable": 1,
         "clearedCost": 0,
-        "sampled": 10
+        "sampled": 15
       }
     }
   }
