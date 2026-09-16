@@ -1,8 +1,12 @@
 # Bitget Demo evidence
 
 This directory holds redacted artifacts from authenticated Bitget **Demo Trading**
-calls. It is empty in a fresh clone, and that is the honest state: an artifact
-only exists if someone actually ran the command with Demo credentials.
+calls.
+
+`preflight-20260916065553.json` is a real one, captured 16 September 2026: a
+read-only account read returning HTTP 200 and `code 00000` with `paptrading: 1`,
+hedge mode confirmed, and no order sent. That packet is the evidence that the
+Demo credentials and the HMAC signing path both work.
 
 An earlier revision of `PRD_AUDIT.md` asserted in prose that a minimum size open
 and close smoke test had passed, with nothing in the repository to show for it.

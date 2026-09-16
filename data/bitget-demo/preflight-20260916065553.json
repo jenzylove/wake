@@ -1,0 +1,64 @@
+{
+  "schema": "wake.bitget-demo.v1",
+  "capturedAt": "2026-09-16T06:55:53.871Z",
+  "environment": "bitget-demo-trading",
+  "paptrading": "1",
+  "liveTrading": false,
+  "note": "Bitget Demo Trading only. Credentials and request signatures are redacted; order parameters and exchange responses are preserved verbatim.",
+  "summary": {
+    "kind": "read-only account preflight",
+    "ok": true,
+    "placedOrder": false,
+    "note": "Account read against Bitget Demo Trading with paptrading: 1. No order was sent."
+  },
+  "interactions": [
+    {
+      "step": "account-preflight",
+      "method": "GET",
+      "path": "/api/v2/mix/account/account?marginCoin=USDT&productType=USDT-FUTURES&symbol=BTCUSDT",
+      "requestBody": null,
+      "requestHeaders": {
+        "Host": "api.bitget.com",
+        "Content-Type": "application/json",
+        "locale": "en-US",
+        "paptrading": "1",
+        "ACCESS-KEY": "[redacted]",
+        "ACCESS-SIGN": "[redacted]",
+        "ACCESS-PASSPHRASE": "[redacted]"
+      },
+      "httpStatus": 200,
+      "response": {
+        "code": "00000",
+        "msg": "success",
+        "requestTime": 1789541775949,
+        "data": {
+          "marginCoin": "USDT",
+          "locked": "0",
+          "available": "9999.43708186",
+          "crossedMaxAvailable": "9999.43708186",
+          "isolatedMaxAvailable": "9999.43708186",
+          "maxTransferOut": "9999.43708186",
+          "accountEquity": "9999.43708186",
+          "usdtEquity": "9999.43708186",
+          "btcEquity": "0.1316680607567871",
+          "crossedRiskRate": "0",
+          "crossedMarginLeverage": 10,
+          "isolatedLongLever": 10,
+          "isolatedShortLever": 10,
+          "marginMode": "isolated",
+          "posMode": "hedge_mode",
+          "unrealizedPL": "0",
+          "coupon": "0",
+          "crossedUnrealizedPL": "",
+          "isolatedUnrealizedPL": "0",
+          "grant": "",
+          "assetMode": "single",
+          "isolatedMargin": null,
+          "crossedMargin": null
+        }
+      },
+      "error": null
+    }
+  ],
+  "integrity": "6f80bf5fe8ea078cb6886b56cccd3d638b6d5c35b9b43f144358846b39225eea"
+}

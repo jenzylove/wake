@@ -131,10 +131,13 @@ npm run paper:calibrate    # threshold calibration against a ticker snapshot
 
 There is no live trading path. The authenticated Demo route stays off unless
 `WAKE_EXECUTION_MODE=bitget-demo` is set explicitly, and both Demo scripts write
-a redacted, hashed artifact to `data/bitget-demo/` on every run. That directory
-is empty in a fresh clone, which is the honest state until someone runs it with
-Demo credentials. Credentials and request signatures are never written; see
-[`data/bitget-demo/README.md`](./data/bitget-demo/README.md).
+a redacted, hashed artifact to `data/bitget-demo/` on every run.
+
+That directory holds a real one: a read-only account preflight against Bitget
+Demo Trading returning HTTP 200 and `code 00000` with `paptrading: 1`, hedge mode
+confirmed, and no order sent. The API key, secret, passphrase and the request
+signature are all written as `[redacted]`; the exchange response is preserved
+verbatim. See [`data/bitget-demo/README.md`](./data/bitget-demo/README.md).
 
 Copy `env.example` to `.env.local`. Every key in it is optional: Bitget market data is public and needs none. WAKE runs in paper mode by default and the Bitget Demo route stays behind an explicit `WAKE_EXECUTION_MODE=bitget-demo` opt in.
 

@@ -75,7 +75,7 @@ Testing the fix against live books produced a further result worth stating plain
 ## Remaining work, in priority order
 
 1. Tier 1's paper ledger still lives in browser `localStorage`, so a judge opens it empty and nothing is verifiable server side. Tier 2's ledger is the model to follow.
-2. ~~The Bitget Demo smoke test is asserted in prose with no artifact.~~ Done: the claim is withdrawn and both Demo scripts now write a redacted, hashed artifact to `data/bitget-demo/` on every run. That directory is empty in a fresh clone, which is the honest state until someone runs it with Demo credentials.
+2. ~~The Bitget Demo smoke test is asserted in prose with no artifact.~~ Done, and now evidenced. `data/bitget-demo/` holds a real redacted capture from a read-only account preflight against Bitget Demo Trading: HTTP 200, `code 00000`, `paptrading: 1`, hedge mode confirmed, no order sent. Credentials and the request signature are `[redacted]`; the packet hash recomputes.
 3. Watcher coverage is a validated registry and a scheduled mark pass, not resolver backed discovery. The route refuses to claim discovery it does not do, which is correct, but it is not yet a watcher in the PRD's sense.
 4. Capture the full downstream AFX conversion trace so the market edge can move from inferred to observed. Until then the conversion share stays an assumption, which is what the stress test exposes.
 5. Replay fixtures still carry authored numbers. They are tagged, but a build with only computed numbers would be stronger.
