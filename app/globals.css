@@ -778,3 +778,35 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .orb, .hero-ring, .ring-one, .ring-two { animation: none !important; }
 }
+
+/* --------------------------------------------------------------------------
+   Incident detail card. These rules were lost in the visual rebuild, which
+   left the card title inheriting the landing hero's display size.
+   -------------------------------------------------------------------------- */
+.hero-card { overflow: hidden; }
+.hero-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; flex-wrap: wrap; padding: 20px 22px 16px !important; }
+.hero-card-head .hero-title {
+  margin: 10px 0 0;
+  font-size: 26px; line-height: 1.16; letter-spacing: -.035em; font-weight: 600;
+  color: var(--ink);
+}
+.hero-card-head .hero-arrow { color: var(--ink-4); font-weight: 300; }
+.hero-card-content { padding: 0 !important; }
+
+.icon-tile { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 8px; flex: none; background: rgba(22,32,43,.05); color: var(--ink-2); }
+.icon-cyan { color: var(--blue); background: rgba(93,134,184,.10); }
+.icon-lime { color: var(--pass); background: rgba(78,139,114,.10); }
+.icon-orange, .icon-amber { color: var(--hold); background: rgba(176,112,92,.10); }
+.icon-violet { color: var(--plum); background: rgba(130,121,172,.10); }
+.icon-muted { color: var(--ink-3); }
+
+.state-label { font-family: var(--font-mono); font-size: 7.5px; letter-spacing: .12em; padding: 3px 6px; border-radius: 5px; background: rgba(22,32,43,.05); color: var(--ink-3); }
+.state-confirmed { color: var(--hold); background: rgba(176,112,92,.11); }
+.state-investigating { color: var(--blue); background: rgba(93,134,184,.11); }
+.state-resolved { color: var(--pass); background: rgba(78,139,114,.11); }
+
+.timeline-body { min-width: 0; }
+
+.verdict-value { font-family: var(--font-mono); font-size: 17px; font-weight: 600; letter-spacing: -.03em; color: var(--ink); }
+.verdict-value.trade { color: var(--pass); }
+.verdict-value.no-trade { color: var(--ink-2); }
