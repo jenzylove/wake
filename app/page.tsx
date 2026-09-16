@@ -356,7 +356,14 @@ export default function Home() {
           <button className="mobile-menu" onClick={() => setMobileNav((value) => !value)} aria-label="Toggle navigation">
             <Menu size={18} />
           </button>
-          <div className="brand-mark"><span>↯</span></div>
+          <div className="brand-mark" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+              <circle cx="4" cy="8.5" r="1.6" fill="currentColor" />
+              <path d="M7.4 4.6a6.2 6.2 0 0 1 0 7.8" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" opacity=".92" />
+              <path d="M10.6 2.9a9.4 9.4 0 0 1 0 11.2" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" opacity=".6" />
+              <path d="M13.8 1.6a12.3 12.3 0 0 1 0 13.8" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" opacity=".3" />
+            </svg>
+          </div>
           <div>
             <div className="brand-name">WAKE</div>
             <div className="brand-kicker">EVIDENCE BEFORE EXECUTION</div>
@@ -374,21 +381,33 @@ export default function Home() {
 
       <section className="wake-hero" aria-labelledby="wake-hero-title">
         <div className="hero-scene" aria-hidden="true">
-          <img className="hero-scene-image" src="/wake-hero.png" alt="" />
           <div className="hero-scene-vignette" />
           <div className="hero-scene-glow" />
         </div>
         <div className="hero-copy">
-          <div className="hero-eyebrow"><span className="eyebrow-line" /> WAKE IS A MISSION</div>
-          <h1 id="wake-hero-title">When the chain moves,<br /><em>find what the market missed.</em></h1>
-          <p className="hero-description">On-chain incident response for market action you can explain, bound, and verify.</p>
+          <div className="hero-eyebrow"><span className="eyebrow-line" /> EVIDENCE BEFORE EXECUTION</div>
+          <h1 className="hero-title" id="wake-hero-title">Proof, then<br /><em>position.</em></h1>
+          <p className="hero-description">
+            WAKE reads a confirmed on-chain incident, maps who actually absorbs the damage, and prices it against real
+            traded liquidity. Most of the time it decides there is no trade, and shows the arithmetic either way.
+          </p>
+          <div className="hero-tags">
+            <span>CAUSAL EXPOSURE GRAPH</span>
+            <span>COMPUTED CONSEQUENCE</span>
+            <span>PAPER ONLY</span>
+          </div>
           <div className="hero-actions">
-            <Button size="sm" className="accent-button hero-primary" onClick={enterWorkspace}><ScanSearch size={14} /> ENTER RESPONSE ROOM <ArrowRight size={14} /></Button>
-            <button type="button" className="hero-secondary" onClick={enterWorkspace}>Explore WAKE <ArrowRight size={14} /></button>
+            <button type="button" className="hero-primary" onClick={enterWorkspace}>
+              Enter the response room <ArrowRight size={15} className="hero-arrow" />
+            </button>
+            <button type="button" className="hero-secondary" onClick={enterWorkspace}>See the evidence</button>
           </div>
         </div>
         <div className="hero-index" aria-hidden="true"><strong>01</strong><span>/ 04</span></div>
-        <div className="hero-side-note"><span>WAKE / 01</span><p>On-chain state <i>→</i> causal exposure <i>→</i> bounded action</p></div>
+        <div className="hero-side-note">
+          <strong>On-chain state, causal exposure, bounded action.</strong> Every number here is computed from a hashed
+          capture packet, so the decision can be re-derived rather than trusted.
+        </div>
         <div className="hero-scroll-cue" aria-hidden="true"><span>SCROLL TO INVESTIGATE</span><ChevronDown size={14} /></div>
       </section>
 
