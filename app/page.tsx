@@ -9,7 +9,6 @@ import {
   BrainCircuit,
   Check,
   CheckCircle2,
-  ChevronDown,
   Copy,
   Code2,
   Crosshair,
@@ -156,6 +155,9 @@ export default function Home() {
   const selectedEdge = graphEdges.find((edge) => edge.from === selectedGraphNode.id || edge.to === selectedGraphNode.id)
   const isRealCapture = incident.provenance === "REAL_CAPTURE"
   const isComputed = incident.numbersProvenance === "COMPUTED"
+  const realCaptures = incidents.filter((item) => item.provenance === "REAL_CAPTURE")
+  const realCaptureCount = realCaptures.length
+  const abstainedCaptureCount = realCaptures.filter((item) => !evaluateRiskGate(item).passed).length
   const provenanceLabel = isRealCapture ? "REAL CAPTURE" : "REPLAY FIXTURE · NOT LIVE"
   const mispricing = incident.modeledDelta === null ? "n/a" : `${(incident.modeledDelta - incident.marketDelta).toFixed(1)}%`
   const marketSummary = incident.modeledDelta === null ? `market ${incident.marketDelta.toFixed(2)}% · model not estimated` : `model ${incident.modeledDelta.toFixed(1)}% · market ${incident.marketDelta.toFixed(1)}%`
@@ -381,8 +383,17 @@ export default function Home() {
 
       <section className="wake-hero" aria-labelledby="wake-hero-title">
         <div className="hero-scene" aria-hidden="true">
-          <div className="hero-scene-vignette" />
-          <div className="hero-scene-glow" />
+          <div className="hero-field"><span /><span /><span /><span /><span /></div>
+          <div className="hero-frost" />
+          <div className="hero-glass">
+            <div className="orb orb-1" />
+            <div className="orb orb-2" />
+            <div className="orb orb-3" />
+            <div className="orb orb-4" />
+            <div className="hero-ring hero-ring-1" />
+            <div className="hero-ring hero-ring-2" />
+            <div className="hero-ring hero-ring-3" />
+          </div>
         </div>
         <div className="hero-copy">
           <div className="hero-eyebrow"><span className="eyebrow-line" /> EVIDENCE BEFORE EXECUTION</div>
@@ -403,12 +414,28 @@ export default function Home() {
             <button type="button" className="hero-secondary" onClick={enterWorkspace}>See the evidence</button>
           </div>
         </div>
-        <div className="hero-index" aria-hidden="true"><strong>01</strong><span>/ 04</span></div>
-        <div className="hero-side-note">
-          <strong>On-chain state, causal exposure, bounded action.</strong> Every number here is computed from a hashed
-          capture packet, so the decision can be re-derived rather than trusted.
+        <div className="hero-strip">
+          <div>
+            <span>REAL CAPTURES</span>
+            <strong>{String(realCaptureCount).padStart(2, "0")}</strong>
+            <small>hashed, receipt verified</small>
+          </div>
+          <div>
+            <span>TIER 1 DECISIONS</span>
+            <strong>{realCaptureCount === abstainedCaptureCount ? "ABSTAIN" : `${abstainedCaptureCount}/${realCaptureCount}`}</strong>
+            <small>{abstainedCaptureCount === realCaptureCount ? "all captures, on computed residual" : "held on computed residual"}</small>
+          </div>
+          <div>
+            <span>CONSEQUENCE MODEL</span>
+            <strong>COMPUTED</strong>
+            <small>square root impact, observed inputs</small>
+          </div>
+          <div>
+            <span>EXECUTION</span>
+            <strong>PAPER</strong>
+            <small>no live trading path</small>
+          </div>
         </div>
-        <div className="hero-scroll-cue" aria-hidden="true"><span>SCROLL TO INVESTIGATE</span><ChevronDown size={14} /></div>
       </section>
 
       <div className="app-body" id="wake-workspace">
