@@ -512,16 +512,16 @@ export default function Home() {
                   <div className="graph-stage">
                     <svg className="graph-lines" viewBox="0 0 900 310" preserveAspectRatio="none" aria-hidden="true">
                       <defs>
-                        <linearGradient id="line-cyan" x1="0" x2="1"><stop offset="0" stopColor="#3ee7e1" stopOpacity=".25" /><stop offset="1" stopColor="#3ee7e1" /></linearGradient>
-                        <linearGradient id="line-orange" x1="0" x2="1"><stop offset="0" stopColor="#3ee7e1" /><stop offset="1" stopColor="#f7a76a" /></linearGradient>
+                        <linearGradient id="line-cyan" x1="0" x2="1"><stop offset="0" stopColor="#a8c0da" stopOpacity=".2" /><stop offset="1" stopColor="#5d86b8" /></linearGradient>
+                        <linearGradient id="line-orange" x1="0" x2="1"><stop offset="0" stopColor="#5d86b8" /><stop offset="1" stopColor="#b0705c" /></linearGradient>
                       </defs>
                       <path d="M 163 156 C 230 156, 240 86, 304 86" stroke="url(#line-cyan)" strokeWidth="2" fill="none" />
                       <path d="M 163 156 C 232 156, 236 232, 304 232" stroke="url(#line-cyan)" strokeWidth="2" fill="none" />
-                      <path d="M 440 86 C 506 86, 520 156, 572 156" stroke="url(#line-orange)" strokeWidth="2.5" fill="none" />
-                      <path d="M 440 232 C 500 232, 520 156, 572 156" stroke="#9b7cf8" strokeWidth="1.5" strokeDasharray="5 5" fill="none" opacity=".75" />
-                      <path d="M 710 156 C 760 156, 764 84, 806 84" stroke="#f7a76a" strokeWidth="2" fill="none" />
-                      <path d="M 710 156 C 760 156, 764 232, 806 232" stroke="#f7a76a" strokeWidth="2" fill="none" opacity=".5" />
-                      <circle cx="233" cy="123" r="3" fill="#3ee7e1" /><circle cx="233" cy="190" r="3" fill="#3ee7e1" /><circle cx="505" cy="121" r="3" fill="#f7a76a" /><circle cx="759" cy="122" r="3" fill="#f7a76a" />
+                      <path d="M 440 86 C 506 86, 520 156, 572 156" stroke="url(#line-orange)" strokeWidth="2" fill="none" />
+                      <path d="M 440 232 C 500 232, 520 156, 572 156" stroke="#8279ac" strokeWidth="1.5" strokeDasharray="5 5" fill="none" opacity=".75" />
+                      <path d="M 710 156 C 760 156, 764 84, 806 84" stroke="#b0705c" strokeWidth="1.75" fill="none" />
+                      <path d="M 710 156 C 760 156, 764 232, 806 232" stroke="#b0705c" strokeWidth="1.75" fill="none" opacity=".5" />
+                      <circle cx="233" cy="123" r="2.5" fill="#5d86b8" /><circle cx="233" cy="190" r="2.5" fill="#5d86b8" /><circle cx="505" cy="121" r="2.5" fill="#b0705c" /><circle cx="759" cy="122" r="2.5" fill="#b0705c" />
                     </svg>
                     {incident.graphNodes.map((node) => (
                       <GraphNode key={node.id} {...node} selected={selectedNode === node.id} onClick={() => setSelectedNode(node.id)} />

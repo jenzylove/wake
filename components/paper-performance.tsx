@@ -74,10 +74,10 @@ function Sparkline({ points }: { points: EquityPoint[] }) {
     return `${x.toFixed(2)},${y.toFixed(2)}`
   })
   const up = values[values.length - 1] >= values[0]
-  const stroke = up ? "var(--lime)" : "var(--orange)"
+  const stroke = up ? "var(--pass)" : "var(--hold)"
   return (
     <svg className="paper-spark" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" role="img" aria-label="Paper equity curve">
-      <polyline points={`0,${height} ${coords.join(" ")} ${width},${height}`} fill={up ? "rgba(181,232,108,.07)" : "rgba(255,138,76,.07)"} stroke="none" />
+      <polyline points={`0,${height} ${coords.join(" ")} ${width},${height}`} fill={up ? "rgba(78,139,114,.09)" : "rgba(176,112,92,.09)"} stroke="none" />
       <polyline points={coords.join(" ")} fill="none" stroke={stroke} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
     </svg>
   )

@@ -489,7 +489,7 @@ body {
 .legend-dot.solid { background: var(--blue); }
 .legend-dot.ring { border: 1px solid var(--ice-deep); }
 .graph-content { padding: 0 19px 19px !important; }
-.graph-stage { position: relative; height: 296px; border-radius: 12px; background: linear-gradient(160deg, rgba(255,255,255,.7), rgba(236,239,244,.55)); overflow: hidden; }
+.graph-stage { position: relative; height: 300px; border-radius: 12px; background: linear-gradient(160deg, rgba(255,255,255,.7), rgba(236,239,244,.55)); overflow: hidden; }
 .graph-lines { position: absolute; inset: 0; width: 100%; height: 100%; }
 .graph-lines path { stroke: var(--ice-deep); stroke-width: 1; fill: none; opacity: .65; }
 .graph-node {
@@ -506,9 +506,10 @@ body {
 .node-kicker { font-family: var(--font-mono); font-size: 7.5px; letter-spacing: .11em; color: var(--ink-4); }
 .node-text strong { font-size: 12px; font-weight: 570; color: var(--ink); }
 .node-detail { font-size: 9.5px; color: var(--ink-3); }
-.node-incident { left: 3%; top: 10%; } .node-collateral { left: 3%; top: 55%; }
-.node-protocol { left: 35%; top: 32%; } .node-market { left: 62%; top: 12%; }
-.node-route-a { left: 62%; top: 55%; } .node-route-b { left: 62%; top: 78%; }
+/* Geometry matches the hand tuned connector paths in the graph SVG. */
+.node-incident { left: 2.5%; top: 37%; } .node-collateral { left: 25%; top: 14%; }
+.node-protocol { left: 25%; top: 64%; } .node-market { left: 52%; top: 37%; }
+.node-route-a { left: 73%; top: 13%; } .node-route-b { left: 73%; top: 64%; }
 .node-cyan .node-icon { color: var(--blue); background: rgba(93,134,184,.10); }
 .node-lime .node-icon { color: var(--pass); background: rgba(78,139,114,.10); }
 .node-orange .node-icon { color: var(--hold); background: rgba(176,112,92,.10); }
@@ -769,9 +770,10 @@ body {
   .lower-grid { grid-template-columns: 1fr; }
   .page-heading { flex-direction: column; align-items: flex-start; }
   .graph-stage { height: 420px; }
-  .node-incident { left: 4%; top: 4%; } .node-collateral { left: 4%; top: 26%; }
-  .node-protocol { left: 4%; top: 48%; } .node-market { left: 52%; top: 48%; }
-  .node-route-a { left: 52%; top: 26%; } .node-route-b { left: 52%; top: 4%; }
+  .node-incident { left: 4%; top: 5%; } .node-collateral { left: 4%; top: 27%; }
+  .node-protocol { left: 4%; top: 49%; } .node-market { left: 52%; top: 49%; }
+  .node-route-a { left: 52%; top: 27%; } .node-route-b { left: 52%; top: 5%; }
+  .graph-lines { opacity: .35; }
   .graph-side-note { left: 4%; max-width: 92%; }
 }
 @media (max-width: 660px) {
