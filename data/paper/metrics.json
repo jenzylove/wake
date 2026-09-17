@@ -1,17 +1,17 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-17T17:43:32.579Z",
+  "generatedAt": "2026-09-17T20:15:05.554Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-17T17:43:32.248Z",
-    "days": 1.948,
-    "equityPoints": 82,
+    "to": "2026-09-17T20:15:04.856Z",
+    "days": 2.053,
+    "equityPoints": 83,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
-    "sharpeAnnualisedFromHourly": -10.447899027501917,
+    "sharpeAnnualisedFromHourly": -10.243042885773274,
     "sharpeAnnualisedFromDaily": null,
-    "sharpeSampleSizeHourly": 24,
+    "sharpeSampleSizeHourly": 25,
     "sharpeSampleSizeDaily": 2,
     "sharpeMinimumSamples": {
       "hourly": 24,
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 79,
+    "tickCount": 80,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-17T17:43:32.248Z",
+    "lastTickAt": "2026-09-17T20:15:04.856Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -79,30 +79,29 @@
       "maxNotionalShareOfVolume": 0.002,
       "stopCooldownMs": 14400000
     },
-    "universeSize": 99,
+    "universeSize": 95,
     "lastScan": {
       "perpsScanned": 790,
       "spotSymbols": 2242,
-      "pairsWithBothLegs": 99,
-      "evaluated": 99,
-      "triggered": 8,
+      "pairsWithBothLegs": 95,
+      "evaluated": 95,
+      "triggered": 10,
       "opened": 0,
-      "abstained": 99,
+      "abstained": 95,
       "reasons": {
-        "gap below trigger": 91,
-        "hedgeable,clip-size": 1,
-        "hedgeable,net-edge,clip-size": 2,
+        "gap below trigger": 85,
+        "hedgeable,net-edge,clip-size": 5,
         "hedgeable,spread,clip-size": 1,
         "net-edge,clip-size": 4
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 47.7,
-        "median": -30.02,
-        "worst": -52.99,
+        "best": 28.74,
+        "median": -30.79,
+        "worst": -79.41,
         "hedgeable": 4,
-        "clearedCost": 2,
-        "sampled": 8
+        "clearedCost": 1,
+        "sampled": 10
       }
     }
   }
