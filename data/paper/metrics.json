@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-18T14:25:40.074Z",
+  "generatedAt": "2026-09-18T14:35:42.205Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-18T14:25:39.665Z",
-    "days": 2.81,
-    "equityPoints": 107,
+    "to": "2026-09-18T14:35:41.742Z",
+    "days": 2.817,
+    "equityPoints": 108,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 104,
+    "tickCount": 105,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-18T14:25:39.665Z",
+    "lastTickAt": "2026-09-18T14:35:41.742Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -79,30 +79,30 @@
       "maxNotionalShareOfVolume": 0.002,
       "stopCooldownMs": 14400000
     },
-    "universeSize": 112,
+    "universeSize": 113,
     "lastScan": {
       "perpsScanned": 797,
       "spotSymbols": 2238,
-      "pairsWithBothLegs": 112,
-      "evaluated": 112,
-      "triggered": 14,
+      "pairsWithBothLegs": 113,
+      "evaluated": 113,
+      "triggered": 10,
       "opened": 0,
-      "abstained": 112,
+      "abstained": 113,
       "reasons": {
-        "gap below trigger": 98,
-        "hedgeable,net-edge,clip-size": 6,
-        "hedgeable,spread,net-edge,clip-size": 2,
-        "spread,net-edge,clip-size": 1,
-        "net-edge,clip-size": 5
+        "gap below trigger": 103,
+        "hedgeable,net-edge,clip-size": 5,
+        "net-edge,clip-size": 3,
+        "hedgeable,clip-size": 1,
+        "hedgeable,spread,net-edge,clip-size": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": -12.07,
-        "median": -43.16,
-        "worst": -69.91,
-        "hedgeable": 6,
-        "clearedCost": 0,
-        "sampled": 14
+        "best": 9.19,
+        "median": -33.09,
+        "worst": -68.85,
+        "hedgeable": 3,
+        "clearedCost": 1,
+        "sampled": 10
       }
     }
   }
