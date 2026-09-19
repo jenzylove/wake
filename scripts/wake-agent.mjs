@@ -131,6 +131,11 @@ async function main() {
     try { price = await mark(p.instrument) } catch { continue }
     const reason = exitReason(p, price, byId.get(p.incidentId) ?? null)
     if (!reason) continue
+    // A Demo position can only be closed by a run that can reach Demo. Never mark it closed here.
+    if (p.mode === "bitget-demo" && !DEMO) {
+      appendHashLog(LOG, { event: "EXIT_DEFERRED", incidentId: p.incidentId, reason, note: "exit due, but this run has no Demo executor" }, TICK)
+      continue
+    }
     let order = null
     let error = null
     if (p.mode === "bitget-demo" && DEMO) {
