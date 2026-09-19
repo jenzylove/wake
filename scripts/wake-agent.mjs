@@ -120,6 +120,12 @@ async function main() {
   const incidents = await gatherIncidents()
   const byId = new Map(incidents.map((i) => [i.id, i]))
   let posMode = null
+  // Auth probe: an empty intent is rejected as 400 when the token matches, 401 when it does not.
+  if (EXECUTOR) {
+    const res = await fetch(EXECUTOR, { method: "POST", headers: { "content-type": "application/json", "x-wake-scheduler-secret": process.env.WAKE_SCHEDULER_SECRET }, body: "{}" })
+    if (res.status !== 400) appendHashLog(LOG, { event: "EXECUTOR_UNAVAILABLE", status: res.status, error: (await res.json().catch(() => ({}))).error ?? null }, TICK)
+    state.executorOk = res.status === 400
+  }
   if (DIRECT) {
     try { posMode = (await bitget("GET", "/api/v2/mix/account/account?marginCoin=USDT&productType=USDT-FUTURES&symbol=BTCUSDT", "", true)).data?.posMode ?? null }
     catch (error) { appendHashLog(LOG, { event: "ACCOUNT_ERROR", error: String(error.message ?? error) }, TICK) }
@@ -188,7 +194,7 @@ async function main() {
   let peak = 0, cum = 0, maxDd = 0
   for (const x of pnl) { cum += x; peak = Math.max(peak, cum); maxDd = Math.max(maxDd, peak - cum) }
   const metrics = {
-    updatedAt: TICK, mode: DEMO ? "bitget-demo" : "no-credentials", incidentsEvaluated: incidents.length,
+    updatedAt: TICK, mode: DEMO ? "bitget-demo" : "no-credentials", executorOk: state.executorOk ?? null, incidentsEvaluated: incidents.length,
     eligibleNow: incidents.filter((i) => agentEligibility(i).eligible).length,
     open: state.open.length, closedTrades: pnl.length, realizedPnlUsd: Number(cum.toFixed(4)),
     winRate: pnl.length ? Number((pnl.filter((x) => x > 0).length / pnl.length).toFixed(3)) : null, maxDrawdownUsd: Number(maxDd.toFixed(4)),
