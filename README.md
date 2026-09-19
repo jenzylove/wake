@@ -21,6 +21,20 @@ The repository is paper-only by default. It does not support Bitget live trading
 
 Consequence magnitudes use the square root impact law over observed volatility and traded value, with conversion scenarios stated as assumptions. Discovered incidents hold at MONITOR: the exploit feed publishes no transaction hashes, so escalation needs `node scripts/attach-receipt.mjs <id> <chainId> <txHash>`, which only attaches a receipt fetched from the chain. As of 19 September 2026 no real incident has cleared the gate, so there is no strategy origin Demo order yet; the NO_TRADE and MONITOR decisions are the honest record. See [`AUDIT_2026-09-16.md`](./AUDIT_2026-09-16.md).
 
+## The agent loop and its paper log
+
+Every hour `.github/workflows/discover.yml` discovers new incidents, then runs one agent tick (`scripts/wake-agent.mjs`). The tick evaluates every incident WAKE knows about (captured, discovered and blind test), applies `lib/agent-policy.mjs`, opens a Bitget Demo position for anything eligible at WAKE's computed size (capped at $100), and closes positions on their stop, on a changed decision, or after 72 hours. The exchange keys never reach the runner: orders go through `POST /api/agent/execute` on the deployment, which enforces Demo mode, the notional cap and venue minimums, and accepts only the scheduler token.
+
+WAKE's paper log is `data/wake-paper/log.jsonl` (hash chained, replayed by `npm run data:verify`) with totals in `data/wake-paper/metrics.json`. The older `data/paper/` log belongs to a separate delta neutral basis engine and is not WAKE's incident strategy.
+
+## Blind exploit challenge
+
+`npm run blind:build && npm run blind:run` starts an empty local chain, starts WAKE's watcher, and only then lets a red team deploy a randomized protocol set (random names, balances, vault classes, lending markets and borrowers). The red team publishes a registry and a SHA-256 commitment to its answer, then at a random moment runs an authorised decoy sweep and a real exploit from one of three vulnerability classes. WAKE sees only blocks, logs, traces and contract state. It reconstructs holdings from Transfer logs, flags the drain, checks authorisation, measures share backing before and after, finds lending markets holding the damaged receipt token and computes their bad debt from their own logs, then decides through the same policy, sizer and gate as every other incident. Because the contracts did not exist before the run, no model can have memorised the answer.
+
+First 12 runs (19 September 2026): 12 of 12 exploits detected, 12 of 12 decoys dismissed, 4 of 4 contagion paths found, 12 of 12 trade targets correct, 0 false positives, median detection 2.9 seconds. The gate cleared 2; the rest were real exploits too small relative to market cap to clear the 1.2% edge, and WAKE held. One cleared trade executed on Bitget Demo: UNIUSDT short, order `1485315090898124800`. Scores are in `data/blind/runs.jsonl` (hash chained) and per run under `data/blind/runs/`.
+
+Blind trades are labelled `BLIND_TEST` everywhere. The chain event is synthetic; the Bitget instrument, price, candles and Demo order are real.
+
 ## Run and verify
 
 ```sh

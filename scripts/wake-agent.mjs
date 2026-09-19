@@ -157,6 +157,8 @@ async function main() {
       state.lastSeen = { ...(state.lastSeen ?? {}), [inc.id]: seen }
     }
     if (!e.eligible || alreadyOpen) continue
+    // An entry the venue rejected (for example a symbol Demo does not list) is not retried every hour.
+    if (state.failed?.[inc.id]) continue
     if (state.open.length >= AGENT_LIMITS.maxOpenPositions) { appendHashLog(LOG, { event: "SKIPPED", incidentId: inc.id, reason: "max open positions" }, TICK); continue }
     try {
       const [price, v] = await Promise.all([mark(inc.instrument), venue(inc.instrument)])
@@ -173,6 +175,7 @@ async function main() {
         ...(DEMO ? {} : { note: "Demo credentials are not configured in this environment, so no order was sent." }) }, TICK)
     } catch (error) {
       appendHashLog(LOG, { event: "ENTRY_FAILED", incidentId: inc.id, error: String(error.message ?? error) }, TICK)
+      state.failed = { ...(state.failed ?? {}), [inc.id]: String(error.message ?? error) }
     }
   }
 

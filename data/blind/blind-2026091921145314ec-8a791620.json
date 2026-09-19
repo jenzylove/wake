@@ -1,0 +1,337 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-2026091921145314ec-8a791620",
+  "runId": "2026091921145314ec",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 81,
+    "blockTimestamp": 1789852504
+  },
+  "detection": {
+    "tx": "0xbab1b60e5b6e75c70eb0afac1bb4d11432db4823d24fd09abf18b4f02ec555ba",
+    "txs": [
+      "0xbab1b60e5b6e75c70eb0afac1bb4d11432db4823d24fd09abf18b4f02ec555ba"
+    ],
+    "firstDetectedAt": "2026-09-19T21:15:07.476Z",
+    "victim": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+    "token": "0x2279b7a0a67db372996a5fab50d91eaa73d2ebe6",
+    "before": 854198,
+    "after": 341679.2,
+    "detectedAt": "2026-09-19T21:15:07.476Z",
+    "latencyMs": 3476
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x2279b7a0a67db372996a5fab50d91eaa73d2ebe6",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 854198,
+    "integrators": [
+      {
+        "address": "0xa82ff9afd8f496c3d6ac40e2a0f282e47488cfc9",
+        "heldSharesBefore": 218125.6,
+        "heldSharesAfter": 218125.6,
+        "collateralValueBeforeUsd": 218125.6,
+        "collateralValueAfterUsd": 87250.24,
+        "lentUsd": 142915.027,
+        "badDebtUsd": 55664.787
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+      "lossUsd": 512518.8,
+      "name": "Yarrow Pool",
+      "instrument": "AAVEUSDT",
+      "marketCapUsd": 55000000,
+      "modeledDeltaPct": 0.233,
+      "markAtDetection": 140.81,
+      "markAtDecision": 140.81,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5387.537810498588,
+        "maxLossUsd": 500,
+        "stopPct": 0.08826836130694465,
+        "costPct": 0.0045384119514554734,
+        "spreadPct": 0.0033384119514554733,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04413418065347233,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 35292855.572,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0033384119514554733,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.233
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0xa82ff9afd8f496c3d6ac40e2a0f282e47488cfc9",
+      "lossUsd": 55664.787,
+      "name": "Vesper Lend",
+      "instrument": "OPUSDT",
+      "marketCapUsd": 91000000,
+      "modeledDeltaPct": 0.015,
+      "markAtDetection": 0.1201,
+      "markAtDecision": 0.1201,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 3457.9938138653756,
+        "maxLossUsd": 500,
+        "stopPct": 0.13890342639830772,
+        "costPct": 0.00568908212359031,
+        "spreadPct": 0.00448908212359031,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.06945171319915386,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 15045201.06702,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.00448908212359031,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.015
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xbab1b60e5b6e75c70eb0afac1bb4d11432db4823d24fd09abf18b4f02ec555ba succeeded in block 81"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $512,519 at Yarrow Pool"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.2%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "1 blocking check",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "instrument": "AAVEUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 5387.537810498588,
+      "maxLossUsd": 500,
+      "stopPct": 0.08826836130694465,
+      "costPct": 0.0045384119514554734,
+      "spreadPct": 0.0033384119514554733,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.04413418065347233,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 35292855.572,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.0033384119514554733,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "e580d4542bbef9219e989811a6d90e2a8fd24035448182646e40513e45f2b850"
+}
