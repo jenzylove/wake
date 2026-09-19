@@ -1,0 +1,310 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609192142075512-322813fd",
+  "runId": "202609192142075512",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 88,
+    "blockTimestamp": 1789854233
+  },
+  "detection": {
+    "tx": "0xe66495bd78f658fbb284bdc39b01a76cade43ee0dc29e662290789cd12dbf03e",
+    "txs": [
+      "0xe66495bd78f658fbb284bdc39b01a76cade43ee0dc29e662290789cd12dbf03e"
+    ],
+    "firstDetectedAt": "2026-09-19T21:44:12.631Z",
+    "victim": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+    "token": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+    "before": 1239554,
+    "after": 0,
+    "detectedAt": "2026-09-19T21:44:12.631Z",
+    "latencyMs": 19631
+  },
+  "investigation": {
+    "from": "0x7d74dbf66d45b6704bc8e9639eb09a704d087589",
+    "to": "0xdda6400e24977ab99ff7d44a1082b87d6308d170",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xdda6400e24977ab99ff7d44a1082b87d6308d170",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 1239554,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+      "lossUsd": 1239554,
+      "name": "Willow Yield",
+      "instrument": "ADAUSDT",
+      "marketCapUsd": 9000000,
+      "modeledDeltaPct": 3.443,
+      "markAtDetection": 0.227,
+      "markAtDecision": 0.227,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5593.107954007099,
+        "maxLossUsd": 500,
+        "stopPct": 0.08469196754977175,
+        "costPct": 0.004703768079071691,
+        "spreadPct": 0.003503768079071691,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.042345983774885874,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 92487965.31970002,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.003503768079071691,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 3.443
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xe66495bd78f658fbb284bdc39b01a76cade43ee0dc29e662290789cd12dbf03e succeeded in block 88"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x7d74dbf66d45b6704bc8e9639eb09a704d087589 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $1,239,554 at Willow Yield"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Attacker-controlled contract 0xdda6...d170 called initialize (0xc4d66de8) on the already-deployed Willow Yield vault 0x3228...6c44, seizing privileged control from prior owner 0xf39F...2266. It then read token()/balanceOf and invoked the privileged sweep path (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) draining the vault's entire token balance."
+    }
+  ],
+  "confidence": 100,
+  "decision": "TRADE_DIRECT",
+  "gate": {
+    "passed": true,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": true,
+        "value": "3.4%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "reinitialisation",
+    "mechanism": "Attacker-controlled contract 0xdda6...d170 called initialize (0xc4d66de8) on the already-deployed Willow Yield vault 0x3228...6c44, seizing privileged control from prior owner 0xf39F...2266. It then read token()/balanceOf and invoked the privileged sweep path (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) draining the vault's entire token balance.",
+    "lossBearer": "Holders of Willow Yield vault 0x322813fd9a801c5507c9de605d63cea4f2ce6c44 (depositors whose share price went 1 -> 0); no integrator exposure is shown in the packet.",
+    "narrative": "The Willow Yield vault was left re-initialisable. An attacker contract called the initialiser on the live vault, took over the owner role that previously sat with 0xf39F...2266, and immediately used an owner-only sweep function to move the vault's whole token balance out in a single successful transaction. Vault token holdings went from 1,239,554 to 0 and share price from 1 to 0, so depositors hold worthless shares. The outflow was not authorised by the prior owner. Modelled direct loss is 1,239,554 USD against a 9,000,000 USD market cap, a 3.443% delta.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "No integrator list supplied, so any second-order exposure beyond direct vault holders is unassessed.",
+      "Packet does not show the vault's access-control code, so re-initialisability is inferred from the trace, not from source.",
+      "Recipient of the swept tokens is not itemised in the evidence.",
+      "Modelled 3.443% delta rests on the supplied market cap, which is not independently corroborated here."
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "TRADE_DIRECT",
+    "gatePassed": true,
+    "instrument": "ADAUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 5593.107954007099,
+      "maxLossUsd": 500,
+      "stopPct": 0.08469196754977175,
+      "costPct": 0.004703768079071691,
+      "spreadPct": 0.003503768079071691,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.042345983774885874,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 92487965.31970002,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.003503768079071691,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "cc7a4241601637bc90abfc5288d546e59eee78933af434052f96ddfe4df684e8"
+}
