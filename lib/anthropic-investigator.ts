@@ -24,6 +24,7 @@ type IncidentContext = {
   graph: unknown
   riskGate: unknown
   allowedEvidenceRefs: string[]
+  allowedFalsificationKeys: string[]
 }
 
 type AnthropicResponse = {
@@ -74,14 +75,15 @@ export async function investigateWithAnthropic(context: IncidentContext) {
   }
   const result = investigatorResultSchema.parse(parsed)
   const allowed = new Set(context.allowedEvidenceRefs)
+  const expectedKeys = new Set(context.allowedFalsificationKeys)
+  const returnedKeys = new Set(result.falsification.map((item) => item.key))
+  if (returnedKeys.size !== expectedKeys.size || [...expectedKeys].some((key) => !returnedKeys.has(key))) {
+    throw new Error("Anthropic investigator returned unexpected falsification keys")
+  }
+  const unsupportedRefs = result.falsification.flatMap((item) => item.evidenceRefs).filter((ref) => !allowed.has(ref))
+  if (unsupportedRefs.length > 0) throw new Error("Anthropic investigator cited evidence outside the supplied packet")
   return {
     model,
-    result: {
-      ...result,
-      falsification: result.falsification.map((item) => ({
-        ...item,
-        evidenceRefs: item.evidenceRefs.filter((ref) => allowed.has(ref)),
-      })),
-    },
+    result,
   }
 }

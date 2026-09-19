@@ -1,6 +1,7 @@
 import { getBitgetMarkSnapshot } from "@/lib/bitget-client"
 import { checkRateLimit, clientKey } from "@/lib/rate-limit"
 import { appendRuntimeRecord, readRuntimeRecords, runtimeStoreStatus } from "@/lib/runtime-store"
+import { authorizeOperatorRequest } from "@/lib/request-auth.mjs"
 
 type PositionObservation = {
   observationId: string
@@ -28,6 +29,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const authorization = authorizeOperatorRequest(request)
+  if (!authorization.ok) return Response.json({ error: authorization.error }, { status: authorization.status })
+
   const limit = checkRateLimit({ key: clientKey(request, "observations"), limit: 6, windowMs: 60_000, dailyLimit: 600 })
   if (!limit.allowed) {
     return Response.json(

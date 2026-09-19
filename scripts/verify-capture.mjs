@@ -1,6 +1,6 @@
-import { createHash } from "node:crypto"
 import { readdir, readFile } from "node:fs/promises"
 import path from "node:path"
+import { validateCapturePacket } from "../lib/capture-validation.mjs"
 
 const input = process.argv[2]
 const files = input
@@ -15,9 +15,8 @@ if (files.length === 0) throw new Error("No JSON capture packets found")
 const results = []
 for (const filePath of files) {
   const parsed = JSON.parse(await readFile(filePath, "utf8"))
-  const { integrity, ...packet } = parsed
-  const actual = createHash("sha256").update(JSON.stringify(packet)).digest("hex")
-  results.push({ filePath, incident: packet.incident?.id, ok: typeof integrity === "string" && integrity === actual, expected: integrity, actual })
+  const validation = validateCapturePacket(parsed)
+  results.push({ filePath, incident: parsed.incident?.id, ...validation })
 }
 
 const ok = results.every((result) => result.ok)

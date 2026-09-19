@@ -1,13 +1,9 @@
 import { runValidatedWatcherPass } from "@/lib/watcher-service"
-
-function authorized(request: Request) {
-  const secret = process.env.WAKE_SCHEDULER_SECRET || process.env.CRON_SECRET
-  if (!secret) return true
-  return request.headers.get("authorization") === `Bearer ${secret}` || request.headers.get("x-wake-scheduler-secret") === secret
-}
+import { authorizeSchedulerRequest } from "@/lib/request-auth.mjs"
 
 export async function GET(request: Request) {
-  if (!authorized(request)) return Response.json({ error: "Watcher scheduler authorization failed" }, { status: 401 })
+  const authorization = authorizeSchedulerRequest(request)
+  if (!authorization.ok) return Response.json({ error: authorization.error }, { status: authorization.status })
   try {
     return Response.json({ product: "WAKE", source: "server-watcher-pass", report: await runValidatedWatcherPass() })
   } catch (error) {

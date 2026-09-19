@@ -2,6 +2,7 @@ import realMoonwellCapture from "@/data/incidents/inc-real-moonwell-20260827.jso
 import realAfxCapture from "@/data/incidents/inc-real-afx-20260722.json"
 import realAfxResolutionCapture from "@/data/incidents/inc-real-afx-resolution-20260723.json"
 import { computeConfidence, modelConsequence, type ConsequenceInputs } from "@/lib/consequence-model"
+import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "@/lib/wake-policy.mjs"
 
 export type IncidentState = "CONFIRMED" | "INVESTIGATING" | "RESOLVED"
 export type WorkflowState = "WATCHING" | "ANOMALY_DETECTED" | "INVESTIGATING" | "INCIDENT_CONFIRMED" | "EXPOSURE_MAPPING" | "MARKET_CHECK" | "CAUSAL_CHALLENGE" | "TRADE_READY" | "RISK_APPROVED" | "POSITION_OPEN" | "MONITORING" | "CLOSED" | "NO_TRADE"
@@ -93,6 +94,7 @@ export type ConsequenceModel = {
   maximumPct: number
   formula: string
   assumptions: string[]
+  basis?: "SCENARIO_ASSUMPTION" | "CALIBRATED_MODEL"
 }
 
 export type StateTransition = {
@@ -516,8 +518,15 @@ const realAfxResolutionIncident: Incident = {
     { id: "afx-resolution-exposure", nodeType: "evidence_source", className: "node-collateral", tone: "cyan", icon: "collateral", kicker: "TARGET · EXPLOITER", label: "Attacker wallet", detail: "message addressed directly" },
     { id: "afx-resolution-protocol", nodeType: "protocol", className: "node-protocol", tone: "lime", icon: "protocol", kicker: "CHAIN · ARBITRUM", label: "AFX Trade", detail: "response receipt 0x1" },
     { id: "afx-resolution-market", nodeType: "bitget_instrument", className: "node-market", tone: "violet", icon: "market", kicker: "BITGET · MARK", label: "ETHUSDT", detail: `${realAfxResolutionMarketMove.toFixed(2)}% response window` },
-    { id: "afx-resolution-action", nodeType: "action", className: "node-route-a", tone: "violet", icon: "action", kicker: "ACTION · RESOLUTION", label: "ETH long", detail: "conditional · paper" },
-    { id: "afx-resolution-alternate", nodeType: "action", className: "node-route-b", tone: "orange", icon: "abstain", kicker: "INVALIDATES", label: "MONITOR", detail: "until recovery proven" },
+    { id: "afx-resolution-action", nodeType: "action", className: "node-route-a", tone: "violet", icon: "abstain", kicker: "ACTION · WAIT", label: "MONITOR", detail: "until recovery proven" },
+    { id: "afx-resolution-alternate", nodeType: "action", className: "node-route-b", tone: "orange", icon: "action", kicker: "CONDITIONAL", label: "ETH long", detail: "only after recovery proof" },
+  ],
+  graphEdges: [
+    { id: "afx-resolution-event-wallet", from: "afx-resolution-event", to: "afx-resolution-exposure", relation: "impacts", epistemic: "OBSERVED", confidence: 100, source: "Arbitrum response transaction", timestamp: realAfxResolutionTime, direction: "forward", estimatedMagnitude: "70% white-hat offer", evidenceRef: `https://arbiscan.io/tx/${realAfxResolutionCapture.incident.txHash}` },
+    { id: "afx-resolution-protocol-event", from: "afx-resolution-protocol", to: "afx-resolution-event", relation: "resolved_by", epistemic: "INFERRED", confidence: 79, source: "AFX response context", timestamp: realAfxResolutionTime, direction: "forward", estimatedMagnitude: "request, not recovery", evidenceRef: `https://arbiscan.io/tx/${realAfxResolutionCapture.incident.txHash}` },
+    { id: "afx-resolution-protocol-market", from: "afx-resolution-protocol", to: "afx-resolution-market", relation: "impacts", epistemic: "INFERRED", confidence: 71, source: "Bitget response window", timestamp: realAfxResolutionTime, direction: "forward", estimatedMagnitude: `${realAfxResolutionMarketMove.toFixed(2)}% observed`, evidenceRef: `${realAfxResolutionCapture.sources.market} · ${realAfxResolutionCapture.capturedAt}` },
+    { id: "afx-resolution-market-monitor", from: "afx-resolution-market", to: "afx-resolution-action", relation: "tracks", epistemic: "INFERRED", confidence: 79, source: "WAKE falsifier", timestamp: realAfxResolutionTime, direction: "forward", estimatedMagnitude: "follow-up required", evidenceRef: `https://arbiscan.io/tx/${realAfxResolutionCapture.incident.txHash}` },
+    { id: "afx-resolution-market-conditional", from: "afx-resolution-market", to: "afx-resolution-alternate", relation: "trades_as", epistemic: "INFERRED", confidence: 79, source: "WAKE scenario policy", timestamp: realAfxResolutionTime, direction: "forward", estimatedMagnitude: "5% of incident VaR if proven", evidenceRef: `${realAfxResolutionCapture.sources.market} · ${realAfxResolutionCapture.capturedAt}` },
   ],
   graphEdges: [
     { from: "afx-resolution-protocol", to: "afx-resolution-event", relation: "controls", epistemic: "OBSERVED", evidenceRef: `https://arbiscan.io/tx/${realAfxResolutionCapture.incident.txHash}`, estimatedMagnitude: "AFX authored the response" },
@@ -706,19 +715,7 @@ export const GATE_THRESHOLDS = {
 } as const
 
 export function deriveDecision(incident: Incident): Decision {
-  // An unresolved question that is flagged as blocking is not the same as a
-  // dead thesis. It is an open investigation, so it reads as MONITOR.
-  const hasOpenBlocker = incident.falsification.some((check) => check.blocksTrade === true && check.status === "UNRESOLVED")
-  if (incident.modeledDelta === null || incident.confidence === null) {
-    return hasOpenBlocker || incident.state === "INVESTIGATING" ? "MONITOR" : "NO_TRADE"
-  }
-  const residual = incident.modeledDelta - incident.marketDelta
-  if (residual >= GATE_THRESHOLDS.minResidualPct && incident.confidence >= GATE_THRESHOLDS.minConfidence) {
-    if (incident.kind === "CONTAGION") return "TRADE_CONTAGION"
-    if (incident.state === "RESOLVED") return "TRADE_RESOLUTION"
-    return "TRADE_DIRECT"
-  }
-  return incident.state === "INVESTIGATING" ? "MONITOR" : "NO_TRADE"
+  return deriveDecisionPolicy(incident) as Decision
 }
 
 export function isTradeDecision(decision: Decision) {
@@ -786,16 +783,7 @@ export function deriveGraphEdges(incident: Incident): GraphEdgeData[] {
 }
 
 export function evaluateRiskGate(incident: Incident): RiskGate {
-  const residual = incident.modeledDelta === null ? null : incident.modeledDelta - incident.marketDelta
-  const blockingFalsifiers = incident.falsification.filter((check) => check.blocksTrade === true)
-  const checks: RiskCheck[] = [
-    { key: "confidence", label: "Causal confidence", passed: incident.confidence !== null && incident.confidence >= GATE_THRESHOLDS.minConfidence, value: incident.confidence === null ? "n/a" : `${incident.confidence}%`, threshold: "≥ 75%" },
-    { key: "residual", label: "Residual edge", passed: residual !== null && residual >= GATE_THRESHOLDS.minResidualPct, value: residual === null ? "n/a" : `${residual.toFixed(1)}%`, threshold: "≥ 1.2%" },
-    { key: "loss-bound", label: "Maximum loss bound", passed: incident.maxLoss !== "$0", value: incident.maxLoss, threshold: "defined" },
-    { key: "evidence", label: "Evidence packet", passed: incident.evidence.length >= 3, value: `${incident.evidence.length} sources`, threshold: "≥ 3 sources" },
-    { key: "causal", label: "Causal challenge", passed: blockingFalsifiers.length === 0, value: blockingFalsifiers.length === 0 ? "no blocking checks" : `${blockingFalsifiers.length} blocking check${blockingFalsifiers.length === 1 ? "" : "s"}`, threshold: "0 blocking checks" },
-  ]
-  return { passed: checks.every((check) => check.passed), checks }
+  return evaluateRiskGatePolicy(incident) as RiskGate
 }
 
 export function createPaperOrder(incident: Incident, runId = `run_${incident.id.toLowerCase()}`, entryPrice: number | null = null): PaperOrder | null {

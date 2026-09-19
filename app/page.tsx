@@ -1,4 +1,5 @@
 "use client"
+/* eslint-disable @next/next/no-img-element -- the hero uses a responsive art-directed asset rather than a content image */
 
 import * as React from "react"
 import {
@@ -202,12 +203,20 @@ export default function Home() {
         if (mounted && snapshot.symbol && Number.isFinite(snapshot.markPrice)) {
           setMarketSnapshot(snapshot)
           if (activeOrder) {
-            const observationResponse = await fetch("/api/position/observations", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ positionId: activeOrder.id, incidentId: incident.id, symbol: activeOrder.instrument, side: activeOrder.side, entryPrice: activeOrder.entryPrice }) })
-            if (observationResponse.ok) {
-              const receipt = await observationResponse.json() as PositionObservationReceipt
-              setObservationReceipt(receipt)
-              setObservationHistory((current) => [...current.filter((item) => item.observationId !== receipt.observation.observationId), receipt.observation].slice(-250))
+            const observation: PositionObservation = {
+              observationId: `obs_${Date.now()}`,
+              positionId: activeOrder.id,
+              incidentId: incident.id,
+              symbol: activeOrder.instrument,
+              side: activeOrder.side,
+              entryPrice: activeOrder.entryPrice,
+              markPrice: snapshot.markPrice,
+              capturedAt: snapshot.capturedAt,
+              source: snapshot.source,
             }
+            const receipt = { observation, persisted: false }
+            setObservationReceipt(receipt)
+            setObservationHistory((current) => [...current.filter((item) => item.observationId !== observation.observationId), observation].slice(-250))
           }
         }
       } catch {
@@ -430,8 +439,8 @@ export default function Home() {
             </div>
             <div className="agent-id">
               <div className="agent-avatar"><BrainCircuit size={15} /></div>
-              <div><div className="agent-name">agent.wake</div><div className="agent-sub">key: 0x…a91f · verified</div></div>
-              <ShieldCheck size={14} className="verified-icon" />
+              <div><div className="agent-name">agent.wake</div><div className="agent-sub">deterministic policy · paper default</div></div>
+              <LockKeyhole size={14} className="verified-icon" />
             </div>
           </div>
         </aside>
@@ -493,7 +502,7 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="hero-card-content">
                   <div className="metric-strip">
-                    <Metric label="VALUE AT RISK" value={incident.risk} sub={incident.modeledDelta === null ? "not estimated from capture" : "modeled downstream loss"} tone="orange" />
+                    <Metric label="INCIDENT EXPOSURE" value={incident.risk} sub={incident.modeledDelta === null ? "not estimated from capture" : "modeled downstream exposure, not a VaR"} tone="orange" />
                     <Metric label="MISPRICING" value={mispricing} sub={`${marketSummary} · ${isComputed ? "computed from capture" : "authored scenario"}`} tone="cyan" />
                     <Metric label="CONFIDENCE" value={incident.confidence === null ? "n/a" : `${incident.confidence}%`} sub="causal graph confidence" tone="lime" />
                     <Metric label="DECISION" value={decision} sub={isOpen ? "paper position open" : "awaiting action"} tone={isTrade ? "violet" : "muted"} />
@@ -581,7 +590,7 @@ export default function Home() {
                       <div><span>Catalyst horizon</span><strong>{incident.catalystHorizon}</strong></div>
                       <div><span>Consequence range</span><strong>{incident.consequence ? `${incident.consequence.minimumPct.toFixed(1)} / ${incident.consequence.basePct.toFixed(1)} / ${incident.consequence.maximumPct.toFixed(1)}%` : "n/a"}</strong></div>
                     </div>
-                    <div className="model-note"><span>DETERMINISTIC MODEL</span><strong>{incident.consequence?.formula ?? "No consequence estimate: proxy edge is unproven"}</strong><small>{incident.consequence?.assumptions.join(" · ") ?? "The missing relationship is preserved as uncertainty, not filled with a proxy."}</small></div>
+                    <div className="model-note"><span>{incident.consequence?.basis === "SCENARIO_ASSUMPTION" ? "DETERMINISTIC SCENARIO · NOT CALIBRATED" : "DETERMINISTIC MODEL"}</span><strong>{incident.consequence?.formula ?? "No consequence estimate: proxy edge is unproven"}</strong><small>{incident.consequence?.assumptions.join(" · ") ?? "The missing relationship is preserved as uncertainty, not filled with a proxy."}</small></div>
                     <div className="risk-checks">
                       {(lastRun?.incidentId === incident.id ? lastRun.riskGate : riskGate).checks.map((check) => <div className="risk-check" key={check.key}><span className={check.passed ? "risk-pass" : "risk-hold"}>{check.passed ? "PASS" : "HOLD"}</span><span>{check.label}</span><strong>{check.value}</strong><small>{check.threshold}</small></div>)}
                     </div>
@@ -619,7 +628,7 @@ export default function Home() {
                     <div><span>Thesis status</span><strong>{activeOrder ? "MONITORING" : "NO POSITION"}</strong></div>
                     <div><span>Updated exposure</span><strong>{activeOrder ? incident.risk : "—"}</strong></div>
                     <div><span>Exit condition</span><strong>{activeOrder ? activeOrder.invalidation : "—"}</strong></div>
-                    <div className="position-monitor-wide"><span>Latest server observation</span><strong>{observationReceipt ? `${observationReceipt.observation.markPrice.toFixed(4)} · ${new Date(observationReceipt.observation.capturedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })} · ${observationReceipt.persisted ? "stored" : "not durable in this host"}` : incident.log[0]?.text ?? "No observation recorded"}</strong></div>
+                    <div className="position-monitor-wide"><span>Latest market observation</span><strong>{observationReceipt ? `${observationReceipt.observation.markPrice.toFixed(4)} · ${new Date(observationReceipt.observation.capturedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })} · ${observationReceipt.persisted ? "operator-stored" : "session-only"}` : incident.log[0]?.text ?? "No observation recorded"}</strong></div>
                   </div>
                   {paperOrders.length > 0 && (
                     <div className="ledger-block">
@@ -677,10 +686,10 @@ export default function Home() {
           </Card>
           <Card className="rail-card card-dark">
             <CardHeader className="card-head"><CardTitle className="card-title"><Globe2 size={15} className="title-icon" /> Coverage registry</CardTitle><span className="tiny-live"><StatusDot tone="amber" /> EXPLICIT</span></CardHeader>
-            <CardContent className="watcher-content">{coverageRegistry.filter((item) => item.chain !== "BITGET").map((item) => <Watcher key={`${item.chain}-${item.protocol}`} name={item.chain} detail={`${item.protocol} · ${item.resolver}`} tone={item.chain === "BASE" ? "lime" : item.chain === "ETH" ? "cyan" : "violet"} status={item.status} />)}<div className="watcher-footnote">Only validated resolvers are marked live; planned coverage is not claimed.</div></CardContent>
+            <CardContent className="watcher-content">{coverageRegistry.filter((item) => item.chain !== "BITGET").map((item) => <Watcher key={`${item.chain}-${item.protocol}`} name={item.chain} detail={`${item.protocol} · ${item.resolver}`} tone={item.chain === "BASE" ? "lime" : item.chain === "ETH" ? "cyan" : "violet"} status={item.status} />)}<div className="watcher-footnote">Only captured adapters are marked validated; automatic discovery is not claimed.</div></CardContent>
           </Card>
-          <div className="rail-callout"><div className="callout-icon"><ShieldCheck size={16} /></div><div><strong>Proof over prediction.</strong><p>Every action is attached to evidence, a bounded loss model, and a reason to abstain.</p></div></div>
-          <div className="rail-footer"><span>v0.3.1 · local paper ledger</span><span>UTC</span></div>
+          <div className="rail-callout"><div className="callout-icon"><ShieldCheck size={16} /></div><div><strong>Proof over prediction.</strong><p>Every action is attached to evidence, a declared loss bound, and a reason to abstain.</p></div></div>
+          <div className="rail-footer"><span>v0.3.2 · local paper ledger</span><span>UTC</span></div>
         </aside>
       </div>
     </main>
