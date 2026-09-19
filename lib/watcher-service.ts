@@ -1,12 +1,14 @@
 import { getBitgetMarkSnapshot } from "@/lib/bitget-client"
 import { appendRuntimeRecord, runtimeStoreStatus } from "@/lib/runtime-store"
 import { coverageRegistry } from "@/lib/wake-engine"
+import discovered from "@/data/discovered/index.json"
 
 export type WatcherRunReport = {
   runId: string
   startedAt: string
   completedAt: string
-  liveDiscoveryEnabled: false
+  liveDiscoveryEnabled: true
+  discovery: { feed: string; updatedAt: string; lastRun: unknown; monitoring: number; noTrade: number }
   adapters: Array<{ chain: string; protocol: string; status: string; reason: string }>
   observations: Array<{ symbol: string; markPrice: number; capturedAt: string; source: string }>
   persisted: boolean
@@ -31,7 +33,7 @@ export async function runValidatedWatcherPass(): Promise<WatcherRunReport> {
       adapters.push({ chain: coverage.chain, protocol: coverage.protocol, status: "OBSERVED", reason: "Public mark snapshots captured; no private execution request made." })
       continue
     }
-    adapters.push({ chain: coverage.chain, protocol: coverage.protocol, status: "CAPTURE_READY", reason: "Validated receipt adapter is available for explicit transaction candidates; automatic discovery is not claimed." })
+    adapters.push({ chain: coverage.chain, protocol: coverage.protocol, status: "CAPTURE_READY", reason: "Validated receipt adapter for transaction candidates. Incidents are discovered automatically from the exploit feed (see discovery)." })
   }
 
   const completedAt = new Date().toISOString()
@@ -39,7 +41,8 @@ export async function runValidatedWatcherPass(): Promise<WatcherRunReport> {
     runId: `watch_${completedAt.replace(/[-:TZ.]/g, "").slice(0, 14)}`,
     startedAt,
     completedAt,
-    liveDiscoveryEnabled: false,
+    liveDiscoveryEnabled: true,
+    discovery: { feed: "https://api.llama.fi/hacks", updatedAt: discovered.updatedAt, lastRun: discovered.lastRun, monitoring: discovered.incidents.filter((i) => i.decision === "MONITOR").length, noTrade: discovered.incidents.filter((i) => i.decision === "NO_TRADE").length },
     adapters,
     observations,
     persisted: false,

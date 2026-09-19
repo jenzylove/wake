@@ -15,6 +15,7 @@ import { createHash } from "node:crypto"
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { deriveDecisionPolicy } from "../lib/wake-policy.mjs"
+import { computePositionSizing } from "../lib/sizing.mjs"
 
 const OUT_DIR = process.env.WAKE_DISCOVERY_DIR || path.join(process.cwd(), "data", "discovered")
 const LOOKBACK_DAYS = Number(process.env.WAKE_DISCOVERY_DAYS || 21)
@@ -85,6 +86,80 @@ async function marketWindow(symbol, dayStartMs) {
   }
 }
 
+// Live execution quality for the instrument right now: top of book spread, resting depth within
+// 1% of mid, funding and open interest. Candles alone cannot show any of these.
+async function microstructure(symbol) {
+  const q = `symbol=${symbol}&productType=USDT-FUTURES`
+  const [depth, funding, oi] = await Promise.all([
+    getJson(`${BITGET}/api/v2/mix/market/merge-depth?${q}&limit=50`),
+    getJson(`${BITGET}/api/v2/mix/market/current-fund-rate?${q}`),
+    getJson(`${BITGET}/api/v2/mix/market/open-interest?${q}`),
+  ])
+  const asks = depth.data.asks.map(([p, s]) => [Number(p), Number(s)])
+  const bids = depth.data.bids.map(([p, s]) => [Number(p), Number(s)])
+  const mid = (asks[0][0] + bids[0][0]) / 2
+  const within = (levels, lo, hi) => levels.filter(([p]) => p >= lo && p <= hi).reduce((sum, [p, s]) => sum + p * s, 0)
+  return {
+    observedAt: new Date().toISOString(),
+    mid,
+    spreadBps: Number((((asks[0][0] - bids[0][0]) / mid) * 10_000).toFixed(3)),
+    bidDepthUsd1pct: Number(within(bids, mid * 0.99, mid).toFixed(0)),
+    askDepthUsd1pct: Number(within(asks, mid, mid * 1.01).toFixed(0)),
+    fundingRate: Number(funding.data[0]?.fundingRate ?? NaN),
+    fundingIntervalHours: Number(funding.data[0]?.fundingRateInterval ?? NaN),
+    openInterestContracts: Number(oi.data.openInterestList[0]?.size ?? NaN),
+  }
+}
+
+// Append only decision log. Each line carries the hash of the line before it, so a rewritten
+// history breaks the chain for anyone who replays it (npm run data:verify does).
+function appendLog(entry) {
+  const p = path.join(OUT_DIR, "log.jsonl")
+  const lines = existsSync(p) ? readFileSync(p, "utf8").trim().split(String.fromCharCode(10)).filter(Boolean) : []
+  const prevHash = lines.length ? JSON.parse(lines[lines.length - 1]).hash : "0".repeat(64)
+  const body = { ...entry, at: new Date().toISOString(), prevHash }
+  writeFileSync(p, lines.concat(JSON.stringify({ ...body, hash: sha256(body) })).join(String.fromCharCode(10)) + String.fromCharCode(10))
+}
+
+const policyInput = (record) => ({
+  falsification: [{ blocksTrade: true, status: record.receipt ? "RESOLVED" : "UNRESOLVED", question: "Is there an on-chain receipt proving the loss path?" },
+    { blocksTrade: true, status: "UNRESOLVED", question: "Is the downstream exposure quantified from protocol state?" }],
+  modeledDelta: null, confidence: null, marketDelta: record.market?.observed?.exploitDayMovePct ?? 0,
+  kind: record.exposures[0]?.kind ?? "NO TRADE", state: "INVESTIGATING", workflowState: "WATCHING",
+})
+
+// Every open incident is re-checked each run: fresh microstructure, the decision recomputed,
+// and incidents older than the lookback with no receipt are retired as NO_TRADE.
+async function reevaluate(index, skip = []) {
+  let updated = 0
+  for (const entry of index.incidents) {
+    if (entry.decision !== "MONITOR" || skip.includes(entry.id)) continue
+    const file = path.join(OUT_DIR, `${entry.id}.json`)
+    if (!existsSync(file)) continue
+    const record = JSON.parse(readFileSync(file, "utf8"))
+    const ageDays = (Date.now() - Date.parse(`${entry.day}T00:00:00Z`)) / 86_400_000
+    const previous = record.decision
+    if (ageDays > LOOKBACK_DAYS && !record.receipt) {
+      record.decision = "NO_TRADE"
+      record.reason = `No on-chain receipt within ${LOOKBACK_DAYS} days of the exploit. The information gap WAKE trades has closed, so the incident is retired.`
+    } else {
+      try {
+        const snap = await microstructure(record.instrument)
+        record.timeline = (record.timeline ?? []).concat(snap).slice(-48)
+      } catch (error) {
+        record.timeline = (record.timeline ?? []).concat({ observedAt: new Date().toISOString(), error: String(error.message ?? error) }).slice(-48)
+      }
+      record.decision = deriveDecisionPolicy(policyInput(record))
+    }
+    record.integrity = sha256({ ...record, integrity: undefined })
+    writeFileSync(file, JSON.stringify(record, null, 2) + String.fromCharCode(10))
+    entry.decision = record.decision
+    if (previous !== record.decision) appendLog({ event: "DECISION_CHANGED", id: entry.id, from: previous, to: record.decision, integrity: record.integrity })
+    updated += 1
+  }
+  return updated
+}
+
 function readIndex() {
   const p = path.join(OUT_DIR, "index.json")
   return existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : { schema: "wake.discovered.index.v1", incidents: [] }
@@ -136,11 +211,15 @@ async function main() {
 
     // The policy decides, exactly as for captured incidents. With no on-chain receipt there is no
     // causal confidence, so it holds at MONITOR (open investigation), never at a trade.
-    const decision = !primary ? "NO_TRADE" : deriveDecisionPolicy({
-      falsification: [{ blocksTrade: true, status: "UNRESOLVED", question: "Is there an on-chain receipt proving the loss path?" }],
-      modeledDelta: null, confidence: null, marketDelta: market?.observed?.exploitDayMovePct ?? 0,
-      kind: primary?.kind ?? "NO TRADE", state: "INVESTIGATING", workflowState: "WATCHING",
-    })
+    let micro = null
+    if (primary) {
+      try { micro = await microstructure(primary.symbol) } catch { micro = null }
+    }
+    const decision = !primary ? "NO_TRADE" : deriveDecisionPolicy(policyInput({ exposures, market, receipt: null }))
+    // What WAKE would size if the incident escalated: same deterministic sizer as captured incidents.
+    const sizing = market?.observed
+      ? computePositionSizing({ windowSigma: market.observed.windowSigma, quoteVolumeUsd: market.observed.quoteVolumeUsd, candles: market.candles })
+      : { computable: false, reason: "no market window" }
 
     const record = {
       schema: "wake.discovered.v1",
@@ -152,6 +231,9 @@ async function main() {
       instrument: primary?.symbol ?? null,
       market,
       marketError,
+      timeline: micro ? [micro] : [],
+      sizing,
+      receipt: null,
       decision,
       reason: primary
         ? "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR."
@@ -163,11 +245,14 @@ async function main() {
     index.incidents.push({ id, day, name: hack.name, amountUsd: hack.amount, chains: hack.chain, technique: hack.technique,
       instrument: record.instrument, decision, exploitDayMovePct: market?.observed?.exploitDayMovePct ?? null, discoveredAt: record.discoveredAt })
     opened.push(id)
+    appendLog({ event: "OPENED", id, decision, instrument: record.instrument, sourceSha256: record.source.sha256, integrity: record.integrity })
   }
+  const reevaluated = await reevaluate(index, opened)
 
   index.incidents.sort((a, b) => (a.day < b.day ? 1 : -1))
   index.updatedAt = new Date().toISOString()
-  index.lastRun = { lookbackDays: LOOKBACK_DAYS, minUsd: MIN_USD, feedRecords: hacks.length, inWindow: recent.length, opened: opened.length }
+  index.lastRun = { lookbackDays: LOOKBACK_DAYS, minUsd: MIN_USD, feedRecords: hacks.length, inWindow: recent.length, opened: opened.length, reevaluated: 0 }
+  index.lastRun.reevaluated = reevaluated
   writeFileSync(path.join(OUT_DIR, "index.json"), JSON.stringify(index, null, 2) + "\n")
   console.log(JSON.stringify({ opened, ...index.lastRun }, null, 2))
 }

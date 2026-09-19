@@ -65,6 +65,7 @@ export async function GET(request: NextRequest) {
         nodes: incident.graphNodes.map((node) => ({ id: node.id, label: node.label, nodeType: getGraphNodeType(node) })),
         edges: deriveGraphEdges(incident),
       },
+      sizing: incident.sizing ?? null,
       capture: incident.capture ?? null,
     }
   })

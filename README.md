@@ -14,7 +14,12 @@ The repository is paper-only by default. It does not support Bitget live trading
 - A server-only, decision-bound Bitget Demo adapter protected by an operator secret and an opening-notional cap.
 - An optional Anthropic evidence reviewer. Its labels cannot change deterministic numbers, the risk gate, or execution.
 
-The AFX consequence percentages are deterministic scenario assumptions, not a calibrated market-impact model. The captured mark-candle feed contains no useful volume, spread, funding, or open-interest evidence, so exchange-quality execution gating remains a substantive blocker. See [`AUDIT_2026-09-16.md`](./AUDIT_2026-09-16.md).
+- Autonomous incident discovery. Every two hours a GitHub Actions workflow reads the DefiLlama exploit feed, opens an incident for each new exploit of at least $250k, maps it to a Bitget perpetual (protocol token first, chain token second, always marked inferred), captures the hourly market window, and records live spread, depth within 1%, funding and open interest. Open incidents are re checked every run and retired after 21 days without a receipt. See `data/discovered/` and `GET /api/discovered`.
+- An append only, hash chained decision log (`data/discovered/log.jsonl`). `npm run data:verify` replays the chain, and editing any past entry breaks it.
+- Position size and max loss computed from each capture (`lib/sizing.mjs`): stop at two window sigmas, fees plus a Corwin Schultz spread estimate, bounded by a 0.5% risk budget, 0.5% participation of traded value, and the venue cap. Every input is labelled observed, estimated or assumed.
+- Execution eligibility: only a real capture with computed numbers, a trade decision, a passing gate and a computed size can open a Demo order, and the server sets the size. Replay fixtures can never open orders.
+
+Consequence magnitudes use the square root impact law over observed volatility and traded value, with conversion scenarios stated as assumptions. Discovered incidents hold at MONITOR: the exploit feed publishes no transaction hashes, so escalation needs `node scripts/attach-receipt.mjs <id> <chainId> <txHash>`, which only attaches a receipt fetched from the chain. As of 19 September 2026 no real incident has cleared the gate, so there is no strategy origin Demo order yet; the NO_TRADE and MONITOR decisions are the honest record. See [`AUDIT_2026-09-16.md`](./AUDIT_2026-09-16.md).
 
 ## Run and verify
 
@@ -31,7 +36,8 @@ npm run typecheck
 npm test
 npm run data:verify
 npm run build
-npm run data:verify        # capture integrity
+npm run data:verify        # capture integrity and discovery log chain
+npm run discover           # one discovery pass against the live feeds
 npm run paper:tick         # one paper engine tick
 npm run paper:calibrate    # threshold calibration against a ticker snapshot
 ```
@@ -65,6 +71,6 @@ Key boundaries:
 
 ## Current product boundary
 
-The included queue is a deterministic replay and evidence-review surface. The watcher validates configured adapters and records passes, but it does not yet discover arbitrary new incidents. Vercel Hobby runs the included cron once daily; a shorter cadence requires an external scheduler or a different plan.
+The captured queue holds three real incidents plus labelled replay fixtures. New incidents arrive through the discovery workflow; the watcher route reports the latest discovery run alongside its adapter checks. Vercel Hobby runs the included cron once daily; a shorter cadence requires an external scheduler or a different plan.
 
 The full target is in [`WAKE_ACTIONGRAPH_PRD.md`](./WAKE_ACTIONGRAPH_PRD.md). The current severity audit and winning-path blockers are in [`AUDIT_2026-09-16.md`](./AUDIT_2026-09-16.md).

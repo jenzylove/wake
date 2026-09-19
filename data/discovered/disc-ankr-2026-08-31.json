@@ -1,7 +1,7 @@
 {
   "schema": "wake.discovered.v1",
   "id": "disc-ankr-2026-08-31",
-  "discoveredAt": "2026-09-19T20:03:24.255Z",
+  "discoveredAt": "2026-09-19T20:13:44.820Z",
   "source": {
     "feed": "https://api.llama.fi/hacks",
     "record": {
@@ -703,8 +703,82 @@
     }
   },
   "marketError": null,
+  "timeline": [
+    {
+      "observedAt": "2026-09-19T20:13:44.819Z",
+      "mid": 0.0049095,
+      "spreadBps": 6.111,
+      "bidDepthUsd1pct": 67026,
+      "askDepthUsd1pct": 60391,
+      "fundingRate": 0.00005,
+      "fundingIntervalHours": 4,
+      "openInterestContracts": 116361404
+    },
+    {
+      "observedAt": "2026-09-19T20:13:51.109Z",
+      "mid": 0.0049105,
+      "spreadBps": 6.109,
+      "bidDepthUsd1pct": 61608,
+      "askDepthUsd1pct": 60340,
+      "fundingRate": 0.00005,
+      "fundingIntervalHours": 4,
+      "openInterestContracts": 116361404
+    }
+  ],
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 959.16065,
+    "maxLossUsd": 56.82068167200573,
+    "stopPct": 0.056142,
+    "costPct": 0.0030980049689337623,
+    "spreadPct": 0.0018980049689337624,
+    "bindingConstraint": "liquidity participation",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.028071,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 191832.13,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.0018980049689337624,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "receipt": null,
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "8efc2ee8b993dae0b640413a68e5384b3885dad90f01e8e8973ceda85599a98d"
+  "integrity": "1c04fd248c55ad7cc0ee24d2b46fda789f5d97edf8f3a525efc1579a27f0b3de"
 }
