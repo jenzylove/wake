@@ -1,17 +1,17 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-19T17:57:42.569Z",
+  "generatedAt": "2026-09-19T18:07:44.649Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-19T17:57:41.998Z",
-    "days": 3.957,
-    "equityPoints": 149,
+    "to": "2026-09-19T18:07:44.121Z",
+    "days": 3.964,
+    "equityPoints": 150,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
-    "sharpeAnnualisedFromHourly": -7.5210764136538355,
+    "sharpeAnnualisedFromHourly": -7.443493085432462,
     "sharpeAnnualisedFromDaily": null,
-    "sharpeSampleSizeHourly": 47,
+    "sharpeSampleSizeHourly": 48,
     "sharpeSampleSizeDaily": 4,
     "sharpeMinimumSamples": {
       "hourly": 24,
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 146,
+    "tickCount": 147,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-19T17:57:41.998Z",
+    "lastTickAt": "2026-09-19T18:07:44.121Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -85,25 +85,26 @@
       "spotSymbols": 2238,
       "pairsWithBothLegs": 114,
       "evaluated": 114,
-      "triggered": 14,
+      "triggered": 17,
       "opened": 0,
       "abstained": 114,
       "reasons": {
-        "gap below trigger": 100,
-        "hedgeable,net-edge,clip-size": 4,
-        "net-edge": 1,
+        "gap below trigger": 97,
+        "hedgeable,net-edge,clip-size": 6,
+        "hedgeable,net-edge": 1,
+        "net-edge,clip-size": 6,
+        "net-edge": 2,
         "hedgeable,clip-size": 1,
-        "net-edge,clip-size": 7,
         "clip-size": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 64.1,
-        "median": -34.24,
-        "worst": -56.06,
+        "best": 54.52,
+        "median": -31.38,
+        "worst": -60.74,
         "hedgeable": 9,
         "clearedCost": 2,
-        "sampled": 14
+        "sampled": 17
       }
     }
   }
