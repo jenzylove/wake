@@ -17,6 +17,7 @@ import path from "node:path"
 import { deriveDecisionPolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
 import { stockExposures } from "../lib/stock-exposure.mjs"
+import { interpretAnywhere } from "../lib/ai-interpret.mjs"
 
 const OUT_DIR = process.env.WAKE_DISCOVERY_DIR || path.join(process.cwd(), "data", "discovered")
 const LOOKBACK_DAYS = Number(process.env.WAKE_DISCOVERY_DAYS || 21)
@@ -242,6 +243,12 @@ async function main() {
         : "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
       nextStep: "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
     }
+    // Claude explains the incident from the feed record and market window. On a MONITOR incident
+    // a veto has nothing to block; the explanation is what a trader reads.
+    try {
+      record.ai = await interpretAnywhere({ feedRecord: hack, protocol: record.protocol, exposures, marketObserved: market?.observed ?? null,
+        note: "Feed record only; no on-chain receipt has been captured yet." })
+    } catch (error) { record.ai = null; record.aiError = String(error.message ?? error) }
     record.integrity = sha256({ ...record, integrity: undefined })
     writeFileSync(path.join(OUT_DIR, `${id}.json`), JSON.stringify(record, null, 2) + "\n")
     index.incidents.push({ id, day, name: hack.name, amountUsd: hack.amount, chains: hack.chain, technique: hack.technique,

@@ -1,37 +1,42 @@
-name: WAKE agent
-# Hourly: discover new incidents, then run one agent tick (decide, open, manage on Bitget Demo).
-# Exchange keys never reach this runner. Orders go through the deployed executor route, which
-# holds the Demo keys server side; this job holds only the scheduler token.
+name: WAKE blind challenge
+# Every three hours: a fresh chain, a randomized red team, WAKE watching blind, a sealed answer,
+# a score, then an agent tick that executes any cleared trade on Bitget Demo. Blind trades are
+# labelled BLIND_TEST and reported separately from real incidents in data/wake-paper/metrics.json.
 on:
   schedule:
-    - cron: "17 * * * *"
+    - cron: "41 */3 * * *"
   workflow_dispatch:
 permissions:
   contents: write
 concurrency: { group: discovery, cancel-in-progress: false }
 jobs:
-  discover:
+  blind:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - name: Discover incidents
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: Install viem
+        run: npm install --no-save --ignore-scripts viem@2
+      - name: Build harness contracts
+        run: cd blind && forge build
+      - name: Blind run
         env:
           WAKE_AGENT_INTERPRET: https://bitget-lilac.vercel.app/api/agent/interpret
           WAKE_SCHEDULER_SECRET: ${{ secrets.WAKE_SCHEDULER_SECRET }}
-        run: node scripts/discover-incidents.mjs
+        run: node blind/run.mjs
       - name: Agent tick
         env:
           WAKE_AGENT_EXECUTOR: https://bitget-lilac.vercel.app/api/agent/execute
           WAKE_SCHEDULER_SECRET: ${{ secrets.WAKE_SCHEDULER_SECRET }}
         run: node scripts/wake-agent.mjs
-      - name: Commit log
+      - name: Commit
         run: |
           git config user.name jenzylove
           git config user.email jennifereze12@gmail.com
-          git add data/discovered data/wake-paper
+          git add data/blind data/wake-paper
           git diff --cached --quiet && exit 0
-          git commit -m "WAKE agent tick [skip ci]"
+          git commit -m "WAKE blind run [skip ci]"
           for i in 1 2 3; do git pull --no-rebase --no-edit && git push && exit 0; sleep 5; done
           exit 1

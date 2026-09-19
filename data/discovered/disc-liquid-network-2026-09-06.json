@@ -36,5 +36,20 @@
   "decision": "NO_TRADE",
   "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "13e81f1aa461077bd15006ef2516e636008651664763e39b113ffb2cf4dd499d"
+  "integrity": "7a22e5223e164d493688d807431ee2da11fe68f41faf1f080a007f29f229334d",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "bridge",
+    "mechanism": "Feed record alleges an unbacked cross-chain mint on the Liquid network: tokens issued on the bridged side without matching locked backing, breaking the peg's 1:1 reserve. No transaction receipt, mint event, address or source link is present in the packet, so the mechanism is asserted by the feed label alone and is not independently evidenced.",
+    "lossBearer": "Not established. If the unbacked mint claim holds, dilution would fall on holders of the pegged asset on Liquid and on the peg's reserve, but no exposure or balance evidence is supplied.",
+    "narrative": "All we have is a feed headline: a $320,000,000 bridge incident on Liquid tagged as an unbacked cross-chain mint. Nothing else in the packet supports it - no on-chain receipt, no mint transaction, no attacker or reserve address, no source citation, and no exposure record showing anyone we touch holds the affected asset. An unbacked mint, if real, would mean bridged tokens exist without locked backing, diluting peg holders. But 'if real' is doing all the work here. Trading a loss path off an unverified headline with no receipt and no demonstrated exposure is not something this evidence can carry.",
+    "veto": true,
+    "vetoReason": "Packet is a feed record only with no on-chain receipt, no source, and no exposure data. The mint mechanism, the affected asset and the loss bearer are all unverified, so the proposed loss path is not supported.",
+    "concerns": [
+      "No transaction hash, mint event or address captured; mechanism rests solely on the feed's technique label.",
+      "Source field is empty and no DefiLlama ID is present, so the report cannot be corroborated.",
+      "Exposures list is empty - no evidence any position we hold is affected.",
+      "No market observation, so there is no confirmation the event is priced or even real yet."
+    ]
+  }
 }

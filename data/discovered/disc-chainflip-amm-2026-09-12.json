@@ -811,5 +811,20 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "5fb34ecb727d9dbe871dbf3ddcb02b5f0a01eea1e6115f5788dd472f9c167694"
+  "integrity": "7d41e01522ed32e65b5982d1d2a268d2f2197828294c292cc5d58fb49df97dc4",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "bridge",
+    "mechanism": "Feed classifies this as a bridge logic flaw in Chainflip AMM affecting assets on Tron, with a reported loss of 736,442.17 USD. No on-chain receipt has been captured, so the specific faulty code path, the transaction sequence, and the withdrawing address are not evidenced in this packet.",
+    "lossBearer": "Not established by the evidence. Presumptively Chainflip AMM's bridged/pooled assets on Tron and their liquidity providers, but no receipt identifies the debited account.",
+    "narrative": "All we have is a feed entry: Chainflip AMM, Tron, bridge logic flaw, 736,442.17 USD. No chain receipt has been captured, so nothing shows which contract leaked, who withdrew, or whose balance actually fell. The only exposure offered is TRXUSDT, and that link is inferred purely from Tron being the host chain - not from any shown holding, pool or integrator relationship. The market backs this up: the exploit-day move of 0.479% sits below the 1.2226% window sigma on 6.43m USD of volume, i.e. TRX did not visibly react. A named mechanism without a receipt is a headline, not a loss path.",
+    "veto": true,
+    "vetoReason": "No on-chain receipt: the mechanism, the debited entity and the loss path are unverified. The only exposure (TRXUSDT) is an INFERRED chain-native association with no demonstrated protocol linkage, and the 0.479% exploit-day move is below the 1.2226% window sigma, showing no market dislocation to trad",
+    "concerns": [
+      "Packet is feed-only; mechanism 'bridge logic flaw' is a label, not evidence of a code path",
+      "Loss bearer unidentified - no address, pool or integrator shown to have been debited",
+      "TRXUSDT exposure is INFERRED from host chain alone, not from protocol holdings",
+      "Exploit-day move 0.479% is sub-sigma versus 1.2226% window sigma; no observed impact"
+    ]
+  }
 }

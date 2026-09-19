@@ -1,0 +1,293 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609192133206953-e6e340d1",
+  "runId": "202609192133206953",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 82,
+    "blockTimestamp": 1789853621
+  },
+  "detection": {
+    "tx": "0xfc1c6c21347fc4ac773039643048bb7574df5df060ad59412058b55b374516b7",
+    "txs": [
+      "0xbaa212b562fe7cec76c2b431eb2ca3cae594a1453a27d2c80e8d955fba99a1b1",
+      "0xfc1c6c21347fc4ac773039643048bb7574df5df060ad59412058b55b374516b7"
+    ],
+    "firstDetectedAt": "2026-09-19T21:33:42.837Z",
+    "victim": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+    "token": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+    "before": 350651,
+    "after": 0,
+    "detectedAt": "2026-09-19T21:34:07.059Z",
+    "latencyMs": 26059
+  },
+  "investigation": {
+    "from": "0x21f0f8b5bf384732c63a5b44608c450455823acf",
+    "to": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+    "selector": "0xa24188df",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+        "selector": "0xa24188df",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 1,
+    "receiptSupplyBefore": 139224,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+      "lossUsd": 350651,
+      "name": "Pollen Vault",
+      "instrument": "LINKUSDT",
+      "marketCapUsd": 42000000,
+      "modeledDeltaPct": 0.209,
+      "markAtDetection": 12.366,
+      "markAtDecision": 12.349,
+      "marketDeltaPct": 0.137,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 8149.6953597050215,
+        "maxLossUsd": 500,
+        "stopPct": 0.057116823817391776,
+        "costPct": 0.004235162720924364,
+        "spreadPct": 0.003035162720924364,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.028558411908695888,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 57366229.001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.003035162720924364,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.072
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xfc1c6c21347fc4ac773039643048bb7574df5df060ad59412058b55b374516b7 succeeded in block 82"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x21f0f8b5bf384732c63a5b44608c450455823acf is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 1.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $350,651 at Pollen Vault"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "An externally owned account that is not the recorded owner called selector 0xa24188df on the vault; the call read the vault's token balance via balanceOf and then executed an ERC-20 transfer moving the entire 350651 position out. Missing or broken caller authorisation on a transfer-capable function allowed an arbitrary sweep."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.1%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "An externally owned account that is not the recorded owner called selector 0xa24188df on the vault; the call read the vault's token balance via balanceOf and then executed an ERC-20 transfer moving the entire 350651 position out. Missing or broken caller authorisation on a transfer-capable function allowed an arbitrary sweep.",
+    "lossBearer": "The Pollen Vault contract (0xe6e3...e57e) itself, and through it the depositors whose token balance backed the vault; no integrator exposure is recorded in the packet.",
+    "narrative": "A non-owner address called a single function on the Pollen Vault. The trace shows the contract checking its own token balance and then transferring the whole amount out in one step, taking holdings of 350651 down to 0. The owner of record before the transaction was a different address and the packet explicitly marks the action as not authorised by the owner, so this is an unauthorised drain rather than a withdrawal or redemption. Direct modelled loss is 350651 USD against a 42000000 USD market cap. Reported share price stays at 1 before and after, so vault accounting has not yet absorbed the loss.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Share price unchanged at 1 before and after despite full balance drain - vault accounting may be stale or not yet marked down",
+      "Function behind selector 0xa24188df is not identified, so the exact authorisation gap is inferred from the trace not from source",
+      "Integrators list is empty: downstream or wrapped exposure, if any, is not visible in this packet",
+      "modeledDeltaPct 0.209 is not reconciled in the packet against lossUsd 350651 vs marketCapUsd 42000000"
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "instrument": "LINKUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 8149.6953597050215,
+      "maxLossUsd": 500,
+      "stopPct": 0.057116823817391776,
+      "costPct": 0.004235162720924364,
+      "spreadPct": 0.003035162720924364,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.028558411908695888,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 57366229.001,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.003035162720924364,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "c2bb74247519fec3217a40d431ec15cfaacd01c539d646fbfc7b21875a7783e7"
+}

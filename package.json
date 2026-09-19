@@ -16,7 +16,7 @@
     "db:generate": "drizzle-kit generate",
     "data:capture": "node --env-file-if-exists=.env.local scripts/capture-real-incident.mjs",
     "data:verify": "node scripts/verify-capture.mjs",
-    "discover": "node scripts/discover-incidents.mjs",
+    "discover": "node --env-file-if-exists=.env.local scripts/discover-incidents.mjs",
     "blind:run": "node blind/run.mjs",
     "blind:build": "cd blind && forge build",
     "agent:tick": "node --env-file-if-exists=.env.local scripts/wake-agent.mjs",

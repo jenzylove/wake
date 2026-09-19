@@ -810,5 +810,20 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "c294dfc1c25c0347fe042f7ca80f368d56a5272127297133589123c7889df001"
+  "integrity": "748971feeaab9dad2b6aeaee5374499001c7e6a654f467e71547a09c5ccf8071",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "oracle-manipulation",
+    "mechanism": "Feed record labels this as spot price manipulation against Flamincome, a Solidity yield aggregator on Ethereum: an attacker distorts a spot-price source the vault reads, so deposits/withdrawals or collateral valuation settle at a wrong price. No on-chain receipt is in the packet, so the manipulated pool, oracle and call path are unverified.",
+    "lossBearer": "Per the feed record, Flamincome (FLAG) vault and its depositors absorb the ~$595,000 loss on Ethereum. No integrator or counterparty exposure is evidenced.",
+    "narrative": "Flamincome, a yield aggregator, is reported to have lost about $595,000 on Ethereum to spot price manipulation — the classic pattern where a thin pool is pushed off-price so the vault mis-values assets on entry or exit. The problem for trading is that this is a feed headline with no captured on-chain receipt: no victim contract, no manipulated pair, no flow. The only listed exposure is ETHUSDT, tagged CONTAGION and INFERRED simply because Ethereum is the host chain. ETH moved 0.849% on the day against a window sigma of 2.3092%, well inside normal noise on $7.01bn of quoted volume. Nothing links the loss to the traded instrument.",
+    "veto": true,
+    "vetoReason": "No on-chain receipt has been captured; the mechanism is asserted by the feed label only, and the sole exposure (ETHUSDT) is an INFERRED chain-level contagion link rather than a demonstrated loss path. The $595,000 loss is not shown to transmit to the traded instrument, and the exploit-day move of 0.",
+    "concerns": [
+      "Feed record only: victim contract, manipulated pool and oracle path are all unverified.",
+      "ETHUSDT exposure is INFERRED contagion from host chain, not an evidenced loss channel.",
+      "Exploit-day move 0.849% is well inside window sigma 2.3092%; no anomalous signal.",
+      "Loss size of $595,000 is negligible against 72h quote volume of $7,014,638,440.68."
+    ]
+  }
 }

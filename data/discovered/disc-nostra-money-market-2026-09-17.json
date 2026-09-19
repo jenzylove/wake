@@ -811,5 +811,20 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "986b2f9be35d674f6fbe90f5c30f161a7e542dcc8394eba3dd2789708e3685dd"
+  "integrity": "a366ae3b45578486053d489c703294d45902444deed813fdf69b7dff3b39a1d4",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "oracle-manipulation",
+    "mechanism": "Feed reports spot-price manipulation of an oracle input used by Nostra Money Market (Cairo, Starknet lending). The named technique implies a collateral/borrow asset was mispriced against a manipulable spot source, letting the attacker extract ~$3.5m of pool assets. No on-chain receipt is in the packet, so the exact pair, pool and call path are unverified.",
+    "lossBearer": "Nostra Money Market's own lending pools and, through them, its depositors/lenders left with the shortfall; no third-party integrator or bridge exposure is evidenced.",
+    "narrative": "The feed says an attacker pushed a spot price used by Nostra's money market away from fair value and borrowed or redeemed against the distorted valuation, draining about $3.5m on Starknet. The hole sits inside Nostra's own pools, so its depositors carry it. STRK is listed only as an inferred contagion link because it is Starknet's native token, not because the packet shows STRK collateral or STRK-denominated loss. Market data does not corroborate stress either: the exploit-day move of 3.761% sits well inside the 9.3086% window sigma on $10.75m of quote volume. Nothing here supports trading STRK off this event.",
+    "veto": true,
+    "vetoReason": "Packet is a feed record with no on-chain receipt; the only tradable exposure (STRKUSDT) is INFERRED contagion from Starknet being the host chain, not a demonstrated loss path, and the 3.761% exploit-day move is inside the 9.3086% window sigma.",
+    "concerns": [
+      "No on-chain receipt: manipulated pair, oracle source and attacker path are unverified.",
+      "STRKUSDT link is INFERRED contagion only; no evidence STRK was collateral or loss currency.",
+      "Exploit-day move 3.761% is within windowSigma 9.3086%, so price gives no independent confirmation.",
+      "Source field is empty and returnedFunds is null; loss figure of $3.5m is unattributed and may be revised."
+    ]
+  }
 }

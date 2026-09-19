@@ -1,0 +1,278 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-2026091921310089ca-0165878a",
+  "runId": "2026091921310089ca",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 79,
+    "blockTimestamp": 1789853471
+  },
+  "detection": {
+    "tx": "0x32c0ca2e21d8b5a4e1b1575e09c06cc81498aa52efd9fe23727b6858d8594c0e",
+    "txs": [
+      "0xc8e614a109b2251fb2992cc2f3ef554caaa27bb14f76b0c576f80b689986bdd8",
+      "0x32c0ca2e21d8b5a4e1b1575e09c06cc81498aa52efd9fe23727b6858d8594c0e"
+    ],
+    "firstDetectedAt": "2026-09-19T21:31:11.692Z",
+    "victim": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+    "token": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+    "before": 459154,
+    "after": 0,
+    "detectedAt": "2026-09-19T21:31:30.573Z",
+    "latencyMs": 19573
+  },
+  "investigation": {
+    "from": "0xfc009632a533c7fe350549968e0569400a55d1ab",
+    "to": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+    "selector": "0xa24188df",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+        "selector": "0xa24188df",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 1,
+    "receiptSupplyBefore": 183693,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+      "lossUsd": 459154,
+      "name": "Fjord Vault",
+      "instrument": "AVAXUSDT",
+      "marketCapUsd": 46000000,
+      "modeledDeltaPct": 0.25,
+      "markAtDetection": 9.68,
+      "markAtDecision": 9.699,
+      "marketDeltaPct": -0.196,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 4844.3699802609835,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.09826029400531612,
+        "costPct": 0.004952301654659297,
+        "spreadPct": 0.0037523016546592972,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04913014700265806,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 43907638.04839999,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0037523016546592972,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.446
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x32c0ca2e21d8b5a4e1b1575e09c06cc81498aa52efd9fe23727b6858d8594c0e succeeded in block 79"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xfc009632a533c7fe350549968e0569400a55d1ab is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 1.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $459,154 at Fjord Vault"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.4%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "Unexpected end of JSON input",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "instrument": "AVAXUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 4844.3699802609835,
+      "maxLossUsd": 499.99999999999994,
+      "stopPct": 0.09826029400531612,
+      "costPct": 0.004952301654659297,
+      "spreadPct": 0.0037523016546592972,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.04913014700265806,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 43907638.04839999,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.0037523016546592972,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "8beb39024ef1773218f0066088a9cf306b140556df3025747d1cac96af5cfa2f"
+}

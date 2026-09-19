@@ -811,5 +811,20 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "e6ecc386bdb012286104b34cda71eda9d1d23ef077d3fed218dd9bd95d1d61f2"
+  "integrity": "7f76c598899df04b13df73c815f07f11420c089a497bff5145d015fa929c118b",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "other",
+    "mechanism": "Feed record classifies this as a Token & Share Accounting failure via an Arithmetic Error in Notional V2's Solidity contracts on Ethereum, with USD 1,727,782 lost. No on-chain receipt is present, so the specific miscalculated quantity, the call path and the actor are not evidenced in this packet.",
+    "lossBearer": "Per the feed record, Notional V2 (Ethereum lending protocol) and by extension its depositors/LPs. No receipt or balance delta in the packet confirms which address bears the shortfall.",
+    "narrative": "What we have is a feed entry, not chain evidence: Notional V2 on Ethereum is reported to have lost USD 1,727,782 through an arithmetic error in how token/share accounting is computed. That class of bug normally lets someone mint or redeem more claim than they funded, so the hole sits with the protocol's remaining depositors. But the packet carries no transaction hash, no addresses and no balance movements, so the exact mechanism and the actual loss-bearing address are unproven. The only market exposure offered is ETHUSDT, tagged CONTAGION and INFERRED simply because ETH is the native token of the chain. ETH moved -2.201% on the day against a window sigma of 2.7691% — inside normal noise.",
+    "veto": true,
+    "vetoReason": "No on-chain receipt has been captured: the packet contains no transaction, address or balance delta, so the loss path and mechanism cannot be verified. The only proposed exposure, ETHUSDT, is an INFERRED chain-level contagion link with no shown exposure of Notional V2 to ETH price, and the exploit-d",
+    "concerns": [
+      "Feed record only; mechanism 'Arithmetic Error' is a category label, not an evidenced call path.",
+      "ETHUSDT link is INFERRED from chain nativity, not from any shown Notional V2 exposure.",
+      "Exploit-day move -2.201% sits within window sigma 2.7691%; no detectable price signal.",
+      "No integrator or downstream exposure is documented, so the true loss bearer is unconfirmed."
+    ]
+  }
 }

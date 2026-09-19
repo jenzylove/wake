@@ -36,5 +36,20 @@
   "decision": "NO_TRADE",
   "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "027b1527a7fe51571e38f26c3d27b6b6c1b27c55b0b5fc12d02e1f54123d9131"
+  "integrity": "4cebd66b9a4a91625e9b82214e8dfbb21f4cdad5018b7e3631571da4d05df9f6",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "bridge",
+    "mechanism": "Feed reports an unbacked cross-chain mint on the Nomic bridge (Rust): bridged units allegedly issued without matching locked collateral, diluting backing of the bridged asset. No on-chain receipt, transaction trace or mint/lock reconciliation has been captured, so the mechanism is asserted by the feed, not demonstrated by evidence.",
+    "lossBearer": "Unconfirmed. Feed implies holders of the Nomic bridged asset bear the dilution of reserves; no exposure record identifies any entity, vault or integrator actually holding the loss.",
+    "narrative": "A single feed line says Nomic, a cross-chain bridge, suffered an unbacked mint of 3,150,000. If true, the pattern is the classic bridge failure: tokens appear on one side without real collateral locked on the other, so whoever ends up holding the bridged asset absorbs the missing backing. But that is all we have. There is no transaction receipt, no source link, no reserve reconciliation, and no exposure record tying this to any position we hold or serve. We can name the suspected mechanism; we cannot yet show a loss path. Not actionable until a receipt lands.",
+    "veto": true,
+    "vetoReason": "Packet is a feed record only: no on-chain receipt, no source URL, and an empty exposures list. The loss path and the party bearing it are unverified, so no trade is supported.",
+    "concerns": [
+      "No on-chain receipt or transaction evidence captured for the alleged mint",
+      "Source field is empty; claim rests on a single unattributed feed line",
+      "exposures[] is empty - no demonstrated exposure to Nomic or its bridged asset",
+      "No market data observed, so no independent corroboration of a repricing"
+    ]
+  }
 }

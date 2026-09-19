@@ -27,13 +27,17 @@ Every hour `.github/workflows/discover.yml` discovers new incidents, then runs o
 
 WAKE's paper log is `data/wake-paper/log.jsonl` (hash chained, replayed by `npm run data:verify`) with totals in `data/wake-paper/metrics.json`. The older `data/paper/` log belongs to a separate delta neutral basis engine and is not WAKE's incident strategy.
 
+## What Claude does, and what it cannot do
+
+WAKE follows one rule: AI determines meaning, code enforces money. After code has built the evidence packet (trace, authorisation, share backing, integrators, candidates, numbers), Claude (`lib/ai-interpret.mjs`) names the exploit mechanism, says who bears the loss, and writes the explanation a trader reads. It may veto a trade when the evidence does not support the loss path; the veto becomes a blocking falsifier and the policy holds. It cannot create a trade, change a number, choose an instrument or size a position, and a failed review changes nothing. Tests in `tests/ai-interpret.test.mjs` prove each of those limits. In blind runs Claude has classified every decoy as an authorised operation and vetoed it, and named the exploit class of the real attacks from the trace alone. Scheduled runs reach Claude through `POST /api/agent/interpret`, so the Anthropic key stays on the server.
+
 ## Blind exploit challenge
 
 `npm run blind:build && npm run blind:run` starts an empty local chain, starts WAKE's watcher, and only then lets a red team deploy a randomized protocol set (random names, balances, vault classes, lending markets and borrowers). The red team publishes a registry and a SHA-256 commitment to its answer, then at a random moment runs an authorised decoy sweep and a real exploit from one of three vulnerability classes. WAKE sees only blocks, logs, traces and contract state. It reconstructs holdings from Transfer logs, flags the drain, checks authorisation, measures share backing before and after, finds lending markets holding the damaged receipt token and computes their bad debt from their own logs, then decides through the same policy, sizer and gate as every other incident. Because the contracts did not exist before the run, no model can have memorised the answer.
 
 First 12 runs (19 September 2026): 12 of 12 exploits detected, 12 of 12 decoys dismissed, 4 of 4 contagion paths found, 12 of 12 trade targets correct, 0 false positives, median detection 2.9 seconds. The gate cleared 2; the rest were real exploits too small relative to market cap to clear the 1.2% edge, and WAKE held. One cleared trade executed on Bitget Demo: UNIUSDT short, order `1485315090898124800`. Scores are in `data/blind/runs.jsonl` (hash chained) and per run under `data/blind/runs/`.
 
-Blind trades are labelled `BLIND_TEST` everywhere. The chain event is synthetic; the Bitget instrument, price, candles and Demo order are real.
+The challenge now runs every three hours (`.github/workflows/blind.yml`), followed by an agent tick that executes any cleared trade on Demo. Blind trades are labelled `BLIND_TEST` everywhere, and `metrics.json` reports them separately from real incidents in `closedBySource`; the two are never blended. The chain event is synthetic; the Bitget instrument, price, candles and Demo order are real.
 
 ## Run and verify
 

@@ -810,5 +810,20 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "bcfc39e55ae8beefaf68624d51b977bee2b0e5051944fc5c7b86a54e6a2513f0"
+  "integrity": "a65ee6c0c4efea96d0067239aefb2b500cf4af93e5b1c7a4ba28871f350d2b73",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "other",
+    "mechanism": "Feed attributes a token & share accounting failure: tokens minted without backing collateral (unbacked mint) tied to Ankr on Flow, ~$410k. No on-chain receipt is in the packet, so the privileged path used to obtain mint rights (compromised key vs missing access control) is not evidenced.",
+    "lossBearer": "Not established by the packet. An unbacked mint normally lands on holders/liquidity providers who absorb the fake supply, but no receipt names the pool, counterparty or drained account.",
+    "narrative": "The feed says someone created Ankr-linked tokens on Flow that had nothing behind them, about $410k worth, and that value has to come out of whoever ends up holding or buying the fake supply. That is the whole story we have: there is no captured chain receipt, so we cannot see who minted, how they got permission, or which pool took the hit. The ANKR spot exposure is an inference, not a confirmed link, and the market agrees with that caution: the day move was 0.255% against a 2.81% window sigma on $191,832.13 of volume. No dislocation, no traceable loss path.",
+    "veto": true,
+    "vetoReason": "Packet is feed-only with no on-chain receipt; mint authority path is ambiguous, loss-bearing entity is unidentified, and the ANKRUSDT link is marked INFERRED with a 0.255% move well inside window sigma.",
+    "concerns": [
+      "No on-chain receipt: mint transaction, minter and destination unverified",
+      "Cannot distinguish key compromise from broken access control on the mint path",
+      "Exposure to ANKRUSDT is INFERRED, not a demonstrated claim on the affected asset",
+      "Flow-side venue for the unbacked supply is unnamed, so no loss-bearing pool identified"
+    ]
+  }
 }

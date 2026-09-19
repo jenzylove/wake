@@ -198,6 +198,12 @@ async function main() {
     eligibleNow: incidents.filter((i) => agentEligibility(i).eligible).length,
     open: state.open.length, closedTrades: pnl.length, realizedPnlUsd: Number(cum.toFixed(4)),
     winRate: pnl.length ? Number((pnl.filter((x) => x > 0).length / pnl.length).toFixed(3)) : null, maxDrawdownUsd: Number(maxDd.toFixed(4)),
+    // Real incidents and blind test incidents are never blended into one number.
+    closedBySource: Object.fromEntries(["captured", "discovered", "blind"].map((src) => {
+      const xs = state.closed.filter((c) => c.source === src).map((c) => c.pnlUsd)
+      return [src, { trades: xs.length, realizedPnlUsd: Number(xs.reduce((a, b) => a + b, 0).toFixed(4)), wins: xs.filter((x) => x > 0).length }]
+    })),
+    openBySource: state.open.reduce((a, o) => ((a[o.source] = (a[o.source] ?? 0) + 1), a), {}),
     bySource: incidents.reduce((a, i) => ((a[i.source] = (a[i.source] ?? 0) + 1), a), {}),
   }
   appendHashLog(LOG, { event: "TICK", mode: metrics.mode, evaluated: metrics.incidentsEvaluated, eligible: metrics.eligibleNow, open: metrics.open, closedTrades: metrics.closedTrades, realizedPnlUsd: metrics.realizedPnlUsd }, TICK)

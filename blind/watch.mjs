@@ -18,6 +18,7 @@ import { createPublicClient, http, parseAbi, formatEther } from "viem"
 import { foundry } from "viem/chains"
 import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
+import { aiFalsifier, interpretAnywhere } from "../lib/ai-interpret.mjs"
 
 const RPC = process.env.BLIND_RPC || "http://127.0.0.1:8545"
 const RUN_DIR = process.env.BLIND_RUN_DIR
@@ -133,6 +134,21 @@ async function investigate(tx, token, victim, before, after, blockNumber, detect
     { key: "authorised", question: "Was the outflow authorised by the contract owner?", status: authorised ? "SUPPORTED" : "REJECTED", blocksTrade: authorised },
     { key: "exposure", question: "Is the loss path quantified from on-chain state?", status: best ? "REJECTED" : "UNRESOLVED", blocksTrade: !best },
   ]
+  // Claude reads the packet code built and may veto; it cannot add a trade or change a number.
+  let ai = null
+  let aiError = null
+  try {
+    ai = await interpretAnywhere({
+      transaction: { hash: tx, from: txn.from, to: txn.to, selector: txn.input.slice(0, 10), status: receipt.status },
+      victim, ownerBeforeTx: owner, authorisedByOwner: authorised,
+      holdings: { token, before: num(before), after: num(after) },
+      sharePrice: { before: ppsBefore === null ? null : num(ppsBefore), after: ppsAfter === null ? null : num(ppsAfter) },
+      callTrace: calls.slice(0, 30), integrators,
+      candidates: candidates.map((c) => ({ kind: c.kind, name: c.name, lossUsd: c.lossUsd, marketCapUsd: c.marketCapUsd, modeledDeltaPct: c.modeledDeltaPct })),
+    })
+  } catch (error) { aiError = String(error.message ?? error) }
+  falsification.push(aiFalsifier(ai))
+
   const policyInput = {
     falsification, modeledDelta: best?.modeledDeltaPct ?? null, marketDelta: best?.marketDeltaPct ?? 0, confidence,
     kind: best?.kind ?? "NO TRADE", state: authorised ? "DISMISSED" : "CONFIRMED", workflowState: "MARKET_CHECK",
@@ -150,14 +166,14 @@ async function investigate(tx, token, victim, before, after, blockNumber, detect
     chain: { id: foundry.id, rpc: "local anvil", block: Number(blockNumber), blockTimestamp: Number(block.timestamp) },
     detection: { tx, txs, firstDetectedAt: incidents.get(victim)?.detection.firstDetectedAt ?? detectedAt, victim, token, before: num(before), after: num(after), detectedAt, latencyMs: Date.parse(detectedAt) - Number(block.timestamp) * 1000 },
     investigation: { from: txn.from, to: txn.to, selector: txn.input.slice(0, 10), authorised, owner, calls: calls.slice(0, 40), sharePriceBefore: ppsBefore === null ? null : num(ppsBefore), sharePriceAfter: ppsAfter === null ? null : num(ppsAfter), receiptSupplyBefore: supplyBefore === null ? null : num(supplyBefore), integrators },
-    candidates, evidence, falsification, confidence, decision, gate,
+    candidates, evidence, falsification, confidence, decision, gate, ai, aiError,
     agent: best ? { decision, gatePassed: gate.passed, instrument: best.instrument, side: "SHORT", kind: best.kind, sizing: best.sizing } : { decision, gatePassed: false },
   }
   record.integrity = sha256({ ...record, integrity: undefined })
   mkdirSync(OUT, { recursive: true })
   writeFileSync(path.join(OUT, `${record.id}.json`), JSON.stringify(record, null, 2) + "\n")
   incidents.set(victim, record)
-  console.log(JSON.stringify({ phase: "incident", id: record.id, victim, authorised, decision, gate: gate.passed, target: best?.name ?? null, kind: best?.kind ?? null, confidence }))
+  console.log(JSON.stringify({ phase: "incident", id: record.id, victim, authorised, decision, gate: gate.passed, target: best?.name ?? null, kind: best?.kind ?? null, confidence, ai: ai ? `${ai.exploitClass}${ai.veto ? " VETO" : ""}` : aiError ? "error" : "not run" }))
 }
 
 async function main() {
@@ -195,7 +211,8 @@ async function main() {
         }
       }
     }
-    if (existsSync(path.join(RUN_DIR, "answer.sealed.json")) && incidents.size >= 1 && Date.now() - started > 5_000) {
+    const caughtUp = (await pub.getBlockNumber()) < next
+    if (caughtUp && existsSync(path.join(RUN_DIR, "answer.sealed.json")) && incidents.size >= 1 && Date.now() - started > 5_000) {
       // Give the second event (decoy or exploit) time to land before stopping.
       const sealed = JSON.parse(readFileSync(path.join(RUN_DIR, "answer.sealed.json"), "utf8"))
       if (Date.now() - Date.parse(sealed.attackedAt) > 8_000) break

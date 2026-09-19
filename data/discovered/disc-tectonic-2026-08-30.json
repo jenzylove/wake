@@ -42,5 +42,20 @@
   "decision": "NO_TRADE",
   "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "346077e1868e13317e9aecbaa9e91769959e7b519a7750917d0a9cbce5f961c2"
+  "integrity": "9e3cf5dbb9e06a6e09cf74827fdd7c009542300952a923bbf7c72bb63b8be81d",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "other",
+    "mechanism": "Feed classifies this as a token & share accounting failure via a donation attack: an attacker inflates a market's exchange rate by transferring underlying tokens directly into the pool rather than minting shares, so share/underlying conversion rounds in the attacker's favour. No transaction trace, function calls or balance deltas were supplied to confirm this path.",
+    "lossBearer": "Unconfirmed. Feed implies the Tectonic lending protocol and its depositors on Cronos; no exposure records, receipts or counterparty balances were provided to identify who actually bears the loss.",
+    "narrative": "All we have is a feed line: Tectonic, a Cronos lending protocol, tagged as hit by a donation attack with a figure of 124,470,000 attached. The named mechanism is the classic share-accounting bug where someone donates tokens straight into a market to skew the share price, then redeems more than they put in. But the packet carries no on-chain receipt, no source link, no exposure list and no market data. We cannot tell whether the outflow was unauthorised, who held the drained shares, or whether we hold anything downstream. That is a naming exercise, not an evidenced loss path.",
+    "veto": true,
+    "vetoReason": "Feed record only with no on-chain receipt: the loss path, unauthorised nature of the outflow, and any exposure of ours are all unverified in the packet.",
+    "concerns": [
+      "No transaction hash, trace or balance deltas; donation-attack mechanism is asserted by the feed, not demonstrated.",
+      "Exposures array is empty and marketObserved is null - our own loss path is not shown.",
+      "Source field is blank, so the 124,470,000 figure has no attributable origin in the packet.",
+      "Loss bearer cannot be separated between protocol treasury, depositors, or an integrator."
+    ]
+  }
 }

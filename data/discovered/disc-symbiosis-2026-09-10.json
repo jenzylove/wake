@@ -817,5 +817,20 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "2e04b905a47a89d86b0cb21011499a8382d6dff48a4f96a0c625a9bf2327e992"
+  "integrity": "ce18ca1b10b0c225b8c56e6590d07baa19b3f48106e8dbc8208e4b5a0c0c1aa4",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "bridge",
+    "mechanism": "Feed classifies this as an unbacked cross-chain mint against the Symbiosis bridge spanning BSC and Ethereum: synthetic/bridged units were issued on a destination chain without matching backing on the source side, then drained against real liquidity. No on-chain receipt is in the packet, so the exact mint path and entry point are unverified.",
+    "lossBearer": "Symbiosis bridge-side backing — i.e. the protocol's pooled/locked collateral and its liquidity providers, who hold the now-unbacked claims. No named integrator or counterparty exposure is shown in the",
+    "narrative": "Symbiosis, a cross-chain bridge, is reported to have lost 336,000 USD to an unbacked cross-chain mint touching BSC and Ethereum. In this pattern the bridge issues tokens on one chain that no longer have real assets behind them on the other, and the attacker cashes those out against genuine pooled liquidity — so the hole sits with the bridge's own reserves and its LPs, not with any identified downstream integrator. Evidence here is a feed record only: no chain receipt, no transaction trail, no returned-funds status. The only exposures listed are BNB and ETH, and they are inferred purely because they are the native tokens of the affected chains.",
+    "veto": true,
+    "vetoReason": "The loss path is not supported. The only listed exposures (BNBUSDT, ETHUSDT) are INFERRED CONTAGION links whose sole stated relation is 'native token of chain' — no evidence connects the 336,000 USD bridge loss to those assets' value. The packet also carries no on-chain receipt, and the observed exp",
+    "concerns": [
+      "Feed record only; no on-chain receipt captured to confirm mint path or attacker address.",
+      "BNB/ETH exposures are INFERRED and chain-native only — not demonstrated integrator or backing exposure.",
+      "336,000 USD loss is small against 59,547,301.84 USD of observed quote volume; limited price transmission expected.",
+      "Day move -1.256% is below windowSigma 2.5142%; no statistically distinct market reaction."
+    ]
+  }
 }

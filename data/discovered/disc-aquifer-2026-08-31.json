@@ -810,5 +810,20 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "59c6445ca9fca62373f4eaaad20bd57caa3f1de0b09c7e71ac3932b6abf179b8"
+  "integrity": "8eed8d4f2572abc4e73f8c5a7e83108052737fa6f9699b4a3fbe90c2c7798270",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "Feed record describes an access-control failure in Aquifer's Rust Solana program exploited via an arbitrary external call: attacker-supplied program/account data is invoked without authority validation, letting the attacker direct protocol-controlled transfers out of pool accounts. No on-chain receipt has been captured to confirm call path.",
+    "lossBearer": "Aquifer protocol pools and their depositors/LPs (the DEX's own balances). No integrator, bridge or third-party exposure is evidenced in the packet.",
+    "narrative": "Aquifer, a Solana DEX, is reported to have lost $2,469,729 through an access-control bug: a program path that makes an external call with attacker-controlled inputs, without checking who is allowed to trigger it. The loss sits with the protocol's own pooled liquidity, not with a bridge or an outside integrator. Important caveat: this is a feed record only, with no on-chain receipt, no source link, and the sole market exposure listed is SOLUSDT, which is merely inferred contagion from the chain, not Aquifer itself. SOL moved 1.433% on the day against a 72h window sigma of 2.7648%, i.e. inside normal noise on $1.1bn of quote volume.",
+    "veto": true,
+    "vetoReason": "No on-chain receipt or source backs the mechanism, and the only tradable exposure (SOLUSDT) is an INFERRED chain-level contagion link rather than demonstrated exposure to Aquifer; the observed day move of 1.433% is below the 2.7648% window sigma, so the packet does not evidence a loss path from this",
+    "concerns": [
+      "Evidence is a feed record with empty source and no captured on-chain receipt; mechanism unverified.",
+      "SOLUSDT link is INFERRED contagion via chain, not a demonstrated exposure to Aquifer.",
+      "$2,469,729 loss is small against $1.1bn observed quote volume; no reason to expect a distinguishable price path.",
+      "Exploit-day move 1.433% sits within the 2.7648% window sigma, so no anomalous market signal is present."
+    ]
+  }
 }

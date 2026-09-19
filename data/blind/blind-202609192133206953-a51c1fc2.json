@@ -1,0 +1,286 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609192133206953-a51c1fc2",
+  "runId": "202609192133206953",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 83,
+    "blockTimestamp": 1789853628
+  },
+  "detection": {
+    "tx": "0x4202506e31a364ce2921f6b48888ee44c0ac01cd94ad62ddda7833247068239a",
+    "txs": [
+      "0x4202506e31a364ce2921f6b48888ee44c0ac01cd94ad62ddda7833247068239a"
+    ],
+    "firstDetectedAt": "2026-09-19T21:34:24.685Z",
+    "victim": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+    "token": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+    "before": 908548,
+    "after": 363419.2,
+    "detectedAt": "2026-09-19T21:34:24.685Z",
+    "latencyMs": 36685
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 908548,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+      "lossUsd": 545128.8,
+      "name": "Nimbus Reserve",
+      "instrument": "ADAUSDT",
+      "marketCapUsd": 33000000,
+      "modeledDeltaPct": 0.413,
+      "markAtDetection": 0.2271,
+      "markAtDecision": 0.2271,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5598.355131423068,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.08460817949523358,
+        "costPct": 0.004703768079071691,
+        "spreadPct": 0.003503768079071691,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04230408974761679,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 92227245.38270003,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.003503768079071691,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.413
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x4202506e31a364ce2921f6b48888ee44c0ac01cd94ad62ddda7833247068239a succeeded in block 83"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $545,129 at Nimbus Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The outflow is authorised: the caller equals ownerBeforeTx and authorisedByOwner is true, with a normal transfer as the only sub-call. The packet shows no unauthorised loss path and no integrator exposure, so the proposed exploit-driven loss thesis is not supported."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.4%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Owner-of-record (0xf39F...9266, matching ownerBeforeTx) called selector 0x6ea056a9 on the vault, which forwarded a single ERC-20 transfer (0xa9059cbb) of the underlying token out of the vault. Holdings fell 908548 -> 363419.2 and share price 1 -> 0.4. No access-control bypass, no reinitialisation, no price feed or reentrancy path appears in the trace.",
+    "lossBearer": "Holders of the vault at 0xa51c...91c0 (Nimbus Reserve), who absorb the share-price move from 1 to 0.4; no integrator exposure is shown in the packet.",
+    "narrative": "A single call from the vault's own recorded owner pulled underlying tokens out via a plain ERC-20 transfer. Vault holdings dropped from 908548 to 363419.2 and the share price went from 1 to 0.4, so remaining holders are marked down. Mechanically this is an authorised administrative withdrawal, not a broken access control, a bad oracle or a reentrancy. It may still be a rug or a stolen admin key, but nothing in the evidence distinguishes those from a deliberate owner action, and no third-party integrator exposure is listed. Modeled direct loss is 545128.8 USD against a 33000000 USD market cap (modeled delta 0.413).",
+    "veto": true,
+    "vetoReason": "The outflow is authorised: the caller equals ownerBeforeTx and authorisedByOwner is true, with a normal transfer as the only sub-call. The packet shows no unauthorised loss path and no integrator exposure, so the proposed exploit-driven loss thesis is not supported.",
+    "concerns": [
+      "Cannot distinguish an intentional owner withdrawal from a compromised owner key; no key-compromise evidence in packet.",
+      "integrators list is empty, so no downstream exposure is demonstrated.",
+      "Loss figure 545128.8 USD is modeled, not an observed settled loss.",
+      "Only one hop of call trace is shown; destination of the transferred tokens is not in the evidence."
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "instrument": "ADAUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 5598.355131423068,
+      "maxLossUsd": 499.99999999999994,
+      "stopPct": 0.08460817949523358,
+      "costPct": 0.004703768079071691,
+      "spreadPct": 0.003503768079071691,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.04230408974761679,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 92227245.38270003,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.003503768079071691,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "8f8c38e4a5dfddcd3c517b7cd1a941f653548152350d29fd079f1ace16eb8f09"
+}
