@@ -3,6 +3,7 @@ import realAfxCapture from "@/data/incidents/inc-real-afx-20260722.json"
 import realAfxResolutionCapture from "@/data/incidents/inc-real-afx-resolution-20260723.json"
 import { computeConfidence, modelConsequence, type ConsequenceInputs } from "@/lib/consequence-model"
 import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "@/lib/wake-policy.mjs"
+import { computePositionSizing } from "@/lib/sizing.mjs"
 
 export type IncidentState = "CONFIRMED" | "INVESTIGATING" | "RESOLVED"
 export type WorkflowState = "WATCHING" | "ANOMALY_DETECTED" | "INVESTIGATING" | "INCIDENT_CONFIRMED" | "EXPOSURE_MAPPING" | "MARKET_CHECK" | "CAUSAL_CHALLENGE" | "TRADE_READY" | "RISK_APPROVED" | "POSITION_OPEN" | "MONITORING" | "CLOSED" | "NO_TRADE"
@@ -121,7 +122,14 @@ export type LogEntry = {
   tone: string
 }
 
+export type PositionSizing =
+  | { computable: true; notionalUsd: number; maxLossUsd: number; stopPct: number; costPct: number; spreadPct: number
+      bindingConstraint: string; inputs: Array<{ label: string; value: number; provenance: "OBSERVED" | "ESTIMATED" | "ASSUMED" }> }
+  | { computable: false; reason: string }
+
 export type Incident = {
+  /** Computed from the capture packet (lib/sizing.mjs). Absent on replay fixtures. */
+  sizing?: PositionSizing
   id: string
   time: string
   title: string
@@ -213,6 +221,16 @@ export const coverageRegistry: WatchCoverage[] = [
   { chain: "ARB", protocol: "protocol resolvers", eventTypes: ["bridge supply change", "token transfer"], resolver: "not captured in current packet", status: "PLANNED", evidenceRef: "none" },
   { chain: "BITGET", protocol: "USDT futures", eventTypes: ["mark candles", "paper execution"], resolver: "public market adapter", status: "VALIDATED", evidenceRef: "bitget-public-mark-candles" },
 ]
+
+// Position size and loss bound, computed from each capture's observed liquidity block.
+const sizingFor = (capture: { liquidity: { observed: { windowSigma: number; quoteVolumeUsd: number }; candles: Array<{ high: number; low: number }> } }) =>
+  computePositionSizing({ windowSigma: capture.liquidity.observed.windowSigma, quoteVolumeUsd: capture.liquidity.observed.quoteVolumeUsd, candles: capture.liquidity.candles }) as PositionSizing
+const usd = (v: number) => `$${Math.round(v).toLocaleString("en-US")}`
+const sizingLabel = (z: PositionSizing, decision: string) =>
+  z.computable ? `${usd(z.notionalUsd)} notional · bound by ${z.bindingConstraint}${decision}` : `not computable · ${z.reason}`
+const realMoonwellSizing = sizingFor(realMoonwellCapture)
+const realAfxSizing = sizingFor(realAfxCapture)
+const realAfxResolutionSizing = sizingFor(realAfxResolutionCapture)
 
 const capturedMarketStart = realMoonwellCapture.market.candles[0]
 const capturedMarketEnd = realMoonwellCapture.market.candles[realMoonwellCapture.market.candles.length - 1]
@@ -327,6 +345,7 @@ const realMoonwellIncident: Incident = {
   maxLoss: "$0",
   invalidation: "n/a",
   positionSize: "0% · abstain",
+  sizing: realMoonwellSizing,
   decisionReason: "The receipt confirms an incident, but this capture does not prove a residual ETH edge; WAKE abstains instead of proxy-trading a weak link.",
   catalystHorizon: "No actionable horizon until an ETH-specific exposure is verified",
   falsification: realMoonwellFalsification,
@@ -417,9 +436,10 @@ const realAfxIncident: Incident = {
   marketDelta: Number(realAfxMarketMove.toFixed(2)),
   instrument: realAfxCapture.market.symbol,
   side: "SHORT",
-  maxLoss: "$1,200",
+  maxLoss: realAfxSizing.computable ? usd(realAfxSizing.maxLossUsd) : "$0",
   invalidation: "Freeze before ETH conversion · source path disproven",
-  positionSize: "10% of incident VaR",
+  positionSize: sizingLabel(realAfxSizing, " · held, not executed"),
+  sizing: realAfxSizing,
   decisionReason: "The receipt proves a material bridge outflow and the contagion path is traced. The consequence model then refuses the trade: even if the entire outflow converted and hit this instrument inside the window, square root impact on the observed traded value is smaller than the move the market had already made. WAKE abstains rather than size a position on a gap that is not there.",
   catalystHorizon: "minutes to 2h after bridge outflow",
   falsification: realAfxFalsification,
@@ -499,9 +519,10 @@ const realAfxResolutionIncident: Incident = {
   marketDelta: Number(realAfxResolutionMarketMove.toFixed(2)),
   instrument: realAfxResolutionCapture.market.symbol,
   side: "LONG",
-  maxLoss: "$600",
+  maxLoss: realAfxResolutionSizing.computable ? usd(realAfxResolutionSizing.maxLossUsd) : "$0",
   invalidation: "Recovery request fails · attacker continues outflow",
-  positionSize: "5% of incident VaR",
+  positionSize: sizingLabel(realAfxResolutionSizing, " · held, not executed"),
+  sizing: realAfxResolutionSizing,
   decisionReason: "A real on-chain response message marks the beginning of resolution, but a recovery request moves no money, so there is no flow to model. WAKE holds the incident in monitor rather than invent a resolution premium.",
   catalystHorizon: "response window · follow-up required",
   falsification: realAfxResolutionFalsification,
