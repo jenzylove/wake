@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-19T06:16:12.446Z",
+  "generatedAt": "2026-09-19T06:26:14.761Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-19T06:16:12.043Z",
-    "days": 3.47,
-    "equityPoints": 134,
+    "to": "2026-09-19T06:26:14.386Z",
+    "days": 3.477,
+    "equityPoints": 135,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 131,
+    "tickCount": 132,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-19T06:16:12.043Z",
+    "lastTickAt": "2026-09-19T06:26:14.386Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -79,32 +79,31 @@
       "maxNotionalShareOfVolume": 0.002,
       "stopCooldownMs": 14400000
     },
-    "universeSize": 121,
+    "universeSize": 122,
     "lastScan": {
       "perpsScanned": 797,
       "spotSymbols": 2238,
-      "pairsWithBothLegs": 121,
-      "evaluated": 121,
-      "triggered": 13,
+      "pairsWithBothLegs": 122,
+      "evaluated": 122,
+      "triggered": 16,
       "opened": 0,
-      "abstained": 121,
+      "abstained": 122,
       "reasons": {
-        "gap below trigger": 108,
-        "hedgeable,net-edge,clip-size": 5,
+        "gap below trigger": 106,
+        "hedgeable,net-edge,clip-size": 8,
         "spread,net-edge,clip-size": 1,
         "hedgeable,spread,net-edge,clip-size": 1,
         "net-edge": 1,
-        "hedgeable,clip-size": 1,
-        "net-edge,clip-size": 4
+        "net-edge,clip-size": 5
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 12.99,
-        "median": -43.15,
-        "worst": -89.22,
-        "hedgeable": 6,
-        "clearedCost": 1,
-        "sampled": 13
+        "best": -15.98,
+        "median": -36.92,
+        "worst": -76.11,
+        "hedgeable": 7,
+        "clearedCost": 0,
+        "sampled": 16
       }
     }
   }
