@@ -24,7 +24,11 @@ const STATE = path.join(OUT, "state.json")
 const API = process.env.WAKE_API_BASE || "https://bitget-lilac.vercel.app"
 const BITGET = "https://api.bitget.com"
 const creds = { key: process.env.BITGET_API_KEY, secret: process.env.BITGET_SECRET_KEY, pass: process.env.BITGET_PASSPHRASE }
-const DEMO = process.env.WAKE_EXECUTION_MODE === "bitget-demo" && creds.key && creds.secret && creds.pass
+// Two ways to reach Bitget Demo. Scheduled runs call the deployed executor, so the exchange keys
+// stay on the server and the scheduler holds only a token. Local runs may sign directly.
+const EXECUTOR = process.env.WAKE_AGENT_EXECUTOR && process.env.WAKE_SCHEDULER_SECRET ? process.env.WAKE_AGENT_EXECUTOR : null
+const DIRECT = !EXECUTOR && process.env.WAKE_EXECUTION_MODE === "bitget-demo" && creds.key && creds.secret && creds.pass
+const DEMO = Boolean(EXECUTOR || DIRECT)
 const TICK = new Date().toISOString()
 
 async function bitget(method, requestPath, body = "", signed = false) {
@@ -52,7 +56,18 @@ async function venue(symbol) {
   return { sizeMultiplier: Number(c.sizeMultiplier), minTradeNum: Number(c.minTradeNum), minTradeUSDT: Number(c.minTradeUSDT) }
 }
 
-async function placeOrder({ symbol, side, tradeSide, size, posMode, clientOid }) {
+async function placeOrder({ symbol, side, tradeSide, size, posMode, clientOid, incidentId }) {
+  if (EXECUTOR) {
+    const res = await fetch(EXECUTOR, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-wake-scheduler-secret": process.env.WAKE_SCHEDULER_SECRET },
+      body: JSON.stringify({ incidentId, tradeSide, instrument: symbol, side, size: String(size), clientOid }),
+      signal: AbortSignal.timeout(30_000),
+    })
+    const body = await res.json()
+    if (!res.ok) throw new Error(`executor ${res.status}: ${body.error}`)
+    return { orderId: body.orderId, clientOid: body.clientOid, executor: "vercel", posMode: body.posMode, markPrice: body.markPrice }
+  }
   const hedge = posMode === "hedge_mode"
   const orderSide = hedge ? (side === "LONG" ? "buy" : "sell") : ((side === "LONG") === (tradeSide === "open") ? "buy" : "sell")
   const body = JSON.stringify({
@@ -105,7 +120,7 @@ async function main() {
   const incidents = await gatherIncidents()
   const byId = new Map(incidents.map((i) => [i.id, i]))
   let posMode = null
-  if (DEMO) {
+  if (DIRECT) {
     try { posMode = (await bitget("GET", "/api/v2/mix/account/account?marginCoin=USDT&productType=USDT-FUTURES&symbol=BTCUSDT", "", true)).data?.posMode ?? null }
     catch (error) { appendHashLog(LOG, { event: "ACCOUNT_ERROR", error: String(error.message ?? error) }, TICK) }
   }
@@ -119,7 +134,7 @@ async function main() {
     let order = null
     let error = null
     if (p.mode === "bitget-demo" && DEMO) {
-      try { order = await placeOrder({ symbol: p.instrument, side: p.side, tradeSide: "close", size: p.size, posMode, clientOid: `wake-x-${Date.now()}` }) }
+      try { order = await placeOrder({ symbol: p.instrument, side: p.side, tradeSide: "close", size: p.size, posMode, clientOid: `wake-x-${Date.now()}`, incidentId: p.incidentId }) }
       catch (e) { error = String(e.message ?? e) }
     }
     if (error) { appendHashLog(LOG, { event: "EXIT_FAILED", incidentId: p.incidentId, reason, error }, TICK); continue }
@@ -149,7 +164,7 @@ async function main() {
       const size = contractSize(notional, price, v)
       if (!size || size * price < v.minTradeUSDT) { appendHashLog(LOG, { event: "SKIPPED", incidentId: inc.id, reason: "computed size below the venue minimum", notional }, TICK); continue }
       const mode = DEMO ? "bitget-demo" : "unsent"
-      const order = DEMO ? await placeOrder({ symbol: inc.instrument, side: inc.side, tradeSide: "open", size, posMode, clientOid: `wake-o-${Date.now()}` }) : null
+      const order = DEMO ? await placeOrder({ symbol: inc.instrument, side: inc.side, tradeSide: "open", size, posMode, clientOid: `wake-o-${Date.now()}`, incidentId: inc.id }) : null
       const position = { incidentId: inc.id, source: inc.source, instrument: inc.instrument, side: inc.side, size, notionalUsd: Number((size * price).toFixed(4)),
         entryPrice: price, stopPct: inc.stopPct ?? 0.02, openedAt: TICK, mode, entryOrder: order }
       if (DEMO) state.open.push(position)
