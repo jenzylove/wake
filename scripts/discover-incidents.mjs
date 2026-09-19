@@ -16,6 +16,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { deriveDecisionPolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
+import { stockExposures } from "../lib/stock-exposure.mjs"
 
 const OUT_DIR = process.env.WAKE_DISCOVERY_DIR || path.join(process.cwd(), "data", "discovered")
 const LOOKBACK_DAYS = Number(process.env.WAKE_DISCOVERY_DAYS || 21)
@@ -185,7 +186,8 @@ async function main() {
     if (known.has(id)) continue
 
     const protocol = hack.defillamaId != null ? protocolById.get(String(hack.defillamaId)) : undefined
-    const exposures = []
+    // Stock spillover first: a direct company path outranks a chain token proxy.
+    const exposures = stockExposures(hack, contracts)
     const protocolSymbol = protocol?.symbol && protocol.symbol !== "-" ? `${protocol.symbol.toUpperCase()}USDT` : null
     if (protocolSymbol && contracts.has(protocolSymbol)) {
       exposures.push({ symbol: protocolSymbol, kind: "DIRECT", relation: "protocol token", epistemic: "INFERRED" })
