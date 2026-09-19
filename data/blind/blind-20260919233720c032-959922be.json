@@ -1,0 +1,310 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260919233720c032-959922be",
+  "runId": "20260919233720c032",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 70,
+    "blockTimestamp": 1789861121
+  },
+  "detection": {
+    "tx": "0x54d4a27e7355ad1542dcdb151e7b5e5fcaaa5cc30f88390525dd5e98775a788a",
+    "txs": [
+      "0x54d4a27e7355ad1542dcdb151e7b5e5fcaaa5cc30f88390525dd5e98775a788a"
+    ],
+    "firstDetectedAt": "2026-09-19T23:38:53.803Z",
+    "victim": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "token": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+    "before": 1034054,
+    "after": 0,
+    "detectedAt": "2026-09-19T23:38:53.803Z",
+    "latencyMs": 12803
+  },
+  "investigation": {
+    "from": "0xd07c7874d5dd9a78c255b4ce9636f2c5b55e3ae9",
+    "to": "0xdd707734822c9dceb76c4c19908d97998f2e7b97",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xdd707734822c9dceb76c4c19908d97998f2e7b97",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 1034054,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+      "lossUsd": 1034054,
+      "name": "Umber Reserve",
+      "instrument": "LTCUSDT",
+      "marketCapUsd": 12000000,
+      "modeledDeltaPct": 2.154,
+      "markAtDetection": 58.04,
+      "markAtDecision": 58.04,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 8464.705933607414,
+        "maxLossUsd": 500,
+        "stopPct": 0.055703746329339165,
+        "costPct": 0.003365051089228018,
+        "spreadPct": 0.002165051089228018,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.027851873164669583,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 28552546.454000007,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.002165051089228018,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 2.154
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x54d4a27e7355ad1542dcdb151e7b5e5fcaaa5cc30f88390525dd5e98775a788a succeeded in block 70"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xd07c7874d5dd9a78c255b4ce9636f2c5b55e3ae9 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $1,034,054 at Umber Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Attacker contract 0xdd70... called an initializer (0xc4d66de8, initialize(address)) on vault 0x9599..., which was still re-initialisable despite an existing owner (0xf39F...). Having taken privileged control, the same tx called an owner-gated sweep (0x6ea056a9), which executed transfer (0xa9059cbb) on token 0x0b30..., moving the full balance out."
+    }
+  ],
+  "confidence": 100,
+  "decision": "TRADE_DIRECT",
+  "gate": {
+    "passed": true,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": true,
+        "value": "2.2%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "reinitialisation",
+    "mechanism": "Attacker contract 0xdd70... called an initializer (0xc4d66de8, initialize(address)) on vault 0x9599..., which was still re-initialisable despite an existing owner (0xf39F...). Having taken privileged control, the same tx called an owner-gated sweep (0x6ea056a9), which executed transfer (0xa9059cbb) on token 0x0b30..., moving the full balance out.",
+    "lossBearer": "Umber Reserve vault 0x959922be3caee4b8cd9a407cc3ac1c251c2007b1 and its depositors/share holders; holdings went 1034054 -> 0 and share price 1 -> 0. No integrator exposure is listed in the packet.",
+    "narrative": "The vault's initializer was callable again by anyone. An attacker-controlled contract called it, installed itself as the privileged party, then in the same transaction used the owner-only sweep function to pull the vault's entire token balance out. The prior owner (0xf39F...) never authorised this. Holdings fell from 1034054 to 0 and share price went from 1 to 0, so the vault is fully drained and its shares are worthless. The loss sits directly with the vault and whoever holds its shares; the packet shows no downstream integrators, so second-order exposure is unproven here.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "No integrators listed, so any contagion beyond the vault itself is unevidenced in this packet.",
+      "Only the DIRECT candidate is supported; the 2.154% modelled delta against the 12,000,000 market cap is a model output, not observed price action.",
+      "Trace shows a single drained token (0x0b30...); other vault assets, if any, are not covered by this evidence.",
+      "Owner state is read as ownerBeforeTx only; the packet does not show the post-tx privileged owner."
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "TRADE_DIRECT",
+    "gatePassed": true,
+    "instrument": "LTCUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 8464.705933607414,
+      "maxLossUsd": 500,
+      "stopPct": 0.055703746329339165,
+      "costPct": 0.003365051089228018,
+      "spreadPct": 0.002165051089228018,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.027851873164669583,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 28552546.454000007,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.002165051089228018,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "9d72af984f5006ed6bd52e590221cc945ed3548e92220cdbb7dfa13f56665627"
+}
