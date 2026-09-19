@@ -40,6 +40,8 @@ export async function GET(request: NextRequest) {
       id: incident.id,
       title: incident.title,
       chain: incident.chain,
+      instrument: incident.instrument,
+      side: incident.side,
       observedAt: `${incident.time} UTC`,
       provenance: incident.provenance ?? "REPLAY_FIXTURE",
       numbersProvenance: incident.numbersProvenance ?? "AUTHORED_SCENARIO",
