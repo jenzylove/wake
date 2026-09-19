@@ -1,0 +1,25 @@
+name: incident-discovery
+on:
+  schedule:
+    - cron: "17 */2 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: discovery, cancel-in-progress: false }
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node scripts/discover-incidents.mjs
+      - name: Commit discoveries
+        run: |
+          git config user.name jenzylove
+          git config user.email jennifereze12@gmail.com
+          git add data/discovered
+          git diff --cached --quiet && exit 0
+          git commit -m "Discovery: new incidents from the exploit feed"
+          for i in 1 2 3; do git pull --no-rebase --no-edit && git push && exit 0; sleep 5; done
+          exit 1

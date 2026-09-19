@@ -1,0 +1,711 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-chainflip-amm-2026-09-12",
+  "discoveredAt": "2026-09-19T20:03:22.062Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1789171200,
+      "name": "Chainflip AMM",
+      "classification": "Bridge & Cross-Chain",
+      "technique": "Bridge Logic Flaw",
+      "amount": 736442.17,
+      "chain": [
+        "Tron"
+      ],
+      "bridgeHack": true,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "3853",
+      "parentProtocolId": "parent#chainflip",
+      "language": "Rust"
+    },
+    "sha256": "8c569e59ad6e81569ec8a383dacbfb32f8bd18b2cc2729eb14123fa530cb7f6a"
+  },
+  "protocol": {
+    "id": "3853",
+    "name": "Chainflip AMM",
+    "slug": "chainflip-amm",
+    "symbol": "FLIP",
+    "category": "Dexs"
+  },
+  "exposures": [
+    {
+      "symbol": "TRXUSDT",
+      "kind": "CONTAGION",
+      "relation": "native token of Tron",
+      "epistemic": "INFERRED"
+    }
+  ],
+  "instrument": "TRXUSDT",
+  "market": {
+    "source": "bitget-public-history-candles",
+    "granularity": "1H",
+    "symbol": "TRXUSDT",
+    "startTime": 1789084800000,
+    "endTime": 1789344000000,
+    "candles": [
+      {
+        "timestamp": 1789084800000,
+        "open": 0.33974,
+        "high": 0.34079,
+        "low": 0.33969,
+        "close": 0.34076,
+        "baseVolume": 155375,
+        "quoteVolume": 52857.75792
+      },
+      {
+        "timestamp": 1789088400000,
+        "open": 0.34076,
+        "high": 0.34088,
+        "low": 0.34018,
+        "close": 0.34061,
+        "baseVolume": 103398,
+        "quoteVolume": 35229.55857
+      },
+      {
+        "timestamp": 1789092000000,
+        "open": 0.34061,
+        "high": 0.34075,
+        "low": 0.34006,
+        "close": 0.3403,
+        "baseVolume": 41898,
+        "quoteVolume": 14261.70206
+      },
+      {
+        "timestamp": 1789095600000,
+        "open": 0.3403,
+        "high": 0.3403,
+        "low": 0.33919,
+        "close": 0.33964,
+        "baseVolume": 93263,
+        "quoteVolume": 31662.24239
+      },
+      {
+        "timestamp": 1789099200000,
+        "open": 0.33964,
+        "high": 0.33983,
+        "low": 0.33823,
+        "close": 0.3389,
+        "baseVolume": 444338,
+        "quoteVolume": 150593.95826
+      },
+      {
+        "timestamp": 1789102800000,
+        "open": 0.3389,
+        "high": 0.33898,
+        "low": 0.33859,
+        "close": 0.33871,
+        "baseVolume": 23026,
+        "quoteVolume": 7800.29751
+      },
+      {
+        "timestamp": 1789106400000,
+        "open": 0.33871,
+        "high": 0.33906,
+        "low": 0.33821,
+        "close": 0.3386,
+        "baseVolume": 266687,
+        "quoteVolume": 90301.514
+      },
+      {
+        "timestamp": 1789110000000,
+        "open": 0.3386,
+        "high": 0.33864,
+        "low": 0.33822,
+        "close": 0.33824,
+        "baseVolume": 56995,
+        "quoteVolume": 19292.68091
+      },
+      {
+        "timestamp": 1789113600000,
+        "open": 0.33824,
+        "high": 0.3386,
+        "low": 0.33824,
+        "close": 0.3385,
+        "baseVolume": 33130,
+        "quoteVolume": 11211.97065
+      },
+      {
+        "timestamp": 1789117200000,
+        "open": 0.3385,
+        "high": 0.3387,
+        "low": 0.33816,
+        "close": 0.33826,
+        "baseVolume": 253082,
+        "quoteVolume": 85626.15233
+      },
+      {
+        "timestamp": 1789120800000,
+        "open": 0.33826,
+        "high": 0.33869,
+        "low": 0.33713,
+        "close": 0.33741,
+        "baseVolume": 606877,
+        "quoteVolume": 205056.27776
+      },
+      {
+        "timestamp": 1789124400000,
+        "open": 0.33741,
+        "high": 0.33741,
+        "low": 0.33546,
+        "close": 0.33608,
+        "baseVolume": 1035320,
+        "quoteVolume": 348174.56316
+      },
+      {
+        "timestamp": 1789128000000,
+        "open": 0.33608,
+        "high": 0.33729,
+        "low": 0.33429,
+        "close": 0.33602,
+        "baseVolume": 906621,
+        "quoteVolume": 304139.35753
+      },
+      {
+        "timestamp": 1789131600000,
+        "open": 0.33602,
+        "high": 0.33738,
+        "low": 0.33548,
+        "close": 0.33738,
+        "baseVolume": 486469,
+        "quoteVolume": 163537.56451
+      },
+      {
+        "timestamp": 1789135200000,
+        "open": 0.33738,
+        "high": 0.33765,
+        "low": 0.33621,
+        "close": 0.33633,
+        "baseVolume": 420654,
+        "quoteVolume": 141703.46743
+      },
+      {
+        "timestamp": 1789138800000,
+        "open": 0.33633,
+        "high": 0.33633,
+        "low": 0.33503,
+        "close": 0.33503,
+        "baseVolume": 537577,
+        "quoteVolume": 180479.37436
+      },
+      {
+        "timestamp": 1789142400000,
+        "open": 0.33503,
+        "high": 0.33587,
+        "low": 0.33485,
+        "close": 0.3358,
+        "baseVolume": 486601,
+        "quoteVolume": 163067.94749
+      },
+      {
+        "timestamp": 1789146000000,
+        "open": 0.3358,
+        "high": 0.33654,
+        "low": 0.33573,
+        "close": 0.33638,
+        "baseVolume": 86902,
+        "quoteVolume": 29199.06042
+      },
+      {
+        "timestamp": 1789149600000,
+        "open": 0.33638,
+        "high": 0.33652,
+        "low": 0.33583,
+        "close": 0.3362,
+        "baseVolume": 69896,
+        "quoteVolume": 23493.28158
+      },
+      {
+        "timestamp": 1789153200000,
+        "open": 0.3362,
+        "high": 0.33659,
+        "low": 0.336,
+        "close": 0.33658,
+        "baseVolume": 41432,
+        "quoteVolume": 13934.83545
+      },
+      {
+        "timestamp": 1789156800000,
+        "open": 0.33658,
+        "high": 0.33914,
+        "low": 0.33654,
+        "close": 0.33827,
+        "baseVolume": 2198496,
+        "quoteVolume": 743298.88525
+      },
+      {
+        "timestamp": 1789160400000,
+        "open": 0.33827,
+        "high": 0.33857,
+        "low": 0.33806,
+        "close": 0.33811,
+        "baseVolume": 219102,
+        "quoteVolume": 74139.81658
+      },
+      {
+        "timestamp": 1789164000000,
+        "open": 0.33811,
+        "high": 0.33818,
+        "low": 0.33761,
+        "close": 0.33811,
+        "baseVolume": 234044,
+        "quoteVolume": 79093.71247
+      },
+      {
+        "timestamp": 1789167600000,
+        "open": 0.33811,
+        "high": 0.33837,
+        "low": 0.33805,
+        "close": 0.33837,
+        "baseVolume": 13387,
+        "quoteVolume": 4527.49311
+      },
+      {
+        "timestamp": 1789171200000,
+        "open": 0.33837,
+        "high": 0.33884,
+        "low": 0.33823,
+        "close": 0.33873,
+        "baseVolume": 78628,
+        "quoteVolume": 26614.62208
+      },
+      {
+        "timestamp": 1789174800000,
+        "open": 0.33873,
+        "high": 0.33891,
+        "low": 0.33856,
+        "close": 0.33875,
+        "baseVolume": 62204,
+        "quoteVolume": 21076.49538
+      },
+      {
+        "timestamp": 1789178400000,
+        "open": 0.33875,
+        "high": 0.33949,
+        "low": 0.33875,
+        "close": 0.33919,
+        "baseVolume": 146337,
+        "quoteVolume": 49636.8932
+      },
+      {
+        "timestamp": 1789182000000,
+        "open": 0.33919,
+        "high": 0.33948,
+        "low": 0.33918,
+        "close": 0.33923,
+        "baseVolume": 35614,
+        "quoteVolume": 12087.09203
+      },
+      {
+        "timestamp": 1789185600000,
+        "open": 0.33923,
+        "high": 0.34032,
+        "low": 0.33922,
+        "close": 0.34027,
+        "baseVolume": 216176,
+        "quoteVolume": 73435.40865
+      },
+      {
+        "timestamp": 1789189200000,
+        "open": 0.34027,
+        "high": 0.34396,
+        "low": 0.34025,
+        "close": 0.34358,
+        "baseVolume": 1688232,
+        "quoteVolume": 579478.25646
+      },
+      {
+        "timestamp": 1789192800000,
+        "open": 0.34358,
+        "high": 0.34399,
+        "low": 0.33975,
+        "close": 0.33989,
+        "baseVolume": 1177452,
+        "quoteVolume": 402867.50346
+      },
+      {
+        "timestamp": 1789196400000,
+        "open": 0.33989,
+        "high": 0.33998,
+        "low": 0.33843,
+        "close": 0.33937,
+        "baseVolume": 858573,
+        "quoteVolume": 291255.03934
+      },
+      {
+        "timestamp": 1789200000000,
+        "open": 0.33937,
+        "high": 0.33947,
+        "low": 0.33911,
+        "close": 0.33911,
+        "baseVolume": 94127,
+        "quoteVolume": 31942.47687
+      },
+      {
+        "timestamp": 1789203600000,
+        "open": 0.33911,
+        "high": 0.33946,
+        "low": 0.33911,
+        "close": 0.33932,
+        "baseVolume": 9572,
+        "quoteVolume": 3247.86124
+      },
+      {
+        "timestamp": 1789207200000,
+        "open": 0.33932,
+        "high": 0.33954,
+        "low": 0.33919,
+        "close": 0.33952,
+        "baseVolume": 143334,
+        "quoteVolume": 48650.16254
+      },
+      {
+        "timestamp": 1789210800000,
+        "open": 0.33952,
+        "high": 0.34087,
+        "low": 0.33926,
+        "close": 0.34078,
+        "baseVolume": 668409,
+        "quoteVolume": 227265.96176
+      },
+      {
+        "timestamp": 1789214400000,
+        "open": 0.34078,
+        "high": 0.34103,
+        "low": 0.34069,
+        "close": 0.34081,
+        "baseVolume": 170730,
+        "quoteVolume": 58197.55341
+      },
+      {
+        "timestamp": 1789218000000,
+        "open": 0.34081,
+        "high": 0.34083,
+        "low": 0.34013,
+        "close": 0.3402,
+        "baseVolume": 27505,
+        "quoteVolume": 9365.58614
+      },
+      {
+        "timestamp": 1789221600000,
+        "open": 0.3402,
+        "high": 0.34038,
+        "low": 0.33896,
+        "close": 0.33953,
+        "baseVolume": 478588,
+        "quoteVolume": 162519.09613
+      },
+      {
+        "timestamp": 1789225200000,
+        "open": 0.33953,
+        "high": 0.33977,
+        "low": 0.33941,
+        "close": 0.3397,
+        "baseVolume": 96713,
+        "quoteVolume": 32846.2747
+      },
+      {
+        "timestamp": 1789228800000,
+        "open": 0.3397,
+        "high": 0.34023,
+        "low": 0.33968,
+        "close": 0.34015,
+        "baseVolume": 78542,
+        "quoteVolume": 26698.63297
+      },
+      {
+        "timestamp": 1789232400000,
+        "open": 0.34015,
+        "high": 0.3402,
+        "low": 0.33945,
+        "close": 0.3398,
+        "baseVolume": 80000,
+        "quoteVolume": 27184.88139
+      },
+      {
+        "timestamp": 1789236000000,
+        "open": 0.3398,
+        "high": 0.3398,
+        "low": 0.33951,
+        "close": 0.33951,
+        "baseVolume": 17733,
+        "quoteVolume": 6023.03903
+      },
+      {
+        "timestamp": 1789239600000,
+        "open": 0.33951,
+        "high": 0.33963,
+        "low": 0.33918,
+        "close": 0.33939,
+        "baseVolume": 4570,
+        "quoteVolume": 1551.25068
+      },
+      {
+        "timestamp": 1789243200000,
+        "open": 0.33939,
+        "high": 0.33963,
+        "low": 0.33937,
+        "close": 0.3396,
+        "baseVolume": 12060,
+        "quoteVolume": 4093.57826
+      },
+      {
+        "timestamp": 1789246800000,
+        "open": 0.3396,
+        "high": 0.33977,
+        "low": 0.33941,
+        "close": 0.33941,
+        "baseVolume": 21028,
+        "quoteVolume": 7141.52903
+      },
+      {
+        "timestamp": 1789250400000,
+        "open": 0.33941,
+        "high": 0.33989,
+        "low": 0.33941,
+        "close": 0.33971,
+        "baseVolume": 20348,
+        "quoteVolume": 6911.4802
+      },
+      {
+        "timestamp": 1789254000000,
+        "open": 0.33971,
+        "high": 0.33971,
+        "low": 0.33933,
+        "close": 0.33957,
+        "baseVolume": 9281,
+        "quoteVolume": 3151.24256
+      },
+      {
+        "timestamp": 1789257600000,
+        "open": 0.33957,
+        "high": 0.34002,
+        "low": 0.33957,
+        "close": 0.33999,
+        "baseVolume": 54882,
+        "quoteVolume": 18656.30452
+      },
+      {
+        "timestamp": 1789261200000,
+        "open": 0.33999,
+        "high": 0.3406,
+        "low": 0.33977,
+        "close": 0.3406,
+        "baseVolume": 62252,
+        "quoteVolume": 21184.08986
+      },
+      {
+        "timestamp": 1789264800000,
+        "open": 0.3406,
+        "high": 0.3406,
+        "low": 0.3399,
+        "close": 0.33992,
+        "baseVolume": 381343,
+        "quoteVolume": 129691.04691
+      },
+      {
+        "timestamp": 1789268400000,
+        "open": 0.33992,
+        "high": 0.33993,
+        "low": 0.33887,
+        "close": 0.33924,
+        "baseVolume": 132753,
+        "quoteVolume": 45044.98941
+      },
+      {
+        "timestamp": 1789272000000,
+        "open": 0.33924,
+        "high": 0.33943,
+        "low": 0.339,
+        "close": 0.33909,
+        "baseVolume": 39486,
+        "quoteVolume": 13395.61805
+      },
+      {
+        "timestamp": 1789275600000,
+        "open": 0.33909,
+        "high": 0.33961,
+        "low": 0.33908,
+        "close": 0.33926,
+        "baseVolume": 560515,
+        "quoteVolume": 190235.06149
+      },
+      {
+        "timestamp": 1789279200000,
+        "open": 0.33926,
+        "high": 0.33979,
+        "low": 0.3392,
+        "close": 0.3396,
+        "baseVolume": 202723,
+        "quoteVolume": 68846.74165
+      },
+      {
+        "timestamp": 1789282800000,
+        "open": 0.3396,
+        "high": 0.33987,
+        "low": 0.33951,
+        "close": 0.33957,
+        "baseVolume": 61858,
+        "quoteVolume": 21015.04424
+      },
+      {
+        "timestamp": 1789286400000,
+        "open": 0.33957,
+        "high": 0.33989,
+        "low": 0.33929,
+        "close": 0.33936,
+        "baseVolume": 372586,
+        "quoteVolume": 126466.15963
+      },
+      {
+        "timestamp": 1789290000000,
+        "open": 0.33936,
+        "high": 0.3401,
+        "low": 0.33936,
+        "close": 0.3401,
+        "baseVolume": 155675,
+        "quoteVolume": 52875.02019
+      },
+      {
+        "timestamp": 1789293600000,
+        "open": 0.3401,
+        "high": 0.34019,
+        "low": 0.33972,
+        "close": 0.33992,
+        "baseVolume": 25745,
+        "quoteVolume": 8751.97289
+      },
+      {
+        "timestamp": 1789297200000,
+        "open": 0.33992,
+        "high": 0.3411,
+        "low": 0.33992,
+        "close": 0.3406,
+        "baseVolume": 284298,
+        "quoteVolume": 96789.58132
+      },
+      {
+        "timestamp": 1789300800000,
+        "open": 0.3406,
+        "high": 0.34087,
+        "low": 0.34051,
+        "close": 0.34063,
+        "baseVolume": 102633,
+        "quoteVolume": 34960.83593
+      },
+      {
+        "timestamp": 1789304400000,
+        "open": 0.34063,
+        "high": 0.34088,
+        "low": 0.34031,
+        "close": 0.34067,
+        "baseVolume": 109098,
+        "quoteVolume": 37163.46869
+      },
+      {
+        "timestamp": 1789308000000,
+        "open": 0.34067,
+        "high": 0.34106,
+        "low": 0.34039,
+        "close": 0.34075,
+        "baseVolume": 63865,
+        "quoteVolume": 21756.30928
+      },
+      {
+        "timestamp": 1789311600000,
+        "open": 0.34075,
+        "high": 0.34132,
+        "low": 0.34052,
+        "close": 0.34121,
+        "baseVolume": 180442,
+        "quoteVolume": 61526.28211
+      },
+      {
+        "timestamp": 1789315200000,
+        "open": 0.34121,
+        "high": 0.34127,
+        "low": 0.34076,
+        "close": 0.34078,
+        "baseVolume": 330302,
+        "quoteVolume": 112618.81815
+      },
+      {
+        "timestamp": 1789318800000,
+        "open": 0.34078,
+        "high": 0.34114,
+        "low": 0.34075,
+        "close": 0.34098,
+        "baseVolume": 17866,
+        "quoteVolume": 6090.9741
+      },
+      {
+        "timestamp": 1789322400000,
+        "open": 0.34098,
+        "high": 0.34138,
+        "low": 0.34098,
+        "close": 0.34138,
+        "baseVolume": 15695,
+        "quoteVolume": 5355.79078
+      },
+      {
+        "timestamp": 1789326000000,
+        "open": 0.34138,
+        "high": 0.34138,
+        "low": 0.34089,
+        "close": 0.34096,
+        "baseVolume": 65461,
+        "quoteVolume": 22326.10174
+      },
+      {
+        "timestamp": 1789329600000,
+        "open": 0.34096,
+        "high": 0.3413,
+        "low": 0.34093,
+        "close": 0.34117,
+        "baseVolume": 32093,
+        "quoteVolume": 10948.1774
+      },
+      {
+        "timestamp": 1789333200000,
+        "open": 0.34117,
+        "high": 0.34127,
+        "low": 0.34096,
+        "close": 0.34111,
+        "baseVolume": 30872,
+        "quoteVolume": 10533.26027
+      },
+      {
+        "timestamp": 1789336800000,
+        "open": 0.34111,
+        "high": 0.34112,
+        "low": 0.33918,
+        "close": 0.33931,
+        "baseVolume": 363197,
+        "quoteVolume": 123346.7708
+      },
+      {
+        "timestamp": 1789340400000,
+        "open": 0.33931,
+        "high": 0.33931,
+        "low": 0.33796,
+        "close": 0.33801,
+        "baseVolume": 318088,
+        "quoteVolume": 107738.62866
+      }
+    ],
+    "observed": {
+      "hours": 72,
+      "quoteVolumeUsd": 6433242.44,
+      "exploitDayMovePct": 0.479,
+      "hourlySigma": 0.002496,
+      "windowSigma": 0.012226
+    }
+  },
+  "marketError": null,
+  "decision": "MONITOR",
+  "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "integrity": "ffc42bd209f11f5b9173184fef8594f1e8a20178c2f5861cf3306ae57f78cc67"
+}
