@@ -47,8 +47,8 @@
 .wkc-live { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 11px; color: var(--txt-2); }
 .wkc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--trade); box-shadow: 0 0 0 3px rgba(63, 178, 127, .16); }
 .wkc-dot.is-idle { background: var(--txt-3); box-shadow: none; }
-.wkc-link { font-family: var(--mono); font-size: 11px; color: var(--txt-2); border-bottom: 1px solid var(--line-2); padding-bottom: 1px; }
-.wkc-link:hover { color: var(--txt); border-color: var(--cool); }
+.wkc a.wkc-link { font-family: var(--mono); font-size: 11px; color: var(--txt-2); border-bottom: 1px solid var(--line-2); padding-bottom: 1px; }
+.wkc a.wkc-link:hover { color: var(--txt); border-color: var(--cool); }
 
 /* Hero -------------------------------------------------------------------
    A framed canvas with the exposure field inside it, small cards floating on
@@ -93,13 +93,13 @@
   padding: 4px 11px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--txt-2);
 }
 .wkc-eyebrow span.is-live { color: var(--trade); border-color: rgba(63, 178, 127, .4); }
-.wkc-cta {
+.wkc a.wkc-cta, .wkc .wkc-cta {
   position: absolute; left: calc(min(660px, 84%) + 26px); bottom: 26px; display: inline-flex; align-items: center; gap: 10px;
   background: var(--txt); color: var(--bg); border-radius: 999px; padding: 11px 13px 11px 20px;
   font-size: 13px; font-weight: 500;
 }
 .wkc-cta i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); color: var(--txt); font-style: normal; font-size: 12px; }
-.wkc-cta:hover { background: var(--trade); color: #04130c; }
+.wkc a.wkc-cta:hover, .wkc .wkc-cta:hover { background: var(--trade); color: #04130c; }
 @media (max-width: 980px) { .wkc-cta { left: auto; right: 18px; bottom: 18px; } }
 @media (max-width: 860px) { .wkc-hero-head { max-width: 100%; padding: 18px 20px; } .wkc-float-br { bottom: 210px; } }
 
@@ -215,8 +215,8 @@
   background: linear-gradient(170deg, var(--bg-2) 0%, var(--bg) 70%);
   display: flex; flex-direction: column; gap: 12px; min-height: 186px;
 }
-.wkc-bento article.is-wide { grid-column: span 3; }
-.wkc-bento article.is-tall { grid-column: span 3; }
+.wkc-bento article.is-wide { grid-column: span 4; }
+
 @media (max-width: 900px) { .wkc-bento { grid-template-columns: repeat(2, 1fr); } .wkc-bento article, .wkc-bento article.is-wide, .wkc-bento article.is-tall { grid-column: span 2; } }
 .wkc-bento h3 { margin: 0; font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
 .wkc-bento p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--txt-2); }
@@ -271,7 +271,7 @@
 .wkc-close-grid .k { font-family: var(--mono); font-size: 10px; letter-spacing: .09em; text-transform: uppercase; color: var(--txt-3); }
 .wkc-close-grid .v { font-family: var(--mono); font-size: 20px; margin-top: 4px; }
 .wkc-close h2 { margin: 48px 0 18px; }
-.wkc-close .wkc-cta { position: static; display: inline-flex; }
+.wkc .wkc-close .wkc-cta { position: static; display: inline-flex; }
 
 /* Footer ----------------------------------------------------------------- */
 .wkc-footer { border-top: 1px solid var(--line); background: var(--bg-2); padding: 42px 18px 20px; }
