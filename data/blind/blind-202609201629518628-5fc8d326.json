@@ -1,0 +1,310 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609201629518628-5fc8d326",
+  "runId": "202609201629518628",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 71,
+    "blockTimestamp": 1789921829
+  },
+  "detection": {
+    "tx": "0x3d1433bfc4f231844e2383662f6e43156c135e5ee3dc96742ada837179d2389f",
+    "txs": [
+      "0x3d1433bfc4f231844e2383662f6e43156c135e5ee3dc96742ada837179d2389f"
+    ],
+    "firstDetectedAt": "2026-09-20T16:30:45.769Z",
+    "victim": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+    "token": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+    "before": 827449,
+    "after": 0,
+    "detectedAt": "2026-09-20T16:30:45.769Z",
+    "latencyMs": 16769
+  },
+  "investigation": {
+    "from": "0x7f0dc88024e26675abaee5ff986e162ac588ad2a",
+    "to": "0x4201799b32ab46f0cc062595c3c70c2b7dd8e45d",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x4201799b32ab46f0cc062595c3c70c2b7dd8e45d",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 827449,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+      "lossUsd": 827449,
+      "name": "Pollen Earn",
+      "instrument": "LTCUSDT",
+      "marketCapUsd": 45000000,
+      "modeledDeltaPct": 0.46,
+      "markAtDetection": 57.84,
+      "markAtDecision": 57.84,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 7499.749747988641,
+        "maxLossUsd": 500,
+        "stopPct": 0.06258901576488209,
+        "costPct": 0.00407987543833374,
+        "spreadPct": 0.0028798754383337405,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.03129450788244104,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 30238985.860000007,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0028798754383337405,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.46
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x3d1433bfc4f231844e2383662f6e43156c135e5ee3dc96742ada837179d2389f succeeded in block 71"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x7f0dc88024e26675abaee5ff986e162ac588ad2a is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $827,449 at Pollen Earn"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Attacker called selector 0xfc4dcacb on 0x4201..e45d, which re-invoked initialize (0xc4d66de8) on the unprotected Pollen Earn vault 0x5fc8..7707, seizing owner rights that previously sat with 0xf39F..2266. It then read the underlying token and balance and called a privileged sweep (0x6ea056a9), forcing an ERC20 transfer (0xa9059cbb) of the full 827449 balance out."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.5%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "reinitialisation",
+    "mechanism": "Attacker called selector 0xfc4dcacb on 0x4201..e45d, which re-invoked initialize (0xc4d66de8) on the unprotected Pollen Earn vault 0x5fc8..7707, seizing owner rights that previously sat with 0xf39F..2266. It then read the underlying token and balance and called a privileged sweep (0x6ea056a9), forcing an ERC20 transfer (0xa9059cbb) of the full 827449 balance out.",
+    "lossBearer": "Pollen Earn vault (0x5fc8d32690cc91d4c39d9d3abcbd16989f875707) and its depositors; share price collapsed from 1 to 0. No integrator exposure appears in the packet.",
+    "narrative": "The vault's initialiser was callable again. In one transaction the attacker re-initialised the contract, became the privileged owner (the prior owner never authorised this), and used the owner-only sweep function to move the entire underlying token balance out. Holdings went from 827449 to 0 and share price went from 1 to 0, so depositors hold claims on an empty vault. This is a direct protocol loss, not a user-signed withdrawal and not a price or oracle effect. Losses are borne at the Pollen Earn level; the packet lists no downstream integrators.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Integrators list is empty, so any second-order exposure is unevidenced rather than ruled out",
+      "Only the DIRECT candidate is supported; modelled impact 0.46% vs a 45,000,000 market cap is code-supplied and unverified here",
+      "Packet does not show whether any funds were recovered or whether further vaults share the same initialiser flaw",
+      "Attribution of the initiating EOA and the 0x4201..e45d helper contract is not established in the evidence"
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "instrument": "LTCUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 7499.749747988641,
+      "maxLossUsd": 500,
+      "stopPct": 0.06258901576488209,
+      "costPct": 0.00407987543833374,
+      "spreadPct": 0.0028798754383337405,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.03129450788244104,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 30238985.860000007,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.0028798754383337405,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "57cce5a75c5f75632fa81c7dc247b5cf8db3ccd8f6e8972cfb4f4eec7d1bb244"
+}
