@@ -20,21 +20,21 @@ function growVeins(): Branch[] {
   const rand = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff)
   const out: Branch[] = []
   const grow = (x: number, y: number, angle: number, len: number, width: number, depth: number) => {
-    if (depth > 5 || len < 6) return
+    if (depth > 4 || len < 9) return
     const spread = (rand() - 0.5) * 0.7
     const cx = x + Math.cos(angle) * len * 0.5
     const cy = y + Math.sin(angle) * len * 0.5 + spread * len * 0.35
     const nx = x + Math.cos(angle) * len
     const ny = y + Math.sin(angle) * len
     out.push({ d: `M ${x.toFixed(1)} ${y.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${nx.toFixed(1)} ${ny.toFixed(1)}`, width, depth })
-    const forks = depth < 2 ? 3 : 2
+    const forks = depth === 0 ? 3 : 2
     for (let i = 0; i < forks; i += 1) {
       grow(nx, ny, angle + (rand() - 0.5) * 1.15, len * (0.58 + rand() * 0.2), width * 0.62, depth + 1)
     }
   }
   for (let i = 0; i < 7; i += 1) {
     const angle = (i / 7) * Math.PI * 2 + rand() * 0.5
-    grow(500, 300, angle, 52 + rand() * 34, 3.1, 0)
+    grow(500, 300, angle, 58 + rand() * 34, 3.4, 0)
   }
   return out
 }
@@ -182,8 +182,8 @@ export function ExposureField({ className }: { className?: string }) {
             <stop offset="55%" stopColor="#3b63c8" />
             <stop offset="100%" stopColor="#2f8fc0" />
           </linearGradient>
-          <filter id="wkc-soft" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="11" />
+          <filter id="wkc-soft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="17" />
           </filter>
           <filter id="wkc-veinglow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="5" result="b" />
@@ -194,21 +194,22 @@ export function ExposureField({ className }: { className?: string }) {
         <g className="wkc-turn">
         <g className="wkc-drift">
           <ellipse cx="500" cy="300" rx="300" ry="214" fill="url(#wkc-core)" filter="url(#wkc-soft)" />
+          <ellipse cx="560" cy="268" rx="214" ry="176" fill="url(#wkc-core)" opacity="0.5" filter="url(#wkc-soft)" transform="rotate(-12 560 268)" />
           <ellipse cx="516" cy="318" rx="214" ry="150" fill="url(#wkc-deep)" filter="url(#wkc-soft)" />
 
           <g filter="url(#wkc-veinglow)">
             {veins.map((b, i) => (
               <path key={`v${i}`} d={b.d} stroke="url(#wkc-vein)" strokeWidth={b.width} strokeLinecap="round" fill="none"
-                style={{ opacity: 0.5 - b.depth * 0.06 }} />
+                style={{ opacity: 0.82 - b.depth * 0.11 }} />
             ))}
             {/* The loss travelling the path: a bright run down every vein, staggered by depth. */}
-            {veins.map((b, i) => (
+            {veins.filter((b) => b.depth <= 2).map((b, i) => (
               <path
                 key={`r${i}`}
                 d={b.d}
                 pathLength={100}
-                stroke="#ffffff"
-                strokeWidth={b.width * 1.25}
+                stroke="#f2fbff"
+                strokeWidth={b.width * 0.95}
                 strokeLinecap="round"
                 fill="none"
                 className="wkc-run"
@@ -218,9 +219,9 @@ export function ExposureField({ className }: { className?: string }) {
           </g>
 
           <ellipse cx="428" cy="222" rx="118" ry="74" fill="url(#wkc-sheen)" filter="url(#wkc-soft)" />
-          <ellipse cx="500" cy="300" rx="300" ry="214" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="1.2" filter="url(#wkc-soft)" />
+          <ellipse cx="500" cy="300" rx="296" ry="210" fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="2" filter="url(#wkc-soft)" />
           {/* Shock front leaving the core every few seconds. */}
-          <ellipse className="wkc-shock" cx="500" cy="300" rx="300" ry="214" fill="none" stroke="#2f8fc0" strokeWidth="1.6" />
+          <ellipse className="wkc-shock" cx="500" cy="300" rx="300" ry="214" fill="none" stroke="#2f8fc0" strokeWidth="2.4" strokeOpacity="0.5" filter="url(#wkc-soft)" />
         </g>
         </g>
       </svg>
