@@ -502,14 +502,11 @@ export default function Console() {
             </div>
           </article>
 
-          <article className="is-wide">
+          <article>
             <h3>Every decision is committed before you read it</h3>
-            <p>
-              The agent runs from GitHub Actions and writes each evaluation, order and exit into a hash chained log, so the history of
-              what it decided and when is checkable rather than asserted. Editing any past entry breaks the chain.
-            </p>
+            <p>Each evaluation, order and exit lands in a hash chained log written by the scheduled run. Editing any past entry breaks the chain.</p>
             <div className="wkc-figure">
-              <div className="wkc-big">{logEntries}<small>log entries, replayed by npm run data:verify</small></div>
+              <div className="wkc-big">{logEntries}<small>log entries</small></div>
             </div>
           </article>
         </div>
