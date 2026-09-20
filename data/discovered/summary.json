@@ -1,0 +1,895 @@
+{
+  "updatedAt": "2026-09-20T09:35:08.186Z",
+  "incidents": [
+    {
+      "id": "disc-nostra-money-market-2026-09-17",
+      "name": "Nostra Money Market",
+      "day": "2026-09-17",
+      "amountUsd": 3500000,
+      "chains": [
+        "Starknet"
+      ],
+      "technique": "Spot Price Manipulation",
+      "classification": "Oracle Manipulation",
+      "protocol": {
+        "id": "2825",
+        "name": "Nostra Money Market",
+        "slug": "nostra-money-market",
+        "symbol": "NSTR",
+        "category": "Lending"
+      },
+      "exposures": [
+        {
+          "symbol": "STRKUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Starknet",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "STRKUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:02.981Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 10754507.71,
+        "exploitDayMovePct": 3.761,
+        "hourlySigma": 0.019001,
+        "windowSigma": 0.093086
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T09:35:05.391Z",
+        "mid": 0.0453195,
+        "spreadBps": 8.606,
+        "bidDepthUsd1pct": 133588,
+        "askDepthUsd1pct": 27445,
+        "fundingRate": 0.00005,
+        "fundingIntervalHours": 4,
+        "openInterestContracts": 70395040.8
+      },
+      "sizing": {
+        "notionalUsd": 2581.2763696243665,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.186172,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": 3.761,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "Packet is a feed record with no on-chain receipt; the only tradable exposure (STRKUSDT) is INFERRED contagion from Starknet being the host chain, not a demonstrated loss path, and the 3.761% exploit-day move is inside the 9.3086% window sigma."
+          }
+        ]
+      },
+      "integrity": "91a3fe2531118f56b9ced34ff66bad3c7f1c5af349d7ae03bdf7e74eb245f451",
+      "sourceSha256": "a5ba1e0c4c075a07d9e23610c5f06cf6e9b0ba3af3aa9efc0a2e256e200ba795",
+      "ai": {
+        "exploitClass": "oracle-manipulation",
+        "mechanism": "Feed reports spot-price manipulation of an oracle input used by Nostra Money Market (Cairo, Starknet lending). The named technique implies a collateral/borrow asset was mispriced against a manipulable spot source, letting the attacker extract ~$3.5m of pool assets. No on-chain receipt is in the packet, so the exact pair, pool and call path are unverified.",
+        "lossBearer": "Nostra Money Market's own lending pools and, through them, its depositors/lenders left with the shortfall; no third-party integrator or bridge exposure is evidenced.",
+        "narrative": "The feed says an attacker pushed a spot price used by Nostra's money market away from fair value and borrowed or redeemed against the distorted valuation, draining about $3.5m on Starknet. The hole sits inside Nostra's own pools, so its depositors carry it. STRK is listed only as an inferred contagion link because it is Starknet's native token, not because the packet shows STRK collateral or STRK-denominated loss. Market data does not corroborate stress either: the exploit-day move of 3.761% sits well inside the 9.3086% window sigma on $10.75m of quote volume. Nothing here supports trading STRK off this event.",
+        "veto": true,
+        "concerns": [
+          "No on-chain receipt: manipulated pair, oracle source and attacker path are unverified.",
+          "STRKUSDT link is INFERRED contagion only; no evidence STRK was collateral or loss currency.",
+          "Exploit-day move 3.761% is within windowSigma 9.3086%, so price gives no independent confirmation.",
+          "Source field is empty and returnedFunds is null; loss figure of $3.5m is unattributed and may be revised."
+        ]
+      }
+    },
+    {
+      "id": "disc-flamincome-2026-09-16",
+      "name": "Flamincome",
+      "day": "2026-09-16",
+      "amountUsd": 595000,
+      "chains": [
+        "Ethereum"
+      ],
+      "technique": "Spot Price Manipulation",
+      "classification": "Oracle Manipulation",
+      "protocol": {
+        "id": "243",
+        "name": "Flamincome",
+        "slug": "flamincome",
+        "symbol": "FLAG",
+        "category": "Yield Aggregator"
+      },
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:07.320Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 7014638440.68,
+        "exploitDayMovePct": 0.849,
+        "hourlySigma": 0.004714,
+        "windowSigma": 0.023092
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T09:35:05.827Z",
+        "mid": 2580.915,
+        "spreadBps": 0.039,
+        "bidDepthUsd1pct": 2706733,
+        "askDepthUsd1pct": 893933,
+        "fundingRate": 0.000082,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 808113.1099999996
+      },
+      "sizing": {
+        "notionalUsd": 10057.337193082429,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.046184,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": 0.849,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "No on-chain receipt has been captured; the mechanism is asserted by the feed label only, and the sole exposure (ETHUSDT) is an INFERRED chain-level contagion link rather than a demonstrated loss path. The $595,000 loss is not shown to transmit to the traded instrument, and the exploit-day move of 0."
+          }
+        ]
+      },
+      "integrity": "56a316575676d507e6cb52142234ec328b4806dc247c15b1d4dee59bbc47b763",
+      "sourceSha256": "4db1acd661af1253c4b6298aaa787d910351b4e7cf6df87e1c3ac39919407188",
+      "ai": {
+        "exploitClass": "oracle-manipulation",
+        "mechanism": "Feed record labels this as spot price manipulation against Flamincome, a Solidity yield aggregator on Ethereum: an attacker distorts a spot-price source the vault reads, so deposits/withdrawals or collateral valuation settle at a wrong price. No on-chain receipt is in the packet, so the manipulated pool, oracle and call path are unverified.",
+        "lossBearer": "Per the feed record, Flamincome (FLAG) vault and its depositors absorb the ~$595,000 loss on Ethereum. No integrator or counterparty exposure is evidenced.",
+        "narrative": "Flamincome, a yield aggregator, is reported to have lost about $595,000 on Ethereum to spot price manipulation — the classic pattern where a thin pool is pushed off-price so the vault mis-values assets on entry or exit. The problem for trading is that this is a feed headline with no captured on-chain receipt: no victim contract, no manipulated pair, no flow. The only listed exposure is ETHUSDT, tagged CONTAGION and INFERRED simply because Ethereum is the host chain. ETH moved 0.849% on the day against a window sigma of 2.3092%, well inside normal noise on $7.01bn of quoted volume. Nothing links the loss to the traded instrument.",
+        "veto": true,
+        "concerns": [
+          "Feed record only: victim contract, manipulated pool and oracle path are all unverified.",
+          "ETHUSDT exposure is INFERRED contagion from host chain, not an evidenced loss channel.",
+          "Exploit-day move 0.849% is well inside window sigma 2.3092%; no anomalous signal.",
+          "Loss size of $595,000 is negligible against 72h quote volume of $7,014,638,440.68."
+        ]
+      }
+    },
+    {
+      "id": "disc-chainflip-amm-2026-09-12",
+      "name": "Chainflip AMM",
+      "day": "2026-09-12",
+      "amountUsd": 736442.17,
+      "chains": [
+        "Tron"
+      ],
+      "technique": "Bridge Logic Flaw",
+      "classification": "Bridge & Cross-Chain",
+      "protocol": {
+        "id": "3853",
+        "name": "Chainflip AMM",
+        "slug": "chainflip-amm",
+        "symbol": "FLIP",
+        "category": "Dexs"
+      },
+      "exposures": [
+        {
+          "symbol": "TRXUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Tron",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "TRXUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:10.031Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 6433242.44,
+        "exploitDayMovePct": 0.479,
+        "hourlySigma": 0.002496,
+        "windowSigma": 0.012226
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T09:35:06.306Z",
+        "mid": 0.34165500000000004,
+        "spreadBps": 0.293,
+        "bidDepthUsd1pct": 338484,
+        "askDepthUsd1pct": 779758,
+        "fundingRate": 0.0001,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 27432435
+      },
+      "sizing": {
+        "notionalUsd": 18994.636739694917,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.024452,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": 0.479,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "No on-chain receipt: the mechanism, the debited entity and the loss path are unverified. The only exposure (TRXUSDT) is an INFERRED chain-native association with no demonstrated protocol linkage, and the 0.479% exploit-day move is below the 1.2226% window sigma, showing no market dislocation to trad"
+          }
+        ]
+      },
+      "integrity": "e12e7d5bea1aef6bd048a092bb27595ccb30e5fa401e88c065fcc7e842eeb45e",
+      "sourceSha256": "8c569e59ad6e81569ec8a383dacbfb32f8bd18b2cc2729eb14123fa530cb7f6a",
+      "ai": {
+        "exploitClass": "bridge",
+        "mechanism": "Feed classifies this as a bridge logic flaw in Chainflip AMM affecting assets on Tron, with a reported loss of 736,442.17 USD. No on-chain receipt has been captured, so the specific faulty code path, the transaction sequence, and the withdrawing address are not evidenced in this packet.",
+        "lossBearer": "Not established by the evidence. Presumptively Chainflip AMM's bridged/pooled assets on Tron and their liquidity providers, but no receipt identifies the debited account.",
+        "narrative": "All we have is a feed entry: Chainflip AMM, Tron, bridge logic flaw, 736,442.17 USD. No chain receipt has been captured, so nothing shows which contract leaked, who withdrew, or whose balance actually fell. The only exposure offered is TRXUSDT, and that link is inferred purely from Tron being the host chain - not from any shown holding, pool or integrator relationship. The market backs this up: the exploit-day move of 0.479% sits below the 1.2226% window sigma on 6.43m USD of volume, i.e. TRX did not visibly react. A named mechanism without a receipt is a headline, not a loss path.",
+        "veto": true,
+        "concerns": [
+          "Packet is feed-only; mechanism 'bridge logic flaw' is a label, not evidence of a code path",
+          "Loss bearer unidentified - no address, pool or integrator shown to have been debited",
+          "TRXUSDT exposure is INFERRED from host chain alone, not from protocol holdings",
+          "Exploit-day move 0.479% is sub-sigma versus 1.2226% window sigma; no observed impact"
+        ]
+      }
+    },
+    {
+      "id": "disc-symbiosis-2026-09-10",
+      "name": "Symbiosis",
+      "day": "2026-09-10",
+      "amountUsd": 336000,
+      "chains": [
+        "BSC",
+        "Ethereum"
+      ],
+      "technique": "Unbacked Cross-Chain Mint",
+      "classification": "Bridge & Cross-Chain",
+      "protocol": {
+        "id": "1594",
+        "name": "Symbiosis",
+        "slug": "symbiosis",
+        "symbol": "SIS",
+        "category": "Cross Chain Bridge"
+      },
+      "exposures": [
+        {
+          "symbol": "BNBUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of BSC",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "BNBUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:13.887Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 59547301.84,
+        "exploitDayMovePct": -1.256,
+        "hourlySigma": 0.005132,
+        "windowSigma": 0.025142
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T09:35:06.796Z",
+        "mid": 750.955,
+        "spreadBps": 0.133,
+        "bidDepthUsd1pct": 214530,
+        "askDepthUsd1pct": 219551,
+        "fundingRate": 0.000066,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 95416.59000000001
+      },
+      "sizing": {
+        "notionalUsd": 9413.336066672246,
+        "maxLossUsd": 500,
+        "stopPct": 0.050284,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": -1.256,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "The loss path is not supported. The only listed exposures (BNBUSDT, ETHUSDT) are INFERRED CONTAGION links whose sole stated relation is 'native token of chain' — no evidence connects the 336,000 USD bridge loss to those assets' value. The packet also carries no on-chain receipt, and the observed exp"
+          }
+        ]
+      },
+      "integrity": "fe96ace15ac20ace22e37557502cf27abd74e14824f17d7749a0d56a2fcddbc4",
+      "sourceSha256": "9ac936ccab0550e2e1758c3f57d7bf6de46afa68833b4b6da910379a14c2d693",
+      "ai": {
+        "exploitClass": "bridge",
+        "mechanism": "Feed classifies this as an unbacked cross-chain mint against the Symbiosis bridge spanning BSC and Ethereum: synthetic/bridged units were issued on a destination chain without matching backing on the source side, then drained against real liquidity. No on-chain receipt is in the packet, so the exact mint path and entry point are unverified.",
+        "lossBearer": "Symbiosis bridge-side backing — i.e. the protocol's pooled/locked collateral and its liquidity providers, who hold the now-unbacked claims. No named integrator or counterparty exposure is shown in the",
+        "narrative": "Symbiosis, a cross-chain bridge, is reported to have lost 336,000 USD to an unbacked cross-chain mint touching BSC and Ethereum. In this pattern the bridge issues tokens on one chain that no longer have real assets behind them on the other, and the attacker cashes those out against genuine pooled liquidity — so the hole sits with the bridge's own reserves and its LPs, not with any identified downstream integrator. Evidence here is a feed record only: no chain receipt, no transaction trail, no returned-funds status. The only exposures listed are BNB and ETH, and they are inferred purely because they are the native tokens of the affected chains.",
+        "veto": true,
+        "concerns": [
+          "Feed record only; no on-chain receipt captured to confirm mint path or attacker address.",
+          "BNB/ETH exposures are INFERRED and chain-native only — not demonstrated integrator or backing exposure.",
+          "336,000 USD loss is small against 59,547,301.84 USD of observed quote volume; limited price transmission expected.",
+          "Day move -1.256% is below windowSigma 2.5142%; no statistically distinct market reaction."
+        ]
+      }
+    },
+    {
+      "id": "disc-nomic-2026-09-09",
+      "name": "Nomic",
+      "day": "2026-09-09",
+      "amountUsd": 3150000,
+      "chains": [
+        "Nomic"
+      ],
+      "technique": "Unbacked Cross-Chain Mint",
+      "classification": "Bridge & Cross-Chain",
+      "protocol": null,
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:13.899Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "4cebd66b9a4a91625e9b82214e8dfbb21f4cdad5018b7e3631571da4d05df9f6",
+      "sourceSha256": "6a3ed3e8dfc9abeeb8e2f174def32ef4789f38b8c52ea2b69a89816d37d8152c",
+      "ai": {
+        "exploitClass": "bridge",
+        "mechanism": "Feed reports an unbacked cross-chain mint on the Nomic bridge (Rust): bridged units allegedly issued without matching locked collateral, diluting backing of the bridged asset. No on-chain receipt, transaction trace or mint/lock reconciliation has been captured, so the mechanism is asserted by the feed, not demonstrated by evidence.",
+        "lossBearer": "Unconfirmed. Feed implies holders of the Nomic bridged asset bear the dilution of reserves; no exposure record identifies any entity, vault or integrator actually holding the loss.",
+        "narrative": "A single feed line says Nomic, a cross-chain bridge, suffered an unbacked mint of 3,150,000. If true, the pattern is the classic bridge failure: tokens appear on one side without real collateral locked on the other, so whoever ends up holding the bridged asset absorbs the missing backing. But that is all we have. There is no transaction receipt, no source link, no reserve reconciliation, and no exposure record tying this to any position we hold or serve. We can name the suspected mechanism; we cannot yet show a loss path. Not actionable until a receipt lands.",
+        "veto": true,
+        "concerns": [
+          "No on-chain receipt or transaction evidence captured for the alleged mint",
+          "Source field is empty; claim rests on a single unattributed feed line",
+          "exposures[] is empty - no demonstrated exposure to Nomic or its bridged asset",
+          "No market data observed, so no independent corroboration of a repricing"
+        ]
+      }
+    },
+    {
+      "id": "disc-liquid-network-2026-09-06",
+      "name": "Liquid Network",
+      "day": "2026-09-06",
+      "amountUsd": 320000000,
+      "chains": [
+        "Liquid"
+      ],
+      "technique": "Unbacked Cross-Chain Mint",
+      "classification": "Bridge & Cross-Chain",
+      "protocol": null,
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:13.903Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "7a22e5223e164d493688d807431ee2da11fe68f41faf1f080a007f29f229334d",
+      "sourceSha256": "707dc0c68e4a2d8b3aa89ad7725c85cf5b04b58f10c20fc3450e946aa8ae4e43",
+      "ai": {
+        "exploitClass": "bridge",
+        "mechanism": "Feed record alleges an unbacked cross-chain mint on the Liquid network: tokens issued on the bridged side without matching locked backing, breaking the peg's 1:1 reserve. No transaction receipt, mint event, address or source link is present in the packet, so the mechanism is asserted by the feed label alone and is not independently evidenced.",
+        "lossBearer": "Not established. If the unbacked mint claim holds, dilution would fall on holders of the pegged asset on Liquid and on the peg's reserve, but no exposure or balance evidence is supplied.",
+        "narrative": "All we have is a feed headline: a $320,000,000 bridge incident on Liquid tagged as an unbacked cross-chain mint. Nothing else in the packet supports it - no on-chain receipt, no mint transaction, no attacker or reserve address, no source citation, and no exposure record showing anyone we touch holds the affected asset. An unbacked mint, if real, would mean bridged tokens exist without locked backing, diluting peg holders. But 'if real' is doing all the work here. Trading a loss path off an unverified headline with no receipt and no demonstrated exposure is not something this evidence can carry.",
+        "veto": true,
+        "concerns": [
+          "No transaction hash, mint event or address captured; mechanism rests solely on the feed's technique label.",
+          "Source field is empty and no DefiLlama ID is present, so the report cannot be corroborated.",
+          "Exposures list is empty - no evidence any position we hold is affected.",
+          "No market observation, so there is no confirmation the event is priced or even real yet."
+        ]
+      }
+    },
+    {
+      "id": "disc-notional-v2-2026-09-04",
+      "name": "Notional V2",
+      "day": "2026-09-04",
+      "amountUsd": 1727782,
+      "chains": [
+        "Ethereum"
+      ],
+      "technique": "Arithmetic Error",
+      "classification": "Token & Share Accounting",
+      "protocol": {
+        "id": "234",
+        "name": "Notional V2",
+        "slug": "notional-v2",
+        "symbol": "NOTE",
+        "category": "Lending"
+      },
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:26.943Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 4784049328.31,
+        "exploitDayMovePct": -2.201,
+        "hourlySigma": 0.005652,
+        "windowSigma": 0.027691
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T09:35:07.272Z",
+        "mid": 2580.915,
+        "spreadBps": 0.039,
+        "bidDepthUsd1pct": 2572905,
+        "askDepthUsd1pct": 972918,
+        "fundingRate": 0.000082,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 808113.1099999996
+      },
+      "sizing": {
+        "notionalUsd": 8607.537650513013,
+        "maxLossUsd": 500,
+        "stopPct": 0.055382,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": -2.201,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "No on-chain receipt has been captured: the packet contains no transaction, address or balance delta, so the loss path and mechanism cannot be verified. The only proposed exposure, ETHUSDT, is an INFERRED chain-level contagion link with no shown exposure of Notional V2 to ETH price, and the exploit-d"
+          }
+        ]
+      },
+      "integrity": "5b57d4d7b95d2a07172804f13df80b5f2eeb059303af1e63811bb211d16230a1",
+      "sourceSha256": "6c61ec018e6cffb7f59fca226db571c9bd28de2dd0284bc5db7e9d05a5dcb5ff",
+      "ai": {
+        "exploitClass": "other",
+        "mechanism": "Feed record classifies this as a Token & Share Accounting failure via an Arithmetic Error in Notional V2's Solidity contracts on Ethereum, with USD 1,727,782 lost. No on-chain receipt is present, so the specific miscalculated quantity, the call path and the actor are not evidenced in this packet.",
+        "lossBearer": "Per the feed record, Notional V2 (Ethereum lending protocol) and by extension its depositors/LPs. No receipt or balance delta in the packet confirms which address bears the shortfall.",
+        "narrative": "What we have is a feed entry, not chain evidence: Notional V2 on Ethereum is reported to have lost USD 1,727,782 through an arithmetic error in how token/share accounting is computed. That class of bug normally lets someone mint or redeem more claim than they funded, so the hole sits with the protocol's remaining depositors. But the packet carries no transaction hash, no addresses and no balance movements, so the exact mechanism and the actual loss-bearing address are unproven. The only market exposure offered is ETHUSDT, tagged CONTAGION and INFERRED simply because ETH is the native token of the chain. ETH moved -2.201% on the day against a window sigma of 2.7691% — inside normal noise.",
+        "veto": true,
+        "concerns": [
+          "Feed record only; mechanism 'Arithmetic Error' is a category label, not an evidenced call path.",
+          "ETHUSDT link is INFERRED from chain nativity, not from any shown Notional V2 exposure.",
+          "Exploit-day move -2.201% sits within window sigma 2.7691%; no detectable price signal.",
+          "No integrator or downstream exposure is documented, so the true loss bearer is unconfirmed."
+        ]
+      }
+    },
+    {
+      "id": "disc-radix-2026-08-31",
+      "name": "Radix",
+      "day": "2026-08-31",
+      "amountUsd": 1249946,
+      "chains": [
+        "Radix"
+      ],
+      "technique": "Improper Access Control",
+      "classification": "Access Control",
+      "protocol": null,
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:44.826Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "a974b4ef4b7bdfc7206f322a0c1819e3dd5a88151983a21e5e8b408d5adbdb05",
+      "sourceSha256": "9c36c78a891721caf74aa025d149a4ef0a92aea02b4fc6c743e89adc4d57d12a",
+      "ai": {
+        "exploitClass": "access-control",
+        "mechanism": "Feed label only: 'Improper Access Control' against Radix, targetType Chain, amount 1,249,946, non-bridge. No on-chain receipt, no transaction trace, no victim contract or privileged-call evidence has been captured, so the actual permission failure and its call path are unverified.",
+        "lossBearer": "Unidentified. The feed names the target as the Radix chain (defillamaId chain#radix) with no protocol record and no exposure entries, so no specific treasury, pool or integrator is shown to bear the l",
+        "narrative": "All we have is a feed line saying roughly 1.25m was lost on Radix to improper access control. There is no captured on-chain receipt, no protocol profile, no named victim contract, and no exposure showing that we or any integrator we touch hold a position against it. The classification may well be right, but at this point it is an unverified label rather than a traced loss path, and we cannot tell whether the outflow was unauthorised or an authorised admin action. Nothing here supports acting; it supports waiting for the receipt and any exposure data.",
+        "veto": true,
+        "concerns": [
+          "No transaction or trace evidence; mechanism rests entirely on a third-party classification string.",
+          "Empty exposures array - no demonstrated path from this incident to any position we hold.",
+          "Loss bearer unresolved: targetType is 'Chain' with no protocol record attached.",
+          "Source field is empty and returnedFunds is null, so neither corroboration nor recovery status can be checked."
+        ]
+      }
+    },
+    {
+      "id": "disc-aquifer-2026-08-31",
+      "name": "Aquifer",
+      "day": "2026-08-31",
+      "amountUsd": 2469729,
+      "chains": [
+        "Solana"
+      ],
+      "technique": "Arbitrary External Call",
+      "classification": "Access Control",
+      "protocol": {
+        "id": "6884",
+        "name": "Aquifer",
+        "slug": "aquifer",
+        "symbol": "-",
+        "category": "Dexs"
+      },
+      "exposures": [
+        {
+          "symbol": "SOLUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Solana",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "SOLUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:39.249Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 1102165348.36,
+        "exploitDayMovePct": 1.433,
+        "hourlySigma": 0.005644,
+        "windowSigma": 0.027648
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T09:35:08.164Z",
+        "mid": 108.4705,
+        "spreadBps": 0.092,
+        "bidDepthUsd1pct": 207089,
+        "askDepthUsd1pct": 230981,
+        "fundingRate": 0.0001,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 4195340.299999949
+      },
+      "sizing": {
+        "notionalUsd": 8474.965540334144,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.055296,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": 1.433,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "No on-chain receipt or source backs the mechanism, and the only tradable exposure (SOLUSDT) is an INFERRED chain-level contagion link rather than demonstrated exposure to Aquifer; the observed day move of 1.433% is below the 2.7648% window sigma, so the packet does not evidence a loss path from this"
+          }
+        ]
+      },
+      "integrity": "49e37bef830de7df1bd21924928e99496260574a17738b6abd6859b02d12a780",
+      "sourceSha256": "ac5886738655f6b25b0ab5b9bc584dfb50fd82515138041b06e597bd8f46990a",
+      "ai": {
+        "exploitClass": "access-control",
+        "mechanism": "Feed record describes an access-control failure in Aquifer's Rust Solana program exploited via an arbitrary external call: attacker-supplied program/account data is invoked without authority validation, letting the attacker direct protocol-controlled transfers out of pool accounts. No on-chain receipt has been captured to confirm call path.",
+        "lossBearer": "Aquifer protocol pools and their depositors/LPs (the DEX's own balances). No integrator, bridge or third-party exposure is evidenced in the packet.",
+        "narrative": "Aquifer, a Solana DEX, is reported to have lost $2,469,729 through an access-control bug: a program path that makes an external call with attacker-controlled inputs, without checking who is allowed to trigger it. The loss sits with the protocol's own pooled liquidity, not with a bridge or an outside integrator. Important caveat: this is a feed record only, with no on-chain receipt, no source link, and the sole market exposure listed is SOLUSDT, which is merely inferred contagion from the chain, not Aquifer itself. SOL moved 1.433% on the day against a 72h window sigma of 2.7648%, i.e. inside normal noise on $1.1bn of quote volume.",
+        "veto": true,
+        "concerns": [
+          "Evidence is a feed record with empty source and no captured on-chain receipt; mechanism unverified.",
+          "SOLUSDT link is INFERRED contagion via chain, not a demonstrated exposure to Aquifer.",
+          "$2,469,729 loss is small against $1.1bn observed quote volume; no reason to expect a distinguishable price path.",
+          "Exploit-day move 1.433% sits within the 2.7648% window sigma, so no anomalous market signal is present."
+        ]
+      }
+    },
+    {
+      "id": "disc-ankr-2026-08-31",
+      "name": "Ankr",
+      "day": "2026-08-31",
+      "amountUsd": 410000,
+      "chains": [
+        "Flow"
+      ],
+      "technique": "Unbacked Mint",
+      "classification": "Token & Share Accounting",
+      "protocol": {
+        "id": "278",
+        "name": "Ankr",
+        "slug": "ankr",
+        "symbol": "ANKR",
+        "category": "Liquid Staking"
+      },
+      "exposures": [
+        {
+          "symbol": "ANKRUSDT",
+          "kind": "DIRECT",
+          "relation": "protocol token",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ANKRUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:44.820Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 191832.13,
+        "exploitDayMovePct": 0.255,
+        "hourlySigma": 0.00573,
+        "windowSigma": 0.028071
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T09:35:07.727Z",
+        "mid": 0.0047539999999999995,
+        "spreadBps": 12.621,
+        "bidDepthUsd1pct": 46292,
+        "askDepthUsd1pct": 73103,
+        "fundingRate": 0.00005,
+        "fundingIntervalHours": 4,
+        "openInterestContracts": 113666322
+      },
+      "sizing": {
+        "notionalUsd": 959.16065,
+        "maxLossUsd": 56.82068167200573,
+        "stopPct": 0.056142,
+        "bindingConstraint": "liquidity participation"
+      },
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": 0.255,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "Packet is feed-only with no on-chain receipt; mint authority path is ambiguous, loss-bearing entity is unidentified, and the ANKRUSDT link is marked INFERRED with a 0.255% move well inside window sigma."
+          }
+        ]
+      },
+      "integrity": "aa7ef97e4568a5e710fe45b366548e29b6464ced0b51e0d2e3738f61cef33aad",
+      "sourceSha256": "26cacdee5b46d349315401c4054fe4d47e5e9ed28304e1e1fa76c74a993fa8ab",
+      "ai": {
+        "exploitClass": "other",
+        "mechanism": "Feed attributes a token & share accounting failure: tokens minted without backing collateral (unbacked mint) tied to Ankr on Flow, ~$410k. No on-chain receipt is in the packet, so the privileged path used to obtain mint rights (compromised key vs missing access control) is not evidenced.",
+        "lossBearer": "Not established by the packet. An unbacked mint normally lands on holders/liquidity providers who absorb the fake supply, but no receipt names the pool, counterparty or drained account.",
+        "narrative": "The feed says someone created Ankr-linked tokens on Flow that had nothing behind them, about $410k worth, and that value has to come out of whoever ends up holding or buying the fake supply. That is the whole story we have: there is no captured chain receipt, so we cannot see who minted, how they got permission, or which pool took the hit. The ANKR spot exposure is an inference, not a confirmed link, and the market agrees with that caution: the day move was 0.255% against a 2.81% window sigma on $191,832.13 of volume. No dislocation, no traceable loss path.",
+        "veto": true,
+        "concerns": [
+          "No on-chain receipt: mint transaction, minter and destination unverified",
+          "Cannot distinguish key compromise from broken access control on the mint path",
+          "Exposure to ANKRUSDT is INFERRED, not a demonstrated claim on the affected asset",
+          "Flow-side venue for the unbacked supply is unnamed, so no loss-bearing pool identified"
+        ]
+      }
+    },
+    {
+      "id": "disc-tectonic-2026-08-30",
+      "name": "Tectonic",
+      "day": "2026-08-30",
+      "amountUsd": 124470000,
+      "chains": [
+        "Cronos"
+      ],
+      "technique": "Donation Attack",
+      "classification": "Token & Share Accounting",
+      "protocol": {
+        "id": "1115",
+        "name": "Tectonic",
+        "slug": "tectonic",
+        "symbol": "TONIC",
+        "category": "Lending"
+      },
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-19T20:13:44.830Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "9e3cf5dbb9e06a6e09cf74827fdd7c009542300952a923bbf7c72bb63b8be81d",
+      "sourceSha256": "7a6815a6710a06e8bb900aeaa2be421136deef124eadf45edc243e816c88b702",
+      "ai": {
+        "exploitClass": "other",
+        "mechanism": "Feed classifies this as a token & share accounting failure via a donation attack: an attacker inflates a market's exchange rate by transferring underlying tokens directly into the pool rather than minting shares, so share/underlying conversion rounds in the attacker's favour. No transaction trace, function calls or balance deltas were supplied to confirm this path.",
+        "lossBearer": "Unconfirmed. Feed implies the Tectonic lending protocol and its depositors on Cronos; no exposure records, receipts or counterparty balances were provided to identify who actually bears the loss.",
+        "narrative": "All we have is a feed line: Tectonic, a Cronos lending protocol, tagged as hit by a donation attack with a figure of 124,470,000 attached. The named mechanism is the classic share-accounting bug where someone donates tokens straight into a market to skew the share price, then redeems more than they put in. But the packet carries no on-chain receipt, no source link, no exposure list and no market data. We cannot tell whether the outflow was unauthorised, who held the drained shares, or whether we hold anything downstream. That is a naming exercise, not an evidenced loss path.",
+        "veto": true,
+        "concerns": [
+          "No transaction hash, trace or balance deltas; donation-attack mechanism is asserted by the feed, not demonstrated.",
+          "Exposures array is empty and marketObserved is null - our own loss path is not shown.",
+          "Source field is blank, so the 124,470,000 figure has no attributable origin in the packet.",
+          "Loss bearer cannot be separated between protocol treasury, depositors, or an integrator."
+        ]
+      }
+    }
+  ]
+}

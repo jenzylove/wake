@@ -12,7 +12,7 @@
 // Run:  node scripts/discover-incidents.mjs        (writes data/discovered/)
 
 import { createHash } from "node:crypto"
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
@@ -202,6 +202,26 @@ function readIndex() {
   return existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : { schema: "wake.discovered.index.v1", incidents: [] }
 }
 
+// Compact detail per discovered incident, for the console.
+function compactDiscovered() {
+  const incidents = readdirSync(OUT_DIR)
+    .filter((f) => f.startsWith("disc-"))
+    .map((f) => JSON.parse(readFileSync(path.join(OUT_DIR, f), "utf8")))
+    .sort((a, b) => (a.source.record.date < b.source.record.date ? 1 : -1))
+    .map((r) => ({
+      id: r.id, name: r.source.record.name, day: new Date(r.source.record.date * 1000).toISOString().slice(0, 10),
+      amountUsd: r.source.record.amount, chains: r.source.record.chain, technique: r.source.record.technique,
+      classification: r.source.record.classification, protocol: r.protocol, exposures: r.exposures, instrument: r.instrument,
+      decision: r.decision, reason: r.reason, nextStep: r.nextStep, discoveredAt: r.discoveredAt,
+      hasReceipt: Boolean(r.receipt), exposureQuantified: r.exposure?.quantified === true,
+      market: r.market?.observed ?? null, microstructure: r.timeline?.[r.timeline.length - 1] ?? null,
+      sizing: r.sizing?.computable ? { notionalUsd: r.sizing.notionalUsd, maxLossUsd: r.sizing.maxLossUsd, stopPct: r.sizing.stopPct, bindingConstraint: r.sizing.bindingConstraint } : null,
+      assessment: r.assessment ?? null, integrity: r.integrity, sourceSha256: r.source.sha256,
+      ai: r.ai ? { exploitClass: r.ai.exploitClass, mechanism: r.ai.mechanism, lossBearer: r.ai.lossBearer, narrative: r.ai.narrative, veto: r.ai.veto, concerns: r.ai.concerns } : null,
+    }))
+  return { updatedAt: new Date().toISOString(), incidents }
+}
+
 async function main() {
   mkdirSync(OUT_DIR, { recursive: true })
   const [hacks, protocols, contracts] = await Promise.all([
@@ -297,6 +317,7 @@ async function main() {
   index.updatedAt = new Date().toISOString()
   index.lastRun = { lookbackDays: LOOKBACK_DAYS, minUsd: MIN_USD, feedRecords: hacks.length, inWindow: recent.length, opened: opened.length, reevaluated: 0 }
   index.lastRun.reevaluated = reevaluated
+  writeFileSync(path.join(OUT_DIR, "summary.json"), JSON.stringify(compactDiscovered(), null, 2) + String.fromCharCode(10))
   writeFileSync(path.join(OUT_DIR, "index.json"), JSON.stringify(index, null, 2) + "\n")
   console.log(JSON.stringify({ opened, ...index.lastRun }, null, 2))
 }

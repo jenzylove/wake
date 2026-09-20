@@ -209,6 +209,15 @@ async function main() {
   appendHashLog(LOG, { event: "TICK", mode: metrics.mode, evaluated: metrics.incidentsEvaluated, eligible: metrics.eligibleNow, open: metrics.open, closedTrades: metrics.closedTrades, realizedPnlUsd: metrics.realizedPnlUsd }, TICK)
   writeFileSync(STATE, JSON.stringify(state, null, 2) + "\n")
   writeFileSync(path.join(OUT, "metrics.json"), JSON.stringify(metrics, null, 2) + "\n")
+  // Compact summary the site reads: positions, closed trades and the tail of the decision log.
+  const logLines = existsSync(LOG) ? readFileSync(LOG, "utf8").split(String.fromCharCode(10)).filter(Boolean) : []
+  writeFileSync(path.join(OUT, "summary.json"), JSON.stringify({
+    metrics,
+    open: state.open.map(({ entryOrder, ...p }) => ({ ...p, orderId: entryOrder?.orderId ?? null })),
+    closed: state.closed.slice(-20).map(({ entryOrder, exitOrder, ...c }) => ({ ...c, entryOrderId: entryOrder?.orderId ?? null, exitOrderId: exitOrder?.orderId ?? null })),
+    recentLog: logLines.slice(-60).map((line) => JSON.parse(line)).reverse(),
+    logEntries: logLines.length,
+  }, null, 2) + "\n")
   console.log(JSON.stringify(metrics, null, 2))
 }
 

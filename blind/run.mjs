@@ -10,7 +10,7 @@
 
 import { spawn } from "node:child_process"
 import { createHash, randomBytes } from "node:crypto"
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { appendHashLog } from "../lib/hash-log.mjs"
 
@@ -29,6 +29,24 @@ const run = (cmd, args, name) => new Promise((resolve, reject) => {
   p.stderr.on("data", (d) => process.stderr.write(`[${name}] ${d}`))
   p.on("exit", (code) => (code === 0 ? resolve(out) : reject(new Error(`${name} exited ${code}`))))
 })
+
+// Compact view of every blind incident, for the console.
+function compactBlindIncidents(dir) {
+  return readdirSync(dir)
+    .filter((f) => f.startsWith("blind-") && f.endsWith(".json"))
+    .map((f) => JSON.parse(readFileSync(path.join(dir, f), "utf8")))
+    .sort((a, b) => (a.detection.firstDetectedAt < b.detection.firstDetectedAt ? 1 : -1))
+    .slice(0, 30)
+    .map((r) => ({
+      id: r.id, runId: r.runId, detectedAt: r.detection.firstDetectedAt, latencyMs: r.detection.latencyMs,
+      victim: r.detection.victim, authorised: r.investigation.authorised, decision: r.decision, gatePassed: r.gate.passed,
+      confidence: r.confidence, instrument: r.agent?.instrument ?? null, kind: r.agent?.kind ?? null,
+      lossUsd: r.candidates?.[0]?.lossUsd ?? null, target: r.candidates?.[0]?.name ?? null,
+      modeledDeltaPct: r.candidates?.[0]?.modeledDeltaPct ?? null, marketDeltaPct: r.candidates?.[0]?.marketDeltaPct ?? null,
+      integrators: r.investigation.integrators?.length ?? 0,
+      ai: r.ai ? { exploitClass: r.ai.exploitClass, veto: r.ai.veto, narrative: r.ai.narrative, lossBearer: r.ai.lossBearer, concerns: r.ai.concerns } : null,
+    }))
+}
 
 const anvil = spawn("anvil", ["--port", String(PORT), "--silent"], { stdio: "ignore" })
 try {
@@ -67,6 +85,24 @@ try {
   const report = { runId: RUN_ID, answer: { ...answer, attackedAt, attacker }, score, incidents: ids }
   writeFileSync(path.join(RUN_DIR, "score.json"), JSON.stringify(report, null, 2) + "\n")
   appendHashLog(path.join(ROOT, "data", "blind", "runs.jsonl"), { event: "BLIND_RUN", runId: RUN_ID, commitment: registry.answerCommitment, ...score })
+  // Aggregate scoreboard for the site.
+  const runsFile = path.join(ROOT, "data", "blind", "runs.jsonl")
+  const runs = readFileSync(runsFile, "utf8").split(String.fromCharCode(10)).filter(Boolean).map((l) => JSON.parse(l))
+  const count = (f) => runs.filter(f).length
+  const latencies = runs.map((r) => r.detectionLatencyMs).filter((x) => typeof x === "number").sort((a, b) => a - b)
+  writeFileSync(path.join(ROOT, "data", "blind", "summary.json"), JSON.stringify({
+    updatedAt: new Date().toISOString(),
+    runs: runs.length,
+    detected: count((r) => r.exploitDetected),
+    decoysDismissed: count((r) => r.decoyDismissed === true),
+    contagionFound: { found: count((r) => r.contagionFound === true), applicable: count((r) => r.contagionFound !== null) },
+    tradeTargetCorrect: count((r) => r.tradeTargetCorrect === true),
+    gateCleared: count((r) => r.gatePassed === true),
+    falsePositives: runs.reduce((s, r) => s + (r.falsePositives ?? 0), 0),
+    medianDetectionMs: latencies.length ? latencies[latencies.length >> 1] : null,
+    recent: runs.slice(-12).reverse(),
+    incidents: compactBlindIncidents(path.join(ROOT, "data", "blind")),
+  }, null, 2) + String.fromCharCode(10))
   console.log(JSON.stringify(report, null, 2))
 } finally {
   anvil.kill()
