@@ -149,6 +149,30 @@ function useConsoleData() {
   return data
 }
 
+// Live marks for the instruments the agent is holding, so open positions show a real number
+// rather than their entry price. Public Bitget data, refreshed every 30 seconds.
+function useMarks(symbols: string[]) {
+  const [marks, setMarks] = React.useState<Record<string, number>>({})
+  const key = symbols.join(",")
+  React.useEffect(() => {
+    let cancelled = false
+    const load = async () => {
+      const list = key ? key.split(",") : []
+      const pairs = await Promise.all(list.map(async (symbol) => {
+        try {
+          const r = await fetch(`/api/market/ticker?symbol=${symbol}`).then((x) => x.json() as Promise<Json>)
+          return [symbol, Number(r.markPrice)] as const
+        } catch { return [symbol, NaN] as const }
+      }))
+      if (!cancelled) setMarks(Object.fromEntries(pairs.filter(([, v]) => Number.isFinite(v))))
+    }
+    load()
+    const timer = setInterval(load, 30_000)
+    return () => { cancelled = true; clearInterval(timer) }
+  }, [key])
+  return marks
+}
+
 export default function Console() {
   const { items, state, error } = useConsoleData()
   const [filter, setFilter] = React.useState<"all" | Source>("all")
@@ -159,6 +183,8 @@ export default function Console() {
     [items, filter],
   )
   const current = shown.find((i) => i.id === selected) ?? shown[0] ?? null
+  const openPositions = React.useMemo(() => (state.positions?.open ?? []) as Json[], [state.positions])
+  const marks = useMarks(React.useMemo(() => [...new Set(openPositions.map((p) => String(p.instrument)))], [openPositions]))
   const agent = state.agent
   const blind = state.blind
   const live = agent?.mode === "bitget-demo"
@@ -313,17 +339,26 @@ export default function Console() {
         <div className="wkc-col wkc-rail">
           <div className="wkc-colhead"><h2>Demo positions</h2><span className="wkc-count">{state.positions?.open.length ?? 0}</span></div>
           {(state.positions?.open ?? []).length === 0 && <div className="wkc-empty">No position open. The agent holds unless an incident clears every check.</div>}
-          {(state.positions?.open ?? []).map((p) => (
-            <div className="wkc-pos" key={String(p.incidentId)}>
-              <div className="wkc-pos-top">
-                <span className="is-trade">{String(p.side)}</span>
-                <strong>{String(p.instrument)}</strong>
-                <span className="wkc-count">{String(p.size)}</span>
+          {openPositions.map((p) => {
+            const mark = marks[String(p.instrument)]
+            const move = Number.isFinite(mark) ? (mark / Number(p.entryPrice) - 1) * (p.side === "LONG" ? 1 : -1) : null
+            const pnl = move === null ? null : move * Number(p.notionalUsd)
+            return (
+              <div className="wkc-pos" key={String(p.incidentId)}>
+                <div className="wkc-pos-top">
+                  <span className="is-trade">{String(p.side)}</span>
+                  <strong>{String(p.instrument)}</strong>
+                  <span className={`wkc-count ${pnl === null ? "" : pnl >= 0 ? "is-trade" : "is-stop"}`}>
+                    {pnl === null ? "--" : `${pnl >= 0 ? "+" : ""}${pnl.toFixed(2)} USDT`}
+                  </span>
+                </div>
+                <div className="wkc-pos-meta">
+                  {String(p.size)} @ {String(p.entryPrice)} · mark {Number.isFinite(mark) ? mark : "--"} · {move === null ? "" : pct(move * 100)}
+                </div>
+                <div className="wkc-pos-meta">opened {ago(String(p.openedAt))} · order {String(p.orderId ?? "n/a")} · {String(p.source)} incident</div>
               </div>
-              <div className="wkc-pos-meta">entry {String(p.entryPrice)} · {ago(String(p.openedAt))} · order {String(p.orderId ?? "n/a")}</div>
-              <div className="wkc-pos-meta">from {String(p.source)} incident</div>
-            </div>
-          ))}
+            )
+          })}
           {(state.positions?.closed ?? []).slice(-3).reverse().map((c) => (
             <div className="wkc-pos" key={String(c.incidentId) + String(c.closedAt)}>
               <div className="wkc-pos-top">
@@ -337,11 +372,25 @@ export default function Console() {
 
           <div className="wkc-colhead" style={{ borderTop: "1px solid var(--line)" }}><h2>Decision log</h2><span className="wkc-count">{state.recentLog?.length ?? 0} of {(state as { logEntries?: number }).logEntries ?? 0}</span></div>
           <div className="wkc-log">
-            {(state.recentLog ?? []).slice(0, 40).map((l, i) => (
-              <div key={`${String(l.at)}-${i}`} title={JSON.stringify(l)}>
-                <b>{String(l.event)}</b> {String(l.incidentId ?? l.instrument ?? "")} {String(l.decision ?? l.reason ?? "")}
-              </div>
-            ))}
+            {(() => {
+              const seen = new Set<string>()
+              return ((state.recentLog ?? []) as Json[])
+                .filter((l) => {
+                  // One line per distinct event, so a quiet hour does not fill the rail.
+                  const key = `${l.event}|${l.incidentId ?? l.instrument ?? ""}|${l.decision ?? l.reason ?? ""}`
+                  if (seen.has(key)) return false
+                  seen.add(key)
+                  return true
+                })
+                .slice(0, 26)
+                .map((l, i) => (
+                  <div key={`${String(l.at)}-${i}`} title={JSON.stringify(l)}>
+                    <b className={l.event === "ENTRY" ? "is-trade" : String(l.event).includes("FAIL") ? "is-stop" : ""}>{String(l.event).toLowerCase()}</b>{" "}
+                    {String(l.decision ?? l.instrument ?? l.incidentId ?? "")}{" "}
+                    <span style={{ color: "var(--txt-3)" }}>{ago(String(l.at))}</span>
+                  </div>
+                ))
+            })()}
           </div>
         </div>
       </div>
