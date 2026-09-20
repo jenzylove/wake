@@ -41,7 +41,30 @@ function growVeins(): Branch[] {
 
 export function ExposureField({ className }: { className?: string }) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null)
-  const veins = React.useMemo(growVeins, [])
+  const wrapRef = React.useRef<HTMLDivElement | null>(null)
+  const veins = React.useMemo(() => growVeins(), [])
+
+  // Pointer parallax: the body leans towards the cursor, damped, so it reads as a solid object.
+  React.useEffect(() => {
+    const wrap = wrapRef.current
+    if (!wrap || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    let targetX = 0, targetY = 0, x = 0, y = 0, frame = 0
+    const onMove = (e: PointerEvent) => {
+      const rect = wrap.getBoundingClientRect()
+      targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 2
+      targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 2
+    }
+    const tick = () => {
+      x += (targetX - x) * 0.06
+      y += (targetY - y) * 0.06
+      wrap.style.setProperty("--px", `${(x * 26).toFixed(2)}px`)
+      wrap.style.setProperty("--py", `${(y * 16).toFixed(2)}px`)
+      frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    window.addEventListener("pointermove", onMove, { passive: true })
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("pointermove", onMove) }
+  }, [])
 
   React.useEffect(() => {
     const canvas = canvasRef.current
@@ -77,9 +100,30 @@ export function ExposureField({ className }: { className?: string }) {
     const observer = new ResizeObserver(resize)
     observer.observe(canvas)
 
+    const motes = Array.from({ length: 70 }, () => ({
+      a: rand() * Math.PI * 2, r: Math.pow(rand(), 0.6), drift: 0.3 + rand() * 0.8, phase: rand() * Math.PI * 2, size: 0.8 + rand() * 1.5,
+    }))
+
     const draw = (time: number) => {
       const t = reduced ? 4000 : time
       ctx.clearRect(0, 0, width, height)
+
+      // Motes suspended inside the body, circling slowly.
+      const cx = width * 0.5
+      const cy = height * 0.5
+      const rx = Math.min(width * 0.32, 320)
+      const ry = Math.min(height * 0.38, 230)
+      for (const m of motes) {
+        const a = m.a + (t / 26000) * m.drift
+        const wob = Math.sin(t / 2600 + m.phase) * 0.04
+        const x = cx + Math.cos(a) * rx * (m.r + wob)
+        const y = cy + Math.sin(a) * ry * (m.r + wob)
+        const twinkle = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t / 900 + m.phase * 3))
+        ctx.fillStyle = `rgba(70, 120, 200, ${(0.35 * twinkle).toFixed(2)})`
+        ctx.beginPath()
+        ctx.arc(x, y, m.size, 0, Math.PI * 2)
+        ctx.fill()
+      }
 
       for (const f of filaments) {
         const y0 = f.y * height
@@ -114,7 +158,7 @@ export function ExposureField({ className }: { className?: string }) {
   }, [])
 
   return (
-    <div className={className} aria-hidden="true">
+    <div className={className} aria-hidden="true" ref={wrapRef}>
       <svg className="wkc-body" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
         <defs>
           <radialGradient id="wkc-core" cx="46%" cy="42%" r="62%">
@@ -147,27 +191,37 @@ export function ExposureField({ className }: { className?: string }) {
           </filter>
         </defs>
 
+        <g className="wkc-turn">
         <g className="wkc-drift">
           <ellipse cx="500" cy="300" rx="300" ry="214" fill="url(#wkc-core)" filter="url(#wkc-soft)" />
           <ellipse cx="516" cy="318" rx="214" ry="150" fill="url(#wkc-deep)" filter="url(#wkc-soft)" />
 
           <g filter="url(#wkc-veinglow)">
             {veins.map((b, i) => (
+              <path key={`v${i}`} d={b.d} stroke="url(#wkc-vein)" strokeWidth={b.width} strokeLinecap="round" fill="none"
+                style={{ opacity: 0.5 - b.depth * 0.06 }} />
+            ))}
+            {/* The loss travelling the path: a bright run down every vein, staggered by depth. */}
+            {veins.map((b, i) => (
               <path
-                key={i}
+                key={`r${i}`}
                 d={b.d}
-                stroke="url(#wkc-vein)"
-                strokeWidth={b.width}
+                pathLength={100}
+                stroke="#ffffff"
+                strokeWidth={b.width * 1.25}
                 strokeLinecap="round"
                 fill="none"
-                className="wkc-vein"
-                style={{ opacity: 0.92 - b.depth * 0.12, animationDelay: `${(b.depth * 0.4 + (i % 7) * 0.08).toFixed(2)}s` }}
+                className="wkc-run"
+                style={{ animationDelay: `${(b.depth * 0.5 + (i % 9) * 0.13).toFixed(2)}s` }}
               />
             ))}
           </g>
 
           <ellipse cx="428" cy="222" rx="118" ry="74" fill="url(#wkc-sheen)" filter="url(#wkc-soft)" />
           <ellipse cx="500" cy="300" rx="300" ry="214" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="1.2" filter="url(#wkc-soft)" />
+          {/* Shock front leaving the core every few seconds. */}
+          <ellipse className="wkc-shock" cx="500" cy="300" rx="300" ry="214" fill="none" stroke="#2f8fc0" strokeWidth="1.6" />
+        </g>
         </g>
       </svg>
       <canvas ref={canvasRef} className="wkc-filaments" />
