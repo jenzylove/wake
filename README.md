@@ -21,6 +21,10 @@ The repository is paper-only by default. It does not support Bitget live trading
 
 Consequence magnitudes use the square root impact law over observed volatility and traded value, with conversion scenarios stated as assumptions. Discovered incidents hold at MONITOR: the exploit feed publishes no transaction hashes, so escalation needs `node scripts/attach-receipt.mjs <id> <chainId> <txHash>`, which only attaches a receipt fetched from the chain. As of 19 September 2026 no real incident has cleared the gate, so there is no strategy origin Demo order yet; the NO_TRADE and MONITOR decisions are the honest record. See [`AUDIT_2026-09-16.md`](./AUDIT_2026-09-16.md).
 
+## The console
+
+The site is a desk, not a brochure. `/` shows what the agent is doing right now: the incident queue across real captures, feed discoveries and blind runs, the decision and the challenges behind it, the Claude write up, the size WAKE computed, its open Bitget Demo positions with live unrealised profit, and the tail of the decision log. It reads three routes, all served from committed data: `GET /api/incidents`, `GET /api/discovered`, `GET /api/agent/state`. The earlier evidence and replay surface is still available at `/classic`.
+
 ## The agent loop and its paper log
 
 Every hour `.github/workflows/discover.yml` discovers new incidents, then runs one agent tick (`scripts/wake-agent.mjs`). The tick evaluates every incident WAKE knows about (captured, discovered and blind test), applies `lib/agent-policy.mjs`, opens a Bitget Demo position for anything eligible at WAKE's computed size (capped at $100), and closes positions on their stop, on a changed decision, or after 72 hours. The exchange keys never reach the runner: orders go through `POST /api/agent/execute` on the deployment, which enforces Demo mode, the notional cap and venue minimums, and accepts only the scheduler token.
