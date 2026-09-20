@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-09-20T16:02:02.054Z",
+    "updatedAt": "2026-09-20T16:31:01.747Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 58,
+    "incidentsEvaluated": 60,
     "eligibleNow": 5,
     "open": 3,
     "closedTrades": 0,
@@ -33,7 +33,7 @@
     "bySource": {
       "captured": 6,
       "discovered": 11,
-      "blind": 41
+      "blind": 43
     }
   },
   "open": [
@@ -79,6 +79,54 @@
   ],
   "closed": [],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 60,
+      "eligible": 5,
+      "open": 3,
+      "closedTrades": 0,
+      "realizedPnlUsd": 0,
+      "at": "2026-09-20T16:31:01.747Z",
+      "prevHash": "175aea76d05ae8de7421e36c98205a740e4da9aab93901e6f0448e563b79acc0",
+      "hash": "b2c12c5480e9153153503bb20e030af2d175bf5e1409636d15b528d95524a75f"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "blind-202609201629518628-9a9f2ccf",
+      "source": "blind",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held"
+      ],
+      "at": "2026-09-20T16:31:01.747Z",
+      "prevHash": "be405304a3f5e5176e59772577c07a205137ea83a931df0e56065576092163f4",
+      "hash": "175aea76d05ae8de7421e36c98205a740e4da9aab93901e6f0448e563b79acc0"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "blind-202609201629518628-5fc8d326",
+      "source": "blind",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held"
+      ],
+      "at": "2026-09-20T16:31:01.747Z",
+      "prevHash": "6f665acd73a49ae5c45cfeee6f9c29c8605f47acf1f590c7bc35326b374e09ad",
+      "hash": "be405304a3f5e5176e59772577c07a205137ea83a931df0e56065576092163f4"
+    },
+    {
+      "event": "SKIPPED",
+      "incidentId": "blind-202609200525369e81-e6e340d1",
+      "reason": "max open positions",
+      "at": "2026-09-20T16:31:01.747Z",
+      "prevHash": "92e03f9abdb3c8c38fff7f5e4fb16a595f94cf3fb90888d59fde9ea9bd4f044d",
+      "hash": "6f665acd73a49ae5c45cfeee6f9c29c8605f47acf1f590c7bc35326b374e09ad"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -778,63 +826,7 @@
       "at": "2026-09-19T21:16:39.200Z",
       "prevHash": "bb2022926b7f1c4beefafbd5fb0e8c417439e9b45ca3d2e1c2a1de0cdb8ae797",
       "hash": "c2c537d892ad703f525f831455d8319792648ecf70c907f063760537d8222205"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "blind-20260919211245c306-68b1d87f",
-      "source": "blind",
-      "decision": "NO_TRADE",
-      "eligible": false,
-      "reasons": [
-        "decision is NO_TRADE",
-        "risk gate held"
-      ],
-      "at": "2026-09-19T21:16:39.200Z",
-      "prevHash": "30c56dfd2b0bef581beb6e3d4d7caa90beb37b1b4029914788a2f8f4e889f449",
-      "hash": "bb2022926b7f1c4beefafbd5fb0e8c417439e9b45ca3d2e1c2a1de0cdb8ae797"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "blind-20260919211213359d-5fc8d326",
-      "source": "blind",
-      "decision": "NO_TRADE",
-      "eligible": false,
-      "reasons": [
-        "decision is NO_TRADE",
-        "risk gate held"
-      ],
-      "at": "2026-09-19T21:16:39.200Z",
-      "prevHash": "6c24febdc2d2c500f80b36c9b5d8d96fb422774895da312b32646d9a24c1fc2a",
-      "hash": "30c56dfd2b0bef581beb6e3d4d7caa90beb37b1b4029914788a2f8f4e889f449"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "blind-20260919211213359d-322813fd",
-      "source": "blind",
-      "decision": "NO_TRADE",
-      "eligible": false,
-      "reasons": [
-        "decision is NO_TRADE",
-        "risk gate held"
-      ],
-      "at": "2026-09-19T21:16:39.200Z",
-      "prevHash": "75633fab698ddd2d488839b1ad1f2ec017defe26231d3b75296021cbedeca5e6",
-      "hash": "6c24febdc2d2c500f80b36c9b5d8d96fb422774895da312b32646d9a24c1fc2a"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "blind-20260919211106fdad-9a9f2ccf",
-      "source": "blind",
-      "decision": "NO_TRADE",
-      "eligible": false,
-      "reasons": [
-        "decision is NO_TRADE",
-        "risk gate held"
-      ],
-      "at": "2026-09-19T21:16:39.200Z",
-      "prevHash": "19b50a4b4332a2a0df64c237a7085fcf163ed891d0ebab3bde408def662e0291",
-      "hash": "75633fab698ddd2d488839b1ad1f2ec017defe26231d3b75296021cbedeca5e6"
     }
   ],
-  "logEntries": 87
+  "logEntries": 91
 }
