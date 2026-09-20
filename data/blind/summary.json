@@ -1,17 +1,34 @@
 {
-  "updatedAt": "2026-09-20T20:44:45.511Z",
-  "runs": 23,
-  "detected": 22,
-  "decoysDismissed": 23,
+  "updatedAt": "2026-09-20T23:30:58.461Z",
+  "runs": 24,
+  "detected": 23,
+  "decoysDismissed": 24,
   "contagionFound": {
     "found": 7,
     "applicable": 7
   },
-  "tradeTargetCorrect": 22,
+  "tradeTargetCorrect": 23,
   "gateCleared": 5,
   "falsePositives": 0,
   "medianDetectionMs": 3875,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "20260920232934196c",
+      "commitment": "36269f64651e447b27ec1029156dca33c9c177c7ed5b7e27df1c83047bdfb621",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 10806,
+      "decoyDismissed": true,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "falsePositives": 0,
+      "at": "2026-09-20T23:30:58.461Z",
+      "prevHash": "ae49d53c5de185d1de9a5cd467a5044f69ce353245853db6a0cc9141082d3940",
+      "hash": "9214cacbff760610e7cfe83e342ab0ac0fcda22749e0177bb43e39f05580e06b"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "202609202043421a65",
@@ -198,26 +215,69 @@
       "at": "2026-09-19T21:29:44.116Z",
       "prevHash": "64850b68c9c8774edce8d7310edfef9b4c6e13b7324c08b31530472139debb14",
       "hash": "07fba96953e4630992e65ed25e523120086524b29b6c4e111c12d2e6c2167710"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "2026091921154673c2",
-      "commitment": "8311ea923819556303b2daa2736445d32c4be157e5104d945216feaeb3da6654",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 3556,
-      "decoyDismissed": true,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
-      "decision": "TRADE_DIRECT",
-      "gatePassed": true,
-      "falsePositives": 0,
-      "at": "2026-09-19T21:16:22.176Z",
-      "prevHash": "9715cce2434bc502bcd2084889ccade9969b488c669ab0820923e5bf479390ff",
-      "hash": "64850b68c9c8774edce8d7310edfef9b4c6e13b7324c08b31530472139debb14"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-20260920232934196c-959922be",
+      "runId": "20260920232934196c",
+      "detectedAt": "2026-09-20T23:30:31.806Z",
+      "latencyMs": 10806,
+      "victim": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": 100,
+      "instrument": "DOTUSDT",
+      "kind": "DIRECT",
+      "lossUsd": 794075,
+      "target": "Amber Earn",
+      "modeledDeltaPct": 0.389,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "access-control",
+        "veto": true,
+        "narrative": "An address that is not the contract owner called a single function on 0x9599...07b1. The trace is short and unambiguous: check balance, then transfer it out. The contract's entire 794075 token position left in that call and its share price went from 1 to 0, so whoever held claims on this contract is fully wiped. This is a missing-permission (access-control) drain, not a redemption or an authorised sweep - the packet explicitly records the caller as unauthorised by the owner. What the packet does not show is who actually stood behind this contract on-chain; the Amber Earn attribution arrives as a label, not as traced exposure.",
+        "lossBearer": "Holders of the drained contract 0x9599...07b1, whose token balance went 794075 -> 0 and share price 1 -> 0; packet asserts direct exposure for Amber Earn but shows no link evidence.",
+        "concerns": [
+          "Candidate 'Amber Earn' is labelled DIRECT with no supporting link in the trace or integrators list.",
+          "ownerBeforeTx 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 is the standard local-dev default account, raising doubt the packet is from a production chain.",
+          "Selector 0xa441d067 is unresolved; the function's intended semantics are unknown beyond its observed balance-sweep effect.",
+          "modeledDeltaPct 0.389 rests on the unverified Amber Earn attribution and inherits its uncertainty."
+        ]
+      }
+    },
+    {
+      "id": "blind-20260920232934196c-dc64a140",
+      "runId": "20260920232934196c",
+      "detectedAt": "2026-09-20T23:30:15.697Z",
+      "latencyMs": 697,
+      "victim": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": 80,
+      "instrument": "UNIUSDT",
+      "kind": "DIRECT",
+      "lossUsd": 526149.6,
+      "target": "Umber Pool",
+      "modeledDeltaPct": 0.253,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "The pool's own owner key called an admin function that moved tokens out in one straight ERC-20 transfer. Balance went from 876,916 to 350,766.4 and share price from 1 to 0.4, so anyone holding a claim on this pool is worth less. But nothing in the trace shows a broken access check, a re-init, a reentrant loop or a manipulated oracle - the withdrawal is exactly what an authorised owner is allowed to do. This is indistinguishable, on this evidence, from a legitimate treasury move or a rug by the operator; an external exploit is not demonstrated.",
+        "lossBearer": "Economically, holders of claims on 0xdc64...f6c9 (share price 1 -> 0.4); the contract itself lost the tokens. No integrator exposure is shown in the packet.",
+        "concerns": [
+          "Owner call cannot be distinguished from key compromise without evidence of key theft; packet shows none.",
+          "Candidate loss of 526,149.6 USD and 0.253 delta are modelled outputs, not observed settlement.",
+          "integrators array is empty, so no downstream exposure is demonstrated.",
+          "No ownership change, reinitialisation or oracle interaction appears anywhere in the call trace."
+        ]
+      }
+    },
     {
       "id": "blind-202609202043421a65-0dcd1bf9",
       "runId": "202609202043421a65",
@@ -968,44 +1028,6 @@
       "modeledDeltaPct": 0.69,
       "marketDeltaPct": 0,
       "integrators": 0,
-      "ai": null
-    },
-    {
-      "id": "blind-2026091921142878ba-9a9f2ccf",
-      "runId": "2026091921142878ba",
-      "detectedAt": "2026-09-19T21:14:38.929Z",
-      "latencyMs": 929,
-      "victim": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
-      "authorised": false,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 100,
-      "instrument": "AAVEUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 986575,
-      "target": "Juniper Pool",
-      "modeledDeltaPct": 0.574,
-      "marketDeltaPct": 0,
-      "integrators": 0,
-      "ai": null
-    },
-    {
-      "id": "blind-20260919211356716f-a513e6e4",
-      "runId": "20260919211356716f",
-      "detectedAt": "2026-09-19T21:14:23.875Z",
-      "latencyMs": 3875,
-      "victim": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
-      "authorised": false,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 100,
-      "instrument": "LINKUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 969112,
-      "target": "Lumen Pool",
-      "modeledDeltaPct": 0.418,
-      "marketDeltaPct": 0,
-      "integrators": 1,
       "ai": null
     }
   ]
