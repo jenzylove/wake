@@ -50,11 +50,59 @@
 .wkc-link { font-family: var(--mono); font-size: 11px; color: var(--txt-2); border-bottom: 1px solid var(--line-2); padding-bottom: 1px; }
 .wkc-link:hover { color: var(--txt); border-color: var(--cool); }
 
+/* Hero -------------------------------------------------------------------
+   A framed canvas with the exposure field inside it, small cards floating on
+   the frame, and the headline breaking out of the bottom left corner. */
+.wkc-hero { padding: 18px 18px 0; }
+.wkc-stage {
+  position: relative; border-radius: 26px; overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 45%, #0f1622 0%, #0a0d14 55%, #07080b 100%);
+  border: 1px solid var(--line);
+  aspect-ratio: 16 / 8.2; min-height: 380px;
+}
+@media (max-width: 860px) { .wkc-stage { aspect-ratio: 4 / 5; min-height: 460px; } }
+.wkc-field { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wkc-rails { position: absolute; inset: 0; pointer-events: none; opacity: .5; }
+
+.wkc-float {
+  position: absolute; background: rgba(12, 14, 19, .82); border: 1px solid var(--line-2);
+  border-radius: 14px; backdrop-filter: blur(10px); padding: 12px 14px; max-width: 250px;
+}
+.wkc-float h3 { margin: 0 0 6px; font-size: 13px; font-weight: 500; }
+.wkc-float p { margin: 0; font-size: 11.5px; line-height: 1.55; color: var(--txt-2); }
+.wkc-float-tl { top: 18px; left: 18px; display: flex; align-items: center; gap: 10px; padding: 9px 13px; border-radius: 999px; }
+.wkc-float-br { right: 18px; bottom: 26px; }
+@media (max-width: 860px) { .wkc-float-br { right: 12px; bottom: 150px; max-width: 220px; } .wkc-float-tl { left: 12px; top: 12px; } }
+
+.wkc-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--trade); position: relative; }
+.wkc-pulse::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid rgba(63, 178, 127, .45); animation: wkc-ring 2.6s ease-out infinite; }
+@keyframes wkc-ring { 0% { transform: scale(.6); opacity: .9 } 100% { transform: scale(1.5); opacity: 0 } }
+@media (prefers-reduced-motion: reduce) { .wkc-pulse::after { animation: none } }
+
+.wkc-hero-head {
+  position: absolute; left: 0; bottom: 0; background: var(--bg);
+  border-top-right-radius: 26px; padding: 22px 34px 22px 26px; max-width: min(640px, 82%);
+}
+.wkc-hero-head h1 { margin: 0; font-size: clamp(30px, 5.1vw, 62px); line-height: 1.02; font-weight: 300; letter-spacing: -0.035em; }
+.wkc-hero-head h1 em { font-style: normal; color: var(--trade); }
+.wkc-eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.wkc-eyebrow span {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 4px 11px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--txt-2);
+}
+.wkc-eyebrow span.is-live { color: var(--trade); border-color: rgba(63, 178, 127, .4); }
+.wkc-cta {
+  position: absolute; right: 26px; bottom: 26px; display: inline-flex; align-items: center; gap: 10px;
+  background: var(--txt); color: var(--bg); border-radius: 999px; padding: 11px 13px 11px 20px;
+  font-size: 13px; font-weight: 500;
+}
+.wkc-cta i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); color: var(--txt); font-style: normal; font-size: 12px; }
+.wkc-cta:hover { background: var(--trade); color: #04130c; }
+@media (max-width: 860px) { .wkc-cta { right: 12px; bottom: 12px; } .wkc-hero-head { max-width: 100%; padding: 18px 20px; } }
+
 /* Headline strip --------------------------------------------------------- */
-.wkc-head { padding: 26px 18px 18px; border-bottom: 1px solid var(--line); background: var(--bg); }
-.wkc-head h1 { margin: 0 0 8px; font-size: clamp(22px, 3.4vw, 34px); font-weight: 300; letter-spacing: -0.02em; max-width: 30ch; }
-.wkc-head h1 em { font-style: normal; color: var(--trade); }
-.wkc-head p { margin: 0; max-width: 78ch; color: var(--txt-2); font-size: 14px; }
+.wkc-head { padding: 22px 18px 18px; border-bottom: 1px solid var(--line); background: var(--bg); }
+.wkc-head p { margin: 0; max-width: 84ch; color: var(--txt-2); font-size: 14px; }
 .wkc-proof { display: flex; flex-wrap: wrap; gap: 0; margin-top: 18px; border: 1px solid var(--line); }
 .wkc-proof > div { flex: 1 1 150px; padding: 10px 14px; border-right: 1px solid var(--line); }
 .wkc-proof > div:last-child { border-right: 0; }

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import "./console.css"
+import { ExposureField } from "@/components/exposure-field"
 
 // The WAKE console.
 //
@@ -201,8 +202,38 @@ export default function Console() {
         </div>
       </header>
 
+      <section className="wkc-hero" aria-labelledby="wkc-title">
+        <div className="wkc-stage">
+          <ExposureField className="wkc-field" />
+
+          <div className="wkc-float wkc-float-tl">
+            <span className={live ? "wkc-pulse" : "wkc-dot is-idle"} />
+            <span style={{ fontFamily: "var(--mono)", fontSize: 11 }}>
+              {live ? "watching" : "idle"} · {agent?.incidentsEvaluated ?? "--"} incidents · tick {ago(agent?.updatedAt)}
+            </span>
+          </div>
+
+          <div className="wkc-float wkc-float-br">
+            <h3>The hit is obvious. The path is not.</h3>
+            <p>
+              A protocol is drained. WAKE traces who holds the damaged asset, prices what they lose, and asks whether the market
+              has already moved. Most of the time it has, and WAKE holds.
+            </p>
+          </div>
+
+          <div className="wkc-hero-head">
+            <div className="wkc-eyebrow">
+              <span className={live ? "is-live" : ""}>{live ? "live on bitget demo" : "paper"}</span>
+              <span>event driven agent</span>
+            </div>
+            <h1 id="wkc-title">Who pays<br />for the <em>hack?</em></h1>
+          </div>
+
+          <a className="wkc-cta" href="#desk">Open the desk <i>↓</i></a>
+        </div>
+      </section>
+
       <section className="wkc-head">
-        <h1>A protocol was attacked. <em>Who pays for it, and is that still mispriced?</em></h1>
         <p>
           WAKE watches for security incidents, works out which asset actually absorbs the loss, checks whether the market has
           already priced it, and trades the gap on Bitget with a size it computes itself. It abstains far more often than it trades,
@@ -218,7 +249,7 @@ export default function Console() {
         </dl>
       </section>
 
-      <div className="wkc-desk">
+      <div className="wkc-desk" id="desk">
         <div className="wkc-col">
           <div className="wkc-colhead"><h2>Incident queue</h2><span className="wkc-count">{shown.length}</span></div>
           <div className="wkc-filters">
