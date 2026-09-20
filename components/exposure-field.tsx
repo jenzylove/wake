@@ -11,8 +11,8 @@ import * as React from "react"
 
 type Node = { x: number; y: number; z: number; r: number; core: boolean; seed: number }
 
-const NODES = 190
-const REACH = 0.19        // neighbour radius in normalized units
+const NODES = 260
+const REACH = 0.17        // neighbour radius in normalized units
 const MAX_EDGES = 3
 
 export function ExposureField({ className }: { className?: string }) {
@@ -74,7 +74,7 @@ export function ExposureField({ className }: { className?: string }) {
       const t = reduced ? 6200 : time
       const cx = width * 0.5
       const cy = height * 0.5
-      const scale = Math.min(width, height) * 0.46
+      const scale = Math.min(width * 0.72, height) * 0.86
       ctx.clearRect(0, 0, width, height)
 
       // Shock front: a ring of influence leaving the core every eight seconds.
@@ -84,6 +84,39 @@ export function ExposureField({ className }: { className?: string }) {
       const px = (n: Node) => cx + n.x * scale * (1 + n.z * 0.12) + Math.sin(t / 3400 + n.seed) * 3
       const py = (n: Node) => cy + n.y * scale * (1 + n.z * 0.12) + Math.cos(t / 3900 + n.seed) * 3
 
+      // The core glow: the protocol that was hit.
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, scale * 0.9)
+      glow.addColorStop(0, "rgba(120, 175, 245, 0.30)")
+      glow.addColorStop(0.35, "rgba(70, 125, 200, 0.14)")
+      glow.addColorStop(0.7, "rgba(40, 80, 140, 0.05)")
+      glow.addColorStop(1, "rgba(7, 8, 11, 0)")
+      ctx.fillStyle = glow
+      ctx.beginPath()
+      ctx.ellipse(cx, cy, scale * 1.15, scale * 0.78, 0, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Filaments crossing the frame: market data arriving from outside the incident.
+      for (let i = 0; i < 7; i += 1) {
+        const a = (i / 7) * Math.PI * 2 + t / 90_000
+        const len = Math.max(width, height)
+        const ox = cx + Math.cos(a) * len
+        const oy = cy + Math.sin(a) * len * 0.55
+        ctx.strokeStyle = "rgba(122, 158, 205, 0.10)"
+        ctx.lineWidth = 0.7
+        ctx.beginPath()
+        ctx.moveTo(cx, cy)
+        ctx.lineTo(ox, oy)
+        ctx.stroke()
+        // A packet travelling in along the filament.
+        const travel = ((t / 5200 + i / 7) % 1)
+        const dx = cx + Math.cos(a) * len * (1 - travel) * 0.55
+        const dy = cy + Math.sin(a) * len * 0.55 * (1 - travel) * 0.55
+        ctx.fillStyle = `rgba(90, 143, 214, ${(0.5 * travel).toFixed(2)})`
+        ctx.beginPath()
+        ctx.arc(dx, dy, 1.6, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
       // Edges first, brightened as the front passes over them.
       for (const [a, b, d] of edges) {
         const na = nodes[a]
@@ -92,8 +125,8 @@ export function ExposureField({ className }: { className?: string }) {
         const hit = Math.max(0, 1 - Math.abs(mid - front) * 7)
         const base = 0.05 + (1 - d / REACH) * 0.09
         ctx.strokeStyle = hit > 0.02
-          ? `rgba(63, 178, 127, ${(base + hit * 0.42).toFixed(3)})`
-          : `rgba(120, 160, 210, ${base.toFixed(3)})`
+          ? `rgba(78, 208, 150, ${(base + hit * 0.55).toFixed(3)})`
+          : `rgba(140, 180, 230, ${(base * 1.6).toFixed(3)})`
         ctx.lineWidth = hit > 0.02 ? 0.9 : 0.6
         ctx.beginPath()
         ctx.moveTo(px(na), py(na))
@@ -109,24 +142,14 @@ export function ExposureField({ className }: { className?: string }) {
         const y = py(n)
         const size = n.r * (1 + hit * 0.7)
         if (n.core) {
-          ctx.fillStyle = `rgba(214, 233, 255, ${0.5 + hit * 0.4})`
+          ctx.fillStyle = `rgba(226, 240, 255, ${0.72 + hit * 0.28})`
         } else {
-          ctx.fillStyle = hit > 0.05 ? `rgba(63, 178, 127, ${0.35 + hit * 0.5})` : "rgba(150, 180, 220, 0.3)"
+          ctx.fillStyle = hit > 0.05 ? `rgba(78, 208, 150, ${0.45 + hit * 0.5})` : "rgba(168, 196, 232, 0.42)"
         }
         ctx.beginPath()
         ctx.arc(x, y, size, 0, Math.PI * 2)
         ctx.fill()
       }
-
-      // The core glow: the protocol that was hit.
-      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, scale * 0.72)
-      glow.addColorStop(0, "rgba(96, 150, 220, 0.22)")
-      glow.addColorStop(0.45, "rgba(60, 110, 180, 0.08)")
-      glow.addColorStop(1, "rgba(7, 8, 11, 0)")
-      ctx.fillStyle = glow
-      ctx.beginPath()
-      ctx.ellipse(cx, cy, scale * 1.15, scale * 0.78, 0, 0, Math.PI * 2)
-      ctx.fill()
 
       if (!reduced) frame = requestAnimationFrame(draw)
     }
