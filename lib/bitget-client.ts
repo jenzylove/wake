@@ -163,6 +163,14 @@ export async function getBitgetDemoAccount() {
   )
 }
 
+/** Open Demo positions as the exchange reports them: its own average entry, mark and PnL. */
+export async function getBitgetDemoPositions() {
+  return signedBitget<unknown>(
+    "GET",
+    "/api/v2/mix/position/all-position?productType=USDT-FUTURES&marginCoin=USDT",
+  )
+}
+
 export async function getHistoricalMarkCandles({
   symbol,
   startTime,

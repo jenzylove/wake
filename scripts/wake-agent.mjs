@@ -131,6 +131,49 @@ async function main() {
     catch (error) { appendHashLog(LOG, { event: "ACCOUNT_ERROR", error: String(error.message ?? error) }, TICK) }
   }
 
+  // 0. Reconcile against the exchange. The venue's own average entry and unrealised PnL replace
+  // anything this script assumed, so the site never shows a number the exchange disagrees with.
+  let exchange = null
+  if (EXECUTOR) {
+    try {
+      const res = await fetch(EXECUTOR.replace("/execute", "/positions"), {
+        headers: { "x-wake-scheduler-secret": process.env.WAKE_SCHEDULER_SECRET },
+        signal: AbortSignal.timeout(30_000),
+      })
+      if (res.ok) exchange = await res.json()
+    } catch (error) {
+      appendHashLog(LOG, { event: "RECONCILE_FAILED", error: String(error.message ?? error) }, TICK)
+    }
+  } else if (DIRECT) {
+    try {
+      const [positions, account] = await Promise.all([
+        bitget("GET", "/api/v2/mix/position/all-position?productType=USDT-FUTURES&marginCoin=USDT", "", true),
+        bitget("GET", "/api/v2/mix/account/account?marginCoin=USDT&productType=USDT-FUTURES&symbol=BTCUSDT", "", true),
+      ])
+      exchange = {
+        account: { equity: Number(account.data?.accountEquity), available: Number(account.data?.available), marginCoin: "USDT" },
+        positions: (positions.data ?? []).map((p) => ({
+          symbol: p.symbol, side: p.holdSide === "short" ? "SHORT" : "LONG", size: Number(p.total),
+          entryPrice: Number(p.openPriceAvg), markPrice: Number(p.markPrice), unrealizedPnlUsd: Number(p.unrealizedPL),
+        })),
+      }
+    } catch (error) {
+      appendHashLog(LOG, { event: "RECONCILE_FAILED", error: String(error.message ?? error) }, TICK)
+    }
+  }
+  if (exchange?.positions) {
+    for (const p of state.open) {
+      const live = exchange.positions.find((x) => x.symbol === p.instrument && x.side === p.side)
+      if (!live) continue
+      if (Number.isFinite(live.entryPrice) && live.entryPrice > 0 && live.entryPrice !== p.entryPrice) {
+        appendHashLog(LOG, { event: "ENTRY_RECONCILED", incidentId: p.incidentId, instrument: p.instrument, recorded: p.entryPrice, filled: live.entryPrice }, TICK)
+        p.entryPrice = live.entryPrice
+        p.notionalUsd = Number((live.entryPrice * p.size).toFixed(4))
+      }
+      p.exchange = { markPrice: live.markPrice, unrealizedPnlUsd: live.unrealizedPnlUsd, size: live.size, at: TICK }
+    }
+  }
+
   // 1. Manage what is open.
   for (const p of [...state.open]) {
     let price
@@ -213,6 +256,7 @@ async function main() {
   const logLines = existsSync(LOG) ? readFileSync(LOG, "utf8").split(String.fromCharCode(10)).filter(Boolean) : []
   writeFileSync(path.join(OUT, "summary.json"), JSON.stringify({
     metrics,
+    exchange: exchange ? { account: exchange.account, positions: exchange.positions, at: TICK } : null,
     open: state.open.map(({ entryOrder, ...p }) => ({ ...p, orderId: entryOrder?.orderId ?? null })),
     closed: state.closed.slice(-20).map(({ entryOrder, exitOrder, ...c }) => ({ ...c, entryOrderId: entryOrder?.orderId ?? null, exitOrderId: exitOrder?.orderId ?? null })),
     recentLog: logLines.slice(-60).map((line) => JSON.parse(line)).reverse(),

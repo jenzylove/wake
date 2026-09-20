@@ -210,6 +210,9 @@ export default function Console() {
   }, [items])
   const latestAi = React.useMemo(() => items.find((i) => i.ai)?.ai ?? null, [items])
   const disc = ((state as Json).discovery?.lastRun ?? {}) as Json
+  const exchange = ((state as Json).exchange ?? null) as Json | null
+  const venuePositions = ((exchange?.positions ?? []) as Json[])
+  const venuePnl = venuePositions.length ? venuePositions.reduce((sum, p) => sum + Number(p.unrealizedPnlUsd ?? 0), 0) : null
   const logEntries = (state as Json).logEntries ?? "--"
   const agent = state.agent
   const blind = state.blind
@@ -272,6 +275,56 @@ export default function Console() {
           <div><dt>decoys dismissed</dt><dd>{blind ? `${blind.decoysDismissed}/${blind.runs}` : "--"}</dd></div>
           <div><dt>false positives</dt><dd>{blind?.falsePositives ?? "--"}</dd></div>
         </dl>
+      </section>
+
+
+      <section className="wkc-venue" aria-labelledby="wkc-venue-title">
+        <div className="wkc-venue-inner">
+          <div className="wkc-venue-head">
+            <h2 id="wkc-venue-title">On Bitget Demo right now</h2>
+            <span>read back from the exchange, not from this app</span>
+            {exchange?.account && (
+              <span className="wkc-equity" style={{ marginLeft: "auto" }}>
+                account equity <b>{Number(exchange.account.equity).toLocaleString("en-US", { maximumFractionDigits: 2 })} {String(exchange.account.marginCoin ?? "USDT")}</b>
+                {" · "}reconciled {ago(String(exchange.at ?? ""))}
+              </span>
+            )}
+          </div>
+
+          {venuePositions.length > 0 ? (
+            <div className="wkc-venue-grid">
+              {venuePositions.map((p) => {
+                const local = openPositions.find((o) => o.instrument === p.symbol && o.side === p.side)
+                const pnl = Number(p.unrealizedPnlUsd)
+                return (
+                  <article className="wkc-order" key={String(p.symbol)}>
+                    <div className="wkc-order-top">
+                      <span className={p.side === "SHORT" ? "is-stop" : "is-trade"}>{String(p.side)}</span>
+                      <strong>{String(p.symbol)}</strong>
+                      <span className={`pnl ${pnl >= 0 ? "is-trade" : "is-stop"}`}>{pnl >= 0 ? "+" : ""}{pnl.toFixed(2)} USDT</span>
+                    </div>
+                    <dl>
+                      <dt>size</dt><dd>{String(p.size)}</dd>
+                      <dt>filled at</dt><dd>{String(p.entryPrice)}</dd>
+                      <dt>mark</dt><dd>{String(p.markPrice)}</dd>
+                      <dt>order</dt><dd>{String(local?.orderId ?? "n/a")}</dd>
+                      <dt>opened</dt><dd>{local ? ago(String(local.openedAt)) : "n/a"}</dd>
+                      <dt>from</dt><dd>{local ? `${String(local.source)} incident` : "n/a"}</dd>
+                    </dl>
+                  </article>
+                )
+              })}
+            </div>
+          ) : (
+            <p className="wkc-venue-note">No position is open. The agent holds unless an incident clears every check.</p>
+          )}
+
+          <p className="wkc-venue-note">
+            Every order above was placed by the agent itself, signed with <code>paptrading: 1</code> and capped at $100 of notional.
+            The entry shown is the fill the exchange reports, not the price this app expected. No real incident has cleared the risk
+            gate yet, so every position here came from a blind test; that is the honest state, and it is labelled everywhere.
+          </p>
+        </div>
       </section>
 
       <div className="wkc-desk" id="desk">
@@ -580,9 +633,12 @@ export default function Console() {
             <div><div className="k">incidents evaluated</div><div className="v">{agent?.incidentsEvaluated ?? "--"}</div></div>
             <div><div className="k">refused or still open</div><div className="v">{mix.noTrade + mix.monitor}</div></div>
             <div><div className="k">demo orders placed</div><div className="v">{(agent?.open ?? 0) + (agent?.closedTrades ?? 0)}</div></div>
-            <div><div className="k">median detection</div><div className="v">{blind?.medianDetectionMs ? `${(blind.medianDetectionMs / 1000).toFixed(1)}s` : "--"}</div></div>
+            <div><div className="k">unrealised on demo</div><div className="v">{venuePnl === null ? "--" : `${venuePnl >= 0 ? "+" : ""}${venuePnl.toFixed(2)}`}</div></div>
           </div>
-          <h2 id="wkc-close">See what it <em>refused</em> today</h2>
+          <h2 id="wkc-close">{mix.trade} cleared, <em>{mix.noTrade + mix.monitor} did not</em></h2>
+          <p className="wkc-venue-note" style={{ margin: "0 auto 22px", textAlign: "center" }}>
+            Each refusal has a reason attached to it, and so does each trade. The queue below is the whole record, newest first.
+          </p>
           <a className="wkc-cta" href="#desk">Open the desk <i>↓</i></a>
         </div>
       </section>
