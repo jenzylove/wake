@@ -108,7 +108,8 @@ async function gatherIncidents() {
       const r = JSON.parse(readFileSync(path.join(blind, f), "utf8"))
       if (!r.agent) continue
       out.push({ id: r.id, source: "blind", provenance: "BLIND_TEST", numbersProvenance: "COMPUTED", decision: r.agent.decision,
-        gatePassed: r.agent.gatePassed, sizing: r.agent.sizing, instrument: r.agent.instrument, side: r.agent.side, stopPct: r.agent.sizing?.stopPct ?? null })
+        gatePassed: r.agent.gatePassed, sizing: r.agent.sizing, instrument: r.agent.instrument, side: r.agent.side,
+        stopPct: r.agent.sizing?.stopPct ?? null, detectedAt: r.detection?.firstDetectedAt ?? r.detection?.detectedAt ?? null })
     }
   }
   return out

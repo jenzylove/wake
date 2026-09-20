@@ -1,10 +1,10 @@
 name: WAKE blind challenge
-# Every three hours: a fresh chain, a randomized red team, WAKE watching blind, a sealed answer,
+# Every hour: a fresh chain, a randomized red team, WAKE watching blind, a sealed answer,
 # a score, then an agent tick that executes any cleared trade on Bitget Demo. Blind trades are
 # labelled BLIND_TEST and reported separately from real incidents in data/wake-paper/metrics.json.
 on:
   schedule:
-    - cron: "41 */3 * * *"
+    - cron: "41 * * * *"
   workflow_dispatch:
 permissions:
   contents: write

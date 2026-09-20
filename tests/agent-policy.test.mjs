@@ -10,6 +10,17 @@ test("replay fixtures never trade", () => assert.equal(agentEligibility({ ...ok,
 test("MONITOR never trades", () => assert.equal(agentEligibility({ ...ok, decision: "MONITOR" }).eligible, false))
 test("a held gate never trades", () => assert.equal(agentEligibility({ ...ok, gatePassed: false }).eligible, false))
 
+test("a stale signal is not traded, however good it looked", () => {
+  const old = new Date(Date.now() - (AGENT_LIMITS.maxSignalAgeHours + 2) * 3_600_000).toISOString()
+  const e = agentEligibility({ ...ok, detectedAt: old })
+  assert.equal(e.eligible, false)
+  assert.ok(e.reasons.some((r) => r.includes("old")))
+})
+
+test("a fresh signal still trades", () => {
+  assert.equal(agentEligibility({ ...ok, detectedAt: new Date().toISOString() }).eligible, true)
+})
+
 const pos = { side: "SHORT", entryPrice: 100, stopPct: 0.02, openedAt: new Date(0).toISOString() }
 test("a short stops out when price rises past the stop", () => assert.match(exitReason(pos, 102.5, { decision: "TRADE_DIRECT" }, 1000), /^stop/))
 test("a changed decision closes the position", () => assert.match(exitReason(pos, 99, { decision: "MONITOR" }, 1000), /^thesis invalidated/))
