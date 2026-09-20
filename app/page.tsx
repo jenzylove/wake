@@ -329,7 +329,7 @@ export default function Console() {
 
       <div className="wkc-desk" id="desk">
         <div className="wkc-col">
-          <div className="wkc-colhead"><h2>Incident queue</h2><span className="wkc-count">{shown.length}</span></div>
+          <div className="wkc-colhead"><span className="wkc-livedot" /><h2>Incident queue</h2><span className="wkc-count">{shown.length}</span></div>
           <div className="wkc-filters">
             {(["all", "captured", "discovered", "blind"] as const).map((key) => (
               <button key={key} aria-pressed={filter === key} onClick={() => { setFilter(key); setSelected(null) }}>
@@ -445,20 +445,23 @@ export default function Console() {
           )}
         </div>
 
-        <div className="wkc-col wkc-rail">
-          <div className="wkc-colhead"><h2>Demo positions</h2><span className="wkc-count">{state.positions?.open.length ?? 0}</span></div>
+        <div className="wkc-col">
+          <div className="wkc-colhead"><span className="wkc-livedot" /><h2>Demo positions</h2><span className="wkc-count">{state.positions?.open.length ?? 0} open</span></div>
           {(state.positions?.open ?? []).length === 0 && <div className="wkc-empty">No position open. The agent holds unless an incident clears every check.</div>}
           {openPositions.map((p) => {
-            const mark = marks[String(p.instrument)]
+            // The exchange's own unrealised PnL when the last reconcile carried one, else the
+            // live mark against the recorded fill.
+            const venue = venuePositions.find((v) => v.symbol === p.instrument && v.side === p.side)
+            const mark = Number(venue?.markPrice ?? marks[String(p.instrument)])
             const move = Number.isFinite(mark) ? (mark / Number(p.entryPrice) - 1) * (p.side === "LONG" ? 1 : -1) : null
-            const pnl = move === null ? null : move * Number(p.notionalUsd)
+            const live = venue ? Number(venue.unrealizedPnlUsd) : move === null ? null : move * Number(p.notionalUsd)
             return (
               <div className="wkc-pos" key={String(p.incidentId)}>
                 <div className="wkc-pos-top">
                   <span className="is-trade">{String(p.side)}</span>
                   <strong>{String(p.instrument)}</strong>
-                  <span className={`wkc-count ${pnl === null ? "" : pnl >= 0 ? "is-trade" : "is-stop"}`}>
-                    {pnl === null ? "--" : `${pnl >= 0 ? "+" : ""}${pnl.toFixed(2)} USDT`}
+                  <span className={`wkc-count ${live === null ? "" : live >= 0 ? "is-trade" : "is-stop"}`}>
+                    {live === null ? "--" : `${live >= 0 ? "+" : ""}${live.toFixed(2)} USDT`}
                   </span>
                 </div>
                 <div className="wkc-pos-meta">
