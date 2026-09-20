@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-20T10:05:16.800Z",
+  "generatedAt": "2026-09-20T10:15:18.706Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-20T10:05:16.370Z",
-    "days": 4.629,
-    "equityPoints": 189,
+    "to": "2026-09-20T10:15:18.244Z",
+    "days": 4.636,
+    "equityPoints": 190,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 186,
+    "tickCount": 187,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-20T10:05:16.370Z",
+    "lastTickAt": "2026-09-20T10:15:18.244Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -79,32 +79,32 @@
       "maxNotionalShareOfVolume": 0.002,
       "stopCooldownMs": 14400000
     },
-    "universeSize": 113,
+    "universeSize": 115,
     "lastScan": {
       "perpsScanned": 797,
       "spotSymbols": 2710,
-      "pairsWithBothLegs": 113,
-      "evaluated": 113,
-      "triggered": 19,
+      "pairsWithBothLegs": 115,
+      "evaluated": 115,
+      "triggered": 16,
       "opened": 0,
-      "abstained": 113,
+      "abstained": 115,
       "reasons": {
-        "gap below trigger": 94,
-        "hedgeable,net-edge,clip-size": 10,
-        "hedgeable,spread,clip-size": 2,
+        "gap below trigger": 99,
+        "hedgeable,net-edge,clip-size": 7,
+        "hedgeable,spread,net-edge,clip-size": 1,
+        "hedgeable,clip-size": 2,
         "net-edge,clip-size": 4,
-        "hedgeable,clip-size": 1,
         "spread,net-edge,clip-size": 1,
         "net-edge": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 88.41,
-        "median": -31.73,
-        "worst": -81.62,
+        "best": 64.12,
+        "median": -31.16,
+        "worst": -84.38,
         "hedgeable": 6,
-        "clearedCost": 3,
-        "sampled": 19
+        "clearedCost": 2,
+        "sampled": 16
       }
     }
   }
