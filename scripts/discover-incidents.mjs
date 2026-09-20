@@ -14,10 +14,10 @@
 import { createHash } from "node:crypto"
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
-import { deriveDecisionPolicy } from "../lib/wake-policy.mjs"
+import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
 import { stockExposures } from "../lib/stock-exposure.mjs"
-import { interpretAnywhere } from "../lib/ai-interpret.mjs"
+import { aiFalsifier, interpretAnywhere } from "../lib/ai-interpret.mjs"
 
 const OUT_DIR = process.env.WAKE_DISCOVERY_DIR || path.join(process.cwd(), "data", "discovered")
 const LOOKBACK_DAYS = Number(process.env.WAKE_DISCOVERY_DAYS || 21)
@@ -123,12 +123,44 @@ function appendLog(entry) {
   writeFileSync(p, lines.concat(JSON.stringify({ ...body, hash: sha256(body) })).join(String.fromCharCode(10)) + String.fromCharCode(10))
 }
 
-const policyInput = (record) => ({
-  falsification: [{ blocksTrade: true, status: record.receipt ? "RESOLVED" : "UNRESOLVED", question: "Is there an on-chain receipt proving the loss path?" },
-    { blocksTrade: true, status: "UNRESOLVED", question: "Is the downstream exposure quantified from protocol state?" }],
-  modeledDelta: null, confidence: null, marketDelta: record.market?.observed?.exploitDayMovePct ?? 0,
-  kind: record.exposures[0]?.kind ?? "NO TRADE", state: "INVESTIGATING", workflowState: "WATCHING",
-})
+// Central conversion scenario, the same assumption the consequence model uses.
+const PASSTHROUGH = 0.25
+
+// What WAKE knows about an incident right now, in the policy's terms. A feed entry alone leaves
+// both blockers open, so the incident holds at MONITOR. A receipt clears the first; a measured
+// loss path clears the second. Only then can a modeled move exist, and only when the exposed
+// protocol has a market capitalisation to measure the loss against.
+export function assessDiscovered(record) {
+  const hasReceipt = Boolean(record.receipt)
+  const quantified = record.exposure?.quantified === true
+  const primary = record.exposures?.[0] ?? null
+  const mcap = record.protocol?.mcapUsd ?? null
+  const lossUsd = quantified ? record.exposure.drainedUsd : null
+  const modeledDelta = quantified && primary?.kind === "DIRECT" && mcap > 0 && lossUsd > 0
+    ? Number((PASSTHROUGH * lossUsd / mcap * 100).toFixed(3))
+    : null
+  const evidence = [
+    { key: "receipt", ok: hasReceipt, weight: 30 },
+    { key: "loss-path", ok: quantified, weight: 30 },
+    { key: "instrument", ok: Boolean(primary), weight: primary?.kind === "DIRECT" ? 20 : 10 },
+    { key: "ai-review", ok: Boolean(record.ai) && record.ai.veto !== true, weight: 20 },
+  ]
+  const confidence = modeledDelta === null ? null : evidence.reduce((s, e) => s + (e.ok ? e.weight : 0), 0)
+  return {
+    falsification: [
+      { key: "receipt", question: "Is there an on-chain receipt proving the loss path?", status: hasReceipt ? "REJECTED" : "UNRESOLVED", blocksTrade: !hasReceipt },
+      { key: "loss-path", question: "Is the downstream exposure quantified from chain state?", status: quantified ? "REJECTED" : "UNRESOLVED", blocksTrade: !quantified },
+      { key: "market-cap", question: "Is there a market capitalisation to measure the loss against?", status: modeledDelta === null ? "UNRESOLVED" : "REJECTED", blocksTrade: modeledDelta === null },
+      ...(record.ai ? [aiFalsifier(record.ai)] : []),
+    ],
+    modeledDelta, confidence, marketDelta: record.market?.observed?.exploitDayMovePct ?? 0,
+    kind: primary?.kind ?? "NO TRADE", state: quantified ? "CONFIRMED" : "INVESTIGATING", workflowState: quantified ? "MARKET_CHECK" : "WATCHING",
+    maxLoss: record.sizing?.computable ? `$${Math.round(record.sizing.maxLossUsd)}` : "$0",
+    evidence: evidence.filter((e) => e.ok),
+  }
+}
+
+const policyInput = (record) => assessDiscovered(record)
 
 // Every open incident is re-checked each run: fresh microstructure, the decision recomputed,
 // and incidents older than the lookback with no receipt are retired as NO_TRADE.
@@ -151,7 +183,10 @@ async function reevaluate(index, skip = []) {
       } catch (error) {
         record.timeline = (record.timeline ?? []).concat({ observedAt: new Date().toISOString(), error: String(error.message ?? error) }).slice(-48)
       }
-      record.decision = deriveDecisionPolicy(policyInput(record))
+      const input = policyInput(record)
+      record.decision = deriveDecisionPolicy(input)
+      record.gate = evaluateRiskGatePolicy(input)
+      record.assessment = { modeledDeltaPct: input.modeledDelta, marketDeltaPct: input.marketDelta, confidence: input.confidence, falsification: input.falsification }
     }
     record.integrity = sha256({ ...record, integrity: undefined })
     writeFileSync(file, JSON.stringify(record, null, 2) + String.fromCharCode(10))
@@ -229,7 +264,7 @@ async function main() {
       id,
       discoveredAt: new Date().toISOString(),
       source: { feed: "https://api.llama.fi/hacks", record: hack, sha256: sha256(hack) },
-      protocol: protocol ? { id: protocol.id, name: protocol.name, slug: protocol.slug, symbol: protocol.symbol, category: protocol.category } : null,
+      protocol: protocol ? { id: protocol.id, name: protocol.name, slug: protocol.slug, symbol: protocol.symbol, category: protocol.category, mcapUsd: protocol.mcap ?? null } : null,
       exposures,
       instrument: primary?.symbol ?? null,
       market,
@@ -266,7 +301,11 @@ async function main() {
   console.log(JSON.stringify({ opened, ...index.lastRun }, null, 2))
 }
 
-main().catch((error) => {
-  console.error(error)
-  process.exit(1)
-})
+// Only run a discovery pass when this file is the entry point; tests import assessDiscovered.
+import { pathToFileURL } from "node:url"
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
+}

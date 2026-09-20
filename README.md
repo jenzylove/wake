@@ -27,6 +27,17 @@ Every hour `.github/workflows/discover.yml` discovers new incidents, then runs o
 
 WAKE's paper log is `data/wake-paper/log.jsonl` (hash chained, replayed by `npm run data:verify`) with totals in `data/wake-paper/metrics.json`. The older `data/paper/` log belongs to a separate delta neutral basis engine and is not WAKE's incident strategy.
 
+## How a real incident escalates
+
+Discovery opens an investigation from a feed entry, and that is all a feed entry can do. Two measurements move it further, in order:
+
+1. `node scripts/attach-receipt.mjs <id> <chainId> <txHash>` fetches the exploit transaction from the chain and attaches it only if it exists and succeeded.
+2. `node scripts/quantify-exposure.mjs <chainId> <txHash> <id>` reads what that transaction did (`lib/onchain-exposure.mjs`): the token flows from the receipt logs, priced through DefiLlama, the contract that lost the most value, and, when that contract issues its own token, which other contracts hold it and what the holding was worth before and after. No protocol ABI is assumed, so a protocol WAKE has never seen still measures. With no explorer key it finds holders from the node's own Transfer logs.
+
+Only with both measurements can a modeled move exist, and only when the exposed protocol has a market capitalisation to measure the loss against. Contagion through a chain token has none, so it holds at MONITOR. `tests/discovery-escalation.test.mjs` pins each rung of that ladder, including that a Claude veto stops a trade the numbers would otherwise take.
+
+Measured against the captured incidents in this repository, the same code reads $24.1M of USDC leaving the Arbitrum contract and $989k on Base, straight from the receipts.
+
 ## What Claude does, and what it cannot do
 
 WAKE follows one rule: AI determines meaning, code enforces money. After code has built the evidence packet (trace, authorisation, share backing, integrators, candidates, numbers), Claude (`lib/ai-interpret.mjs`) names the exploit mechanism, says who bears the loss, and writes the explanation a trader reads. It may veto a trade when the evidence does not support the loss path; the veto becomes a blocking falsifier and the policy holds. It cannot create a trade, change a number, choose an instrument or size a position, and a failed review changes nothing. Tests in `tests/ai-interpret.test.mjs` prove each of those limits. In blind runs Claude has classified every decoy as an authorised operation and vetoed it, and named the exploit class of the real attacks from the trace alone. Scheduled runs reach Claude through `POST /api/agent/interpret`, so the Anthropic key stays on the server.

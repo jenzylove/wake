@@ -783,6 +783,36 @@
       "fundingRate": 0.0001,
       "fundingIntervalHours": 8,
       "openInterestContracts": 804627.0800000001
+    },
+    {
+      "observedAt": "2026-09-20T09:14:56.019Z",
+      "mid": 2575.725,
+      "spreadBps": 0.039,
+      "bidDepthUsd1pct": 4258252,
+      "askDepthUsd1pct": 3765733,
+      "fundingRate": 0.000081,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 807655.0299999997
+    },
+    {
+      "observedAt": "2026-09-20T09:15:01.887Z",
+      "mid": 2575.625,
+      "spreadBps": 0.039,
+      "bidDepthUsd1pct": 5957057,
+      "askDepthUsd1pct": 3413431,
+      "fundingRate": 0.000081,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 807655.0299999997
+    },
+    {
+      "observedAt": "2026-09-20T09:22:26.724Z",
+      "mid": 2579.2650000000003,
+      "spreadBps": 0.039,
+      "bidDepthUsd1pct": 3292763,
+      "askDepthUsd1pct": 1798255,
+      "fundingRate": 0.000081,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 807569.5999999996
     }
   ],
   "sizing": {
@@ -840,7 +870,7 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "f9dfb3cd1cc6b848536c322b535d229e0e3da172034da51c81053b553613bd21",
+  "integrity": "5735cd70770925f536dad7e9c3446e9e533d89ec967132bf36ba16d9beab3526",
   "ai": {
     "model": "claude-opus-5",
     "exploitClass": "oracle-manipulation",
@@ -854,6 +884,78 @@
       "ETHUSDT exposure is INFERRED contagion from host chain, not an evidenced loss channel.",
       "Exploit-day move 0.849% is well inside window sigma 2.3092%; no anomalous signal.",
       "Loss size of $595,000 is negligible against 72h quote volume of $7,014,638,440.68."
+    ]
+  },
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "4 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": 0.849,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "ai-review",
+        "question": "Does the investigator's review support the loss path?",
+        "status": "SUPPORTED",
+        "blocksTrade": true,
+        "answer": "No on-chain receipt has been captured; the mechanism is asserted by the feed label only, and the sole exposure (ETHUSDT) is an INFERRED chain-level contagion link rather than a demonstrated loss path. The $595,000 loss is not shown to transmit to the traded instrument, and the exploit-day move of 0."
+      }
     ]
   }
 }

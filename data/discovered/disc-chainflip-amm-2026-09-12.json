@@ -784,6 +784,36 @@
       "fundingRate": 0.0001,
       "fundingIntervalHours": 8,
       "openInterestContracts": 27361991
+    },
+    {
+      "observedAt": "2026-09-20T09:14:56.493Z",
+      "mid": 0.34153500000000003,
+      "spreadBps": 0.878,
+      "bidDepthUsd1pct": 140619,
+      "askDepthUsd1pct": 505816,
+      "fundingRate": 0.0001,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 27337457
+    },
+    {
+      "observedAt": "2026-09-20T09:15:02.356Z",
+      "mid": 0.34153500000000003,
+      "spreadBps": 0.878,
+      "bidDepthUsd1pct": 140699,
+      "askDepthUsd1pct": 510571,
+      "fundingRate": 0.0001,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 27337457
+    },
+    {
+      "observedAt": "2026-09-20T09:22:27.662Z",
+      "mid": 0.341335,
+      "spreadBps": 0.879,
+      "bidDepthUsd1pct": 335314,
+      "askDepthUsd1pct": 148072,
+      "fundingRate": 0.0001,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 27435745
     }
   ],
   "sizing": {
@@ -841,7 +871,7 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "15af9511febcca38da7419dc725b04bf8456b061bc3523708115930e9988f5b4",
+  "integrity": "d716abb51946ca668c18a52937b791fa6d58cf7f91acc77586c3041137e09c88",
   "ai": {
     "model": "claude-opus-5",
     "exploitClass": "bridge",
@@ -855,6 +885,78 @@
       "Loss bearer unidentified - no address, pool or integrator shown to have been debited",
       "TRXUSDT exposure is INFERRED from host chain alone, not from protocol holdings",
       "Exploit-day move 0.479% is sub-sigma versus 1.2226% window sigma; no observed impact"
+    ]
+  },
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "4 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": 0.479,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "ai-review",
+        "question": "Does the investigator's review support the loss path?",
+        "status": "SUPPORTED",
+        "blocksTrade": true,
+        "answer": "No on-chain receipt: the mechanism, the debited entity and the loss path are unverified. The only exposure (TRXUSDT) is an INFERRED chain-native association with no demonstrated protocol linkage, and the 0.479% exploit-day move is below the 1.2226% window sigma, showing no market dislocation to trad"
+      }
     ]
   }
 }

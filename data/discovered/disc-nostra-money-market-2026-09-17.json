@@ -784,6 +784,36 @@
       "fundingRate": 0.00005,
       "fundingIntervalHours": 4,
       "openInterestContracts": 70795930.4
+    },
+    {
+      "observedAt": "2026-09-20T09:14:55.598Z",
+      "mid": 0.0452195,
+      "spreadBps": 6.413,
+      "bidDepthUsd1pct": 133735,
+      "askDepthUsd1pct": 144841,
+      "fundingRate": 0.00005,
+      "fundingIntervalHours": 4,
+      "openInterestContracts": 70279867.4
+    },
+    {
+      "observedAt": "2026-09-20T09:15:01.336Z",
+      "mid": 0.0451945,
+      "spreadBps": 8.629,
+      "bidDepthUsd1pct": 140940,
+      "askDepthUsd1pct": 133886,
+      "fundingRate": 0.00005,
+      "fundingIntervalHours": 4,
+      "openInterestContracts": 70279867.4
+    },
+    {
+      "observedAt": "2026-09-20T09:22:26.133Z",
+      "mid": 0.045086,
+      "spreadBps": 12.421,
+      "bidDepthUsd1pct": 36009,
+      "askDepthUsd1pct": 32287,
+      "fundingRate": 0.00005,
+      "fundingIntervalHours": 4,
+      "openInterestContracts": 70491642.6
     }
   ],
   "sizing": {
@@ -841,7 +871,7 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "d23d854a74aa67a43921c9a9640b52f48d5cd6779296501f73b3a885f7e7b0f3",
+  "integrity": "c5d898be9d123f3f97b1ba6c62c8361aee513783b1608e98ce554db9b03fe3f8",
   "ai": {
     "model": "claude-opus-5",
     "exploitClass": "oracle-manipulation",
@@ -855,6 +885,78 @@
       "STRKUSDT link is INFERRED contagion only; no evidence STRK was collateral or loss currency.",
       "Exploit-day move 3.761% is within windowSigma 9.3086%, so price gives no independent confirmation.",
       "Source field is empty and returnedFunds is null; loss figure of $3.5m is unattributed and may be revised."
+    ]
+  },
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "4 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": 3.761,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "ai-review",
+        "question": "Does the investigator's review support the loss path?",
+        "status": "SUPPORTED",
+        "blocksTrade": true,
+        "answer": "Packet is a feed record with no on-chain receipt; the only tradable exposure (STRKUSDT) is INFERRED contagion from Starknet being the host chain, not a demonstrated loss path, and the 3.761% exploit-day move is inside the 9.3086% window sigma."
+      }
     ]
   }
 }

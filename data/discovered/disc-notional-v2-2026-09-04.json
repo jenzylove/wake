@@ -784,6 +784,36 @@
       "fundingRate": 0.0001,
       "fundingIntervalHours": 8,
       "openInterestContracts": 804627.0800000001
+    },
+    {
+      "observedAt": "2026-09-20T09:14:57.324Z",
+      "mid": 2575.725,
+      "spreadBps": 0.039,
+      "bidDepthUsd1pct": 4332992,
+      "askDepthUsd1pct": 3536991,
+      "fundingRate": 0.000081,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 807655.0299999997
+    },
+    {
+      "observedAt": "2026-09-20T09:15:03.915Z",
+      "mid": 2575.625,
+      "spreadBps": 0.039,
+      "bidDepthUsd1pct": 6003070,
+      "askDepthUsd1pct": 3575712,
+      "fundingRate": 0.000081,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 807577.1599999997
+    },
+    {
+      "observedAt": "2026-09-20T09:22:40.133Z",
+      "mid": 2579.495,
+      "spreadBps": 0.039,
+      "bidDepthUsd1pct": 1448857,
+      "askDepthUsd1pct": 1416486,
+      "fundingRate": 0.000082,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 807618.1799999997
     }
   ],
   "sizing": {
@@ -841,7 +871,7 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "dd293a5f57a54b365f06cf34e32562374910cc1ba04fa5dafe79bc239dd771f2",
+  "integrity": "98ba6d22f668a889b7c7ab75f84948ba98877c31a623b206b7d7371194fb3027",
   "ai": {
     "model": "claude-opus-5",
     "exploitClass": "other",
@@ -855,6 +885,78 @@
       "ETHUSDT link is INFERRED from chain nativity, not from any shown Notional V2 exposure.",
       "Exploit-day move -2.201% sits within window sigma 2.7691%; no detectable price signal.",
       "No integrator or downstream exposure is documented, so the true loss bearer is unconfirmed."
+    ]
+  },
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "4 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": -2.201,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "ai-review",
+        "question": "Does the investigator's review support the loss path?",
+        "status": "SUPPORTED",
+        "blocksTrade": true,
+        "answer": "No on-chain receipt has been captured: the packet contains no transaction, address or balance delta, so the loss path and mechanism cannot be verified. The only proposed exposure, ETHUSDT, is an INFERRED chain-level contagion link with no shown exposure of Notional V2 to ETH price, and the exploit-d"
+      }
     ]
   }
 }

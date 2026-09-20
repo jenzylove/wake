@@ -790,6 +790,36 @@
       "fundingRate": 0.0001,
       "fundingIntervalHours": 8,
       "openInterestContracts": 95757.85
+    },
+    {
+      "observedAt": "2026-09-20T09:14:56.904Z",
+      "mid": 749.115,
+      "spreadBps": 0.133,
+      "bidDepthUsd1pct": 253365,
+      "askDepthUsd1pct": 347688,
+      "fundingRate": 0.00007,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 95484.33
+    },
+    {
+      "observedAt": "2026-09-20T09:15:02.776Z",
+      "mid": 749.065,
+      "spreadBps": 0.133,
+      "bidDepthUsd1pct": 304966,
+      "askDepthUsd1pct": 248519,
+      "fundingRate": 0.00007,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 95484.33
+    },
+    {
+      "observedAt": "2026-09-20T09:22:30.452Z",
+      "mid": 749.885,
+      "spreadBps": 0.133,
+      "bidDepthUsd1pct": 296978,
+      "askDepthUsd1pct": 515169,
+      "fundingRate": 0.000069,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 95475.06000000001
     }
   ],
   "sizing": {
@@ -847,7 +877,7 @@
   "decision": "MONITOR",
   "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
-  "integrity": "eea7a6427c227ed6240644c2553aba73f26dc03ec8431ec1d727793af33ec371",
+  "integrity": "ed190f4c0acad826c9e3368df05f73abc76fb6c43c1a65e13d96a79b52326097",
   "ai": {
     "model": "claude-opus-5",
     "exploitClass": "bridge",
@@ -861,6 +891,78 @@
       "BNB/ETH exposures are INFERRED and chain-native only — not demonstrated integrator or backing exposure.",
       "336,000 USD loss is small against 59,547,301.84 USD of observed quote volume; limited price transmission expected.",
       "Day move -1.256% is below windowSigma 2.5142%; no statistically distinct market reaction."
+    ]
+  },
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "4 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": -1.256,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "ai-review",
+        "question": "Does the investigator's review support the loss path?",
+        "status": "SUPPORTED",
+        "blocksTrade": true,
+        "answer": "The loss path is not supported. The only listed exposures (BNBUSDT, ETHUSDT) are INFERRED CONTAGION links whose sole stated relation is 'native token of chain' — no evidence connects the 336,000 USD bridge loss to those assets' value. The packet also carries no on-chain receipt, and the observed exp"
+      }
     ]
   }
 }
