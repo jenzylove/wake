@@ -1,17 +1,34 @@
 {
-  "updatedAt": "2026-09-20T16:31:01.706Z",
-  "runs": 22,
-  "detected": 21,
-  "decoysDismissed": 22,
+  "updatedAt": "2026-09-20T20:44:45.511Z",
+  "runs": 23,
+  "detected": 22,
+  "decoysDismissed": 23,
   "contagionFound": {
-    "found": 6,
-    "applicable": 6
+    "found": 7,
+    "applicable": 7
   },
-  "tradeTargetCorrect": 21,
+  "tradeTargetCorrect": 22,
   "gateCleared": 5,
   "falsePositives": 0,
   "medianDetectionMs": 3875,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "202609202043421a65",
+      "commitment": "f1cc7cb5da866038c19ab2d416b93f191b63006151025ef5b4e39e29e4598706",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 1859,
+      "decoyDismissed": true,
+      "contagionFound": true,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "falsePositives": 0,
+      "at": "2026-09-20T20:44:45.510Z",
+      "prevHash": "a92acb0322daea5fd1665502b4afcf8e3609d50c93b6274bafa0c02229187c5f",
+      "hash": "ae49d53c5de185d1de9a5cd467a5044f69ce353245853db6a0cc9141082d3940"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "202609201629518628",
@@ -198,26 +215,69 @@
       "at": "2026-09-19T21:16:22.176Z",
       "prevHash": "9715cce2434bc502bcd2084889ccade9969b488c669ab0820923e5bf479390ff",
       "hash": "64850b68c9c8774edce8d7310edfef9b4c6e13b7324c08b31530472139debb14"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "202609192115164fea",
-      "commitment": "fbd033759dcefb6de00bf825a906a8a8fcf3e20ad695c97eb808ac5d5aa91156",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 1578,
-      "decoyDismissed": true,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "falsePositives": 0,
-      "at": "2026-09-19T21:15:46.144Z",
-      "prevHash": "5b2ad98e34a5edf6fb1f78a15cd6e832e226cf159055f46cecc2018ee42bd3e3",
-      "hash": "9715cce2434bc502bcd2084889ccade9969b488c669ab0820923e5bf479390ff"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-202609202043421a65-0dcd1bf9",
+      "runId": "202609202043421a65",
+      "detectedAt": "2026-09-20T20:44:31.640Z",
+      "latencyMs": 14640,
+      "victim": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": 80,
+      "instrument": "AVAXUSDT",
+      "kind": "DIRECT",
+      "lossUsd": 411484.2,
+      "target": "Umber Reserve",
+      "modeledDeltaPct": 0.541,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "A vault at 0x0dcd...cd82 lost token backing: holdings fell from 685,807 to 274,322.8 and the share price went from 1 to 0.4, a modeled 0.541 delta against a 19,000,000 USD market cap, or 411,484.2 USD direct. But the call came from the address recorded as owner before the transaction, and the trace is just owner -> vault -> ERC-20 transfer. That is an authorised withdrawal on its face. It may still be a key compromise or a rug, but nothing in this packet distinguishes those from a legitimate treasury sweep, and no integrator exposure is listed.",
+        "lossBearer": "Economically, holders of the Umber Reserve share token (share price 1 -> 0.4); the packet shows no third-party integrator exposure. No unauthorised party is evidenced.",
+        "concerns": [
+          "Cannot separate legitimate owner sweep from key compromise; no signing-key or owner-change evidence in packet.",
+          "No integrators listed, so second-order exposure is unshown rather than shown to be zero.",
+          "Share price 1 -> 0.4 implies holder loss, but holder identity and redemption rights are not in the packet.",
+          "Single DIRECT candidate with no corroborating on-chain detail beyond the one transfer."
+        ]
+      }
+    },
+    {
+      "id": "blind-202609202043421a65-4a679253",
+      "runId": "202609202043421a65",
+      "detectedAt": "2026-09-20T20:44:11.859Z",
+      "latencyMs": 1859,
+      "victim": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": 100,
+      "instrument": "LTCUSDT",
+      "kind": "DIRECT",
+      "lossUsd": 224787.88,
+      "target": "Onyx Reserve",
+      "modeledDeltaPct": 0.095,
+      "marketDeltaPct": 0,
+      "integrators": 1,
+      "ai": {
+        "exploitClass": "access-control",
+        "veto": false,
+        "narrative": "Someone who is not the vault owner called a function on the vault that simply read its token balance and then sent the whole balance out. The vault went from 224787.88 tokens to zero in one transaction, and the trace shows no owner authorisation. The shares themselves were sitting as collateral inside lender 0xe6e340d1, which had lent 138299.2416 USD against them. With the backing gone those shares are worthless, so the lender is left holding 138299.2416 USD of bad debt, and the remainder of the 224787.88 USD hole falls on whoever held economic claim to the vault.",
+        "lossBearer": "Vault 0x4a679253's share backing; economically the sole shown shareholder, integrator 0xe6e340d1 (Drift Lend), whose 224787.88 shares of collateral went to 0 against 138299.2416 USD lent, crystallisin",
+        "concerns": [
+          "Reported share price stays at 1 after holdings fall to 0 — accounting appears stale and should not be used to value the shares.",
+          "Only one integrator is shown; other holders of the vault's shares, if any, are not in the packet.",
+          "The packet does not state what function selector 0xa24188df is, only its observed effect in the trace.",
+          "Recovery or clawback paths for the transferred token are not covered by the evidence."
+        ]
+      }
+    },
     {
       "id": "blind-202609201629518628-5fc8d326",
       "runId": "202609201629518628",
@@ -944,44 +1004,6 @@
       "lossUsd": 969112,
       "target": "Lumen Pool",
       "modeledDeltaPct": 0.418,
-      "marketDeltaPct": 0,
-      "integrators": 1,
-      "ai": null
-    },
-    {
-      "id": "blind-20260919211356716f-0dcd1bf9",
-      "runId": "20260919211356716f",
-      "detectedAt": "2026-09-19T21:14:15.666Z",
-      "latencyMs": 1666,
-      "victim": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
-      "authorised": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 80,
-      "instrument": "LDOUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 355623.6,
-      "target": "Mistral Yield",
-      "modeledDeltaPct": 0.217,
-      "marketDeltaPct": 0,
-      "integrators": 0,
-      "ai": null
-    },
-    {
-      "id": "blind-2026091921132558a6-4a679253",
-      "runId": "2026091921132558a6",
-      "detectedAt": "2026-09-19T21:13:48.753Z",
-      "latencyMs": 1753,
-      "victim": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
-      "authorised": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 80,
-      "instrument": "SUIUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 674159.4,
-      "target": "Zephyr Pool",
-      "modeledDeltaPct": 1.124,
       "marketDeltaPct": 0,
       "integrators": 1,
       "ai": null

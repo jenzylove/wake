@@ -1,0 +1,286 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609202043421a65-0dcd1bf9",
+  "runId": "202609202043421a65",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 76,
+    "blockTimestamp": 1789937057
+  },
+  "detection": {
+    "tx": "0x97c604a93e0bfdb2577b1546bfac2f061af6b5b1d83a5a4552f4ddc7a463ee9c",
+    "txs": [
+      "0x97c604a93e0bfdb2577b1546bfac2f061af6b5b1d83a5a4552f4ddc7a463ee9c"
+    ],
+    "firstDetectedAt": "2026-09-20T20:44:31.640Z",
+    "victim": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+    "token": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+    "before": 685807,
+    "after": 274322.8,
+    "detectedAt": "2026-09-20T20:44:31.640Z",
+    "latencyMs": 14640
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 685807,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+      "lossUsd": 411484.2,
+      "name": "Umber Reserve",
+      "instrument": "AVAXUSDT",
+      "marketCapUsd": 19000000,
+      "modeledDeltaPct": 0.541,
+      "markAtDetection": 11.239,
+      "markAtDecision": 11.239,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2870.665036520208,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.16706061195546373,
+        "costPct": 0.007115055926043991,
+        "spreadPct": 0.005915055926043991,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.08353030597773187,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 138664999.75070003,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.005915055926043991,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.541
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x97c604a93e0bfdb2577b1546bfac2f061af6b5b1d83a5a4552f4ddc7a463ee9c succeeded in block 76"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $411,484 at Umber Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The outflow is authorised: the caller is the pre-transaction owner (authorisedByOwner=true) and the trace shows a normal owner-initiated ERC-20 transfer with no privilege escalation. The packet contains no evidence of an exploit mechanism, so the proposed loss path is unsupported."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.5%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Owner-of-record (0xf39F...2266) called sweep-style selector 0x6ea056a9 on the vault 0x0dcd...cd82, which forwarded a single ERC-20 transfer (0xa9059cbb) of the held token out. No privilege change, no reinitialisation, no oracle or reentrancy path appears in the 2-hop trace; the caller already held owner rights before the transaction.",
+    "lossBearer": "Economically, holders of the Umber Reserve share token (share price 1 -> 0.4); the packet shows no third-party integrator exposure. No unauthorised party is evidenced.",
+    "narrative": "A vault at 0x0dcd...cd82 lost token backing: holdings fell from 685,807 to 274,322.8 and the share price went from 1 to 0.4, a modeled 0.541 delta against a 19,000,000 USD market cap, or 411,484.2 USD direct. But the call came from the address recorded as owner before the transaction, and the trace is just owner -> vault -> ERC-20 transfer. That is an authorised withdrawal on its face. It may still be a key compromise or a rug, but nothing in this packet distinguishes those from a legitimate treasury sweep, and no integrator exposure is listed.",
+    "veto": true,
+    "vetoReason": "The outflow is authorised: the caller is the pre-transaction owner (authorisedByOwner=true) and the trace shows a normal owner-initiated ERC-20 transfer with no privilege escalation. The packet contains no evidence of an exploit mechanism, so the proposed loss path is unsupported.",
+    "concerns": [
+      "Cannot separate legitimate owner sweep from key compromise; no signing-key or owner-change evidence in packet.",
+      "No integrators listed, so second-order exposure is unshown rather than shown to be zero.",
+      "Share price 1 -> 0.4 implies holder loss, but holder identity and redemption rights are not in the packet.",
+      "Single DIRECT candidate with no corroborating on-chain detail beyond the one transfer."
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "instrument": "AVAXUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 2870.665036520208,
+      "maxLossUsd": 500.00000000000006,
+      "stopPct": 0.16706061195546373,
+      "costPct": 0.007115055926043991,
+      "spreadPct": 0.005915055926043991,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.08353030597773187,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 138664999.75070003,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.005915055926043991,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "b58b13e83ac24317e1be3a4a9aed4c3d39f4cd252f22a895d2cef81c192450ac"
+}

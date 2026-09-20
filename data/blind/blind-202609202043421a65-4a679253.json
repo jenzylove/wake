@@ -1,0 +1,366 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609202043421a65-4a679253",
+  "runId": "202609202043421a65",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 75,
+    "blockTimestamp": 1789937050
+  },
+  "detection": {
+    "tx": "0x18eb28c7e61aaad7dbd42f147cc227088902ee970db027ecd4fd5af5ebc604fe",
+    "txs": [
+      "0x18eb28c7e61aaad7dbd42f147cc227088902ee970db027ecd4fd5af5ebc604fe"
+    ],
+    "firstDetectedAt": "2026-09-20T20:44:11.859Z",
+    "victim": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+    "token": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+    "before": 224787.88,
+    "after": 0,
+    "detectedAt": "2026-09-20T20:44:11.859Z",
+    "latencyMs": 1859
+  },
+  "investigation": {
+    "from": "0xbb7e64ffe305ce2e721fb890db28237f6cf628a2",
+    "to": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+    "selector": "0xa24188df",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+        "selector": "0xa24188df",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 1,
+    "receiptSupplyBefore": 224787.88,
+    "integrators": [
+      {
+        "address": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+        "heldSharesBefore": 224787.88,
+        "heldSharesAfter": 0,
+        "collateralValueBeforeUsd": 224787.88,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 138299.2416,
+        "badDebtUsd": 138299.2416
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+      "lossUsd": 224787.88,
+      "name": "Onyx Reserve",
+      "instrument": "LTCUSDT",
+      "marketCapUsd": 59000000,
+      "modeledDeltaPct": 0.095,
+      "markAtDetection": 58.86,
+      "markAtDecision": 58.86,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 6749.772156428535,
+        "maxLossUsd": 500,
+        "stopPct": 0.06993795902129286,
+        "costPct": 0.004138615478158371,
+        "spreadPct": 0.0029386154781583717,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.03496897951064643,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 31388889.57600001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0029386154781583717,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.095
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+      "lossUsd": 138299.2416,
+      "name": "Drift Lend",
+      "instrument": "XRPUSDT",
+      "marketCapUsd": 55000000,
+      "modeledDeltaPct": 0.063,
+      "markAtDetection": 1.4099,
+      "markAtDecision": 1.4099,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 6262.472100889582,
+        "maxLossUsd": 500,
+        "stopPct": 0.07554632740766981,
+        "costPct": 0.004294347639644999,
+        "spreadPct": 0.003094347639644999,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.037773163703834906,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 558842729.6407001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.003094347639644999,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.063
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x18eb28c7e61aaad7dbd42f147cc227088902ee970db027ecd4fd5af5ebc604fe succeeded in block 75"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xbb7e64ffe305ce2e721fb890db28237f6cf628a2 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 1.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $224,788 at Onyx Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Unauthorised caller 0xbb7e64ff invoked selector 0xa24188df on vault 0x4a679253 (owner 0xf39Fd6e5, authorisedByOwner=false). The call read the vault's token balance (0x70a08231) then executed a direct ERC-20 transfer (0xa9059cbb) of token 0xa85233c6, moving holdings from 224787.88 to 0 — a missing/absent owner check on an asset-moving function."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.1%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "Unauthorised caller 0xbb7e64ff invoked selector 0xa24188df on vault 0x4a679253 (owner 0xf39Fd6e5, authorisedByOwner=false). The call read the vault's token balance (0x70a08231) then executed a direct ERC-20 transfer (0xa9059cbb) of token 0xa85233c6, moving holdings from 224787.88 to 0 — a missing/absent owner check on an asset-moving function.",
+    "lossBearer": "Vault 0x4a679253's share backing; economically the sole shown shareholder, integrator 0xe6e340d1 (Drift Lend), whose 224787.88 shares of collateral went to 0 against 138299.2416 USD lent, crystallisin",
+    "narrative": "Someone who is not the vault owner called a function on the vault that simply read its token balance and then sent the whole balance out. The vault went from 224787.88 tokens to zero in one transaction, and the trace shows no owner authorisation. The shares themselves were sitting as collateral inside lender 0xe6e340d1, which had lent 138299.2416 USD against them. With the backing gone those shares are worthless, so the lender is left holding 138299.2416 USD of bad debt, and the remainder of the 224787.88 USD hole falls on whoever held economic claim to the vault.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Reported share price stays at 1 after holdings fall to 0 — accounting appears stale and should not be used to value the shares.",
+      "Only one integrator is shown; other holders of the vault's shares, if any, are not in the packet.",
+      "The packet does not state what function selector 0xa24188df is, only its observed effect in the trace.",
+      "Recovery or clawback paths for the transferred token are not covered by the evidence."
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "instrument": "LTCUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 6749.772156428535,
+      "maxLossUsd": 500,
+      "stopPct": 0.06993795902129286,
+      "costPct": 0.004138615478158371,
+      "spreadPct": 0.0029386154781583717,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.03496897951064643,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 31388889.57600001,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.0029386154781583717,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "f10a0f778e3d5cca42a1bebec4de709460a9d4ca37d77f76435297e2f335db91"
+}
