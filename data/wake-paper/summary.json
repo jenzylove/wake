@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-09-20T11:18:24.514Z",
+    "updatedAt": "2026-09-20T11:50:27.430Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 56,
+    "incidentsEvaluated": 58,
     "eligibleNow": 5,
     "open": 3,
     "closedTrades": 0,
@@ -33,7 +33,7 @@
     "bySource": {
       "captured": 6,
       "discovered": 11,
-      "blind": 39
+      "blind": 41
     }
   },
   "open": [
@@ -79,6 +79,54 @@
   ],
   "closed": [],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 58,
+      "eligible": 5,
+      "open": 3,
+      "closedTrades": 0,
+      "realizedPnlUsd": 0,
+      "at": "2026-09-20T11:50:27.430Z",
+      "prevHash": "4b71eed6eb320f77aed91563e47444a2eb04b57d922891d27b9aa79834be774d",
+      "hash": "a1ad6d60490bb1fd458801126680c647181985fc5708336bf1d211c8d4c6c154"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "blind-202609201149135824-7a2088a1",
+      "source": "blind",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held"
+      ],
+      "at": "2026-09-20T11:50:27.430Z",
+      "prevHash": "856d7de8cf535347d953b8a2140faa6d840ab7ba2c7fbcc719c536a132f7940a",
+      "hash": "4b71eed6eb320f77aed91563e47444a2eb04b57d922891d27b9aa79834be774d"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "blind-202609201149135824-2279b7a0",
+      "source": "blind",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held"
+      ],
+      "at": "2026-09-20T11:50:27.430Z",
+      "prevHash": "b17ee4ac86e8f0d95bb00f8906bb41c082da037439d0b074f6ee30e0b3fcd197",
+      "hash": "856d7de8cf535347d953b8a2140faa6d840ab7ba2c7fbcc719c536a132f7940a"
+    },
+    {
+      "event": "SKIPPED",
+      "incidentId": "blind-202609200525369e81-e6e340d1",
+      "reason": "max open positions",
+      "at": "2026-09-20T11:50:27.430Z",
+      "prevHash": "95b2332d3d50647eb93c831762640dcf5b22695ddfd81310c7f2f34a425eed38",
+      "hash": "b17ee4ac86e8f0d95bb00f8906bb41c082da037439d0b074f6ee30e0b3fcd197"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -794,54 +842,7 @@
       "at": "2026-09-19T21:16:39.200Z",
       "prevHash": "9aa0b09d3be587a5852439d2cd6b005b0e8d2ce69e1d943a1c9b76f650e102f7",
       "hash": "28892537cf964aeacca0347db836e60e8e5b1ca148958b2267aafddfb84add59"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "blind-202609192109314e4c-59b670e9",
-      "source": "blind",
-      "decision": "NO_TRADE",
-      "eligible": false,
-      "reasons": [
-        "decision is NO_TRADE",
-        "risk gate held"
-      ],
-      "at": "2026-09-19T21:16:39.200Z",
-      "prevHash": "edd66fa781e5c6a7a2d25291f5c78b426ae32d9aaa840ab916172268f279adca",
-      "hash": "9aa0b09d3be587a5852439d2cd6b005b0e8d2ce69e1d943a1c9b76f650e102f7"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "blind-202609192108529db5-cf7ed3ac",
-      "source": "blind",
-      "decision": "NO_TRADE",
-      "eligible": false,
-      "reasons": [
-        "decision is NO_TRADE",
-        "risk gate held"
-      ],
-      "at": "2026-09-19T21:16:39.200Z",
-      "prevHash": "6992fb0bd39c126c4b4014439561d39862230d329acc812264aabb399ceb84db",
-      "hash": "edd66fa781e5c6a7a2d25291f5c78b426ae32d9aaa840ab916172268f279adca"
-    },
-    {
-      "event": "ENTRY_FAILED",
-      "incidentId": "blind-202609192108529db5-0b306bf9",
-      "error": "bitget /api/v2/mix/order/place-order: Parameter ARBUSDT does not exist",
-      "at": "2026-09-19T21:16:39.200Z",
-      "prevHash": "1b977b0ea034944355d30c801aa6dde7dd8583283233cc8e94f95193b996290e",
-      "hash": "6992fb0bd39c126c4b4014439561d39862230d329acc812264aabb399ceb84db"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "blind-202609192108529db5-0b306bf9",
-      "source": "blind",
-      "decision": "TRADE_DIRECT",
-      "eligible": true,
-      "reasons": [],
-      "at": "2026-09-19T21:16:39.200Z",
-      "prevHash": "6beb16773c61f4257de3cf70216ad0c00c68add7c69cbad792435f9696246ff4",
-      "hash": "1b977b0ea034944355d30c801aa6dde7dd8583283233cc8e94f95193b996290e"
     }
   ],
-  "logEntries": 81
+  "logEntries": 85
 }
