@@ -1,6 +1,138 @@
 {
-  "updatedAt": "2026-09-20T18:45:18.435Z",
+  "updatedAt": "2026-09-20T21:31:02.748Z",
   "incidents": [
+    {
+      "id": "disc-nunet-2026-09-19",
+      "name": "NuNet",
+      "day": "2026-09-19",
+      "amountUsd": 462730,
+      "chains": [
+        "Ethereum"
+      ],
+      "technique": "Private Key Compromised",
+      "classification": "Key Compromise",
+      "protocol": null,
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-20T21:30:46.920Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 70,
+        "quoteVolumeUsd": 5594014175.84,
+        "exploitDayMovePct": 0.601,
+        "hourlySigma": 0.004804,
+        "windowSigma": 0.023536
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T21:30:46.920Z",
+        "mid": 2622.885,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1498310,
+        "askDepthUsd1pct": 5710007,
+        "fundingRate": 0.000054,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 767722.9599999996
+      },
+      "sizing": {
+        "notionalUsd": 9987.700881141289,
+        "maxLossUsd": 500,
+        "stopPct": 0.047072,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "d24e0ec032a1ac4f30753a6204c047a5e6d896979447867a8914213159cbfc2e",
+      "sourceSha256": "cd7f4f910e73549291b092e62dd7e24957306664c4b484ad54b509140dd9edf6",
+      "ai": {
+        "exploitClass": "key-compromise",
+        "mechanism": "Feed classifies the NuNet incident as a private key compromise affecting an Ethereum token contract, with ~$462,730 removed. No on-chain receipt has been captured, so the exact signing key, the contract role it held, and the transfer path are not evidenced.",
+        "lossBearer": "Per the feed record, NuNet (token target) and, by extension, its holders/treasury bear the ~$462,730 loss. No receipt exists to identify the specific drained addresses or any integrator exposure.",
+        "narrative": "A feed entry reports NuNet, a Solidity token on Ethereum, lost about $462,730 to a compromised private key. Key compromise means an attacker signed with legitimate credentials, so the movement looks valid on-chain and the loss sits with the token project and its holders, not with a counterparty who can reverse it. But this packet is feed-only: no transaction receipt, no protocol record, no source link. The sole market exposure offered is ETHUSDT as inferred contagion, and Ethereum moved 0.601% on the day against an hourly sigma of 0.004804 on $5.59bn of volume, which is ordinary noise for a chain-level asset.",
+        "veto": true,
+        "concerns": [
+          "Feed record only; mechanism unverified by any transaction receipt or source link",
+          "ETHUSDT exposure is INFERRED contagion, not a shown loss path from the NuNet loss",
+          "Exploit-day move of 0.601% is unremarkable against hourly sigma 0.004804",
+          "No protocol record, no identified attacker or drained addresses, no returned-funds status"
+        ]
+      }
+    },
+    {
+      "id": "disc-fetch-ai-2026-09-19",
+      "name": "Fetch.ai",
+      "day": "2026-09-19",
+      "amountUsd": 1530000,
+      "chains": [
+        "Ethereum"
+      ],
+      "technique": "Private Key Compromised",
+      "classification": "Key Compromise",
+      "protocol": null,
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-20T21:30:30.774Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 70,
+        "quoteVolumeUsd": 5594014175.84,
+        "exploitDayMovePct": 0.601,
+        "hourlySigma": 0.004804,
+        "windowSigma": 0.023536
+      },
+      "microstructure": {
+        "observedAt": "2026-09-20T21:30:30.773Z",
+        "mid": 2621.995,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 3653344,
+        "askDepthUsd1pct": 5401231,
+        "fundingRate": 0.000054,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 767731.2899999996
+      },
+      "sizing": {
+        "notionalUsd": 9987.700881141289,
+        "maxLossUsd": 500,
+        "stopPct": 0.047072,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "ee4d7938fc1e2936801ac3d52f1ffe2d10d02d54afa72137dbbc22ec26955c02",
+      "sourceSha256": "f5dc7c110bc798868337b3169f5bfbd57ec51ceb7dcad45d3fcb8d1f5bde3f87",
+      "ai": {
+        "exploitClass": "key-compromise",
+        "mechanism": "Feed record attributes the incident to a compromised private key: an attacker holding valid signing keys moved ~$1,530,000 of assets on Ethereum from a Fetch.ai-associated contract or wallet, flagged as bridge-related. No on-chain receipt, transaction trace or victim address has been captured, so the exact signing path and bridge role are unverified.",
+        "lossBearer": "Fetch.ai (the protocol and its depositors/token holders whose Ethereum-side funds were signed away); no evidence any loss falls on ETH holders.",
+        "narrative": "What we have is a feed line, not a receipt. It says someone with Fetch.ai's keys signed away about $1.53m on Ethereum, and tags it bridge-related. If true, the loss sits squarely with Fetch.ai and whoever had funds on that bridge leg — the transfers would look perfectly valid on chain because the signatures were real. The only market instrument attached here is ETHUSDT, and that link is inferred contagion, not demonstrated exposure: ETH moved 0.601% on the day against an hourly sigma of 0.004804, i.e. noise for a chain the size of Ethereum. There is no evidenced path from this $1.53m to an ETH price dislocation.",
+        "veto": true,
+        "concerns": [
+          "Mechanism rests entirely on a feed label; no transaction, victim address or key-holder identified.",
+          "ETHUSDT exposure is INFERRED contagion, not shown protocol or integrator exposure.",
+          "$1.53m loss is immaterial to ETH; day move 0.601% vs hourly sigma 0.004804 is not a dislocation signal.",
+          "'bridgeHack' flag is unexplained — cannot tell whether a bridge validator set or a single signer was compromised."
+        ]
+      }
+    },
     {
       "id": "disc-nostra-money-market-2026-09-17",
       "name": "Nostra Money Market",
@@ -41,14 +173,14 @@
         "windowSigma": 0.093086
       },
       "microstructure": {
-        "observedAt": "2026-09-20T18:45:17.377Z",
-        "mid": 0.0494205,
-        "spreadBps": 8.296,
-        "bidDepthUsd1pct": 20768,
-        "askDepthUsd1pct": 121482,
+        "observedAt": "2026-09-20T21:31:01.602Z",
+        "mid": 0.0487905,
+        "spreadBps": 3.894,
+        "bidDepthUsd1pct": 143343,
+        "askDepthUsd1pct": 223491,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 69468735.1
+        "openInterestContracts": 69528720.4
       },
       "sizing": {
         "notionalUsd": 2581.2763696243665,
@@ -88,7 +220,7 @@
           }
         ]
       },
-      "integrity": "aed12b1a78927e8f77522039e7d8c5c3aadb2be73100c49e241c00a58452437f",
+      "integrity": "26b8438bacaf8d654b5591d22a688a7c4a29774bbb348770eda3fa020a427aef",
       "sourceSha256": "a5ba1e0c4c075a07d9e23610c5f06cf6e9b0ba3af3aa9efc0a2e256e200ba795",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -144,14 +276,14 @@
         "windowSigma": 0.023092
       },
       "microstructure": {
-        "observedAt": "2026-09-20T18:45:17.550Z",
-        "mid": 2630.855,
+        "observedAt": "2026-09-20T21:31:01.790Z",
+        "mid": 2623.5950000000003,
         "spreadBps": 0.038,
-        "bidDepthUsd1pct": 9337745,
-        "askDepthUsd1pct": 1818173,
-        "fundingRate": 0.000046,
+        "bidDepthUsd1pct": 6805982,
+        "askDepthUsd1pct": 4846184,
+        "fundingRate": 0.000054,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 763981.5099999995
+        "openInterestContracts": 767717.2099999996
       },
       "sizing": {
         "notionalUsd": 10057.337193082429,
@@ -191,7 +323,7 @@
           }
         ]
       },
-      "integrity": "0802a294d05fb8faee69522195ef243addd2058fc3d144f5c71efd486c76576a",
+      "integrity": "155ff0ced83cd6ec0a311b38e22789efc793594b31b12fa03c2c4705171407e7",
       "sourceSha256": "4db1acd661af1253c4b6298aaa787d910351b4e7cf6df87e1c3ac39919407188",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -247,14 +379,14 @@
         "windowSigma": 0.012226
       },
       "microstructure": {
-        "observedAt": "2026-09-20T18:45:17.723Z",
-        "mid": 0.343235,
-        "spreadBps": 0.874,
-        "bidDepthUsd1pct": 301081,
-        "askDepthUsd1pct": 120827,
-        "fundingRate": 0.0001,
+        "observedAt": "2026-09-20T21:31:01.978Z",
+        "mid": 0.342465,
+        "spreadBps": 0.292,
+        "bidDepthUsd1pct": 486497,
+        "askDepthUsd1pct": 158771,
+        "fundingRate": 0.00008,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 27395125
+        "openInterestContracts": 27286195
       },
       "sizing": {
         "notionalUsd": 18994.636739694917,
@@ -294,7 +426,7 @@
           }
         ]
       },
-      "integrity": "590239e36f960816e0a242b14f754deafd17a8e02e0516f804a9668f4e57f6e9",
+      "integrity": "1bc857a9f13421145c0260b32ebcad4b2c9dc8841428719414fd4a87933ebf76",
       "sourceSha256": "8c569e59ad6e81569ec8a383dacbfb32f8bd18b2cc2729eb14123fa530cb7f6a",
       "ai": {
         "exploitClass": "bridge",
@@ -357,14 +489,14 @@
         "windowSigma": 0.025142
       },
       "microstructure": {
-        "observedAt": "2026-09-20T18:45:17.909Z",
-        "mid": 768.925,
-        "spreadBps": 0.13,
-        "bidDepthUsd1pct": 617870,
-        "askDepthUsd1pct": 240008,
+        "observedAt": "2026-09-20T21:31:02.175Z",
+        "mid": 765.125,
+        "spreadBps": 0.131,
+        "bidDepthUsd1pct": 307758,
+        "askDepthUsd1pct": 721946,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 94332.12000000001
+        "openInterestContracts": 94118.33
       },
       "sizing": {
         "notionalUsd": 9413.336066672246,
@@ -404,7 +536,7 @@
           }
         ]
       },
-      "integrity": "9d65efbef724093ee4c98b7229e0bb0b4fefb6d3d12d03820d4a613a71d8c328",
+      "integrity": "f4406167b7ed12d88c9d9211f0e4a568636816ae221b6be5b8d719e21a665340",
       "sourceSha256": "9ac936ccab0550e2e1758c3f57d7bf6de46afa68833b4b6da910379a14c2d693",
       "ai": {
         "exploitClass": "bridge",
@@ -538,14 +670,14 @@
         "windowSigma": 0.027691
       },
       "microstructure": {
-        "observedAt": "2026-09-20T18:45:18.080Z",
-        "mid": 2630.855,
+        "observedAt": "2026-09-20T21:31:02.348Z",
+        "mid": 2623.885,
         "spreadBps": 0.038,
-        "bidDepthUsd1pct": 8130692,
-        "askDepthUsd1pct": 1737602,
-        "fundingRate": 0.000046,
+        "bidDepthUsd1pct": 2524329,
+        "askDepthUsd1pct": 3954692,
+        "fundingRate": 0.000054,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 763981.5099999995
+        "openInterestContracts": 767717.2099999996
       },
       "sizing": {
         "notionalUsd": 8607.537650513013,
@@ -585,7 +717,7 @@
           }
         ]
       },
-      "integrity": "dd940fb812a028104a53dd10a372e4eb33edbb18a06a21649ca5fab65a846c2e",
+      "integrity": "58659c8109deaf0513281c0f20db856f27c5077604fdfe7e482fa38d4b5738d6",
       "sourceSha256": "6c61ec018e6cffb7f59fca226db571c9bd28de2dd0284bc5db7e9d05a5dcb5ff",
       "ai": {
         "exploitClass": "other",
@@ -680,14 +812,14 @@
         "windowSigma": 0.027648
       },
       "microstructure": {
-        "observedAt": "2026-09-20T18:45:18.253Z",
-        "mid": 109.8435,
+        "observedAt": "2026-09-20T21:31:02.745Z",
+        "mid": 109.9285,
         "spreadBps": 0.091,
-        "bidDepthUsd1pct": 270710,
-        "askDepthUsd1pct": 221099,
+        "bidDepthUsd1pct": 324259,
+        "askDepthUsd1pct": 336270,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 4206469.499999949
+        "openInterestContracts": 4211510.599999948
       },
       "sizing": {
         "notionalUsd": 8474.965540334144,
@@ -727,7 +859,7 @@
           }
         ]
       },
-      "integrity": "73449b87ca1003fc60e2bebdd3ab53ab05a2809188f68183520adecb19bb0c5c",
+      "integrity": "5301115214f7bb3fb2d04af1764f68b294af0ffd0bb2850ae97beb2371cbe6f4",
       "sourceSha256": "ac5886738655f6b25b0ab5b9bc584dfb50fd82515138041b06e597bd8f46990a",
       "ai": {
         "exploitClass": "access-control",
@@ -783,14 +915,14 @@
         "windowSigma": 0.028071
       },
       "microstructure": {
-        "observedAt": "2026-09-20T18:45:18.432Z",
-        "mid": 0.0047995,
-        "spreadBps": 14.585,
-        "bidDepthUsd1pct": 58002,
-        "askDepthUsd1pct": 51589,
+        "observedAt": "2026-09-20T21:31:02.532Z",
+        "mid": 0.0047985,
+        "spreadBps": 18.756,
+        "bidDepthUsd1pct": 62849,
+        "askDepthUsd1pct": 62473,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 111083092
+        "openInterestContracts": 111203328
       },
       "sizing": {
         "notionalUsd": 959.16065,
@@ -830,7 +962,7 @@
           }
         ]
       },
-      "integrity": "3bcc1ca3bed42a03c96b02aa31ef9baefa4a2894ecdc2553121d3fff2afa5acc",
+      "integrity": "b0eb9b32003cadab6d270d61b2d9778f169d5f897060c13b8f0d71566cf3f9c6",
       "sourceSha256": "26cacdee5b46d349315401c4054fe4d47e5e9ed28304e1e1fa76c74a993fa8ab",
       "ai": {
         "exploitClass": "other",
