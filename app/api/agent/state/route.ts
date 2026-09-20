@@ -9,6 +9,7 @@ export async function GET() {
     product: "WAKE",
     generatedAt: new Date().toISOString(),
     agent: agent.metrics,
+    exchange: (agent as { exchange?: unknown }).exchange ?? null,
     positions: { open: agent.open, closed: agent.closed },
     recentLog: agent.recentLog,
     logEntries: agent.logEntries,
