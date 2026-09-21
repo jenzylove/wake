@@ -1,17 +1,34 @@
 {
-  "updatedAt": "2026-09-21T01:38:53.970Z",
-  "runs": 25,
-  "detected": 24,
-  "decoysDismissed": 25,
+  "updatedAt": "2026-09-21T07:07:31.859Z",
+  "runs": 26,
+  "detected": 25,
+  "decoysDismissed": 26,
   "contagionFound": {
     "found": 7,
     "applicable": 7
   },
-  "tradeTargetCorrect": 24,
+  "tradeTargetCorrect": 25,
   "gateCleared": 5,
   "falsePositives": 0,
   "medianDetectionMs": 3939,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "20260921070624926d",
+      "commitment": "57c23ab572965361eee0dcc39b4f61ac436f053d3e4f713700cc32911b089ffa",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 31313,
+      "decoyDismissed": true,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "falsePositives": 0,
+      "at": "2026-09-21T07:07:31.859Z",
+      "prevHash": "b13a110dcacdd5239b793586bfa043868fed161375b2aa3b445d609cd32329c6",
+      "hash": "7ad93d862d7337378ea64563fe42bcfa0527b92ad46ca0ac44c273fcb260bb77"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "20260921013657fd7f",
@@ -198,26 +215,69 @@
       "at": "2026-09-19T21:32:06.735Z",
       "prevHash": "8dd531d584de2d0b3a557dc66ff1d83a144a515fc0845f7dd29c15e704ed70ed",
       "hash": "a1538c9675a01c04578bdceb7a600fdc1c8dda939fe5c58524093c883af9f212"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "20260919213006c47c",
-      "commitment": "1e0f4b6ef9acd91efd98c20742fe8b73e02c0c5d49c520a882df89d3a2725cc3",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 12552,
-      "decoyDismissed": true,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "falsePositives": 0,
-      "at": "2026-09-19T21:30:59.887Z",
-      "prevHash": "07fba96953e4630992e65ed25e523120086524b29b6c4e111c12d2e6c2167710",
-      "hash": "8dd531d584de2d0b3a557dc66ff1d83a144a515fc0845f7dd29c15e704ed70ed"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-20260921070624926d-9a676e78",
+      "runId": "20260921070624926d",
+      "detectedAt": "2026-09-21T07:07:17.313Z",
+      "latencyMs": 31313,
+      "victim": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": 100,
+      "instrument": "SOLUSDT",
+      "kind": "DIRECT",
+      "lossUsd": 927199,
+      "target": "Kestrel Vault",
+      "modeledDeltaPct": 0.565,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "reinitialisation",
+        "veto": false,
+        "narrative": "Someone re-ran the vault's initialiser, which had been left callable, and made themselves the privileged party. The real owner never signed off on it. With control in hand they called the vault's sweep function, which handed the entire asset balance to an ERC20 transfer out of the contract. Holdings went from 927199 to 0 and the modelled share price fell from 1 to 0, so the vault is empty. The loss lands on Kestrel Vault depositors directly: the packet lists no integrators holding this exposure. Modelled impact is 927199 USD against a 41,000,000 USD market cap, about 0.565%.",
+        "lossBearer": "Kestrel Vault and its depositors (direct holders of vault 0x9a676e781a523b5d0c0e43731313a708cb607508); no integrator exposure recorded in the packet.",
+        "concerns": [
+          "Owner-of-record never authorised the call, but packet does not show why the initialiser was still open.",
+          "No integrator list supplied, so downstream or wrapped exposure cannot be ruled out.",
+          "Post-state share price of 0 is a modelled value, not an observed market print.",
+          "Modelled delta of 0.565% of market cap is small relative to typical noise."
+        ]
+      }
+    },
+    {
+      "id": "blind-20260921070624926d-c6e7df5e",
+      "runId": "20260921070624926d",
+      "detectedAt": "2026-09-21T07:06:45.100Z",
+      "latencyMs": 2100,
+      "victim": "0xc6e7df5e7b4f2a278906862b61205850344d4e7d",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": 80,
+      "instrument": "ADAUSDT",
+      "kind": "DIRECT",
+      "lossUsd": 563849.4,
+      "target": "Nimbus Yield",
+      "modeledDeltaPct": 0.261,
+      "marketDeltaPct": 0,
+      "integrators": 1,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "The vault's own owner key called a sweep function and moved most of the backing token out in a single transfer. Nothing in the trace was bypassed: the caller is the address already recorded as owner, so this is a privileged withdrawal, not a broken-permission exploit. The effect on price is still real - each share is now backed by 0.4 of what it was. A lending integrator holding 436511.72 of those shares saw collateral fall to 174604.688 USD against 230368.1464 USD lent, an observed 55763.4584 USD hole. But the packet does not show where the swept tokens went, so a drain and a treasury migration look identical here.",
+        "lossBearer": "Holders of the Nimbus Yield vault share (backing cut ~60%); downstream, Sable Lend (0xc3e5...3690), whose 436511.72 shares fell from 436511.72 to 174604.688 USD collateral value against 230368.1464 US",
+        "concerns": [
+          "Destination of the 0xa9059cbb transfer is not in the packet; cannot tell attacker EOA from treasury or migration target.",
+          "No evidence on whether the owner key itself is compromised; key-compromise cannot be confirmed or excluded.",
+          "Share price 1 -> 0.4 and the derived integrator markdown are the only loss signals; no post-event redemption or insolvency confirmed.",
+          "Sable Lend bad debt of 55763.4584 USD is quantified and does stand on observed positions, independent of the direct-loss veto."
+        ]
+      }
+    },
     {
       "id": "blind-20260921013657fd7f-59b670e9",
       "runId": "20260921013657fd7f",
@@ -1011,44 +1071,6 @@
       "target": "Yarrow Vault",
       "modeledDeltaPct": 0.264,
       "marketDeltaPct": 0.008,
-      "integrators": 0,
-      "ai": null
-    },
-    {
-      "id": "blind-202609192115164fea-b7f8bc63",
-      "runId": "202609192115164fea",
-      "detectedAt": "2026-09-19T21:15:34.299Z",
-      "latencyMs": 3299,
-      "victim": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
-      "authorised": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 80,
-      "instrument": "ARBUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 324478.2,
-      "target": "Iris Reserve",
-      "modeledDeltaPct": 0.451,
-      "marketDeltaPct": 0,
-      "integrators": 1,
-      "ai": null
-    },
-    {
-      "id": "blind-2026091921145314ec-0b306bf9",
-      "runId": "2026091921145314ec",
-      "detectedAt": "2026-09-19T21:15:11.930Z",
-      "latencyMs": 6054,
-      "victim": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
-      "authorised": false,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 100,
-      "instrument": "NEARUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 491924,
-      "target": "Amber Yield",
-      "modeledDeltaPct": 0.212,
-      "marketDeltaPct": 0.017,
       "integrators": 0,
       "ai": null
     }

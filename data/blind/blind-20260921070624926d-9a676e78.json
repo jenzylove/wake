@@ -1,0 +1,310 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260921070624926d-9a676e78",
+  "runId": "20260921070624926d",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 91,
+    "blockTimestamp": 1789974406
+  },
+  "detection": {
+    "tx": "0xa7ff53d429eda16efb0f03615586ffa0e63fd547cd902027078be40d3b00b3d0",
+    "txs": [
+      "0xa7ff53d429eda16efb0f03615586ffa0e63fd547cd902027078be40d3b00b3d0"
+    ],
+    "firstDetectedAt": "2026-09-21T07:07:17.313Z",
+    "victim": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+    "token": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+    "before": 927199,
+    "after": 0,
+    "detectedAt": "2026-09-21T07:07:17.313Z",
+    "latencyMs": 31313
+  },
+  "investigation": {
+    "from": "0x72bf595d37ec0ed65ebf8a354defc801500cb08d",
+    "to": "0x23cbdfe3cd9eaf4c344af7a0a52ea0e6da737389",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x23cbdfe3cd9eaf4c344af7a0a52ea0e6da737389",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 927199,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+      "lossUsd": 927199,
+      "name": "Kestrel Vault",
+      "instrument": "SOLUSDT",
+      "marketCapUsd": 41000000,
+      "modeledDeltaPct": 0.565,
+      "markAtDetection": 112.194,
+      "markAtDecision": 112.194,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 6887.04469283838,
+        "maxLossUsd": 500,
+        "stopPct": 0.06876607163582943,
+        "costPct": 0.003834008993810474,
+        "spreadPct": 0.0026340089938104738,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.034383035817914714,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 825689563.0779995,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0026340089938104738,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.565
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xa7ff53d429eda16efb0f03615586ffa0e63fd547cd902027078be40d3b00b3d0 succeeded in block 91"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x72bf595d37ec0ed65ebf8a354defc801500cb08d is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $927,199 at Kestrel Vault"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "External contract 0x23cb...7389 called uninitialised-state entrypoint on vault 0x9a67...7508 via initialize (0xc4d66de8), seizing privileged control despite ownerBeforeTx being 0xf39F...2266 and authorisedByOwner=false. It then read the vault's asset and balance and invoked sweep (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) moving the full 927199 token balance out."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.6%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "reinitialisation",
+    "mechanism": "External contract 0x23cb...7389 called uninitialised-state entrypoint on vault 0x9a67...7508 via initialize (0xc4d66de8), seizing privileged control despite ownerBeforeTx being 0xf39F...2266 and authorisedByOwner=false. It then read the vault's asset and balance and invoked sweep (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) moving the full 927199 token balance out.",
+    "lossBearer": "Kestrel Vault and its depositors (direct holders of vault 0x9a676e781a523b5d0c0e43731313a708cb607508); no integrator exposure recorded in the packet.",
+    "narrative": "Someone re-ran the vault's initialiser, which had been left callable, and made themselves the privileged party. The real owner never signed off on it. With control in hand they called the vault's sweep function, which handed the entire asset balance to an ERC20 transfer out of the contract. Holdings went from 927199 to 0 and the modelled share price fell from 1 to 0, so the vault is empty. The loss lands on Kestrel Vault depositors directly: the packet lists no integrators holding this exposure. Modelled impact is 927199 USD against a 41,000,000 USD market cap, about 0.565%.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Owner-of-record never authorised the call, but packet does not show why the initialiser was still open.",
+      "No integrator list supplied, so downstream or wrapped exposure cannot be ruled out.",
+      "Post-state share price of 0 is a modelled value, not an observed market print.",
+      "Modelled delta of 0.565% of market cap is small relative to typical noise."
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "instrument": "SOLUSDT",
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": true,
+      "notionalUsd": 6887.04469283838,
+      "maxLossUsd": 500,
+      "stopPct": 0.06876607163582943,
+      "costPct": 0.003834008993810474,
+      "spreadPct": 0.0026340089938104738,
+      "bindingConstraint": "risk budget",
+      "inputs": [
+        {
+          "label": "Window volatility",
+          "value": 0.034383035817914714,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Window traded value (USD)",
+          "value": 825689563.0779995,
+          "provenance": "OBSERVED"
+        },
+        {
+          "label": "Spread (Corwin-Schultz on 1m candles)",
+          "value": 0.0026340089938104738,
+          "provenance": "ESTIMATED"
+        },
+        {
+          "label": "Equity",
+          "value": 100000,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Risk fraction",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Stop, in window sigmas",
+          "value": 2,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Participation cap",
+          "value": 0.005,
+          "provenance": "ASSUMED"
+        },
+        {
+          "label": "Taker fee",
+          "value": 0.0006,
+          "provenance": "OBSERVED"
+        }
+      ]
+    }
+  },
+  "integrity": "68aaea9fe61ce307168ed648b3b5cb025a2591971c62d466a073a0fd73c44527"
+}
