@@ -1,26 +1,26 @@
 {
-  "updatedAt": "2026-09-21T19:44:17.003Z",
+  "updatedAt": "2026-09-21T23:31:58.611Z",
   "minUsd": 250000,
   "chains": {
     "1": {
-      "lastError": "eth_call: historical state 001cf7c06c0ff07fdbe9b783af309334d0b342babdeb7280a4453739c03d4056 is not available",
+      "lastError": "eth_call: Unexpected token 'o', \"forbidden\" is not valid JSON",
       "name": "ethereum",
-      "from": 26027637,
-      "to": 26028012,
+      "from": 26028769,
+      "to": 26029144,
       "blocks": 376,
-      "skipped": 1192,
-      "largeTransfers": 1071,
-      "recurringSenders": 148,
-      "rejectedCandidates": 13,
+      "skipped": 757,
+      "largeTransfers": 696,
+      "recurringSenders": 91,
+      "rejectedCandidates": 6,
       "drains": 0
     },
     "8453": {
       "name": "base",
-      "from": 51612820,
-      "to": 51615070,
+      "from": 51619710,
+      "to": 51621960,
       "blocks": 2251,
-      "skipped": 7246,
-      "largeTransfers": 12180,
+      "skipped": 4640,
+      "largeTransfers": 12779,
       "recurringSenders": 50,
       "rejectedCandidates": 13,
       "drains": 1
@@ -28,31 +28,91 @@
     "42161": {
       "lastError": "eth_call: fetch failed",
       "name": "arbitrum",
-      "from": 507526803,
-      "to": 507544803,
+      "from": 507580855,
+      "to": 507598855,
       "blocks": 18001,
-      "skipped": 57832,
-      "largeTransfers": 94,
-      "recurringSenders": 9,
+      "skipped": 36052,
+      "largeTransfers": 16,
+      "recurringSenders": 0,
       "rejectedCandidates": 10,
-      "drains": 1
+      "drains": 0
     }
   },
   "scanned": {
     "1": {
-      "lastBlock": 26028012,
-      "scannedAt": "2026-09-21T19:38:08.415Z"
+      "lastBlock": 26029144,
+      "scannedAt": "2026-09-21T23:27:48.107Z"
     },
     "8453": {
-      "lastBlock": 51615070,
-      "scannedAt": "2026-09-21T19:39:23.279Z"
+      "lastBlock": 51621960,
+      "scannedAt": "2026-09-21T23:28:44.071Z"
     },
     "42161": {
-      "lastBlock": 507544803,
-      "scannedAt": "2026-09-21T19:44:17.002Z"
+      "lastBlock": 507598855,
+      "scannedAt": "2026-09-21T23:31:58.610Z"
     }
   },
   "incidents": [
+    {
+      "id": "live-8453-8b38d8e075",
+      "detectedAt": "2026-09-21T23:28:44.070Z",
+      "chain": "base",
+      "tx": "0x8b38d8e075078e25b9e0c8476789eaddcd52f00c76072a6ebc1815683fc3429a",
+      "contract": "0xbb4d3c33c282acc4388cef0a6a21309fb83ac0bd",
+      "asset": "USDC",
+      "approxUsd": 3236409,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 88,
+        "thesis": "A full-balance USDC sweep from an unidentified Base contract with no named protocol, no exploit mechanism and no identified loss bearer. Equally consistent with an authorised treasury move, bridge settlement or migration. No candidate instrument maps to the contract, so there is no market that pays this event.",
+        "rationale": "Investigator veto: mechanism unnamed, loss bearer undetermined, exploit class unknown. Causal path to any tradable token is not established and the candidate list is empty, so no trade can be sized or justified. $3.2M is material but materiality without attribution is not edge."
+      },
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "Mechanism is ambiguous and the loss path is unsupported: the packet shows a complete-balance outflow but no evidence it was unauthorised, no protocol identity, and no integrator or depositor exposure that would bear the loss."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "A single transaction on Base moved the entire USDC balance, 3,236,409 USDC (about $3,236,036 of exposure), out of contract 0xbb4d...c0bd. That is the whole story the evidence tells. There is nothing in the packet showing who called it, whether the caller was authorised, or what the contract was for: no protocol name, no owner or upgrade event, no oracle or reentrancy trace, and no integrators with exposure. A treasury sweep, a bridge settlement or a planned migration would leave exactly this footprint. Without a named loss bearer or a shown unauthorised path, this is an unexplained outflow, not a confirmed exploit.",
+        "lossBearer": "Not determinable from the packet. The drained address 0xbb4d3c33c282acc4388cef0a6a21309fb83ac0bd is the only identified holder; no protocol, depositor set or integrators are listed.",
+        "concerns": [
+          "No caller, authorisation or role-change evidence supplied to distinguish exploit from authorised sweep",
+          "No protocol or instrument attribution for the drained address",
+          "Integrator list is empty, so no third-party exposure is demonstrated",
+          "Full-balance removal (share 1.0) is typical of migrations and bridge settlements as well as drains"
+        ]
+      }
+    },
     {
       "id": "live-42161-c336e27f7a",
       "detectedAt": "2026-09-21T19:44:17.001Z",
