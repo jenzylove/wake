@@ -1,17 +1,34 @@
 {
-  "updatedAt": "2026-09-20T23:30:58.461Z",
-  "runs": 24,
-  "detected": 23,
-  "decoysDismissed": 24,
+  "updatedAt": "2026-09-21T01:38:53.970Z",
+  "runs": 25,
+  "detected": 24,
+  "decoysDismissed": 25,
   "contagionFound": {
     "found": 7,
     "applicable": 7
   },
-  "tradeTargetCorrect": 23,
+  "tradeTargetCorrect": 24,
   "gateCleared": 5,
   "falsePositives": 0,
-  "medianDetectionMs": 3875,
+  "medianDetectionMs": 3939,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "20260921013657fd7f",
+      "commitment": "97418ac2f3f51b231d832e615bc5abd982d2e8c599eb19be88986053357e685e",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 24786,
+      "decoyDismissed": true,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "falsePositives": 0,
+      "at": "2026-09-21T01:38:53.970Z",
+      "prevHash": "9214cacbff760610e7cfe83e342ab0ac0fcda22749e0177bb43e39f05580e06b",
+      "hash": "b13a110dcacdd5239b793586bfa043868fed161375b2aa3b445d609cd32329c6"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "20260920232934196c",
@@ -198,26 +215,69 @@
       "at": "2026-09-19T21:30:59.887Z",
       "prevHash": "07fba96953e4630992e65ed25e523120086524b29b6c4e111c12d2e6c2167710",
       "hash": "8dd531d584de2d0b3a557dc66ff1d83a144a515fc0845f7dd29c15e704ed70ed"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "20260919212859859e",
-      "commitment": "175a34ee1eafca6c7a97f4ae0e1279a35e3a908a9160750161883aeaed1ca173",
-      "commitmentHolds": true,
-      "exploitDetected": false,
-      "detectionLatencyMs": null,
-      "decoyDismissed": true,
-      "contagionFound": null,
-      "tradeTargetCorrect": null,
-      "decision": null,
-      "gatePassed": null,
-      "falsePositives": 0,
-      "at": "2026-09-19T21:29:44.116Z",
-      "prevHash": "64850b68c9c8774edce8d7310edfef9b4c6e13b7324c08b31530472139debb14",
-      "hash": "07fba96953e4630992e65ed25e523120086524b29b6c4e111c12d2e6c2167710"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-20260921013657fd7f-59b670e9",
+      "runId": "20260921013657fd7f",
+      "detectedAt": "2026-09-21T01:38:36.786Z",
+      "latencyMs": 24786,
+      "victim": "0x59b670e9fa9d0a427751af201d676719a970857b",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": 100,
+      "instrument": "CRVUSDT",
+      "kind": "DIRECT",
+      "lossUsd": 725169,
+      "target": "Pollen Yield",
+      "modeledDeltaPct": 0.863,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "reinitialisation",
+        "veto": false,
+        "narrative": "The vault's initializer was callable again. An attacker contract re-initialised the vault, installed itself as the privileged party, then used the vault's own token-sweep function to send the full balance to itself in the same transaction. The prior owner never signed off on this (authorisedByOwner=false), so this is not a routine admin withdrawal. Vault token holdings dropped from 725169 to 0 and share price went from 1 to 0, meaning depositors hold claims on an empty vault. Loss is direct to Pollen Yield; the packet lists no integrators with downstream exposure.",
+        "lossBearer": "Pollen Yield vault (0x59b6...857b) and its depositors: vault holdings of token 0xc6e7...4e7d went 725169 -> 0 and share price 1 -> 0. No integrator exposure is listed in the packet.",
+        "concerns": [
+          "Integrators array is empty, so any second-order exposure is unevidenced, not disproven.",
+          "lossUsd 725169 equals the raw holdings figure; treat units and USD pricing as code-supplied, not verified here.",
+          "modeledDeltaPct 0.863 against 21000000 market cap is a model output, not an observed price move.",
+          "Selectors 0x6ea056a9 / 0xc4d66de8 are inferred as sweep/initialize from the trace shape; ABI names are not supplied."
+        ]
+      }
+    },
+    {
+      "id": "blind-20260921013657fd7f-8a791620",
+      "runId": "20260921013657fd7f",
+      "detectedAt": "2026-09-21T01:38:06.296Z",
+      "latencyMs": 1296,
+      "victim": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": 80,
+      "instrument": "XRPUSDT",
+      "kind": "DIRECT",
+      "lossUsd": 552124.2,
+      "target": "Garnet Earn",
+      "modeledDeltaPct": 6.902,
+      "marketDeltaPct": 0,
+      "integrators": 1,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "The vault was not broken into. The account that already owned it called the vault's own sweep function and moved tokens out in one ERC20 transfer. Depositor value per share went from 1 to 0.4, and the lending market holding 637790.68 of those shares as collateral now sits on 93876.59559999994 USD of bad debt against 348992.86759999994 USD lent. Economically depositors are down, but mechanically this is a privileged, owner-signed action, not an unauthorised exploit. The packet does not show where the tokens went, nor anything indicating the owner key was compromised or that the sweep breached the vault mandate.",
+        "lossBearer": "Garnet Earn vault depositors (share price 1 -> 0.4); secondarily Umber Lend 0x84ea...7feb, whose 637790.68 shares repriced to 255116.272 USD against 348992.86759999994 lentUsd, leaving 93876.595599999",
+        "concerns": [
+          "Destination of the swept tokens is not in the call trace, so a rug cannot be separated from a legitimate admin move.",
+          "No key-compromise signal in the packet; owner address is unchanged from ownerBeforeTx.",
+          "Contagion leg is concretely quantified (93876.59559999994 USD bad debt) but is only 0.031% modelled delta.",
+          "Direct candidate loss 552124.2 USD is derived from the share-price move, not from an independently evidenced unauthorised transfer."
+        ]
+      }
+    },
     {
       "id": "blind-20260920232934196c-959922be",
       "runId": "20260920232934196c",
@@ -989,44 +1049,6 @@
       "target": "Amber Yield",
       "modeledDeltaPct": 0.212,
       "marketDeltaPct": 0.017,
-      "integrators": 0,
-      "ai": null
-    },
-    {
-      "id": "blind-2026091921145314ec-8a791620",
-      "runId": "2026091921145314ec",
-      "detectedAt": "2026-09-19T21:15:07.476Z",
-      "latencyMs": 3476,
-      "victim": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
-      "authorised": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 80,
-      "instrument": "AAVEUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 512518.8,
-      "target": "Yarrow Pool",
-      "modeledDeltaPct": 0.233,
-      "marketDeltaPct": 0,
-      "integrators": 1,
-      "ai": null
-    },
-    {
-      "id": "blind-2026091921142878ba-322813fd",
-      "runId": "2026091921142878ba",
-      "detectedAt": "2026-09-19T21:14:47.190Z",
-      "latencyMs": 2190,
-      "victim": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
-      "authorised": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 80,
-      "instrument": "OPUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 579541.8,
-      "target": "Onyx Earn",
-      "modeledDeltaPct": 0.69,
-      "marketDeltaPct": 0,
       "integrators": 0,
       "ai": null
     }
