@@ -1,0 +1,254 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609212334239560-a85233c6",
+  "runId": "202609212334239560",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 94,
+    "blockTimestamp": 1790033684
+  },
+  "detection": {
+    "tx": "0xa22562a3cb2d60d979a60ebb1d145151b0a3ce3e449b38b987d3a3b07315dd8d",
+    "txs": [
+      "0xa22562a3cb2d60d979a60ebb1d145151b0a3ce3e449b38b987d3a3b07315dd8d"
+    ],
+    "firstDetectedAt": "2026-09-21T23:35:06.040Z",
+    "victim": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+    "token": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+    "before": 390811,
+    "after": 0,
+    "detectedAt": "2026-09-21T23:35:06.040Z",
+    "latencyMs": 22040
+  },
+  "investigation": {
+    "from": "0xfc4ea1dc7de097a63d1b9aa1af818f23b9be6a84",
+    "to": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+    "selector": "0xa24188df",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+        "selector": "0xa24188df",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 1,
+    "receiptSupplyBefore": 390811,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+      "lossUsd": 390811,
+      "name": "Amber Yield",
+      "instrument": "CRVUSDT",
+      "marketCapUsd": 43000000,
+      "modeledDeltaPct": 0.227,
+      "markAtDetection": 0.3652,
+      "markAtDecision": 0.3652,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 3888.2146560890155,
+        "maxLossUsd": 500,
+        "stopPct": 0.12152207120630104,
+        "costPct": 0.007071652192429232,
+        "spreadPct": 0.005871652192429232,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.06076103560315052,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 14261254.4054,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.005871652192429232,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.227,
+      "demoListed": false
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xa22562a3cb2d60d979a60ebb1d145151b0a3ce3e449b38b987d3a3b07315dd8d succeeded in block 94"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xfc4ea1dc7de097a63d1b9aa1af818f23b9be6a84 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 1.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $390,811 at Amber Yield"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "External caller 0xfc4e…6a84, not the recorded owner (0xf39F…2266) and not authorised by owner, invoked selector 0xa24188df on vault 0xa852…338f. The call read the vault's token balance (balanceOf) and then executed a single ERC-20 transfer moving the full position in token 0x3228…6c44, taking holdings from 390811 to 0. No shares were burned and no owner approval path appears."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.2%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "External caller 0xfc4e…6a84, not the recorded owner (0xf39F…2266) and not authorised by owner, invoked selector 0xa24188df on vault 0xa852…338f. The call read the vault's token balance (balanceOf) and then executed a single ERC-20 transfer moving the full position in token 0x3228…6c44, taking holdings from 390811 to 0. No shares were burned and no owner approval path appears.",
+    "lossBearer": "The vault contract 0xa85233c63b9ee964add6f2cffe00fd84eb32338f and, per the direct candidate, Amber Yield holders; lossUsd 390811 against marketCapUsd 43000000. No integrator exposure is shown.",
+    "narrative": "An address that is not the vault owner called a function on the vault and walked out with everything it held. The trace is simple and damning: check balance, then transfer the whole balance of token 0x3228…6c44 out in one move, leaving 390811 of holdings at 0. Nothing was redeemed, no shares were burned, and the owner did not authorise it — this is a missing or broken permission check on a transfer path. The only exposure identified is direct: Amber Yield, lossUsd 390811 versus marketCapUsd 43000000, modelled delta 0.227. Notably the reported share price stayed at 1 before and after, so quoted value has not yet caught up to an emptied vault.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Share price reported unchanged at 1 despite holdings going to 0 — quoted NAV may be stale or not backed by actual balances.",
+      "Transfer recipient is not included in the packet, so the destination of the drained tokens is unverified.",
+      "Packet states only that the caller is not the owner and not authorised by owner; a separate privileged role cannot be fully excluded from the evidence.",
+      "Only a DIRECT candidate is listed and integrators is empty; second-order exposure is unassessed rather than shown to be zero."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 76,
+    "thesis": "Unauthorised access-control drain is real: a non-owner caller swept the vault's full 390,811 token position with no share burn. But the loss is only ~0.9% of a $43m cap and the modeled price impact is 0.227%, far below tradeable edge after costs. The only candidate maps to CRVUSDT, a proxy that is not even demo-listed.",
+    "invalidation": "Further draws from the same vault or related contracts pushing cumulative loss to a multi-percent share of cap, or a directly listed instrument for the damaged protocol appearing.",
+    "rationale": "Causal path is established and the event is not authorised, so the incident is genuine. Materiality fails: 0.227% modeled move against zero market move leaves no edge net of fees/slippage, and the proposed instrument is an unlisted proxy rather than the protocol actually drained. No integrator exposure means no contagion leg either. Correct response is to stand down."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "bc756c1f66cbf05e5064e2f536f20809f18971c85b8aa1c50ed310f48d8ca9fc"
+}

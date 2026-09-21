@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-09-21T17:53:17.570Z",
-  "runs": 29,
-  "detected": 28,
-  "decoysDismissed": 29,
+  "updatedAt": "2026-09-21T23:35:34.655Z",
+  "runs": 30,
+  "detected": 29,
+  "decoysDismissed": 30,
   "contagionFound": {
     "found": 8,
     "applicable": 8
   },
-  "tradeTargetCorrect": 28,
+  "tradeTargetCorrect": 29,
   "gateCleared": 5,
   "falsePositives": 0,
   "medianDetectionMs": 3939,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "202609212334239560",
+      "commitment": "b5cc1525a3b3fd6f2ec7417cb9ab0c9aeb2084761c87bc80da923f0380624294",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 22040,
+      "decoyDismissed": true,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "falsePositives": 0,
+      "at": "2026-09-21T23:35:34.654Z",
+      "prevHash": "fc0bc0a60a21daeef723f9bdaae6ca9c117362fa18a2e40d1bfa6d5803e07c16",
+      "hash": "40c3f7fa22250008b0072aeb9d2c1aa6b41ed3d1ba5fc388fad3d6470016b103"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "202609211751199ce4",
@@ -202,26 +221,93 @@
       "at": "2026-09-19T23:39:08.799Z",
       "prevHash": "269af21a70521f11d685eb66a6858c7d5711e4b062cd3638de57c211551b8a24",
       "hash": "d10821f3a24c2903e05aa9247b9c54398387e483e4e1616ec8adbaca636b8bb7"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "202609192142075512",
-      "commitment": "0608850cc04db3531869ddc1ad6a91bda11f1ed9db5c6171629b244f437c82be",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 19631,
-      "decoyDismissed": true,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
-      "decision": "TRADE_DIRECT",
-      "gatePassed": true,
-      "falsePositives": 0,
-      "at": "2026-09-19T21:44:29.178Z",
-      "prevHash": "ee10059d264050977ac6a0ce81e9dda9f764219c1679a4b70135472ba2ce5dd6",
-      "hash": "269af21a70521f11d685eb66a6858c7d5711e4b062cd3638de57c211551b8a24"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-202609212334239560-a85233c6",
+      "runId": "202609212334239560",
+      "detectedAt": "2026-09-21T23:35:06.040Z",
+      "latencyMs": 22040,
+      "victim": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 76,
+        "thesis": "Unauthorised access-control drain is real: a non-owner caller swept the vault's full 390,811 token position with no share burn. But the loss is only ~0.9% of a $43m cap and the modeled price impact is 0.227%, far below tradeable edge after costs. The only candidate maps to CRVUSDT, a proxy that is not even demo-listed.",
+        "invalidation": "Further draws from the same vault or related contracts pushing cumulative loss to a multi-percent share of cap, or a directly listed instrument for the damaged protocol appearing.",
+        "rationale": "Causal path is established and the event is not authorised, so the incident is genuine. Materiality fails: 0.227% modeled move against zero market move leaves no edge net of fees/slippage, and the proposed instrument is an unlisted proxy rather than the protocol actually drained. No integrator exposure means no contagion leg either. Correct response is to stand down."
+      },
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 390811,
+      "target": "Amber Yield",
+      "modeledDeltaPct": 0.227,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "access-control",
+        "veto": false,
+        "narrative": "An address that is not the vault owner called a function on the vault and walked out with everything it held. The trace is simple and damning: check balance, then transfer the whole balance of token 0x3228…6c44 out in one move, leaving 390811 of holdings at 0. Nothing was redeemed, no shares were burned, and the owner did not authorise it — this is a missing or broken permission check on a transfer path. The only exposure identified is direct: Amber Yield, lossUsd 390811 versus marketCapUsd 43000000, modelled delta 0.227. Notably the reported share price stayed at 1 before and after, so quoted value has not yet caught up to an emptied vault.",
+        "lossBearer": "The vault contract 0xa85233c63b9ee964add6f2cffe00fd84eb32338f and, per the direct candidate, Amber Yield holders; lossUsd 390811 against marketCapUsd 43000000. No integrator exposure is shown.",
+        "concerns": [
+          "Share price reported unchanged at 1 despite holdings going to 0 — quoted NAV may be stale or not backed by actual balances.",
+          "Transfer recipient is not included in the packet, so the destination of the drained tokens is unverified.",
+          "Packet states only that the caller is not the owner and not authorised by owner; a separate privileged role cannot be fully excluded from the evidence.",
+          "Only a DIRECT candidate is listed and integrators is empty; second-order exposure is unassessed rather than shown to be zero."
+        ]
+      }
+    },
+    {
+      "id": "blind-202609212334239560-68b1d87f",
+      "runId": "202609212334239560",
+      "detectedAt": "2026-09-21T23:34:44.665Z",
+      "latencyMs": 3665,
+      "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 85,
+        "thesis": "Owner-of-record used an existing sweep privilege to move tokens out of the Willow Earn vault; NAV fell 1 -> 0.4 but no access control was broken. This is an authorised operation whose loss falls on vault shareholders, not on any listed market, and the only candidate instrument (SOLUSDT) has no causal link to the vault's NAV.",
+        "invalidation": "Evidence that the sweeper key was compromised or that the transfer breached a documented restriction, plus an integrator or listed token with direct exposure to the drained vault shares.",
+        "rationale": "Investigator veto stands: exploitClass authorised-operation, ownerBeforeTx matches caller, single ERC-20 transfer via existing privilege. Loss bearer is vault shareholders with no integrator exposure, so there is no pass-through to a tradeable asset. SOLUSDT would be an unrelated proxy and marketDeltaPct 0 reflects that the market has no reason to reprice. Immaterial $240k against a listed venue."
+      },
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 240174,
+      "target": "Willow Earn",
+      "modeledDeltaPct": 0.136,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "A vault at 0x68b1...1aed lost roughly 60% of its token balance in one transaction: holdings went from 400290 to 160116 and share price from 1 to 0.4, a modelled 240174 USD hit against a 44M USD market cap (~13.6%). But the caller is the recorded owner before the transaction, and the packet flags the action as authorised. The trace is a plain owner-privileged sweep into one ERC-20 transfer - no re-init, no oracle move, no reentrancy, no ownership takeover evidence. Shareholders eat the drop, yet nothing here distinguishes a rug or treasury migration from a stolen key.",
+        "lossBearer": "Holders of Willow Earn vault shares (0x68b1...1aed) bear the NAV dilution; no integrator exposure is present in the packet.",
+        "concerns": [
+          "Cannot distinguish legitimate owner action, insider rug, or key compromise from the supplied evidence.",
+          "No integrators listed, so the only exposure shown is direct vault shareholders.",
+          "Share price change (1 -> 0.4) is consistent with the holdings drop but no post-tx ownership state is given.",
+          "Destination of the swept tokens is not in the packet, so downstream flow cannot be assessed."
+        ]
+      }
+    },
     {
       "id": "blind-202609211751199ce4-4ed7c70f",
       "runId": "202609211751199ce4",
@@ -1352,75 +1438,6 @@
           "Loss is modeled at 1.055% of stated market cap; the packet does not evidence how that delta was derived."
         ]
       }
-    },
-    {
-      "id": "blind-2026091921310089ca-68b1d87f",
-      "runId": "2026091921310089ca",
-      "detectedAt": "2026-09-19T21:31:50.198Z",
-      "latencyMs": 32198,
-      "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
-      "authorised": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "decidedBy": null,
-      "proposed": null,
-      "refusals": [],
-      "aiDecision": null,
-      "confidence": 80,
-      "instrument": "BCHUSDT",
-      "kind": "DIRECT",
-      "side": "SHORT",
-      "sizing": {
-        "notionalUsd": 5420.004985174871,
-        "maxLossUsd": 500,
-        "stopPct": 0.08868856609858769
-      },
-      "lossUsd": 637681.2,
-      "target": "Vesper Yield",
-      "modeledDeltaPct": 0.638,
-      "marketDeltaPct": 0,
-      "integrators": 0,
-      "ai": {
-        "exploitClass": "authorised-operation",
-        "veto": true,
-        "narrative": "The vault's own owner address called a sweep-style function and the vault sent tokens out in one plain ERC-20 transfer. Vault holdings of that token went from 1062802 to 425120.8 and share price moved from 1 to 0.4, a modeled delta of 0.638 with a direct loss estimate of 637681.2 USD against a 25,000,000 USD market cap. But the mover was the existing owner using a privileged function that worked as designed. That is indistinguishable, on this evidence, from a legitimate admin sweep or treasury move. There is no compromise signal, no unauthorised actor, and no named downstream integrator carrying the hit.",
-        "lossBearer": "Holders of vault 0x68b1d87f95878fe05b998f19b66f4baba5de1aed, whose share price fell from 1 to 0.4; no integrator exposure is shown in the packet.",
-        "concerns": [
-          "Caller equals ownerBeforeTx; nothing in the trace shows a control was bypassed.",
-          "No integrators listed, so the second-order loss path is unevidenced.",
-          "Cannot distinguish privileged rug from routine admin sweep on this packet alone.",
-          "Share price drop to 0.4 is modeled; identity of the impacted holders is not supplied."
-        ]
-      }
-    },
-    {
-      "id": "blind-2026091921310089ca-0165878a",
-      "runId": "2026091921310089ca",
-      "detectedAt": "2026-09-19T21:31:11.692Z",
-      "latencyMs": 19573,
-      "victim": "0x0165878a594ca255338adfa4d48449f69242eb8f",
-      "authorised": false,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "decidedBy": null,
-      "proposed": null,
-      "refusals": [],
-      "aiDecision": null,
-      "confidence": 100,
-      "instrument": "AVAXUSDT",
-      "kind": "DIRECT",
-      "side": "SHORT",
-      "sizing": {
-        "notionalUsd": 4844.3699802609835,
-        "maxLossUsd": 499.99999999999994,
-        "stopPct": 0.09826029400531612
-      },
-      "lossUsd": 459154,
-      "target": "Fjord Vault",
-      "modeledDeltaPct": 0.25,
-      "marketDeltaPct": -0.196,
-      "integrators": 0,
-      "ai": null
     }
   ]
 }

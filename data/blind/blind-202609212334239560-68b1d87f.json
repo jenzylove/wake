@@ -1,0 +1,248 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609212334239560-68b1d87f",
+  "runId": "202609212334239560",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 90,
+    "blockTimestamp": 1790033681
+  },
+  "detection": {
+    "tx": "0x0e091145bab379a8912bdc9273acb902b21e18bd7eb5359c9d535a6ccd7715f9",
+    "txs": [
+      "0x0e091145bab379a8912bdc9273acb902b21e18bd7eb5359c9d535a6ccd7715f9"
+    ],
+    "firstDetectedAt": "2026-09-21T23:34:44.665Z",
+    "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+    "token": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "before": 400290,
+    "after": 160116,
+    "detectedAt": "2026-09-21T23:34:44.665Z",
+    "latencyMs": 3665
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 400290,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+      "lossUsd": 240174,
+      "name": "Willow Earn",
+      "instrument": "SOLUSDT",
+      "marketCapUsd": 44000000,
+      "modeledDeltaPct": 0.136,
+      "markAtDetection": 118.505,
+      "markAtDecision": 118.505,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 7400.050320252923,
+        "maxLossUsd": 500,
+        "stopPct": 0.06348738306547841,
+        "costPct": 0.00407972504344466,
+        "spreadPct": 0.0028797250434446603,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.031743691532739204,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 888021860.1114001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0028797250434446603,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.136,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x0e091145bab379a8912bdc9273acb902b21e18bd7eb5359c9d535a6ccd7715f9 succeeded in block 90"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $240,174 at Willow Earn"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "Outflow is authorised by the address that was owner before the transaction (authorisedByOwner=true) and the trace shows a single owner-privileged transfer. No evidence of an unauthorised loss path, ownership change, or key-compromise indicator, so the exploit mechanism is ambiguous."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.1%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Owner-of-record (0xf39f...2266, matching ownerBeforeTx) called sweep-style selector 0x6ea056a9 on the vault, which performed a single ERC-20 transfer (0xa9059cbb) of token 0x9a9f...63ae out of the vault. Holdings fell 400290 -> 160116 and share price 1 -> 0.4. The outflow used an existing owner privilege, not a broken access check.",
+    "lossBearer": "Holders of Willow Earn vault shares (0x68b1...1aed) bear the NAV dilution; no integrator exposure is present in the packet.",
+    "narrative": "A vault at 0x68b1...1aed lost roughly 60% of its token balance in one transaction: holdings went from 400290 to 160116 and share price from 1 to 0.4, a modelled 240174 USD hit against a 44M USD market cap (~13.6%). But the caller is the recorded owner before the transaction, and the packet flags the action as authorised. The trace is a plain owner-privileged sweep into one ERC-20 transfer - no re-init, no oracle move, no reentrancy, no ownership takeover evidence. Shareholders eat the drop, yet nothing here distinguishes a rug or treasury migration from a stolen key.",
+    "veto": true,
+    "vetoReason": "Outflow is authorised by the address that was owner before the transaction (authorisedByOwner=true) and the trace shows a single owner-privileged transfer. No evidence of an unauthorised loss path, ownership change, or key-compromise indicator, so the exploit mechanism is ambiguous.",
+    "concerns": [
+      "Cannot distinguish legitimate owner action, insider rug, or key compromise from the supplied evidence.",
+      "No integrators listed, so the only exposure shown is direct vault shareholders.",
+      "Share price change (1 -> 0.4) is consistent with the holdings drop but no post-tx ownership state is given.",
+      "Destination of the swept tokens is not in the packet, so downstream flow cannot be assessed."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 85,
+    "thesis": "Owner-of-record used an existing sweep privilege to move tokens out of the Willow Earn vault; NAV fell 1 -> 0.4 but no access control was broken. This is an authorised operation whose loss falls on vault shareholders, not on any listed market, and the only candidate instrument (SOLUSDT) has no causal link to the vault's NAV.",
+    "invalidation": "Evidence that the sweeper key was compromised or that the transfer breached a documented restriction, plus an integrator or listed token with direct exposure to the drained vault shares.",
+    "rationale": "Investigator veto stands: exploitClass authorised-operation, ownerBeforeTx matches caller, single ERC-20 transfer via existing privilege. Loss bearer is vault shareholders with no integrator exposure, so there is no pass-through to a tradeable asset. SOLUSDT would be an unrelated proxy and marketDeltaPct 0 reflects that the market has no reason to reprice. Immaterial $240k against a listed venue."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "c5fd318eb266d414d1f9708546bcfe1e9797ac9c0386c9d2ebecf26ea90a0580"
+}
