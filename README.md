@@ -42,6 +42,14 @@ Only with both measurements can a modeled move exist, and only when the exposed 
 
 Measured against the captured incidents in this repository, the same code reads $24.1M of USDC leaving the Arbitrum contract and $989k on Base, straight from the receipts.
 
+## Watching real chains
+
+`scripts/watch-chain.mjs` runs every hour on Ethereum, Base and Arbitrum. It reads every block it has not yet seen, takes the transfers of major assets (USDC, USDT, DAI, WETH) worth $250,000 or more, and keeps only those where the sending contract ended the block holding less than 40% of what it held before. That is what a drain looks like from outside.
+
+A big transfer is not a drain, and the first live runs proved it: a settlement contract on Base emptied itself five times in an hour, each time "losing" 100% of an identical $789,438. So two rules now reject flows that only look like losses. A contract that empties itself more than once in a pass is being refilled, and a contract whose balance an hour earlier was mostly empty was only forwarding funds. Incidents opened before a rule tightened are re-checked by `scripts/recheck-live.mjs`; anything that no longer qualifies is retracted, with the reason appended to the hash chained log rather than quietly deleted.
+
+A confirmed drain goes through the same path as every other incident: the loss is measured from the receipt, matched to a protocol and a Bitget perpetual where one exists, reviewed by Claude, and decided by the policy. Most are refused, usually because the contract matches no listed protocol and there is no market to express the consequence in.
+
 ## What Claude does, and what it cannot do
 
 WAKE follows one rule: AI determines meaning, code enforces money. After code has built the evidence packet (trace, authorisation, share backing, integrators, candidates, numbers), Claude (`lib/ai-interpret.mjs`) names the exploit mechanism, says who bears the loss, and writes the explanation a trader reads. It may veto a trade when the evidence does not support the loss path; the veto becomes a blocking falsifier and the policy holds. It cannot create a trade, change a number, choose an instrument or size a position, and a failed review changes nothing. Tests in `tests/ai-interpret.test.mjs` prove each of those limits. In blind runs Claude has classified every decoy as an authorised operation and vetoed it, and named the exploit class of the real attacks from the trace alone. Scheduled runs reach Claude through `POST /api/agent/interpret`, so the Anthropic key stays on the server.

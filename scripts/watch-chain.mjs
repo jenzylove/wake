@@ -13,7 +13,7 @@
 import { createHash } from "node:crypto"
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
-import { WATCHED, MIN_DRAIN_USD, confirmDrain, rpc, scanWindow, watchedTransfers } from "../lib/chain-watch.mjs"
+import { WATCHED, MIN_DRAIN_USD, RESTING_MINUTES, confirmDrain, recurringSenders, rpc, scanWindow, watchedTransfers } from "../lib/chain-watch.mjs"
 import { quantifyExposure } from "../lib/onchain-exposure.mjs"
 import { aiFalsifier, interpretAnywhere } from "../lib/ai-interpret.mjs"
 import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "../lib/wake-policy.mjs"
@@ -193,11 +193,20 @@ async function main() {
         }
       }
 
+      // A contract that empties itself more than once in a pass is being refilled: a forwarder.
+      const recurring = recurringSenders(transfers)
+      const restingBlocks = Math.ceil((RESTING_MINUTES * 60) / chain.blockSeconds)
+      // One candidate per contract: the largest outflow represents it.
+      const bySender = new Map()
+      for (const t of transfers.sort((a, b) => b.usd - a.usd)) if (!recurring.has(t.from) && !bySender.has(t.from)) bySender.set(t.from, t)
+
       // Public nodes throttle aggressively, so candidates are confirmed slowly and in order of size.
       const confirmed = []
-      for (const t of transfers.sort((a, b) => b.usd - a.usd).slice(0, 14)) {
+      let rejected = 0
+      for (const t of [...bySender.values()].slice(0, 14)) {
         try {
-          const drain = await confirmDrain({ url: chain.rpc, transfer: t, fallbacks: chain.fallbacks ?? [] })
+          const drain = await confirmDrain({ url: chain.rpc, transfer: t, fallbacks: chain.fallbacks ?? [], restingBlocks })
+          if (!drain.candidate) rejected += 1
           if (drain.candidate) confirmed.push({ transfer: t, drain })
         } catch (error) {
           report.chains[chainId] = { ...(report.chains[chainId] ?? {}), lastError: String(error.message ?? error).slice(0, 110) }
@@ -210,7 +219,8 @@ async function main() {
       }
 
       state.chains[chainId] = { lastBlock: to, scannedAt: now() }
-      report.chains[chainId] = { ...(report.chains[chainId] ?? {}), name: chain.name, from, to, blocks: to - from + 1, skipped, largeTransfers: transfers.length, drains: confirmed.length }
+      report.chains[chainId] = { ...(report.chains[chainId] ?? {}), name: chain.name, from, to, blocks: to - from + 1, skipped,
+        largeTransfers: transfers.length, recurringSenders: recurring.size, rejectedCandidates: rejected, drains: confirmed.length }
     } catch (error) {
       report.chains[chainId] = { name: chain.name, error: String(error.message ?? error).slice(0, 160) }
     }
