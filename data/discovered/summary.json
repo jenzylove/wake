@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-20T21:31:02.748Z",
+  "updatedAt": "2026-09-21T00:14:09.970Z",
   "incidents": [
     {
       "id": "disc-nunet-2026-09-19",
@@ -35,14 +35,14 @@
         "windowSigma": 0.023536
       },
       "microstructure": {
-        "observedAt": "2026-09-20T21:30:46.920Z",
-        "mid": 2622.885,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 1498310,
-        "askDepthUsd1pct": 5710007,
-        "fundingRate": 0.000054,
+        "observedAt": "2026-09-21T00:14:08.978Z",
+        "mid": 2674.575,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 1428863,
+        "askDepthUsd1pct": 1466250,
+        "fundingRate": 0.000052,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 767722.9599999996
+        "openInterestContracts": 755786.6199999995
       },
       "sizing": {
         "notionalUsd": 9987.700881141289,
@@ -50,8 +50,39 @@
         "stopPct": 0.047072,
         "bindingConstraint": "risk budget"
       },
-      "assessment": null,
-      "integrity": "d24e0ec032a1ac4f30753a6204c047a5e6d896979447867a8914213159cbfc2e",
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": 0.601,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "No on-chain receipt is captured and the only exposure is INFERRED contagion to ETHUSDT. A $462,730 token-level key compromise has no demonstrated loss path into Ethereum's native token, and the observed 0.601% day move is within normal window volatility."
+          }
+        ]
+      },
+      "integrity": "ebdc383bd37912ee77737861c549aace06d4ae4ddffcb05d99bebd703b02c3cc",
       "sourceSha256": "cd7f4f910e73549291b092e62dd7e24957306664c4b484ad54b509140dd9edf6",
       "ai": {
         "exploitClass": "key-compromise",
@@ -101,14 +132,14 @@
         "windowSigma": 0.023536
       },
       "microstructure": {
-        "observedAt": "2026-09-20T21:30:30.773Z",
-        "mid": 2621.995,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 3653344,
-        "askDepthUsd1pct": 5401231,
-        "fundingRate": 0.000054,
+        "observedAt": "2026-09-21T00:14:09.123Z",
+        "mid": 2675.2349999999997,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 1770954,
+        "askDepthUsd1pct": 1743700,
+        "fundingRate": 0.000052,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 767731.2899999996
+        "openInterestContracts": 756060.6499999996
       },
       "sizing": {
         "notionalUsd": 9987.700881141289,
@@ -116,8 +147,39 @@
         "stopPct": 0.047072,
         "bindingConstraint": "risk budget"
       },
-      "assessment": null,
-      "integrity": "ee4d7938fc1e2936801ac3d52f1ffe2d10d02d54afa72137dbbc22ec26955c02",
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": 0.601,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "No on-chain receipt exists (packet states feed record only, empty source), and the only market exposure offered is an INFERRED contagion link to ETHUSDT rather than demonstrated integrator exposure. The observed 0.601% ETH day move is within normal variance, so the proposed loss path is unsupported."
+          }
+        ]
+      },
+      "integrity": "ea6aed3593e99662e8e87b4e3919038954860609ec7d0ec99701ca109c20e996",
       "sourceSha256": "f5dc7c110bc798868337b3169f5bfbd57ec51ceb7dcad45d3fcb8d1f5bde3f87",
       "ai": {
         "exploitClass": "key-compromise",
@@ -173,14 +235,14 @@
         "windowSigma": 0.093086
       },
       "microstructure": {
-        "observedAt": "2026-09-20T21:31:01.602Z",
-        "mid": 0.0487905,
-        "spreadBps": 3.894,
-        "bidDepthUsd1pct": 143343,
-        "askDepthUsd1pct": 223491,
+        "observedAt": "2026-09-21T00:14:09.323Z",
+        "mid": 0.048649,
+        "spreadBps": 4.933,
+        "bidDepthUsd1pct": 160081,
+        "askDepthUsd1pct": 164172,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 69528720.4
+        "openInterestContracts": 69757297.7
       },
       "sizing": {
         "notionalUsd": 2581.2763696243665,
@@ -220,7 +282,7 @@
           }
         ]
       },
-      "integrity": "26b8438bacaf8d654b5591d22a688a7c4a29774bbb348770eda3fa020a427aef",
+      "integrity": "bd03c4d436721f87cd15fa9880b77d9b013640183f1f0726abfd2f9b7366da63",
       "sourceSha256": "a5ba1e0c4c075a07d9e23610c5f06cf6e9b0ba3af3aa9efc0a2e256e200ba795",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -276,14 +338,14 @@
         "windowSigma": 0.023092
       },
       "microstructure": {
-        "observedAt": "2026-09-20T21:31:01.790Z",
-        "mid": 2623.5950000000003,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 6805982,
-        "askDepthUsd1pct": 4846184,
-        "fundingRate": 0.000054,
+        "observedAt": "2026-09-21T00:14:09.454Z",
+        "mid": 2675.2349999999997,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 1770954,
+        "askDepthUsd1pct": 1743700,
+        "fundingRate": 0.000052,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 767717.2099999996
+        "openInterestContracts": 755786.6199999995
       },
       "sizing": {
         "notionalUsd": 10057.337193082429,
@@ -323,7 +385,7 @@
           }
         ]
       },
-      "integrity": "155ff0ced83cd6ec0a311b38e22789efc793594b31b12fa03c2c4705171407e7",
+      "integrity": "de290687d0761086d4bee8862e33443b4035fe47c271741b1485864c554253e7",
       "sourceSha256": "4db1acd661af1253c4b6298aaa787d910351b4e7cf6df87e1c3ac39919407188",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -379,14 +441,14 @@
         "windowSigma": 0.012226
       },
       "microstructure": {
-        "observedAt": "2026-09-20T21:31:01.978Z",
-        "mid": 0.342465,
-        "spreadBps": 0.292,
-        "bidDepthUsd1pct": 486497,
-        "askDepthUsd1pct": 158771,
-        "fundingRate": 0.00008,
+        "observedAt": "2026-09-21T00:14:09.603Z",
+        "mid": 0.342955,
+        "spreadBps": 0.875,
+        "bidDepthUsd1pct": 147438,
+        "askDepthUsd1pct": 141108,
+        "fundingRate": 0.000078,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 27286195
+        "openInterestContracts": 27029437
       },
       "sizing": {
         "notionalUsd": 18994.636739694917,
@@ -426,7 +488,7 @@
           }
         ]
       },
-      "integrity": "1bc857a9f13421145c0260b32ebcad4b2c9dc8841428719414fd4a87933ebf76",
+      "integrity": "d1f9176e18d3f91244314988294eef5b43515e1324db58f57b195b5abda4da46",
       "sourceSha256": "8c569e59ad6e81569ec8a383dacbfb32f8bd18b2cc2729eb14123fa530cb7f6a",
       "ai": {
         "exploitClass": "bridge",
@@ -489,14 +551,14 @@
         "windowSigma": 0.025142
       },
       "microstructure": {
-        "observedAt": "2026-09-20T21:31:02.175Z",
-        "mid": 765.125,
-        "spreadBps": 0.131,
-        "bidDepthUsd1pct": 307758,
-        "askDepthUsd1pct": 721946,
+        "observedAt": "2026-09-21T00:14:09.754Z",
+        "mid": 777.325,
+        "spreadBps": 0.129,
+        "bidDepthUsd1pct": 220371,
+        "askDepthUsd1pct": 261699,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 94118.33
+        "openInterestContracts": 93920.89
       },
       "sizing": {
         "notionalUsd": 9413.336066672246,
@@ -536,7 +598,7 @@
           }
         ]
       },
-      "integrity": "f4406167b7ed12d88c9d9211f0e4a568636816ae221b6be5b8d719e21a665340",
+      "integrity": "d1934bb4ce94d39426e3a98707efbdc93e5220c62e70f0465b99118ca46de001",
       "sourceSha256": "9ac936ccab0550e2e1758c3f57d7bf6de46afa68833b4b6da910379a14c2d693",
       "ai": {
         "exploitClass": "bridge",
@@ -670,14 +732,14 @@
         "windowSigma": 0.027691
       },
       "microstructure": {
-        "observedAt": "2026-09-20T21:31:02.348Z",
-        "mid": 2623.885,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 2524329,
-        "askDepthUsd1pct": 3954692,
-        "fundingRate": 0.000054,
+        "observedAt": "2026-09-21T00:14:09.898Z",
+        "mid": 2676.435,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 1569756,
+        "askDepthUsd1pct": 1967885,
+        "fundingRate": 0.000052,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 767717.2099999996
+        "openInterestContracts": 755786.6199999995
       },
       "sizing": {
         "notionalUsd": 8607.537650513013,
@@ -717,7 +779,7 @@
           }
         ]
       },
-      "integrity": "58659c8109deaf0513281c0f20db856f27c5077604fdfe7e482fa38d4b5738d6",
+      "integrity": "6581fa169854a62c5507b41216f9d559c7ee16133a3fa9e02c776bf1fc2160dd",
       "sourceSha256": "6c61ec018e6cffb7f59fca226db571c9bd28de2dd0284bc5db7e9d05a5dcb5ff",
       "ai": {
         "exploitClass": "other",
@@ -798,8 +860,8 @@
         }
       ],
       "instrument": "SOLUSDT",
-      "decision": "MONITOR",
-      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "decision": "NO_TRADE",
+      "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
       "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
       "discoveredAt": "2026-09-19T20:13:39.249Z",
       "hasReceipt": false,
@@ -859,7 +921,7 @@
           }
         ]
       },
-      "integrity": "5301115214f7bb3fb2d04af1764f68b294af0ffd0bb2850ae97beb2371cbe6f4",
+      "integrity": "a81b6b99372facf1f5790b18c6e2844f51efabc5b42ab52958ac05a7ab62782c",
       "sourceSha256": "ac5886738655f6b25b0ab5b9bc584dfb50fd82515138041b06e597bd8f46990a",
       "ai": {
         "exploitClass": "access-control",
@@ -901,8 +963,8 @@
         }
       ],
       "instrument": "ANKRUSDT",
-      "decision": "MONITOR",
-      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "decision": "NO_TRADE",
+      "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
       "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
       "discoveredAt": "2026-09-19T20:13:44.820Z",
       "hasReceipt": false,
@@ -962,7 +1024,7 @@
           }
         ]
       },
-      "integrity": "b0eb9b32003cadab6d270d61b2d9778f169d5f897060c13b8f0d71566cf3f9c6",
+      "integrity": "28195ba53371f101279fe73597de4ca7f6379fde81acaabe5ede85ffee6604b2",
       "sourceSha256": "26cacdee5b46d349315401c4054fe4d47e5e9ed28304e1e1fa76c74a993fa8ab",
       "ai": {
         "exploitClass": "other",

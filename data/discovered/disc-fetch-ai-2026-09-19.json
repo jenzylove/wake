@@ -689,6 +689,16 @@
       "fundingRate": 0.000054,
       "fundingIntervalHours": 8,
       "openInterestContracts": 767731.2899999996
+    },
+    {
+      "observedAt": "2026-09-21T00:14:09.123Z",
+      "mid": 2675.2349999999997,
+      "spreadBps": 0.037,
+      "bidDepthUsd1pct": 1770954,
+      "askDepthUsd1pct": 1743700,
+      "fundingRate": 0.000052,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 756060.6499999996
     }
   ],
   "sizing": {
@@ -761,5 +771,77 @@
       "'bridgeHack' flag is unexplained — cannot tell whether a bridge validator set or a single signer was compromised."
     ]
   },
-  "integrity": "ee4d7938fc1e2936801ac3d52f1ffe2d10d02d54afa72137dbbc22ec26955c02"
+  "integrity": "ea6aed3593e99662e8e87b4e3919038954860609ec7d0ec99701ca109c20e996",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "4 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": 0.601,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "ai-review",
+        "question": "Does the investigator's review support the loss path?",
+        "status": "SUPPORTED",
+        "blocksTrade": true,
+        "answer": "No on-chain receipt exists (packet states feed record only, empty source), and the only market exposure offered is an INFERRED contagion link to ETHUSDT rather than demonstrated integrator exposure. The observed 0.601% ETH day move is within normal variance, so the proposed loss path is unsupported."
+      }
+    ]
+  }
 }

@@ -689,6 +689,16 @@
       "fundingRate": 0.000054,
       "fundingIntervalHours": 8,
       "openInterestContracts": 767722.9599999996
+    },
+    {
+      "observedAt": "2026-09-21T00:14:08.978Z",
+      "mid": 2674.575,
+      "spreadBps": 0.037,
+      "bidDepthUsd1pct": 1428863,
+      "askDepthUsd1pct": 1466250,
+      "fundingRate": 0.000052,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 755786.6199999995
     }
   ],
   "sizing": {
@@ -761,5 +771,77 @@
       "No protocol record, no identified attacker or drained addresses, no returned-funds status"
     ]
   },
-  "integrity": "d24e0ec032a1ac4f30753a6204c047a5e6d896979447867a8914213159cbfc2e"
+  "integrity": "ebdc383bd37912ee77737861c549aace06d4ae4ddffcb05d99bebd703b02c3cc",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "4 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": 0.601,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "ai-review",
+        "question": "Does the investigator's review support the loss path?",
+        "status": "SUPPORTED",
+        "blocksTrade": true,
+        "answer": "No on-chain receipt is captured and the only exposure is INFERRED contagion to ETHUSDT. A $462,730 token-level key compromise has no demonstrated loss path into Ethereum's native token, and the observed 0.601% day move is within normal window volatility."
+      }
+    ]
+  }
 }
