@@ -1,9 +1,170 @@
 {
   "schema": "wake.paper.state.v1",
   "startedAt": "2026-09-15T18:59:01.153Z",
-  "equityUsd": 97598.5008,
+  "equityUsd": 97592.6449,
   "realizedPnlUsd": -2401.4992,
-  "openPositions": [],
+  "openPositions": [
+    {
+      "id": "wake-arb-btwusdt-20260921194321",
+      "tier": 2,
+      "strategy": "delta-neutral-basis",
+      "symbol": "BTWUSDT",
+      "status": "OPEN",
+      "openedAt": "2026-09-21T19:43:21.555Z",
+      "notionalUsd": 4879.925,
+      "entryGapRate": 0.004977253007588554,
+      "currentGapRate": 0.004977253007588554,
+      "targetGapRate": 0.0014931759022765662,
+      "divergenceStopGapRate": 0.012443132518971386,
+      "maxLossUsd": 60.65,
+      "legs": {
+        "perp": {
+          "side": "SHORT",
+          "entryPrice": 0.96622,
+          "size": 5050.532011343173,
+          "feeUsd": 2.9279550239999996,
+          "lastPrice": 0.96622,
+          "unrealizedPnlUsd": 0
+        },
+        "spot": {
+          "side": "LONG",
+          "entryPrice": 0.962059,
+          "size": 5072.376060096107,
+          "feeUsd": 2.9279550239999996,
+          "lastPrice": 0.962059,
+          "unrealizedPnlUsd": 0
+        }
+      },
+      "entrySlippageUsd": 3.1676,
+      "fundingUsd": 0,
+      "unrealizedPnlUsd": 0,
+      "lastTickAt": "2026-09-21T19:43:21.555Z",
+      "evidence": {
+        "observed": {
+          "perpMid": 0.9665625,
+          "spotMid": 0.9617755,
+          "gapRate": 0.004977253007588554,
+          "fundingRate": 0.000964,
+          "perpSpreadRate": 0.0007086970578726639,
+          "spotSpreadRate": 0.0005895346679136495,
+          "perpVolume": 8308287.647804,
+          "spotVolume": 10624657.66432017
+        },
+        "model": {
+          "gapRate": 0.004977253007588554,
+          "expectedFundingRate": 0.000964,
+          "modelledRate": 0.0059412530075885536,
+          "totalCostRate": 0.004963316926026816,
+          "netEdgeRate": 0.0009779360815617378,
+          "perpCost": {
+            "total": 0.0026001284816814067,
+            "entry": 0.0013000642408407034,
+            "exit": 0.0013000642408407034,
+            "spreadRate": 0.00035434852893633195,
+            "impactRate": 0.00034571571190437136,
+            "feeRate": 0.0006,
+            "provenance": {
+              "spread": "OBSERVED · Bitget public ticker bidPr/askPr at decision time",
+              "impact": "ESTIMATED · linear overflow beyond observed top of book size",
+              "fee": "ESTIMATED · Bitget published USDT-M taker rate, standard tier"
+            }
+          },
+          "spotCost": {
+            "total": 0.002363188444345409,
+            "entry": 0.0011815942221727045,
+            "exit": 0.0011815942221727045,
+            "spreadRate": 0.00029476733395682474,
+            "impactRate": 0.00028682688821587976,
+            "feeRate": 0.0006,
+            "provenance": {
+              "spread": "OBSERVED · Bitget public ticker bidPr/askPr at decision time",
+              "impact": "ESTIMATED · linear overflow beyond observed top of book size",
+              "fee": "ESTIMATED · Bitget published USDT-M taker rate, standard tier"
+            }
+          },
+          "formula": "edge = |perpMid - spotMid| / spotMid + max(0, fundingRate) - (perp round trip + spot round trip)",
+          "provenance": {
+            "gap": "OBSERVED · mid prices from the Bitget public perpetual and spot tickers",
+            "funding": "OBSERVED · fundingRate from the perpetual ticker",
+            "cost": "OBSERVED spread plus ESTIMATED published taker fee, charged on both legs both ways"
+          },
+          "deltaNeutral": true
+        },
+        "checks": [
+          {
+            "key": "opening-enabled",
+            "label": "Strategy opening enabled",
+            "passed": true,
+            "value": "enabled",
+            "threshold": "enabled"
+          },
+          {
+            "key": "hedgeable",
+            "label": "Hedge executable without borrow",
+            "passed": true,
+            "value": "short perp / long spot",
+            "threshold": "perp richer than spot"
+          },
+          {
+            "key": "perp-liquidity",
+            "label": "Perp 24h volume",
+            "passed": true,
+            "value": "$8,308,288",
+            "threshold": ">= $1,000,000"
+          },
+          {
+            "key": "spot-liquidity",
+            "label": "Spot 24h volume",
+            "passed": true,
+            "value": "$10,624,658",
+            "threshold": ">= $100,000"
+          },
+          {
+            "key": "spread",
+            "label": "Widest leg spread",
+            "passed": true,
+            "value": "7.1 bps",
+            "threshold": "<= 25 bps"
+          },
+          {
+            "key": "net-edge",
+            "label": "Edge after both round trips",
+            "passed": true,
+            "value": "9.8 bps",
+            "threshold": ">= 8 bps"
+          },
+          {
+            "key": "concurrency",
+            "label": "Concurrent pairs",
+            "passed": true,
+            "value": "0",
+            "threshold": "< 4"
+          },
+          {
+            "key": "duplicate",
+            "label": "No open pair in symbol",
+            "passed": true,
+            "value": "none",
+            "threshold": "none open"
+          },
+          {
+            "key": "cooldown",
+            "label": "Not in stop cooldown",
+            "passed": true,
+            "value": "clear",
+            "threshold": "240m after a divergence stop"
+          },
+          {
+            "key": "clip-size",
+            "label": "Clip vs thinner leg volume",
+            "passed": true,
+            "value": "0.059%",
+            "threshold": "<= 0.200%"
+          }
+        ]
+      }
+    }
+  ],
   "lastLogged": {
     "ASTRUSDT:clip-size": "2026-09-15T18:59:01.153Z",
     "LSKUSDT:opened": "2026-09-16T04:42:51.521Z",
@@ -69,7 +230,7 @@
     "MINAUSDT:hedgeable,net-edge,clip-size": "2026-09-21T12:45:59.060Z",
     "CAKEUSDT:hedgeable,net-edge,clip-size": "2026-09-20T06:37:58.179Z",
     "CRVUSDT:hedgeable,net-edge,clip-size": "2026-09-16T19:01:19.592Z",
-    "ARUSDT:hedgeable,net-edge,clip-size": "2026-09-21T01:21:40.562Z",
+    "ARUSDT:hedgeable,net-edge,clip-size": "2026-09-21T19:43:21.555Z",
     "ZENUSDT:hedgeable,net-edge,clip-size": "2026-09-19T05:56:07.403Z",
     "TUTUSDT:hedgeable,net-edge,clip-size": "2026-09-18T19:12:10.288Z",
     "ASTRUSDT:hedgeable,net-edge,clip-size": "2026-09-16T22:05:12.551Z",
@@ -137,7 +298,7 @@
     "AVAUSDT:hedgeable,clip-size": "2026-09-20T09:25:08.443Z",
     "MUBARAKUSDT:net-edge,clip-size": "2026-09-21T13:06:03.717Z",
     "CYSUSDT:net-edge,clip-size": "2026-09-21T06:33:57.959Z",
-    "PYTHUSDT:hedgeable,net-edge,clip-size": "2026-09-21T13:16:05.833Z",
+    "PYTHUSDT:hedgeable,net-edge,clip-size": "2026-09-21T19:43:21.555Z",
     "BABYUSDT:hedgeable,net-edge,clip-size": "2026-09-18T04:54:42.580Z",
     "AVAUSDT:hedgeable,net-edge,clip-size": "2026-09-21T01:21:40.562Z",
     "SKYAIUSDT:hedgeable,net-edge,clip-size": "2026-09-18T05:24:52.157Z",
@@ -240,7 +401,7 @@
     "PROVEUSDT:hedgeable,net-edge,clip-size": "2026-09-21T18:11:05.967Z",
     "KERNELUSDT:hedgeable,spread,net-edge,clip-size": "2026-09-21T13:16:05.833Z",
     "MUSDT:net-edge,clip-size": "2026-09-21T06:23:55.868Z",
-    "PROVEUSDT:hedgeable,spread,net-edge,clip-size": "2026-09-21T12:45:59.060Z",
+    "PROVEUSDT:hedgeable,spread,net-edge,clip-size": "2026-09-21T19:43:21.555Z",
     "ZETAUSDT:hedgeable,net-edge,clip-size": "2026-09-21T14:58:20.278Z",
     "ZETAUSDT:hedgeable,spread,net-edge,clip-size": "2026-09-21T13:26:07.940Z",
     "MOCAUSDT:net-edge,clip-size": "2026-09-21T18:41:13.577Z",
@@ -259,7 +420,7 @@
     "MUBARAKUSDT:spread,net-edge,clip-size": "2026-09-21T18:31:11.206Z",
     "NILUSDT:net-edge,clip-size": "2026-09-21T18:31:11.206Z"
   },
-  "tickCount": 248,
+  "tickCount": 249,
   "cooldownUntil": {
     "LSKUSDT": 1789529661913,
     "VTHOUSDT": 1789549976620,
