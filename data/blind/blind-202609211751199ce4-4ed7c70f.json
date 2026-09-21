@@ -1,0 +1,248 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609211751199ce4-4ed7c70f",
+  "runId": "202609211751199ce4",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 75,
+    "blockTimestamp": 1790013145
+  },
+  "detection": {
+    "tx": "0x7673356745bd61b4a506ad874c6ee18354c62ad6f4109010e88ab6148c788c5d",
+    "txs": [
+      "0x7673356745bd61b4a506ad874c6ee18354c62ad6f4109010e88ab6148c788c5d"
+    ],
+    "firstDetectedAt": "2026-09-21T17:52:49.871Z",
+    "victim": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+    "token": "0x59b670e9fa9d0a427751af201d676719a970857b",
+    "before": 668334,
+    "after": 267333.6,
+    "detectedAt": "2026-09-21T17:52:49.871Z",
+    "latencyMs": 24871
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x59b670e9fa9d0a427751af201d676719a970857b",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 668334,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+      "lossUsd": 401000.4,
+      "name": "Tundra Reserve",
+      "instrument": "AVAXUSDT",
+      "marketCapUsd": 19000000,
+      "modeledDeltaPct": 0.528,
+      "markAtDetection": 10.859,
+      "markAtDecision": 10.859,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2582.702067261102,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.1850190944044773,
+        "costPct": 0.008576599941421004,
+        "spreadPct": 0.007376599941421005,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.09250954720223865,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 188927446.8311,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.007376599941421005,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.528,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x7673356745bd61b4a506ad874c6ee18354c62ad6f4109010e88ab6148c788c5d succeeded in block 75"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $401,000 at Tundra Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The outflow is authorised: ownerBeforeTx equals the tx sender and authorisedByOwner is true, with no bypass in the trace. The packet contains no evidence distinguishing a legitimate treasury sweep from a rug or key compromise, and no integrator exposure is shown, so the loss path is not supported."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.5%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Owner-privileged sweep: the caller 0xf39f...2266 is the recorded owner before the tx and invoked selector 0x6ea056a9 on the vault, which made a single ERC20 transfer (0xa9059cbb) of the held token out of the contract. No access-control bypass, no reinitialisation, no price feed or reentrancy path appears in the 2-level trace.",
+    "lossBearer": "Economically, holders of the vault's shares (price 1 -> 0.4); the packet names only a DIRECT candidate, Tundra Reserve, at 401000.4 USD. No integrator exposure is listed.",
+    "narrative": "The vault's own owner called a sweep function and moved tokens out in one straightforward ERC20 transfer. Holdings fell 668334 -> 267333.6 and the modelled share price fell from 1 to 0.4, so whoever holds the shares is worse off. But mechanically nothing was broken: the caller was the owner before the transaction and the contract behaved as designed. That makes this an authorised withdrawal, not a demonstrated exploit. A drained-by-owner move can be a rug or a stolen key, but this packet shows no evidence of either, so the loss path behind the proposed trade is not established.",
+    "veto": true,
+    "vetoReason": "The outflow is authorised: ownerBeforeTx equals the tx sender and authorisedByOwner is true, with no bypass in the trace. The packet contains no evidence distinguishing a legitimate treasury sweep from a rug or key compromise, and no integrator exposure is shown, so the loss path is not supported.",
+    "concerns": [
+      "Owner-authorised sweep cannot be separated from key compromise without key-provenance evidence.",
+      "Share price 1 -> 0.4 is modelled; no on-chain shareholder or redemption data supplied.",
+      "Candidate loss 401000.4 USD is attributed DIRECT to Tundra Reserve without linkage evidence in the trace.",
+      "Integrators list is empty, so no second-order exposure is demonstrated."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 81,
+    "thesis": "The vault drain was executed by the recorded owner via an owner-privileged sweep selector (0x6ea056a9) with no access-control bypass, reinitialisation, price-feed or reentrancy path in the trace. This is an authorised operation, not an exploit, so there is no exogenous shock for the market to reprice.",
+    "invalidation": "Evidence that the owner key was compromised or that the sweep was unauthorised/disputed by the protocol, or a public disclosure framing it as a hack rather than a treasury action.",
+    "rationale": "Investigator classes this as authorised-operation and vetoes. Loss is borne by share holders (1 -> 0.4) but the only candidate shorts AVAXUSDT as a proxy for Tundra Reserve, so even a real move would not cleanly pay on that instrument, and market has moved 0%. No integrator exposure listed. Causal path to a tradable market is not established."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "0608285867874fa9212b7235a32ea25cbc51870f6b71f0e6cff450b9d4fbe14e"
+}

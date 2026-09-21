@@ -1,0 +1,254 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609211751199ce4-959922be",
+  "runId": "202609211751199ce4",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 74,
+    "blockTimestamp": 1790013138
+  },
+  "detection": {
+    "tx": "0xeee47eac545bb2b1d55a0b38b518f3f58c01515d5a9e89f1c15c99421ddfba52",
+    "txs": [
+      "0xeee47eac545bb2b1d55a0b38b518f3f58c01515d5a9e89f1c15c99421ddfba52"
+    ],
+    "firstDetectedAt": "2026-09-21T17:52:19.404Z",
+    "victim": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "token": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+    "before": 590355,
+    "after": 0,
+    "detectedAt": "2026-09-21T17:52:19.404Z",
+    "latencyMs": 1404
+  },
+  "investigation": {
+    "from": "0xe277cb47cb1e6ab3eb3c308bfee14405cdac2ee3",
+    "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "selector": "0xa441d067",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0xa441d067",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 590355,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+      "lossUsd": 590355,
+      "name": "Zephyr Yield",
+      "instrument": "NEARUSDT",
+      "marketCapUsd": 3000000,
+      "modeledDeltaPct": 4.92,
+      "markAtDetection": 3.9429,
+      "markAtDecision": 3.9429,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2404.294047063716,
+        "maxLossUsd": 500,
+        "stopPct": 0.1987901347370537,
+        "costPct": 0.009171117178298896,
+        "spreadPct": 0.007971117178298896,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.09939506736852685,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 273947019.0809999,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.007971117178298896,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 4.92,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xeee47eac545bb2b1d55a0b38b518f3f58c01515d5a9e89f1c15c99421ddfba52 succeeded in block 74"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xe277cb47cb1e6ab3eb3c308bfee14405cdac2ee3 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $590,355 at Zephyr Yield"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Unauthorised external call to vault function 0xa441d067 from a non-owner EOA. The vault read its own token balance (0x70a08231) then executed transfer (0xa9059cbb) of the full balance out, with authorisedByOwner=false — an entry point missing a caller/ownership check."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": true,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": true,
+        "value": "4.9%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "Unauthorised external call to vault function 0xa441d067 from a non-owner EOA. The vault read its own token balance (0x70a08231) then executed transfer (0xa9059cbb) of the full balance out, with authorisedByOwner=false — an entry point missing a caller/ownership check.",
+    "lossBearer": "Zephyr Yield vault (0x959922be...) and its depositors/share holders; share price fell 1 -> 0, so the entire 590,355 USD sits with the vault, not with any named integrator.",
+    "narrative": "An address that is not the recorded owner called a single vault function. Inside that call the vault looked up its own balance of token 0x0b306bf9 and then transferred the whole amount away, leaving holdings at 0 and share price at 0. The owner did not authorise it, so this is a permissioning failure on the entry point rather than a normal withdrawal. The loss lands directly on the Zephyr Yield vault and anyone holding its shares: 590,355 USD against a 3,000,000 USD market cap, modelled at 4.92%. No integrator exposure is shown in the packet, so contagion beyond the vault is not evidenced here.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Packet shows caller is not the owner but does not show whether some other role could legitimately call 0xa441d067; key compromise of a non-owner role is not excluded.",
+      "No integrators listed, so downstream or wrapped-share exposure cannot be assessed from this evidence.",
+      "Only one transaction is supplied; prior or follow-on drains of the same vault are not visible.",
+      "Owner address 0xf39Fd6e5... is a well-known default test account, which may indicate a non-production environment."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "TRADE_DIRECT",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 72,
+    "thesis": "The exploit looks real (missing caller check, full balance swept, share price 1 -> 0, ~590k USD), but the only tradable market is NEARUSDT, which is not Zephyr Yield equity. A 590k vault drain is immaterial to NEAR's actual float, so shorting NEAR does not monetise this loss even if the modeled 4.92% edge looks attractive against a 3M cap assumption.",
+    "invalidation": "Evidence that the drained vault's value is actually backed by or redeemable in the NEAR instrument, or a listed Zephyr Yield / direct share market appearing with the loss still unpriced.",
+    "rationale": "Causal path for the hack is established: unauthorised external call, balance read then full transfer, authorisedByOwner false, no integrator bears the loss. But the loss sits entirely with vault depositors and there is no instrument that prices those shares. The candidate's 3M market cap does not correspond to NEAR, so modeledDeltaPct is built on a mismatched proxy; a 0.59M loss is noise to NEAR. No causal link from vault to instrument means no payable trade."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "863fe2bece2d1d69c635a419dd42d84df7441cf8c255e7476020770da83b2364"
+}
