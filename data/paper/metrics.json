@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-21T14:48:18.526Z",
+  "generatedAt": "2026-09-21T14:58:20.824Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-21T14:48:17.929Z",
-    "days": 5.826,
-    "equityPoints": 242,
+    "to": "2026-09-21T14:58:20.278Z",
+    "days": 5.833,
+    "equityPoints": 243,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 239,
+    "tickCount": 240,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-21T14:48:17.929Z",
+    "lastTickAt": "2026-09-21T14:58:20.278Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -85,24 +85,25 @@
       "spotSymbols": 2710,
       "pairsWithBothLegs": 120,
       "evaluated": 120,
-      "triggered": 15,
+      "triggered": 16,
       "opened": 0,
       "abstained": 120,
       "reasons": {
-        "gap below trigger": 105,
-        "hedgeable,net-edge,clip-size": 6,
-        "net-edge,clip-size": 7,
+        "gap below trigger": 104,
+        "hedgeable,net-edge,clip-size": 8,
+        "net-edge,clip-size": 5,
         "hedgeable,clip-size": 1,
+        "hedgeable,spread,net-edge,clip-size": 1,
         "net-edge": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 41.8,
-        "median": -42.64,
-        "worst": -73.73,
-        "hedgeable": 8,
+        "best": 51.92,
+        "median": -33.8,
+        "worst": -107.96,
+        "hedgeable": 6,
         "clearedCost": 1,
-        "sampled": 15
+        "sampled": 16
       }
     }
   }
