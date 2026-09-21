@@ -356,6 +356,13 @@ export default function Console() {
         </div>
       </section>
 
+      <section className="wkc-section wkc-reveal" style={{ paddingBottom: 18 }} aria-labelledby="wkc-desk-title">
+        <header>
+          <h2 id="wkc-desk-title">Every decision it has made</h2>
+          <p>Newest first, across real captures, incidents found on the exploit feed, and blind tests. Pick any one to see the evidence, the challenges it had to survive, and the size that would have been taken.</p>
+        </header>
+      </section>
+
       <div className="wkc-desk wkc-reveal" id="desk">
         <div className="wkc-col">
           <div className="wkc-colhead"><span className="wkc-livedot" /><h2>Incident queue</h2><span className="wkc-count">{shown.length}</span></div>
