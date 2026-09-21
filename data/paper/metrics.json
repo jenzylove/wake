@@ -1,11 +1,11 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-21T12:35:57.640Z",
+  "generatedAt": "2026-09-21T12:45:59.634Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-21T12:35:56.768Z",
-    "days": 5.734,
-    "equityPoints": 233,
+    "to": "2026-09-21T12:45:59.060Z",
+    "days": 5.741,
+    "equityPoints": 234,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 230,
+    "tickCount": 231,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-21T12:35:56.768Z",
+    "lastTickAt": "2026-09-21T12:45:59.060Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -79,30 +79,31 @@
       "maxNotionalShareOfVolume": 0.002,
       "stopCooldownMs": 14400000
     },
-    "universeSize": 115,
+    "universeSize": 117,
     "lastScan": {
       "perpsScanned": 797,
       "spotSymbols": 2710,
-      "pairsWithBothLegs": 115,
-      "evaluated": 115,
-      "triggered": 15,
+      "pairsWithBothLegs": 117,
+      "evaluated": 117,
+      "triggered": 16,
       "opened": 0,
-      "abstained": 115,
+      "abstained": 117,
       "reasons": {
-        "gap below trigger": 100,
-        "hedgeable,net-edge,clip-size": 4,
-        "net-edge,clip-size": 9,
+        "gap below trigger": 101,
+        "hedgeable,net-edge,clip-size": 5,
+        "hedgeable,spread,net-edge,clip-size": 2,
+        "net-edge,clip-size": 7,
         "hedgeable,clip-size": 1,
         "net-edge": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 38.51,
-        "median": -35.37,
-        "worst": -57.21,
-        "hedgeable": 10,
+        "best": 41.44,
+        "median": -44.36,
+        "worst": -126.79,
+        "hedgeable": 8,
         "clearedCost": 1,
-        "sampled": 15
+        "sampled": 16
       }
     }
   }
