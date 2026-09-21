@@ -1,0 +1,173 @@
+{
+  "schema": "wake.live.incident.v1",
+  "id": "live-42161-990aca8b72",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-21T14:13:53.838Z",
+  "chain": {
+    "id": "42161",
+    "name": "arbitrum"
+  },
+  "detection": {
+    "tx": "0x990aca8b72941739c5d98edb6b96ae409303a5e647901316cb46fd28e6ce0308",
+    "block": 507466210,
+    "contract": "0xee7ae85f2fe2239e27d9c1e23fffe168d63b4055",
+    "recipient": "0x6fa5b6d93e2539caea358518d3fe8f75418e5a1d",
+    "asset": "USDC",
+    "amount": 8999999.8,
+    "approxUsd": 9000000,
+    "balanceRemovedShare": 0.6781
+  },
+  "exposure": {
+    "quantified": true,
+    "chainId": "42161",
+    "txHash": "0x990aca8b72941739c5d98edb6b96ae409303a5e647901316cb46fd28e6ce0308",
+    "block": 507466210,
+    "victim": "0xee7ae85f2fe2239e27d9c1e23fffe168d63b4055",
+    "drainedUsd": 9002929.434942776,
+    "drainedTokens": [
+      {
+        "token": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+        "symbol": "USDC",
+        "amount": -9005018.86587,
+        "usd": -9002929.434942776
+      }
+    ],
+    "victimIssuesToken": false,
+    "holderScan": "skipped: victim does not issue a token",
+    "integrators": [],
+    "method": "receipt Transfer logs, ERC20 state at the block before and the block of the exploit, DefiLlama current prices"
+  },
+  "protocol": null,
+  "instrument": null,
+  "market": null,
+  "sizing": {
+    "computable": false,
+    "reason": "no instrument"
+  },
+  "evidence": [
+    {
+      "key": "drain",
+      "ok": true,
+      "weight": 25,
+      "detail": "68% of the contract's USDC left in one transaction"
+    },
+    {
+      "key": "loss-path",
+      "ok": true,
+      "weight": 25,
+      "detail": "measured $9,002,929"
+    },
+    {
+      "key": "protocol",
+      "ok": false,
+      "weight": 20,
+      "detail": "contract does not match a known protocol"
+    },
+    {
+      "key": "instrument",
+      "ok": false,
+      "weight": 15,
+      "detail": "no Bitget perpetual for the affected protocol"
+    },
+    {
+      "key": "ai-review",
+      "ok": false,
+      "weight": 15,
+      "detail": "unknown (vetoed)"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "loss-path",
+      "question": "Is the loss path measured from chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "market",
+      "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+      "status": "UNRESOLVED",
+      "blocksTrade": true
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The packet does not support a loss path: the outflow is indistinguishable from an authorised treasury, bridge or migration movement, no protocol or instrument is identified, and the integrators list is empty so no exposure is demonstrated."
+    }
+  ],
+  "confidence": null,
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": false,
+        "value": "$0",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "2 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "unknown",
+    "mechanism": "Evidence shows only a single outflow of 8,999,999.8 USDC from 0xee7a…4055 on Arbitrum, removing 67.81% of the contract balance. The packet contains no caller authorisation data, no role or ownership change, no initialisation event, no oracle or price context and no protocol identification, so no exploit mechanism can be named.",
+    "lossBearer": "Unidentified — the holder(s) of the balance in 0xee7ae85f2fe2239e27d9c1e23fffe168d63b4055. No protocol, depositor set or integrator exposure is shown in the packet.",
+    "narrative": "A contract on Arbitrum sent out 8,999,999.8 USDC (about $9,002,929 of drained value), roughly 67.81% of what it held. That is the entire story the evidence tells. There is no attributed protocol, no named counterparty, no integrator exposure, and nothing in the packet showing the transfer was unauthorised — no failed access check, no ownership or initialiser change, no price manipulation. A treasury sweep, a bridge settlement or a planned migration would produce an identical footprint. On this packet alone the movement cannot be called an exploit, and no loss-bearing entity can be named.",
+    "veto": true,
+    "vetoReason": "The packet does not support a loss path: the outflow is indistinguishable from an authorised treasury, bridge or migration movement, no protocol or instrument is identified, and the integrators list is empty so no exposure is demonstrated.",
+    "concerns": [
+      "No authorisation evidence: caller, roles and ownership state are absent from the packet.",
+      "No protocol or instrument attribution, so the affected system and its users are unknown.",
+      "Integrator exposure list is empty; no third-party loss is demonstrated.",
+      "Partial drain (67.81%) is consistent with a routine treasury or bridge movement, not necessarily a full sweep."
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "instrument": null,
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": false,
+      "reason": "no instrument"
+    }
+  },
+  "integrity": "1b8d551b08ac73f1c827ce1f57a35bdd5a4d2f240589278174d98e7f97a89496"
+}
