@@ -1,17 +1,17 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-21T20:23:32.670Z",
+  "generatedAt": "2026-09-21T23:13:28.639Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-21T20:23:32.202Z",
-    "days": 6.059,
-    "equityPoints": 256,
+    "to": "2026-09-21T23:13:28.045Z",
+    "days": 6.177,
+    "equityPoints": 257,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
-    "sharpeAnnualisedFromHourly": -5.927374266631195,
-    "sharpeAnnualisedFromDaily": 7.747358053478381,
-    "sharpeSampleSizeHourly": 77,
+    "sharpeAnnualisedFromHourly": -5.867688162256921,
+    "sharpeAnnualisedFromDaily": 7.781108916535189,
+    "sharpeSampleSizeHourly": 78,
     "sharpeSampleSizeDaily": 6,
     "sharpeMinimumSamples": {
       "hourly": 24,
@@ -22,7 +22,7 @@
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
     "maxDrawdownTroughAt": "2026-09-16T04:42:51.521Z",
     "winRate": 0.15384615384615385,
-    "totalReturnRate": -0.02414543300000005
+    "totalReturnRate": -0.024061150000000087
   },
   "trades": {
     "closed": 13,
@@ -49,10 +49,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 97585.46,
-    "totalPnlUsd": -2414.54,
+    "currentUsd": 97593.88,
+    "totalPnlUsd": -2406.12,
     "realizedPnlUsd": -2401.5,
-    "openUnrealizedUsd": -13.04
+    "openUnrealizedUsd": -4.62
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 253,
+    "tickCount": 254,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-21T20:23:32.202Z",
+    "lastTickAt": "2026-09-21T23:13:28.045Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -85,25 +85,26 @@
       "spotSymbols": 2710,
       "pairsWithBothLegs": 129,
       "evaluated": 129,
-      "triggered": 15,
+      "triggered": 18,
       "opened": 0,
       "abstained": 129,
       "reasons": {
-        "gap below trigger": 114,
-        "hedgeable,net-edge,clip-size": 6,
-        "hedgeable,spread,net-edge,clip-size": 3,
-        "net-edge,clip-size": 4,
-        "net-edge": 1,
-        "duplicate": 1
+        "gap below trigger": 111,
+        "hedgeable,net-edge,clip-size": 5,
+        "hedgeable,spread,net-edge,clip-size": 2,
+        "net-edge,clip-size": 7,
+        "hedgeable,clip-size": 2,
+        "spread,net-edge,clip-size": 1,
+        "net-edge,duplicate": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 14.88,
-        "median": -53.86,
-        "worst": -86.12,
-        "hedgeable": 6,
-        "clearedCost": 1,
-        "sampled": 15
+        "best": 59.06,
+        "median": -26.87,
+        "worst": -99.72,
+        "hedgeable": 9,
+        "clearedCost": 2,
+        "sampled": 18
       }
     }
   }
