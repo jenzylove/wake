@@ -102,6 +102,19 @@ async function gatherIncidents() {
         gatePassed: false, sizing: r.sizing, instrument: r.instrument, side, stopPct: r.sizing?.stopPct ?? null })
     }
   }
+  // Incidents WAKE found itself on a public chain. Real captures, so they may trade.
+  const live = path.join(ROOT, "data", "live")
+  if (existsSync(live)) {
+    for (const f of readdirSync(live).filter((n) => n.startsWith("live-") && n.endsWith(".json"))) {
+      const r = JSON.parse(readFileSync(path.join(live, f), "utf8"))
+      if (!r.agent) continue
+      out.push({ id: r.id, source: "live", provenance: "REAL_CAPTURE", numbersProvenance: "COMPUTED",
+        decision: r.agent.decision, gatePassed: r.agent.gatePassed, sizing: r.agent.sizing,
+        instrument: r.agent.instrument, side: r.agent.side, stopPct: r.agent.sizing?.stopPct ?? null,
+        detectedAt: r.detectedAt })
+    }
+  }
+
   const blind = path.join(ROOT, "data", "blind")
   if (existsSync(blind)) {
     for (const f of readdirSync(blind).filter((n) => n.startsWith("blind-") && n.endsWith(".json"))) {
@@ -243,7 +256,7 @@ async function main() {
     open: state.open.length, closedTrades: pnl.length, realizedPnlUsd: Number(cum.toFixed(4)),
     winRate: pnl.length ? Number((pnl.filter((x) => x > 0).length / pnl.length).toFixed(3)) : null, maxDrawdownUsd: Number(maxDd.toFixed(4)),
     // Real incidents and blind test incidents are never blended into one number.
-    closedBySource: Object.fromEntries(["captured", "discovered", "blind"].map((src) => {
+    closedBySource: Object.fromEntries(["captured", "discovered", "live", "blind"].map((src) => {
       const xs = state.closed.filter((c) => c.source === src).map((c) => c.pnlUsd)
       return [src, { trades: xs.length, realizedPnlUsd: Number(xs.reduce((a, b) => a + b, 0).toFixed(4)), wins: xs.filter((x) => x > 0).length }]
     })),

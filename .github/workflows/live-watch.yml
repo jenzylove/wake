@@ -1,0 +1,37 @@
+name: WAKE live chain watch
+# Every hour: read the blocks not yet seen on Ethereum, Base and Arbitrum, look for a transaction
+# that removes most of a contract's balance of a major asset, investigate whatever it finds, and
+# commit the result. Most passes find nothing, and most finds are refused. That is the record.
+on:
+  schedule:
+    - cron: "29 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: discovery, cancel-in-progress: false }
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Scan the chains
+        env:
+          WAKE_AGENT_INTERPRET: https://bitget-lilac.vercel.app/api/agent/interpret
+          WAKE_SCHEDULER_SECRET: ${{ secrets.WAKE_SCHEDULER_SECRET }}
+        run: node scripts/watch-chain.mjs
+      - name: Agent tick
+        env:
+          WAKE_AGENT_EXECUTOR: https://bitget-lilac.vercel.app/api/agent/execute
+          WAKE_SCHEDULER_SECRET: ${{ secrets.WAKE_SCHEDULER_SECRET }}
+        run: node scripts/wake-agent.mjs
+      - name: Commit
+        run: |
+          git config user.name jenzylove
+          git config user.email jennifereze12@gmail.com
+          git add data/live data/wake-paper
+          git diff --cached --quiet && exit 0
+          git commit -m "Live chain watch [skip ci]"
+          for i in 1 2 3; do git pull --no-rebase --no-edit && git push && exit 0; sleep 5; done
+          exit 1

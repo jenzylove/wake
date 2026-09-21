@@ -14,7 +14,7 @@ import { ExposureField } from "@/components/exposure-field"
    shape is pinned by the API routes and the data tests, not by this view. */
 type Json = Record<string, any>
 type Decision = string
-type Source = "captured" | "discovered" | "blind"
+type Source = "captured" | "discovered" | "live" | "blind"
 
 type Falsifier = { key?: string; question: string; status: string; blocksTrade: boolean; answer?: string }
 type Ai = { exploitClass: string; mechanism?: string; lossBearer?: string; narrative?: string; veto: boolean; concerns?: string[] } | null
@@ -115,6 +115,31 @@ function useConsoleData() {
         links: [{ label: "source record hash", href: `https://github.com/jenzylove/wake/blob/main/data/discovered/${r.id}.json` }],
       }))
 
+      // Incidents WAKE found itself by watching public chains.
+      const liveFound: Item[] = ((stateRes.live?.incidents ?? []) as Json[]).map((r) => ({
+        id: String(r.id), source: "live" as const,
+        title: r.protocol?.name ? String(r.protocol.name) : `Unnamed contract on ${String(r.chain)}`,
+        subtitle: `${String(r.chain)} · ${Math.round(Number(r.removedShare) * 100)}% of its ${String(r.asset)} left in one transaction · found by watching the chain`,
+        decision: String(r.decision), instrument: r.instrument ?? null, when: String(r.detectedAt),
+        numbers: [
+          { label: "value moved", value: usd(r.approxUsd) },
+          { label: "loss path", value: r.exposureMeasured ? "measured" : "not measured" },
+          { label: "modeled", value: pct(r.modeledDeltaPct) },
+          { label: "confidence", value: r.confidence === null || r.confidence === undefined ? "n/a" : `${r.confidence}%` },
+        ],
+        falsification: (r.falsification ?? []) as Falsifier[],
+        ai: (r.ai ?? null) as Ai,
+        note: r.protocol
+          ? `Detected from chain state, then matched to ${String(r.protocol.name)}.`
+          : "Detected from chain state. The contract does not match a known protocol, so there is no market to express a consequence in and WAKE holds.",
+        sizing: r.sizing ?? null,
+        extra: [
+          { label: "contract", value: String(r.contract) },
+          { label: "transaction", value: String(r.tx) },
+          { label: "instrument", value: r.instrument ?? "none listed" },
+        ],
+      }))
+
       const blind: Item[] = ((stateRes.blind?.incidents ?? []) as Json[]).map((r) => ({
         id: String(r.id), source: "blind" as const,
         title: `${r.target ?? "unregistered contract"}${r.authorised ? " (authorised sweep)" : ""}`,
@@ -134,7 +159,7 @@ function useConsoleData() {
         extra: [{ label: "victim", value: String(r.victim) }, { label: "exposure type", value: String(r.kind ?? "none") }, { label: "gate", value: r.gatePassed ? "cleared" : "held" }],
       }))
 
-      const items = [...captured, ...discovered, ...blind]
+      const items = [...captured, ...discovered, ...liveFound, ...blind]
       setData({ items, state: stateRes as unknown as State, error: null })
     } catch (error) {
       setData((d) => ({ ...d, error: error instanceof Error ? error.message : "load failed" }))
@@ -367,9 +392,9 @@ export default function Console() {
         <div className="wkc-col">
           <div className="wkc-colhead"><span className="wkc-livedot" /><h2>Incident queue</h2><span className="wkc-count">{shown.length}</span></div>
           <div className="wkc-filters">
-            {(["all", "captured", "discovered", "blind"] as const).map((key) => (
+            {(["all", "live", "captured", "discovered", "blind"] as const).map((key) => (
               <button key={key} aria-pressed={filter === key} onClick={() => { setFilter(key); setSelected(null) }}>
-                {key === "captured" ? "real captures" : key === "blind" ? "blind tests" : key}
+                {key === "captured" ? "real captures" : key === "blind" ? "blind tests" : key === "live" ? "live chain" : key}
               </button>
             ))}
           </div>

@@ -1,0 +1,148 @@
+{
+  "updatedAt": "2026-09-21T13:02:10.193Z",
+  "minUsd": 250000,
+  "chains": {
+    "1": {
+      "name": "ethereum",
+      "from": 26026036,
+      "to": 26026049,
+      "blocks": 14,
+      "skipped": 0,
+      "largeTransfers": 76,
+      "drains": 1
+    },
+    "8453": {
+      "name": "base",
+      "error": "eth_call: over rate limit"
+    },
+    "42161": {
+      "name": "arbitrum",
+      "from": 507449145,
+      "to": 507449824,
+      "blocks": 680,
+      "skipped": 0,
+      "largeTransfers": 7,
+      "drains": 0
+    }
+  },
+  "scanned": {
+    "1": {
+      "lastBlock": 26026049,
+      "scannedAt": "2026-09-21T13:01:45.043Z"
+    },
+    "8453": {
+      "lastBlock": 51603111,
+      "scannedAt": "2026-09-21T12:59:08.536Z"
+    },
+    "42161": {
+      "lastBlock": 507449824,
+      "scannedAt": "2026-09-21T13:02:10.188Z"
+    }
+  },
+  "incidents": [
+    {
+      "id": "live-1-bbc70ec38b",
+      "detectedAt": "2026-09-21T13:01:45.040Z",
+      "chain": "ethereum",
+      "tx": "0xbbc70ec38b845a49e6c527965459b1ac5ed823d928b6aea4ef2ec0be771a5c64",
+      "contract": "0xa2cf88762c80c65cad9f51f8e245282d6d329913",
+      "asset": "USDC",
+      "approxUsd": 4000000,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "Mechanism is ambiguous and the loss path is unsupported: the packet shows a full-balance outflow with no caller, authorisation context or protocol attribution, and lists zero integrator exposure. An authorised treasury movement or bridge settlement is indistinguishable on this evidence."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "A contract on Ethereum had its entire USDC balance, 4,000,000 USDC (about $3,998,911), moved out in one transaction. That is 100% of what it held. Beyond that, the packet tells us nothing: no protocol name, no attacker or authorised-signer context, no function called, and no integrators listed as exposed. A treasury sweep, a bridge settlement or a contract migration produces exactly this shape on chain. Without a caller or authorisation signal there is no basis to call this an exploit, and no identified counterparty whose loss we could trade against.",
+        "lossBearer": "Not established. The only identified party is the drained contract 0xa2cf...9913; no protocol, depositor base or integrator exposure is shown in the packet.",
+        "concerns": [
+          "No caller or authorisation data: cannot distinguish attacker from privileged operator.",
+          "Protocol and instrument fields are null; drained contract is unattributed.",
+          "Integrator list is empty, so no exposed counterparty is demonstrated.",
+          "balanceRemovedShare of 1 is typical of both a sweep exploit and a routine migration."
+        ]
+      }
+    },
+    {
+      "id": "live-1-04dce13dc6",
+      "detectedAt": "2026-09-21T12:59:01.077Z",
+      "chain": "ethereum",
+      "tx": "0x04dce13dc657262e1584c449440d3528c9a4f5a33a3fdac5f6931c888de00457",
+      "contract": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+      "asset": "USDT",
+      "approxUsd": 19652782,
+      "removedShare": 0.6412,
+      "protocol": null,
+      "instrument": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "Mechanism is ambiguous and the outflow may be authorised: the packet contains no caller, trace, role or authorisation evidence, no protocol attribution, and no integrator exposure, so the proposed loss path is unsupported."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "A single Ethereum transaction moved 19,652,782.262853 USDT out of contract 0x1601843c5e9bc251a3272907010afa41fa18347e, about 64% of that balance. That is the entire substance of the evidence. There is no trace of who called it, no permission change, no failed access check, and no named protocol or product behind the address. A treasury sweep, a bridge settlement or a scheduled migration would look exactly like this on chain. The packet also reports drained exposure of $57,397,377 against a $19,652,782 single-asset move, and that gap is not explained. Nothing here establishes an unauthorised loss path, so I am not endorsing a trade on it.",
+        "lossBearer": "Undetermined. Nominally whoever holds the claim on the balance at 0x1601843c5e9bc251a3272907010afa41fa18347e; no protocol, depositor set or integrator exposure is identified in the packet.",
+        "concerns": [
+          "No call trace, caller or signer supplied; cannot distinguish exploit from authorised treasury or bridge movement.",
+          "No protocol or instrument attribution for the drained contract; loss bearer unidentifiable.",
+          "exposure.drainedUsd $57,397,377 is inconsistent with the single reported move of ~$19,652,782 and is unexplained.",
+          "Integrator list is empty, so no traded exposure path is evidenced."
+        ]
+      }
+    }
+  ]
+}

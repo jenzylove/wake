@@ -1,5 +1,6 @@
 import agent from "@/data/wake-paper/summary.json"
 import blind from "@/data/blind/summary.json"
+import live from "@/data/live/summary.json"
 import discovered from "@/data/discovered/index.json"
 
 // One read for the console: what the agent is holding, what it decided recently, and how it has
@@ -14,6 +15,7 @@ export async function GET() {
     recentLog: agent.recentLog,
     logEntries: agent.logEntries,
     blind,
+    live,
     discovery: { updatedAt: discovered.updatedAt, lastRun: discovered.lastRun, incidents: discovered.incidents },
   })
 }
