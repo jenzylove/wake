@@ -1,17 +1,17 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-21T14:58:20.824Z",
+  "generatedAt": "2026-09-21T15:08:23.014Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-21T14:58:20.278Z",
-    "days": 5.833,
-    "equityPoints": 243,
+    "to": "2026-09-21T15:08:22.499Z",
+    "days": 5.84,
+    "equityPoints": 244,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
-    "sharpeAnnualisedFromHourly": -6.092544788805298,
+    "sharpeAnnualisedFromHourly": -6.051076717391183,
     "sharpeAnnualisedFromDaily": 7.79957263786506,
-    "sharpeSampleSizeHourly": 72,
+    "sharpeSampleSizeHourly": 73,
     "sharpeSampleSizeDaily": 6,
     "sharpeMinimumSamples": {
       "hourly": 24,
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 240,
+    "tickCount": 241,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-21T14:58:20.278Z",
+    "lastTickAt": "2026-09-21T15:08:22.499Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -79,29 +79,30 @@
       "maxNotionalShareOfVolume": 0.002,
       "stopCooldownMs": 14400000
     },
-    "universeSize": 120,
+    "universeSize": 125,
     "lastScan": {
       "perpsScanned": 803,
       "spotSymbols": 2710,
-      "pairsWithBothLegs": 120,
-      "evaluated": 120,
+      "pairsWithBothLegs": 125,
+      "evaluated": 125,
       "triggered": 16,
       "opened": 0,
-      "abstained": 120,
+      "abstained": 125,
       "reasons": {
-        "gap below trigger": 104,
-        "hedgeable,net-edge,clip-size": 8,
-        "net-edge,clip-size": 5,
+        "gap below trigger": 109,
+        "hedgeable,net-edge,clip-size": 3,
+        "hedgeable,spread,net-edge,clip-size": 3,
+        "spread,net-edge,clip-size": 2,
         "hedgeable,clip-size": 1,
-        "hedgeable,spread,net-edge,clip-size": 1,
+        "net-edge,clip-size": 6,
         "net-edge": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 51.92,
-        "median": -33.8,
-        "worst": -107.96,
-        "hedgeable": 6,
+        "best": 78.28,
+        "median": -40.64,
+        "worst": -121.73,
+        "hedgeable": 9,
         "clearedCost": 1,
         "sampled": 16
       }
