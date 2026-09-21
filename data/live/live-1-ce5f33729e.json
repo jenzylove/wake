@@ -1,0 +1,173 @@
+{
+  "schema": "wake.live.incident.v1",
+  "id": "live-1-ce5f33729e",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-21T14:21:35.726Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0xce5f33729e2557508b4bf7237f481bdad5ffc0a6f659b18e644cd122252ee1dd",
+    "block": 26026420,
+    "contract": "0x367c42a6f261ec54ffbecf5f41c226be12a3dca0",
+    "recipient": "0xc333e80ef2dec2805f239e3f1e810612d294f771",
+    "asset": "USDC",
+    "amount": 3499995,
+    "approxUsd": 3499995,
+    "balanceRemovedShare": 0.952
+  },
+  "exposure": {
+    "quantified": true,
+    "chainId": "1",
+    "txHash": "0xce5f33729e2557508b4bf7237f481bdad5ffc0a6f659b18e644cd122252ee1dd",
+    "block": 26026420,
+    "victim": "0x367c42a6f261ec54ffbecf5f41c226be12a3dca0",
+    "drainedUsd": 3499094.4362119823,
+    "drainedTokens": [
+      {
+        "token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        "symbol": "USDC",
+        "amount": -3499995,
+        "usd": -3499094.4362119823
+      }
+    ],
+    "victimIssuesToken": false,
+    "holderScan": "skipped: victim does not issue a token",
+    "integrators": [],
+    "method": "receipt Transfer logs, ERC20 state at the block before and the block of the exploit, DefiLlama current prices"
+  },
+  "protocol": null,
+  "instrument": null,
+  "market": null,
+  "sizing": {
+    "computable": false,
+    "reason": "no instrument"
+  },
+  "evidence": [
+    {
+      "key": "drain",
+      "ok": true,
+      "weight": 25,
+      "detail": "95% of the contract's USDC left in one transaction"
+    },
+    {
+      "key": "loss-path",
+      "ok": true,
+      "weight": 25,
+      "detail": "measured $3,499,094"
+    },
+    {
+      "key": "protocol",
+      "ok": false,
+      "weight": 20,
+      "detail": "contract does not match a known protocol"
+    },
+    {
+      "key": "instrument",
+      "ok": false,
+      "weight": 15,
+      "detail": "no Bitget perpetual for the affected protocol"
+    },
+    {
+      "key": "ai-review",
+      "ok": false,
+      "weight": 15,
+      "detail": "unknown (vetoed)"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "loss-path",
+      "question": "Is the loss path measured from chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "market",
+      "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+      "status": "UNRESOLVED",
+      "blocksTrade": true
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The packet does not support any loss path. The outflow is consistent with an authorised movement, no mechanism is identifiable, and the integrators list is empty so no exposed counterparty is demonstrated."
+    }
+  ],
+  "confidence": null,
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": false,
+        "value": "$0",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "2 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "unknown",
+    "mechanism": "Evidence shows only an outflow: 3,499,995 USDC left contract 0x367c42a6f261ec54ffbecf5f41c226be12a3dca0, removing 95.2% of its balance. The packet contains no caller privilege data, no failed access check, no initialisation event, no price source and no callback pattern, so no exploit mechanism can be named.",
+    "lossBearer": "Undetermined. Only the drained contract 0x367c42a6f261ec54ffbecf5f41c226be12a3dca0 is shown as losing funds; no integrators or downstream exposed parties are listed.",
+    "narrative": "A single Ethereum transaction moved 3,499,995 USDC (about $3.5m) out of one contract, taking roughly 95% of what it held. That is the entire story the data tells. Large near-total sweeps are exactly what a treasury consolidation, a bridge settlement or a contract migration look like, and the packet gives nothing to separate those from theft: no protocol name, no instrument, no privileged-caller anomaly, no integrator with visible exposure. Until someone can show the mover lacked authority, or show a counterparty that actually eats the loss, this is an unexplained transfer, not a confirmed exploit.",
+    "veto": true,
+    "vetoReason": "The packet does not support any loss path. The outflow is consistent with an authorised movement, no mechanism is identifiable, and the integrators list is empty so no exposed counterparty is demonstrated.",
+    "concerns": [
+      "No protocol or instrument attribution for the drained contract.",
+      "No evidence on whether the initiating caller was authorised.",
+      "Integrators list is empty: no second-order exposure is shown.",
+      "Near-total balance sweep is equally consistent with migration or bridge settlement."
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "instrument": null,
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": false,
+      "reason": "no instrument"
+    }
+  },
+  "integrity": "9c7c35e4046537d9fb42e343dd2bb66a8bb620b79a7677b4ba3a1c0841a82e5a"
+}

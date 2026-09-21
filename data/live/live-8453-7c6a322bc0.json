@@ -1,0 +1,173 @@
+{
+  "schema": "wake.live.incident.v1",
+  "id": "live-8453-7c6a322bc0",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-21T14:22:10.547Z",
+  "chain": {
+    "id": "8453",
+    "name": "base"
+  },
+  "detection": {
+    "tx": "0x7c6a322bc0d537020a72ed9b76643b10ef2a1894ab1fb33e23d04bc30ee35ae4",
+    "block": 51605306,
+    "contract": "0x2cc5e85b424bf42dc3708a099e98efad06be121b",
+    "recipient": "0x7aea2e8a3843516afa07293a10ac8e49906dabd1",
+    "asset": "WETH",
+    "amount": 126.70076768641327,
+    "approxUsd": 345140,
+    "balanceRemovedShare": 0.6056
+  },
+  "exposure": {
+    "quantified": true,
+    "chainId": "8453",
+    "txHash": "0x7c6a322bc0d537020a72ed9b76643b10ef2a1894ab1fb33e23d04bc30ee35ae4",
+    "block": 51605306,
+    "victim": "0x2cc5e85b424bf42dc3708a099e98efad06be121b",
+    "drainedUsd": 4.502229320196251e-11,
+    "drainedTokens": [
+      {
+        "token": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH",
+        "amount": -1.6544e-14,
+        "usd": -4.502229320196251e-11
+      }
+    ],
+    "victimIssuesToken": false,
+    "holderScan": "skipped: victim does not issue a token",
+    "integrators": [],
+    "method": "receipt Transfer logs, ERC20 state at the block before and the block of the exploit, DefiLlama current prices"
+  },
+  "protocol": null,
+  "instrument": null,
+  "market": null,
+  "sizing": {
+    "computable": false,
+    "reason": "no instrument"
+  },
+  "evidence": [
+    {
+      "key": "drain",
+      "ok": true,
+      "weight": 25,
+      "detail": "61% of the contract's WETH left in one transaction"
+    },
+    {
+      "key": "loss-path",
+      "ok": true,
+      "weight": 25,
+      "detail": "measured $0"
+    },
+    {
+      "key": "protocol",
+      "ok": false,
+      "weight": 20,
+      "detail": "contract does not match a known protocol"
+    },
+    {
+      "key": "instrument",
+      "ok": false,
+      "weight": 15,
+      "detail": "no Bitget perpetual for the affected protocol"
+    },
+    {
+      "key": "ai-review",
+      "ok": false,
+      "weight": 15,
+      "detail": "unknown (vetoed)"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "loss-path",
+      "question": "Is the loss path measured from chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "market",
+      "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+      "status": "UNRESOLVED",
+      "blocksTrade": true
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "Mechanism is ambiguous and the outflow is indistinguishable from an authorised treasury, bridge or migration movement; exposure.drainedUsd is 0 with no integrators listed, so no supported loss path exists."
+    }
+  ],
+  "confidence": null,
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": false,
+        "value": "$0",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "2 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "unknown",
+    "mechanism": "Evidence shows only a single Base transaction moving 126.70076768641327 WETH (~$345,140) out of 0x2cc5e85b424bf42dc3708a099e98efad06be121b, representing 0.6056 of that contract's balance. No call trace, role change, oracle input, initialiser call or unauthorised-caller signal is present, so no exploit mechanism can be named from the packet.",
+    "lossBearer": "Unidentified. The packet names only the drained contract address; no protocol, vault depositor set, or integrator is attributed, and exposure.integrators is empty.",
+    "narrative": "A large WETH outflow was seen live on Base: about 126.7 WETH, roughly $345k, left one contract, taking out just over 60% of what it held. That is the whole of the evidence. There is no trace of who called it, whether the caller was authorised, or what the contract does. A treasury sweep, a bridge settlement or a migration would look exactly like this on chain. The packet also reports drained exposure of $0 and no integrators, so no loss path to any position is demonstrated. Until a mechanism and an affected party are shown, this is an unexplained transfer, not an established exploit.",
+    "veto": true,
+    "vetoReason": "Mechanism is ambiguous and the outflow is indistinguishable from an authorised treasury, bridge or migration movement; exposure.drainedUsd is 0 with no integrators listed, so no supported loss path exists.",
+    "concerns": [
+      "No call trace, event logs or caller authorisation data supplied to distinguish exploit from authorised transfer",
+      "protocol and instrument are null; the drained contract's function is unidentified",
+      "exposure.drainedUsd is 0 and integrators list is empty, so no demonstrated loss to any party",
+      "Residual 39.44% of balance left behind is unexplained and fits either partial sweep or partial drain"
+    ]
+  },
+  "aiError": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "instrument": null,
+    "side": "SHORT",
+    "kind": "DIRECT",
+    "sizing": {
+      "computable": false,
+      "reason": "no instrument"
+    }
+  },
+  "integrity": "bc246e5fbd85bd173738b889d6c5d20aea57ff07184707b7dd8bd124840c383c"
+}
