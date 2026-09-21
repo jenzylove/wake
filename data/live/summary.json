@@ -1,56 +1,178 @@
 {
-  "updatedAt": "2026-09-21T14:22:29.221Z",
+  "updatedAt": "2026-09-21T19:44:17.003Z",
   "minUsd": 250000,
   "chains": {
     "1": {
+      "lastError": "eth_call: historical state 001cf7c06c0ff07fdbe9b783af309334d0b342babdeb7280a4453739c03d4056 is not available",
       "name": "ethereum",
-      "from": 26026397,
-      "to": 26026445,
-      "blocks": 49,
-      "skipped": 0,
-      "largeTransfers": 151,
-      "recurringSenders": 17,
+      "from": 26027637,
+      "to": 26028012,
+      "blocks": 376,
+      "skipped": 1192,
+      "largeTransfers": 1071,
+      "recurringSenders": 148,
       "rejectedCandidates": 13,
-      "drains": 1
+      "drains": 0
     },
     "8453": {
       "name": "base",
-      "from": 51605282,
-      "to": 51605574,
-      "blocks": 293,
-      "skipped": 0,
-      "largeTransfers": 846,
-      "recurringSenders": 14,
+      "from": 51612820,
+      "to": 51615070,
+      "blocks": 2251,
+      "skipped": 7246,
+      "largeTransfers": 12180,
+      "recurringSenders": 50,
       "rejectedCandidates": 13,
       "drains": 1
     },
     "42161": {
+      "lastError": "eth_call: fetch failed",
       "name": "arbitrum",
-      "from": 507466910,
-      "to": 507468971,
-      "blocks": 2062,
-      "skipped": 0,
-      "largeTransfers": 12,
-      "recurringSenders": 1,
-      "rejectedCandidates": 9,
+      "from": 507526803,
+      "to": 507544803,
+      "blocks": 18001,
+      "skipped": 57832,
+      "largeTransfers": 94,
+      "recurringSenders": 9,
+      "rejectedCandidates": 10,
       "drains": 1
     }
   },
   "scanned": {
     "1": {
-      "lastBlock": 26026445,
-      "scannedAt": "2026-09-21T14:21:35.731Z"
+      "lastBlock": 26028012,
+      "scannedAt": "2026-09-21T19:38:08.415Z"
     },
     "8453": {
-      "lastBlock": 51605574,
-      "scannedAt": "2026-09-21T14:22:10.548Z"
+      "lastBlock": 51615070,
+      "scannedAt": "2026-09-21T19:39:23.279Z"
     },
     "42161": {
-      "lastBlock": 507468971,
-      "scannedAt": "2026-09-21T14:22:29.220Z"
+      "lastBlock": 507544803,
+      "scannedAt": "2026-09-21T19:44:17.002Z"
     }
   },
   "incidents": [
+    {
+      "id": "live-42161-c336e27f7a",
+      "detectedAt": "2026-09-21T19:44:17.001Z",
+      "chain": "arbitrum",
+      "tx": "0xc336e27f7ab7374cb8ac6d7459a1ea977857197a4cf1ecbd08bff869d3bdb3a1",
+      "contract": "0xc0e400824044f8b660596f073abc8b31bdaba047",
+      "asset": "USDC",
+      "approxUsd": 1179789,
+      "removedShare": 0.8247,
+      "protocol": null,
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 88,
+        "thesis": "A single Arbitrum transfer moved ~$1.18M USDC (82.5% of balance) out of an unidentified contract. No protocol identity, call trace, caller role or authorisation data exists, so no loss mechanism or loss bearer can be named — and no listed instrument maps to the contract.",
+        "rationale": "Investigator veto stands: the evidence is one balance-moving transaction, which is equally consistent with a treasury sweep, migration or operator withdrawal as with an exploit. With zero candidates there is also no market that could pay, so sizing is moot. Absent protocol identity the causal path from this transfer to any tradable token's price is unestablished."
+      },
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "Mechanism is ambiguous and unevidenced: the packet contains no authorisation, caller-role or call-trace data to distinguish an exploit from an authorised treasury, bridge or migration movement, and the exposure block lists no integrators."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "A single transfer took roughly 1.18m USDC, about 82% of the balance, out of one Arbitrum contract. That is the entire evidence. We do not know who called it, whether the caller held a legitimate owner or operator role, what contract this is, or where the funds went. A treasury sweep, a bridge settlement or a planned migration produces exactly this fingerprint, and so does a private-key compromise. Without a mechanism and without any shown downstream exposure, there is no defensible loss path to trade against — only a large outflow that may be entirely routine.",
+        "lossBearer": "Unidentified — economically the holder(s) of the balance at 0xc0e4...a047; no protocol is named and the packet lists no integrators with exposure.",
+        "concerns": [
+          "No protocol or instrument identified for the drained contract; attribution is impossible from the packet.",
+          "Outflow may be fully authorised — the note itself flags treasury/bridge/migration as look-alikes.",
+          "exposure.integrators is empty, so no second-order loss bearer is demonstrated.",
+          "Residual 17.53% of balance left behind is unexplained and fits either partial sweep or partial drain."
+        ]
+      }
+    },
+    {
+      "id": "live-8453-37db118ef1",
+      "detectedAt": "2026-09-21T19:39:23.278Z",
+      "chain": "base",
+      "tx": "0x37db118ef1cf718eb79f6f21f94f0bc235a86b831b7f6ded353b0650b067600c",
+      "contract": "0x735e926c2e73219a7a3190536815957d5d66acc3",
+      "asset": "USDC",
+      "approxUsd": 850000,
+      "removedShare": 0.8889,
+      "protocol": null,
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 80,
+        "thesis": "A single Base transfer moved ~$850k USDC (88.89% of tracked balance) out of an unidentified contract. No caller, selector, trace or ownership data exists, so the transfer is equally consistent with an authorised treasury/ops sweep as with an exploit. No protocol, depositor set or token is identified as loss bearer.",
+        "rationale": "Investigator veto stands: mechanism unknown and loss bearer undetermined, so the causal path from this transfer to any traded instrument is not established. The candidate list is empty and no listed market maps to the contract, so there is no venue that would pay even if the exploit thesis were correct. $850k is also small relative to any plausible large-cap float. Nothing to act on."
+      },
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "Mechanism is ambiguous and the loss path is unproven: no caller, selector or authorisation evidence is supplied, no protocol or depositor set is identified, and the integrator list is empty, so no third-party exposure is demonstrated. The outflow is equally consistent with an authorised treasury or "
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "A single transaction on Base moved 849,999.997464 USDC out of contract 0x735e...acc3, about 88.89% of its tracked balance. That is the whole of the evidence. There is no indication of who called it, whether the caller was an authorised owner or operator, what function was used, or whether any third party had funds pooled there. A treasury sweep, bridge settlement or migration produces exactly this shape on-chain. Without a caller identity, an authorisation check or a named depositor base, calling this an exploit would be a guess rather than a finding.",
+        "lossBearer": "Undetermined. Loss would fall on whoever beneficially owns the balance at 0x735e...acc3; the packet names no protocol, depositor set or integrators.",
+        "concerns": [
+          "No caller, function selector or call trace provided; authorised vs unauthorised cannot be distinguished.",
+          "Empty integrator list means no downstream exposure is evidenced.",
+          "Drained contract is unattributed to any protocol or instrument.",
+          "Residual ~11% balance is unexplained and not itself evidence either way."
+        ]
+      }
+    },
     {
       "id": "live-42161-b158ecaca9",
       "detectedAt": "2026-09-21T14:22:29.219Z",
@@ -65,6 +187,9 @@
       "decision": "MONITOR",
       "gatePassed": false,
       "confidence": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "modeledDeltaPct": null,
       "marketDeltaPct": 0,
       "exposureMeasured": true,
@@ -117,6 +242,9 @@
       "decision": "MONITOR",
       "gatePassed": false,
       "confidence": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "modeledDeltaPct": null,
       "marketDeltaPct": 0,
       "exposureMeasured": true,
@@ -169,6 +297,9 @@
       "decision": "MONITOR",
       "gatePassed": false,
       "confidence": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "modeledDeltaPct": null,
       "marketDeltaPct": 0,
       "exposureMeasured": true,
@@ -221,6 +352,9 @@
       "decision": "MONITOR",
       "gatePassed": false,
       "confidence": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "modeledDeltaPct": null,
       "marketDeltaPct": 0,
       "exposureMeasured": true,
@@ -273,6 +407,9 @@
       "decision": "MONITOR",
       "gatePassed": false,
       "confidence": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "modeledDeltaPct": null,
       "marketDeltaPct": 0,
       "exposureMeasured": true,
@@ -325,6 +462,9 @@
       "decision": "MONITOR",
       "gatePassed": false,
       "confidence": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "modeledDeltaPct": null,
       "marketDeltaPct": 0,
       "exposureMeasured": true,
@@ -377,6 +517,9 @@
       "decision": "MONITOR",
       "gatePassed": false,
       "confidence": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "modeledDeltaPct": null,
       "marketDeltaPct": 0,
       "exposureMeasured": true,
@@ -429,6 +572,9 @@
       "decision": "MONITOR",
       "gatePassed": false,
       "confidence": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "modeledDeltaPct": null,
       "marketDeltaPct": 0,
       "exposureMeasured": true,
