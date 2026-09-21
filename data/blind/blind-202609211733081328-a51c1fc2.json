@@ -1,0 +1,248 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609211733081328-a51c1fc2",
+  "runId": "202609211733081328",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 93,
+    "blockTimestamp": 1790012050
+  },
+  "detection": {
+    "tx": "0x235287e6ab4a64d45fd159c9d9cd065f47cf00cbf6c214768a6f9ac242f55d44",
+    "txs": [
+      "0x235287e6ab4a64d45fd159c9d9cd065f47cf00cbf6c214768a6f9ac242f55d44"
+    ],
+    "firstDetectedAt": "2026-09-21T17:34:11.336Z",
+    "victim": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+    "token": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+    "before": 829320,
+    "after": 331728,
+    "detectedAt": "2026-09-21T17:34:11.336Z",
+    "latencyMs": 1336
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 829320,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+      "lossUsd": 497592,
+      "name": "Lumen Earn",
+      "instrument": "SOLUSDT",
+      "marketCapUsd": 28000000,
+      "modeledDeltaPct": 0.444,
+      "markAtDetection": 117.596,
+      "markAtDecision": 117.596,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 7099.373123428248,
+        "maxLossUsd": 500,
+        "stopPct": 0.06641050200907818,
+        "costPct": 0.004018251531143241,
+        "spreadPct": 0.002818251531143241,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.03320525100453909,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 883952097.3925999,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.002818251531143241,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.444,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x235287e6ab4a64d45fd159c9d9cd065f47cf00cbf6c214768a6f9ac242f55d44 succeeded in block 93"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $497,592 at Lumen Earn"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The outflow is authorised: the caller is the recorded owner and the trace shows no bypass. The packet does not show the transfer destination or any integrator exposure, so an economic loss path distinct from a legitimate owner-controlled move is not established."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.4%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Owner-key call to selector 0x6ea056a9 on the Lumen Earn vault, which made a single internal ERC-20 transfer (0xa9059cbb) of the vault's token 0xb7f8...4f5e. Caller 0xf39f...2266 equals ownerBeforeTx, so the withdrawal passed the contract's own authorisation checks; no bypass, reinit, oracle or reentrancy step appears in the two-frame trace.",
+    "lossBearer": "Holders of Lumen Earn vault shares (0xa51c...91c0): vault holdings fell 829320 -> 331728 and share price 1 -> 0.4. No integrator exposure is recorded in the packet.",
+    "narrative": "A privileged sweep-style call from the vault's own owner address moved most of one token out of Lumen Earn in a single transfer. Vault holdings went from 829320 to 331728 and modelled share price from 1 to 0.4, i.e. remaining depositors back roughly 40% of what they did before. Mechanically this is an authorised owner withdrawal, not a broken access control or exploit primitive: the contract did exactly what its permissions allow. Whether it is a rug, a migration, or a sanctioned treasury move cannot be told from this packet, and the recipient of the transfer is not shown.",
+    "veto": true,
+    "vetoReason": "The outflow is authorised: the caller is the recorded owner and the trace shows no bypass. The packet does not show the transfer destination or any integrator exposure, so an economic loss path distinct from a legitimate owner-controlled move is not established.",
+    "concerns": [
+      "Destination of the 0xa9059cbb transfer is not in the packet; funds may still be owner-controlled",
+      "Ownership legitimacy unverified - a key compromise would change the class but no evidence either way",
+      "integrators list is empty, so no second-order exposure is demonstrated",
+      "Share price 1 -> 0.4 is a modelled figure; realised market impact vs 28000000 market cap is unproven"
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 78,
+    "thesis": "Owner-key withdrawal on Lumen Earn passed the vault's own authorisation checks — no bypass, reinit, oracle or reentrancy step. The investigator classes it as an authorised operation and vetoes. Even if holders lost 60% of share value, the only listed instrument is SOLUSDT, which does not price Lumen Earn vault shares and carries no recorded exposure.",
+    "invalidation": "Evidence that the owner key was compromised (not an authorised treasury move), or a named integrator with quantified exposure to a listed instrument.",
+    "rationale": "Two blockers: (1) causal path is an authorised owner call, not an exploit — investigator veto stands; (2) the candidate maps a $497k Lumen Earn loss onto SOLUSDT, an instrument with no established holding of the damaged vault shares and zero recorded integrator exposure. A 0.44% modeled delta on an unrelated large-cap is not the market that pays for this event."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "d851ec77f52ca8c70a0875eed51d1824ba1c8b8305ae9bb8eedd1e87430c671d"
+}

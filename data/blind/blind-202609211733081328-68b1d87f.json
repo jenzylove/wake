@@ -1,0 +1,427 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609211733081328-68b1d87f",
+  "runId": "202609211733081328",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 95,
+    "blockTimestamp": 1790012054
+  },
+  "detection": {
+    "tx": "0x5217e07f7c2b825bfacade7210f746fb878cb4a2904621774b2139da4682489a",
+    "txs": [
+      "0x5217e07f7c2b825bfacade7210f746fb878cb4a2904621774b2139da4682489a"
+    ],
+    "firstDetectedAt": "2026-09-21T17:34:46.947Z",
+    "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+    "token": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "before": 749528,
+    "after": 0,
+    "detectedAt": "2026-09-21T17:34:46.947Z",
+    "latencyMs": 32947
+  },
+  "investigation": {
+    "from": "0x1163c33bdd47a8aaad633087586523fe8d71f6b4",
+    "to": "0x757b3adbdf595add11bbd38df569810a38dbaaa8",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x757b3adbdf595add11bbd38df569810a38dbaaa8",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 749528,
+    "integrators": [
+      {
+        "address": "0x1613beb3b2c4f22ee086b2b38c1476a3ce7f78e8",
+        "heldSharesBefore": 432718.26,
+        "heldSharesAfter": 432718.26,
+        "collateralValueBeforeUsd": 432718.26,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 258385.49,
+        "badDebtUsd": 258385.49
+      },
+      {
+        "address": "0xf5059a5d33d5853360d16c683c16e67980206f36",
+        "heldSharesBefore": 206073.825,
+        "heldSharesAfter": 206073.825,
+        "collateralValueBeforeUsd": 206073.825,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 128350.30539000001,
+        "badDebtUsd": 128350.30539000001
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+      "lossUsd": 749528,
+      "name": "Onyx Pool",
+      "instrument": "LTCUSDT",
+      "marketCapUsd": 37000000,
+      "modeledDeltaPct": 0.506,
+      "markAtDetection": 62.1,
+      "markAtDecision": 62.1,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5348.424613882652,
+        "maxLossUsd": 500,
+        "stopPct": 0.08881989415881042,
+        "costPct": 0.0046655779374352195,
+        "spreadPct": 0.0034655779374352194,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04440994707940521,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 40657105.372,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0034655779374352194,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.506,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0x1613beb3b2c4f22ee086b2b38c1476a3ce7f78e8",
+      "lossUsd": 258385.49,
+      "name": "Mistral Lend",
+      "instrument": "ADAUSDT",
+      "marketCapUsd": 82000000,
+      "modeledDeltaPct": 0.079,
+      "markAtDetection": 0.2435,
+      "markAtDecision": 0.2435,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 4678.789682993996,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.10145181493078857,
+        "costPct": 0.0054134288345704,
+        "spreadPct": 0.004213428834570401,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.050725907465394286,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 106087235.51759997,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004213428834570401,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.079,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0xf5059a5d33d5853360d16c683c16e67980206f36",
+      "lossUsd": 128350.30539000001,
+      "name": "Yarrow Lend",
+      "instrument": "NEARUSDT",
+      "marketCapUsd": 77000000,
+      "modeledDeltaPct": 0.042,
+      "markAtDetection": 3.9748,
+      "markAtDecision": 3.9748,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2418.9073799801868,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.19753377947801518,
+        "costPct": 0.009171117178298896,
+        "spreadPct": 0.007971117178298896,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.09876688973900759,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 272465346.9718999,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.007971117178298896,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.042,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x5217e07f7c2b825bfacade7210f746fb878cb4a2904621774b2139da4682489a succeeded in block 95"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x1163c33bdd47a8aaad633087586523fe8d71f6b4 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $749,528 at Onyx Pool"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Attacker contract 0x757b… called the vault 0x68b1… with initialize (0xc4d66de8) despite an existing owner (0xf39F…), seizing privileged control, then read asset() and balanceOf and invoked sweepToken (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) of the full 749528 token balance out of the vault. Not authorised by owner."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.5%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "reinitialisation",
+    "mechanism": "Attacker contract 0x757b… called the vault 0x68b1… with initialize (0xc4d66de8) despite an existing owner (0xf39F…), seizing privileged control, then read asset() and balanceOf and invoked sweepToken (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) of the full 749528 token balance out of the vault. Not authorised by owner.",
+    "lossBearer": "Holders of vault 0x68b1… shares: directly the vault's depositors (Onyx Pool, 749528 USD), and via worthless collateral the lending integrators 0x1613… (258385.49 bad debt) and 0xf5059… (128350.30539 b",
+    "narrative": "An unprotected initializer on the vault let an attacker re-run initialize and take owner rights that already belonged to another address. With control, they called the vault's token sweep function and moved the entire underlying balance of 749528 out in one transfer. Vault holdings went 749528 -> 0 and share price went 1 -> 0. Two lending markets still hold the same share counts (432718.26 and 206073.825) but that collateral is now valued at zero, leaving loans of 258385.49 and 128350.30539 uncollateralised. The direct hole sits with vault depositors; the lenders inherit bad debt.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Bad debt figures assume collateral value tracks share price to zero; realisation depends on liquidation mechanics not shown.",
+      "Integrator share balances are unchanged, so exposure is inferred from the price collapse rather than observed transfers.",
+      "Identity of the attacker-controlled contract 0x757b… and any downstream fund movement is not in the packet.",
+      "modeledDeltaPct and marketCapUsd inputs are not evidenced by chain data in this packet."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "TRADE_DIRECT",
+    "candidate": 0,
+    "confidence": 72,
+    "thesis": "Unauthorised reinitialise on vault 0x68b1 let attacker seize ownership and sweepToken the full 749,528 token balance; share price 1 -> 0. Onyx Pool depositors bear the entire loss (~2% of a 37M cap) and the market has not moved at all yet. Short LTCUSDT as the direct victim leg.",
+    "invalidation": "Funds returned/whitehat recovery, owner confirms authorised migration, or LTCUSDT has already moved ~0.5%+ down before entry.",
+    "rationale": "Exploit class is a clean reinitialisation takeover, not an owner action (veto false, authorisedByOwner false), with an on-chain transfer of the full balance out. Loss bearer is unambiguous and share price is zero, so there is no recovery path priced in. Direct candidate carries the largest loss and the highest modeled move with zero already priced; contagion legs are smaller and second-order."
+  },
+  "aiDecisionError": null,
+  "refusals": [
+    "edge after what the market already did is 0.51%, below 1.2%",
+    "conviction 72 is below 75"
+  ],
+  "proposed": "TRADE_DIRECT",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [
+      "edge after what the market already did is 0.51%, below 1.2%",
+      "conviction 72 is below 75"
+    ]
+  },
+  "integrity": "09c96152f1f582cf6e4f29bd633add4ae36746ccc74fc2f6342c7a57c1b7fb8b"
+}

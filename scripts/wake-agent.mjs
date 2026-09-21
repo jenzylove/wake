@@ -65,7 +65,11 @@ async function placeOrder({ symbol, side, tradeSide, size, posMode, clientOid, i
       signal: AbortSignal.timeout(30_000),
     })
     const body = await res.json()
-    if (!res.ok) throw new Error(`executor ${res.status}: ${body.error}`)
+    if (!res.ok) {
+      const err = new Error(`executor ${res.status}: ${body.code ?? ""} ${body.error}${body.reasons ? ` (${body.reasons.join("; ")})` : ""}`)
+      err.code = body.code
+      throw err
+    }
     return { orderId: body.orderId, clientOid: body.clientOid, executor: "vercel", posMode: body.posMode, markPrice: body.markPrice }
   }
   const hedge = posMode === "hedge_mode"
@@ -150,7 +154,8 @@ async function main() {
   let exchange = null
   if (EXECUTOR) {
     try {
-      const res = await fetch(EXECUTOR.replace("/execute", "/positions"), {
+      const closedSymbols = [...new Set((state.closed ?? []).map((c) => c.instrument))].join(",")
+      const res = await fetch(`${EXECUTOR.replace("/execute", "/positions")}${closedSymbols ? `?history=${closedSymbols}` : ""}`, {
         headers: { "x-wake-scheduler-secret": process.env.WAKE_SCHEDULER_SECRET },
         signal: AbortSignal.timeout(30_000),
       })
@@ -164,7 +169,21 @@ async function main() {
         bitget("GET", "/api/v2/mix/position/all-position?productType=USDT-FUTURES&marginCoin=USDT", "", true),
         bitget("GET", "/api/v2/mix/account/account?marginCoin=USDT&productType=USDT-FUTURES&symbol=BTCUSDT", "", true),
       ])
+      const history = []
+      for (const sym of [...new Set((state.closed ?? []).map((c) => c.instrument))]) {
+        try {
+          const h = await bitget("GET", `/api/v2/mix/position/history-position?productType=USDT-FUTURES&symbol=${sym}&limit=100`, "", true)
+          for (const x of h.data?.list ?? []) history.push({
+            symbol: x.symbol, side: x.holdSide === "short" ? "SHORT" : "LONG",
+            openedAt: new Date(Number(x.ctime)).toISOString(), closedAt: new Date(Number(x.utime)).toISOString(),
+            entryPrice: Number(x.openAvgPrice), exitPrice: Number(x.closeAvgPrice),
+            pnlUsd: Number(x.pnl), netProfitUsd: Number(x.netProfit),
+            feesUsd: Number(x.openFee) + Number(x.closeFee), fundingUsd: Number(x.totalFunding),
+          })
+        } catch { /* keep going */ }
+      }
       exchange = {
+        history,
         account: { equity: Number(account.data?.accountEquity), available: Number(account.data?.available), marginCoin: "USDT" },
         positions: (positions.data ?? []).map((p) => ({
           symbol: p.symbol, side: p.holdSide === "short" ? "SHORT" : "LONG", size: Number(p.total),
@@ -188,10 +207,29 @@ async function main() {
     }
   }
 
+  // Closed trades take the venue's own result, fees and funding included, whenever it can be
+  // matched. The app's computed figure is kept alongside so any gap is visible, not hidden.
+  if (exchange?.history?.length) {
+    for (const c of state.closed ?? []) {
+      if (c.exchange?.netProfitUsd !== undefined) continue
+      const hit = exchange.history.find((h) => h.symbol === c.instrument && h.side === c.side
+        && Math.abs(Date.parse(h.closedAt) - Date.parse(c.closedAt)) < 3 * 3_600_000
+        && Math.abs(Date.parse(h.openedAt) - Date.parse(c.openedAt)) < 3 * 3_600_000)
+      if (!hit) continue
+      c.pnlComputedUsd = c.pnlComputedUsd ?? c.pnlUsd
+      c.exchange = { netProfitUsd: hit.netProfitUsd, pnlUsd: hit.pnlUsd, feesUsd: hit.feesUsd, fundingUsd: hit.fundingUsd, entryPrice: hit.entryPrice, exitPrice: hit.exitPrice }
+      c.pnlUsd = hit.netProfitUsd
+      c.pnlSource = "bitget"
+      appendHashLog(LOG, { event: "PNL_RECONCILED", incidentId: c.incidentId, instrument: c.instrument, computed: c.pnlComputedUsd, exchange: hit.netProfitUsd }, TICK)
+    }
+  }
+
   // 1. Manage what is open.
   for (const p of [...state.open]) {
-    let price
-    try { price = await mark(p.instrument) } catch { continue }
+    // Stops and exits are judged on the Demo book the order will fill on, read back this tick.
+    // The public mainnet mark is only a fallback when the venue could not be read.
+    let price = p.exchange?.at === TICK && Number.isFinite(p.exchange?.markPrice) ? p.exchange.markPrice : null
+    if (price === null) { try { price = await mark(p.instrument) } catch { continue } }
     const reason = exitReason(p, price, byId.get(p.incidentId) ?? null)
     if (!reason) continue
     // A Demo position can only be closed by a run that can reach Demo. Never mark it closed here.
@@ -242,8 +280,14 @@ async function main() {
         stopPct: position.stopPct, computedNotionalUsd: inc.sizing.notionalUsd, cappedNotionalUsd: notional, orderId: order?.orderId ?? null, mode,
         ...(DEMO ? {} : { note: "Demo credentials are not configured in this environment, so no order was sent." }) }, TICK)
     } catch (error) {
-      appendHashLog(LOG, { event: "ENTRY_FAILED", incidentId: inc.id, error: String(error.message ?? error) }, TICK)
-      state.failed = { ...(state.failed ?? {}), [inc.id]: String(error.message ?? error) }
+      if (error.code === "UNPUBLISHED") {
+        // The server only executes what the public record already shows. The incident lands on
+        // the next deploy, so this is deferred, not failed.
+        appendHashLog(LOG, { event: "ENTRY_DEFERRED", incidentId: inc.id, reason: "not yet in the published record" }, TICK)
+      } else {
+        appendHashLog(LOG, { event: "ENTRY_FAILED", incidentId: inc.id, error: String(error.message ?? error) }, TICK)
+        state.failed = { ...(state.failed ?? {}), [inc.id]: String(error.message ?? error) }
+      }
     }
   }
 

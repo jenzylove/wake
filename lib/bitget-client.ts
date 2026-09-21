@@ -163,6 +163,27 @@ export async function getBitgetDemoAccount() {
   )
 }
 
+/** Whether Bitget Demo lists a perpetual. Demo lists fewer contracts than the live venue. */
+export async function getBitgetDemoContract(symbol: string): Promise<boolean> {
+  try {
+    const payload = await signedBitget<Array<{ symbol: string; symbolStatus?: string }>>(
+      "GET",
+      `/api/v2/mix/market/contracts?productType=USDT-FUTURES&symbol=${encodeURIComponent(symbol)}`,
+    )
+    return Array.isArray(payload.data) && payload.data.some((c) => c.symbol === symbol)
+  } catch {
+    return false
+  }
+}
+
+/** Closed Demo positions as the exchange reports them, fees and funding included. */
+export async function getBitgetDemoPositionHistory(symbol: string) {
+  return signedBitget<{ list?: Array<Record<string, string>> }>(
+    "GET",
+    `/api/v2/mix/position/history-position?productType=USDT-FUTURES&symbol=${encodeURIComponent(symbol)}&limit=100`,
+  )
+}
+
 /** Open Demo positions as the exchange reports them: its own average entry, mark and PnL. */
 export async function getBitgetDemoPositions() {
   return signedBitget<unknown>(

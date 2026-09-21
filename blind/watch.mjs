@@ -19,6 +19,8 @@ import { foundry } from "viem/chains"
 import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
 import { aiFalsifier, interpretAnywhere } from "../lib/ai-interpret.mjs"
+import { decideAnywhere, enforce } from "../lib/ai-decide.mjs"
+import { demoListed } from "../lib/demo-listing.mjs"
 
 const RPC = process.env.BLIND_RPC || "http://127.0.0.1:8545"
 const RUN_DIR = process.env.BLIND_RUN_DIR
@@ -155,8 +157,26 @@ async function investigate(tx, token, victim, before, after, blockNumber, detect
     maxLoss: best?.sizing?.computable ? `$${Math.round(best.sizing.maxLossUsd)}` : "$0",
     evidence: evidence.filter((e) => e.ok),
   }
-  const decision = authorised ? "NO_TRADE" : deriveDecisionPolicy(policyInput)
+  // The deterministic policy still runs, and is kept on the record as a cross check.
+  const policyDecision = authorised ? "NO_TRADE" : deriveDecisionPolicy(policyInput)
   const gate = evaluateRiskGatePolicy(policyInput)
+
+  // Claude makes the trading decision from the measured candidates. Code can only refuse it.
+  const listing = await demoListed(candidates.map((c) => c.instrument))
+  for (const c of candidates) c.demoListed = listing[c.instrument?.toUpperCase()] === true
+  let decisionAi = null
+  let decisionError = null
+  try {
+    decisionAi = await decideAnywhere({
+      incident: { victim, authorisedByOwner: authorised, sharePrice: { before: ppsBefore === null ? null : num(ppsBefore), after: ppsAfter === null ? null : num(ppsAfter) } },
+      investigator: ai ? { exploitClass: ai.exploitClass, mechanism: ai.mechanism, lossBearer: ai.lossBearer, veto: ai.veto } : null,
+      integrators,
+      candidates: candidates.map((c, i) => ({ index: i, kind: c.kind, protocol: c.name, instrument: c.instrument, lossUsd: Math.round(c.lossUsd),
+        marketCapUsd: c.marketCapUsd, modeledDeltaPct: c.modeledDeltaPct, marketDeltaPct: c.marketDeltaPct, sizeable: Boolean(c.sizing?.computable), demoListed: c.demoListed })),
+    })
+  } catch (error) { decisionError = String(error.message ?? error) }
+  const final = enforce(decisionAi, candidates, { authorised })
+  const decision = final.decision
 
   const record = {
     schema: "wake.blind.incident.v1",
@@ -167,13 +187,16 @@ async function investigate(tx, token, victim, before, after, blockNumber, detect
     detection: { tx, txs, firstDetectedAt: incidents.get(victim)?.detection.firstDetectedAt ?? detectedAt, victim, token, before: num(before), after: num(after), detectedAt, latencyMs: Date.parse(detectedAt) - Number(block.timestamp) * 1000 },
     investigation: { from: txn.from, to: txn.to, selector: txn.input.slice(0, 10), authorised, owner, calls: calls.slice(0, 40), sharePriceBefore: ppsBefore === null ? null : num(ppsBefore), sharePriceAfter: ppsAfter === null ? null : num(ppsAfter), receiptSupplyBefore: supplyBefore === null ? null : num(supplyBefore), integrators },
     candidates, evidence, falsification, confidence, decision, gate, ai, aiError,
-    agent: best ? { decision, gatePassed: gate.passed, instrument: best.instrument, side: "SHORT", kind: best.kind, sizing: best.sizing } : { decision, gatePassed: false },
+    policyDecision, aiDecision: decisionAi, aiDecisionError: decisionError, refusals: final.refusals, proposed: final.proposed,
+    agent: final.chosen
+      ? { decision, gatePassed: true, decidedBy: "claude", instrument: final.chosen.instrument, side: "SHORT", kind: final.chosen.kind, sizing: final.chosen.sizing }
+      : { decision, gatePassed: false, decidedBy: decisionAi ? "claude" : "none", refusals: final.refusals },
   }
   record.integrity = sha256({ ...record, integrity: undefined })
   mkdirSync(OUT, { recursive: true })
   writeFileSync(path.join(OUT, `${record.id}.json`), JSON.stringify(record, null, 2) + "\n")
   incidents.set(victim, record)
-  console.log(JSON.stringify({ phase: "incident", id: record.id, victim, authorised, decision, gate: gate.passed, target: best?.name ?? null, kind: best?.kind ?? null, confidence, ai: ai ? `${ai.exploitClass}${ai.veto ? " VETO" : ""}` : aiError ? "error" : "not run" }))
+  console.log(JSON.stringify({ phase: "incident", id: record.id, victim, authorised, decision, gate: gate.passed, target: best?.name ?? null, kind: final.chosen?.kind ?? best?.kind ?? null, proposed: final.proposed, refused: final.refusals.length, confidence, ai: ai ? `${ai.exploitClass}${ai.veto ? " VETO" : ""}` : aiError ? "error" : "not run" }))
 }
 
 async function main() {

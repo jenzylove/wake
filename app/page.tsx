@@ -308,7 +308,7 @@ export default function Console() {
             <span>read back from Bitget, not from this app</span>
             {exchange?.account && (
               <span className="wkc-equity" style={{ marginLeft: "auto" }}>
-                Demo account <b>{Number(exchange.account.equity).toLocaleString("en-US", { maximumFractionDigits: 2 })} USDT</b> · checked {ago(String(exchange.at ?? ""))}
+                Demo account, shared with RESIDUAL: <b>{Number(exchange.account.equity).toLocaleString("en-US", { maximumFractionDigits: 2 })} USDT</b> · checked {ago(String(exchange.at ?? ""))}
               </span>
             )}
           </div>
@@ -350,7 +350,7 @@ export default function Console() {
             <div className="wkc-record">
               <table>
                 <thead>
-                  <tr><th>Instrument</th><th>Side</th><th>Entry</th><th>Exit</th><th>Held</th><th>Closed because</th><th style={{ textAlign: "right" }}>Result</th></tr>
+                  <tr><th>Instrument</th><th>Side</th><th>Entry fill</th><th>Exit fill</th><th>Held</th><th>Fees</th><th>Funding</th><th>Closed because</th><th style={{ textAlign: "right" }}>Net, per Bitget</th></tr>
                 </thead>
                 <tbody>
                   {closed.slice().reverse().map((c) => {
@@ -360,9 +360,11 @@ export default function Console() {
                       <tr key={String(c.incidentId) + String(c.closedAt)}>
                         <td className="n">{String(c.instrument)}</td>
                         <td>{String(c.side)}</td>
-                        <td className="n">{String(c.entryPrice)}</td>
-                        <td className="n">{String(c.exitPrice)}</td>
+                        <td className="n">{String(c.exchange?.entryPrice ?? c.entryPrice)}</td>
+                        <td className="n">{String(c.exchange?.exitPrice ?? c.exitPrice)}</td>
                         <td>{held.toFixed(1)}h</td>
+                        <td>{c.exchange ? Number(c.exchange.feesUsd).toFixed(2) : "n/a"}</td>
+                        <td>{c.exchange ? `${Number(c.exchange.fundingUsd) >= 0 ? "+" : ""}${Number(c.exchange.fundingUsd).toFixed(2)}` : "n/a"}</td>
                         <td>{String(c.exitReason).replace(/:.*/, "")}</td>
                         <td className={`n ${pnl >= 0 ? "is-trade" : "is-stop"}`} style={{ textAlign: "right" }}>{pnl >= 0 ? "+" : ""}{pnl.toFixed(2)}</td>
                       </tr>
@@ -374,9 +376,10 @@ export default function Console() {
           )}
 
           <p className="wkc-venue-note">
-            Every order was placed by the agent itself, capped at $100 of notional, and the entry shown is the fill Bitget reports
-            rather than the price this app expected. No real incident has cleared the risk gate yet, so each position here came from a
-            blind test; that is the honest state and it is labelled throughout.
+            Every order was placed by the agent itself and capped at $100 of notional. Fills, fees, funding and the net result are
+            read back from Bitget&apos;s own position history, not computed by this app; an earlier version priced exits off the mainnet
+            mark while orders filled on the Demo book, which overstated one result, and that is now corrected. No real incident has
+            cleared the risk gate yet, so each position here came from a blind test.
           </p>
         </div>
       </section>

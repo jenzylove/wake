@@ -39,8 +39,13 @@ function compactBlindIncidents(dir) {
     .slice(0, 30)
     .map((r) => ({
       id: r.id, runId: r.runId, detectedAt: r.detection.firstDetectedAt, latencyMs: r.detection.latencyMs,
-      victim: r.detection.victim, authorised: r.investigation.authorised, decision: r.decision, gatePassed: r.gate.passed,
+      victim: r.detection.victim, authorised: r.investigation.authorised, decision: r.decision,
+      gatePassed: r.agent?.gatePassed ?? r.gate.passed, decidedBy: r.agent?.decidedBy ?? null,
+      proposed: r.proposed ?? null, refusals: r.refusals ?? [],
+      aiDecision: r.aiDecision ? { action: r.aiDecision.action, confidence: r.aiDecision.confidence, thesis: r.aiDecision.thesis, invalidation: r.aiDecision.invalidation, rationale: r.aiDecision.rationale } : null,
       confidence: r.confidence, instrument: r.agent?.instrument ?? null, kind: r.agent?.kind ?? null,
+      side: r.agent?.side ?? null,
+      sizing: r.agent?.sizing?.computable ? { notionalUsd: r.agent.sizing.notionalUsd, maxLossUsd: r.agent.sizing.maxLossUsd, stopPct: r.agent.sizing.stopPct } : null,
       lossUsd: r.candidates?.[0]?.lossUsd ?? null, target: r.candidates?.[0]?.name ?? null,
       modeledDeltaPct: r.candidates?.[0]?.modeledDeltaPct ?? null, marketDeltaPct: r.candidates?.[0]?.marketDeltaPct ?? null,
       integrators: r.investigation.integrators?.length ?? 0,
@@ -79,7 +84,9 @@ try {
     contagionFound: expected.length ? expected.every((m) => onTarget?.investigation.integrators.some((i) => i.address === m)) : null,
     tradeTargetCorrect: onTarget && chosen ? (expected.length ? expected.includes(chosen) || chosen === lc(answer.target) : chosen === lc(answer.target)) : null,
     decision: onTarget?.decision ?? null,
-    gatePassed: onTarget?.gate.passed ?? null,
+    gatePassed: onTarget ? (onTarget.agent?.gatePassed ?? onTarget.gate.passed) : null,
+    decidedBy: onTarget?.agent?.decidedBy ?? null,
+    proposed: onTarget?.proposed ?? null,
     falsePositives: records.filter((r) => r.detection.victim !== lc(answer.target) && r.decision !== "NO_TRADE").length,
   }
   const report = { runId: RUN_ID, answer: { ...answer, attackedAt, attacker }, score, incidents: ids }

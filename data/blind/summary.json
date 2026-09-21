@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-09-21T07:07:31.859Z",
-  "runs": 26,
-  "detected": 25,
-  "decoysDismissed": 26,
+  "updatedAt": "2026-09-21T17:35:19.665Z",
+  "runs": 27,
+  "detected": 26,
+  "decoysDismissed": 27,
   "contagionFound": {
-    "found": 7,
-    "applicable": 7
+    "found": 8,
+    "applicable": 8
   },
-  "tradeTargetCorrect": 25,
+  "tradeTargetCorrect": 26,
   "gateCleared": 5,
   "falsePositives": 0,
-  "medianDetectionMs": 3939,
+  "medianDetectionMs": 4110,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "202609211733081328",
+      "commitment": "45140b6aca867829108bde223a76b0a947a817c7fe90235443afa6d1a3836fcb",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 32947,
+      "decoyDismissed": true,
+      "contagionFound": true,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "TRADE_DIRECT",
+      "falsePositives": 0,
+      "at": "2026-09-21T17:35:19.659Z",
+      "prevHash": "7ad93d862d7337378ea64563fe42bcfa0527b92ad46ca0ac44c273fcb260bb77",
+      "hash": "57b59415b58adffa08ddfafe628736c542362346c9f2ed0e7f4448c0e1dd8738"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "20260921070624926d",
@@ -198,26 +217,96 @@
       "at": "2026-09-19T21:32:57.219Z",
       "prevHash": "a1538c9675a01c04578bdceb7a600fdc1c8dda939fe5c58524093c883af9f212",
       "hash": "5667129250fc2908c8f7aee5e61509ee10d9472198a1ad62a4b256220ede8eb0"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "2026091921310089ca",
-      "commitment": "6211525f3d26c36d422d6bcea74a3218bb3ac292ba1b5e585640c35e0a70598f",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 19573,
-      "decoyDismissed": true,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "falsePositives": 0,
-      "at": "2026-09-19T21:32:06.735Z",
-      "prevHash": "8dd531d584de2d0b3a557dc66ff1d83a144a515fc0845f7dd29c15e704ed70ed",
-      "hash": "a1538c9675a01c04578bdceb7a600fdc1c8dda939fe5c58524093c883af9f212"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-202609211733081328-68b1d87f",
+      "runId": "202609211733081328",
+      "detectedAt": "2026-09-21T17:34:46.947Z",
+      "latencyMs": 32947,
+      "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "TRADE_DIRECT",
+      "refusals": [
+        "edge after what the market already did is 0.51%, below 1.2%",
+        "conviction 72 is below 75"
+      ],
+      "aiDecision": {
+        "action": "TRADE_DIRECT",
+        "confidence": 72,
+        "thesis": "Unauthorised reinitialise on vault 0x68b1 let attacker seize ownership and sweepToken the full 749,528 token balance; share price 1 -> 0. Onyx Pool depositors bear the entire loss (~2% of a 37M cap) and the market has not moved at all yet. Short LTCUSDT as the direct victim leg.",
+        "invalidation": "Funds returned/whitehat recovery, owner confirms authorised migration, or LTCUSDT has already moved ~0.5%+ down before entry.",
+        "rationale": "Exploit class is a clean reinitialisation takeover, not an owner action (veto false, authorisedByOwner false), with an on-chain transfer of the full balance out. Loss bearer is unambiguous and share price is zero, so there is no recovery path priced in. Direct candidate carries the largest loss and the highest modeled move with zero already priced; contagion legs are smaller and second-order."
+      },
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "lossUsd": 749528,
+      "target": "Onyx Pool",
+      "modeledDeltaPct": 0.506,
+      "marketDeltaPct": 0,
+      "integrators": 2,
+      "ai": {
+        "exploitClass": "reinitialisation",
+        "veto": false,
+        "narrative": "An unprotected initializer on the vault let an attacker re-run initialize and take owner rights that already belonged to another address. With control, they called the vault's token sweep function and moved the entire underlying balance of 749528 out in one transfer. Vault holdings went 749528 -> 0 and share price went 1 -> 0. Two lending markets still hold the same share counts (432718.26 and 206073.825) but that collateral is now valued at zero, leaving loans of 258385.49 and 128350.30539 uncollateralised. The direct hole sits with vault depositors; the lenders inherit bad debt.",
+        "lossBearer": "Holders of vault 0x68b1… shares: directly the vault's depositors (Onyx Pool, 749528 USD), and via worthless collateral the lending integrators 0x1613… (258385.49 bad debt) and 0xf5059… (128350.30539 b",
+        "concerns": [
+          "Bad debt figures assume collateral value tracks share price to zero; realisation depends on liquidation mechanics not shown.",
+          "Integrator share balances are unchanged, so exposure is inferred from the price collapse rather than observed transfers.",
+          "Identity of the attacker-controlled contract 0x757b… and any downstream fund movement is not in the packet.",
+          "modeledDeltaPct and marketCapUsd inputs are not evidenced by chain data in this packet."
+        ]
+      },
+      "side": null,
+      "sizing": null
+    },
+    {
+      "id": "blind-202609211733081328-a51c1fc2",
+      "runId": "202609211733081328",
+      "detectedAt": "2026-09-21T17:34:11.336Z",
+      "latencyMs": 1336,
+      "victim": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 78,
+        "thesis": "Owner-key withdrawal on Lumen Earn passed the vault's own authorisation checks — no bypass, reinit, oracle or reentrancy step. The investigator classes it as an authorised operation and vetoes. Even if holders lost 60% of share value, the only listed instrument is SOLUSDT, which does not price Lumen Earn vault shares and carries no recorded exposure.",
+        "invalidation": "Evidence that the owner key was compromised (not an authorised treasury move), or a named integrator with quantified exposure to a listed instrument.",
+        "rationale": "Two blockers: (1) causal path is an authorised owner call, not an exploit — investigator veto stands; (2) the candidate maps a $497k Lumen Earn loss onto SOLUSDT, an instrument with no established holding of the damaged vault shares and zero recorded integrator exposure. A 0.44% modeled delta on an unrelated large-cap is not the market that pays for this event."
+      },
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "lossUsd": 497592,
+      "target": "Lumen Earn",
+      "modeledDeltaPct": 0.444,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "A privileged sweep-style call from the vault's own owner address moved most of one token out of Lumen Earn in a single transfer. Vault holdings went from 829320 to 331728 and modelled share price from 1 to 0.4, i.e. remaining depositors back roughly 40% of what they did before. Mechanically this is an authorised owner withdrawal, not a broken access control or exploit primitive: the contract did exactly what its permissions allow. Whether it is a rug, a migration, or a sanctioned treasury move cannot be told from this packet, and the recipient of the transfer is not shown.",
+        "lossBearer": "Holders of Lumen Earn vault shares (0xa51c...91c0): vault holdings fell 829320 -> 331728 and share price 1 -> 0.4. No integrator exposure is recorded in the packet.",
+        "concerns": [
+          "Destination of the 0xa9059cbb transfer is not in the packet; funds may still be owner-controlled",
+          "Ownership legitimacy unverified - a key compromise would change the class but no evidence either way",
+          "integrators list is empty, so no second-order exposure is demonstrated",
+          "Share price 1 -> 0.4 is a modelled figure; realised market impact vs 28000000 market cap is unproven"
+        ]
+      },
+      "side": null,
+      "sizing": null
+    },
     {
       "id": "blind-20260921070624926d-9a676e78",
       "runId": "20260921070624926d",
@@ -227,6 +316,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "SOLUSDT",
       "kind": "DIRECT",
@@ -246,6 +339,12 @@
           "Post-state share price of 0 is a modelled value, not an observed market print.",
           "Modelled delta of 0.565% of market cap is small relative to typical noise."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 6887.04469283838,
+        "maxLossUsd": 500,
+        "stopPct": 0.06876607163582943
       }
     },
     {
@@ -257,6 +356,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "ADAUSDT",
       "kind": "DIRECT",
@@ -276,6 +379,12 @@
           "Share price 1 -> 0.4 and the derived integrator markdown are the only loss signals; no post-event redemption or insolvency confirmed.",
           "Sable Lend bad debt of 55763.4584 USD is quantified and does stand on observed positions, independent of the direct-loss veto."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 4769.813907794169,
+        "maxLossUsd": 500,
+        "stopPct": 0.09968979378674277
       }
     },
     {
@@ -287,6 +396,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "CRVUSDT",
       "kind": "DIRECT",
@@ -306,6 +419,12 @@
           "modeledDeltaPct 0.863 against 21000000 market cap is a model output, not an observed price move.",
           "Selectors 0x6ea056a9 / 0xc4d66de8 are inferred as sweep/initialize from the trace shape; ABI names are not supplied."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 4088.2629309976605,
+        "maxLossUsd": 500,
+        "stopPct": 0.11587240543733444
       }
     },
     {
@@ -317,6 +436,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "XRPUSDT",
       "kind": "DIRECT",
@@ -336,6 +459,12 @@
           "Contagion leg is concretely quantified (93876.59559999994 USD bad debt) but is only 0.031% modelled delta.",
           "Direct candidate loss 552124.2 USD is derived from the share-price move, not from an independently evidenced unauthorised transfer."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 6173.63739889188,
+        "maxLossUsd": 500,
+        "stopPct": 0.07675717298607165
       }
     },
     {
@@ -347,6 +476,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "DOTUSDT",
       "kind": "DIRECT",
@@ -366,6 +499,12 @@
           "Selector 0xa441d067 is unresolved; the function's intended semantics are unknown beyond its observed balance-sweep effect.",
           "modeledDeltaPct 0.389 rests on the unverified Amber Earn attribution and inherits its uncertainty."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 4081.0010236741173,
+        "maxLossUsd": 500,
+        "stopPct": 0.11664565012999742
       }
     },
     {
@@ -377,6 +516,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "UNIUSDT",
       "kind": "DIRECT",
@@ -396,6 +539,12 @@
           "integrators array is empty, so no downstream exposure is demonstrated.",
           "No ownership change, reinitialisation or oracle interaction appears anywhere in the call trace."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 2960.8717925334777,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.16126539325835013
       }
     },
     {
@@ -407,6 +556,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "AVAXUSDT",
       "kind": "DIRECT",
@@ -426,6 +579,12 @@
           "Share price 1 -> 0.4 implies holder loss, but holder identity and redemption rights are not in the packet.",
           "Single DIRECT candidate with no corroborating on-chain detail beyond the one transfer."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 2870.665036520208,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.16706061195546373
       }
     },
     {
@@ -437,6 +596,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "LTCUSDT",
       "kind": "DIRECT",
@@ -456,6 +619,12 @@
           "The packet does not state what function selector 0xa24188df is, only its observed effect in the trace.",
           "Recovery or clawback paths for the transferred token are not covered by the evidence."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 6749.772156428535,
+        "maxLossUsd": 500,
+        "stopPct": 0.06993795902129286
       }
     },
     {
@@ -467,6 +636,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "LTCUSDT",
       "kind": "DIRECT",
@@ -486,6 +659,12 @@
           "Packet does not show whether any funds were recovered or whether further vaults share the same initialiser flaw",
           "Attribution of the initiating EOA and the 0x4201..e45d helper contract is not established in the evidence"
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 7499.749747988641,
+        "maxLossUsd": 500,
+        "stopPct": 0.06258901576488209
       }
     },
     {
@@ -497,6 +676,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "DOGEUSDT",
       "kind": "DIRECT",
@@ -516,6 +699,12 @@
           "Destination of the 0xa9059cbb transfer is not shown, so proceeds cannot be attributed.",
           "Loss figure 363,187.2 USD and modelled delta 0.908 come from the candidate model, not from observed market prints."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 7647.150275685715,
+        "maxLossUsd": 500,
+        "stopPct": 0.06194135994549387
       }
     },
     {
@@ -527,6 +716,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "UNIUSDT",
       "kind": "DIRECT",
@@ -546,6 +739,12 @@
           "ownerBeforeTx 0xf39Fd6e5... is a well-known default test key; packet gives no context on whether this is a production deployment.",
           "Contagion figure assumes Nimbus Lend cannot recover on the 334,161.38 shares; no liquidation or backstop data supplied."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 2531.5469580014365,
+        "maxLossUsd": 500,
+        "stopPct": 0.18947359387716367
       }
     },
     {
@@ -557,6 +756,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "AVAXUSDT",
       "kind": "DIRECT",
@@ -576,6 +779,12 @@
           "integrators list is empty, so no second-order exposure is demonstrated.",
           "Loss of 417667.8 USD and share price 1 -> 0.4 are modeled from holdings delta, not from observed holder redemptions."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 3451.0660560929896,
+        "maxLossUsd": 500,
+        "stopPct": 0.13927518869211972
       }
     },
     {
@@ -587,6 +796,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "UNIUSDT",
       "kind": "DIRECT",
@@ -606,6 +819,12 @@
           "Only DIRECT candidate is the victim protocol itself; attribution of tradable loss is unsupported.",
           "modeledDeltaPct 0.241 rests on a marketCapUsd input the packet does not source."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 2486.19015722059,
+        "maxLossUsd": 500,
+        "stopPct": 0.19307958491881771
       }
     },
     {
@@ -617,6 +836,10 @@
       "authorised": false,
       "decision": "TRADE_DIRECT",
       "gatePassed": true,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "AVAXUSDT",
       "kind": "DIRECT",
@@ -636,6 +859,12 @@
           "No evidence on whether Ember Lend can recover via liquidation, insurance fund or backstop.",
           "Recipient of the transferred tokens is not shown explicitly in the trace."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 3684.012264763645,
+        "maxLossUsd": 500,
+        "stopPct": 0.13047536455800116
       }
     },
     {
@@ -647,6 +876,10 @@
       "authorised": false,
       "decision": "TRADE_DIRECT",
       "gatePassed": true,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "LTCUSDT",
       "kind": "DIRECT",
@@ -666,6 +899,12 @@
           "Trace shows a single drained token (0x0b30...); other vault assets, if any, are not covered by this evidence.",
           "Owner state is read as ownerBeforeTx only; the packet does not show the post-tx privileged owner."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 8464.705933607414,
+        "maxLossUsd": 500,
+        "stopPct": 0.055703746329339165
       }
     },
     {
@@ -677,6 +916,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "AVAXUSDT",
       "kind": "DIRECT",
@@ -696,6 +939,12 @@
           "No evidence distinguishing owner-key compromise from a deliberate owner action.",
           "Destination of the swept tokens is not itemised beyond the single internal transfer."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 4817.521156937195,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.09856987677934728
       }
     },
     {
@@ -707,6 +956,10 @@
       "authorised": false,
       "decision": "TRADE_DIRECT",
       "gatePassed": true,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "ADAUSDT",
       "kind": "DIRECT",
@@ -726,6 +979,12 @@
           "Recipient of the swept tokens is not itemised in the evidence.",
           "Modelled 3.443% delta rests on the supplied market cap, which is not independently corroborated here."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 5593.107954007099,
+        "maxLossUsd": 500,
+        "stopPct": 0.08469196754977175
       }
     },
     {
@@ -737,6 +996,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "LINKUSDT",
       "kind": "DIRECT",
@@ -756,6 +1019,12 @@
           "Share price after (0.4) appears derived from the holdings ratio, not an independent market quote.",
           "Bad debt figures assume the post-sweep share value is final and no owner reversal or backstop occurs."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 8046.928584103548,
+        "maxLossUsd": 500,
+        "stopPct": 0.05790034584910746
       }
     },
     {
@@ -767,6 +1036,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "ADAUSDT",
       "kind": "DIRECT",
@@ -786,6 +1059,12 @@
           "Loss figure 545128.8 USD is modeled, not an observed settled loss.",
           "Only one hop of call trace is shown; destination of the transferred tokens is not in the evidence."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 5598.355131423068,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.08460817949523358
       }
     },
     {
@@ -797,6 +1076,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "LINKUSDT",
       "kind": "DIRECT",
@@ -816,6 +1099,12 @@
           "Integrators list is empty: downstream or wrapped exposure, if any, is not visible in this packet",
           "modeledDeltaPct 0.209 is not reconciled in the packet against lossUsd 350651 vs marketCapUsd 42000000"
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 8149.6953597050215,
+        "maxLossUsd": 500,
+        "stopPct": 0.057116823817391776
       }
     },
     {
@@ -827,6 +1116,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "UNIUSDT",
       "kind": "DIRECT",
@@ -846,6 +1139,12 @@
           "No integrators listed, so no downstream exposure is demonstrated",
           "Only the DIRECT candidate carries a loss figure (518214.6 USD, modeledDeltaPct 0.381); no independent confirmation in packet"
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 2468.7354419182707,
+        "maxLossUsd": 500,
+        "stopPct": 0.19487626347469897
       }
     },
     {
@@ -857,6 +1156,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "DOTUSDT",
       "kind": "DIRECT",
@@ -876,6 +1179,12 @@
           "No integrators are listed, so any second-order exposure beyond the direct vault is unsupported by evidence.",
           "Loss is modeled at 1.055% of stated market cap; the packet does not evidence how that delta was derived."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 4854.08441521078,
+        "maxLossUsd": 500,
+        "stopPct": 0.0973549841134582
       }
     },
     {
@@ -887,6 +1196,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "BCHUSDT",
       "kind": "DIRECT",
@@ -906,6 +1219,12 @@
           "Cannot distinguish privileged rug from routine admin sweep on this packet alone.",
           "Share price drop to 0.4 is modeled; identity of the impacted holders is not supplied."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 5420.004985174871,
+        "maxLossUsd": 500,
+        "stopPct": 0.08868856609858769
       }
     },
     {
@@ -917,6 +1236,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "AVAXUSDT",
       "kind": "DIRECT",
@@ -925,7 +1248,13 @@
       "modeledDeltaPct": 0.25,
       "marketDeltaPct": -0.196,
       "integrators": 0,
-      "ai": null
+      "ai": null,
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 4844.3699802609835,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.09826029400531612
+      }
     },
     {
       "id": "blind-20260919213006c47c-4a679253",
@@ -936,6 +1265,10 @@
       "authorised": false,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "LINKUSDT",
       "kind": "DIRECT",
@@ -955,6 +1288,12 @@
           "Integrators list is empty: only direct loss is evidenced, any downstream contagion is unsupported.",
           "Modelled delta 0.781% on a 20000000 USD market cap is a code-supplied estimate, not an observed price move."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 8221.264442193236,
+        "maxLossUsd": 500,
+        "stopPct": 0.056582732569476
       }
     },
     {
@@ -966,6 +1305,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "CRVUSDT",
       "kind": "DIRECT",
@@ -985,6 +1328,12 @@
           "lossUsd 740369.4 and modeledDeltaPct 2.314 assume the outflow is unrecoverable, which the packet does not show",
           "No post-transaction owner state or destination-address context is provided"
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 4095.0094899493183,
+        "maxLossUsd": 500,
+        "stopPct": 0.11601316664205326
       }
     },
     {
@@ -996,6 +1345,10 @@
       "authorised": true,
       "decision": "NO_TRADE",
       "gatePassed": false,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 80,
       "instrument": "BCHUSDT",
       "kind": "DIRECT",
@@ -1015,6 +1368,12 @@
           "Destination of the swept tokens is not in the packet, so beneficiary is unknown.",
           "Share price 1 -> 0.4 is described as modelled; no independent market print supports the 741,480 USD figure."
         ]
+      },
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 5422.503457803958,
+        "maxLossUsd": 500,
+        "stopPct": 0.08864606060371881
       }
     },
     {
@@ -1026,6 +1385,10 @@
       "authorised": false,
       "decision": "TRADE_DIRECT",
       "gatePassed": true,
+      "decidedBy": null,
+      "proposed": null,
+      "refusals": [],
+      "aiDecision": null,
       "confidence": 100,
       "instrument": "UNIUSDT",
       "kind": "DIRECT",
@@ -1034,45 +1397,13 @@
       "modeledDeltaPct": 1.336,
       "marketDeltaPct": 0,
       "integrators": 0,
-      "ai": null
-    },
-    {
-      "id": "blind-2026091921154673c2-dc64a140",
-      "runId": "2026091921154673c2",
-      "detectedAt": "2026-09-19T21:16:12.147Z",
-      "latencyMs": 4147,
-      "victim": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
-      "authorised": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 80,
-      "instrument": "CRVUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 418865.4,
-      "target": "Juniper Vault",
-      "modeledDeltaPct": 0.19,
-      "marketDeltaPct": 0,
-      "integrators": 1,
-      "ai": null
-    },
-    {
-      "id": "blind-202609192115164fea-322813fd",
-      "runId": "202609192115164fea",
-      "detectedAt": "2026-09-19T21:15:38.508Z",
-      "latencyMs": 1578,
-      "victim": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
-      "authorised": false,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": 100,
-      "instrument": "SOLUSDT",
-      "kind": "DIRECT",
-      "lossUsd": 411210,
-      "target": "Yarrow Vault",
-      "modeledDeltaPct": 0.264,
-      "marketDeltaPct": 0.008,
-      "integrators": 0,
-      "ai": null
+      "ai": null,
+      "side": "SHORT",
+      "sizing": {
+        "notionalUsd": 2478.4334642888275,
+        "maxLossUsd": 500,
+        "stopPct": 0.19408375964501345
+      }
     }
   ]
 }

@@ -16,6 +16,8 @@ import path from "node:path"
 import { WATCHED, MIN_DRAIN_USD, RESTING_MINUTES, confirmDrain, recurringSenders, rpc, scanWindow, watchedTransfers } from "../lib/chain-watch.mjs"
 import { quantifyExposure } from "../lib/onchain-exposure.mjs"
 import { aiFalsifier, interpretAnywhere } from "../lib/ai-interpret.mjs"
+import { decideAnywhere, enforce } from "../lib/ai-decide.mjs"
+import { demoListed } from "../lib/demo-listing.mjs"
 import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
 import { appendHashLog } from "../lib/hash-log.mjs"
@@ -137,8 +139,31 @@ async function investigate({ chainId, chain, transfer, drain }) {
     maxLoss: sizing.computable ? `$${Math.round(sizing.maxLossUsd)}` : "$0",
     evidence: evidence.filter((e) => e.ok),
   }
-  const decision = deriveDecisionPolicy(policyInput)
+  const policyDecision = deriveDecisionPolicy(policyInput)
   const gate = evaluateRiskGatePolicy(policyInput)
+
+  // Claude decides; code can only refuse. The single candidate is the drained protocol itself.
+  const candidates = instrument ? [{
+    kind: "DIRECT", instrument, protocol: protocol?.name ?? null, lossUsd, marketCapUsd: mcap,
+    modeledDeltaPct: modeledDelta, marketDeltaPct: marketDelta, sizing,
+    demoListed: (await demoListed([instrument]))[instrument] === true,
+  }] : []
+  let decisionAi = null
+  let decisionError = null
+  try {
+    decisionAi = await decideAnywhere({
+      chain: chain.name, transaction: transfer.tx, drainedContract: victim,
+      asset: { symbol: transfer.symbol, approxUsd: Math.round(transfer.usd) },
+      balanceRemovedShare: Number(drain.removedShare.toFixed(4)),
+      exposure: exposure.quantified ? { drainedUsd: Math.round(exposure.drainedUsd) } : { measured: false },
+      investigator: ai ? { exploitClass: ai.exploitClass, mechanism: ai.mechanism, lossBearer: ai.lossBearer, veto: ai.veto } : null,
+      candidates: candidates.map((c, i) => ({ index: i, kind: c.kind, protocol: c.protocol, instrument: c.instrument, lossUsd: Math.round(c.lossUsd ?? 0),
+        marketCapUsd: c.marketCapUsd, modeledDeltaPct: c.modeledDeltaPct, marketDeltaPct: c.marketDeltaPct, sizeable: Boolean(c.sizing?.computable), demoListed: c.demoListed })),
+      note: candidates.length ? undefined : "No listed instrument maps to this contract, so there is nothing to trade.",
+    })
+  } catch (error) { decisionError = String(error.message ?? error) }
+  const final = enforce(decisionAi, candidates)
+  const decision = final.decision
 
   const record = {
     schema: "wake.live.incident.v1",
@@ -154,7 +179,10 @@ async function investigate({ chainId, chain, transfer, drain }) {
     market: market ? { movePct: market.movePct, windowSigma: Number(market.windowSigma.toFixed(6)), quoteVolumeUsd: Math.round(market.quoteVolumeUsd) } : null,
     sizing, evidence, falsification, confidence, modeledDeltaPct: modeledDelta, marketDeltaPct: marketDelta,
     decision, gate, ai, aiError,
-    agent: { decision, gatePassed: gate.passed, instrument, side: "SHORT", kind: "DIRECT", sizing },
+    policyDecision, aiDecision: decisionAi, aiDecisionError: decisionError, refusals: final.refusals, proposed: final.proposed,
+    agent: final.chosen
+      ? { decision, gatePassed: true, decidedBy: "claude", instrument: final.chosen.instrument, side: "SHORT", kind: "DIRECT", sizing: final.chosen.sizing }
+      : { decision, gatePassed: false, decidedBy: decisionAi ? "claude" : "none", refusals: final.refusals },
   }
   record.integrity = sha256({ ...record, integrity: undefined })
   writeFileSync(file, JSON.stringify(record, null, 2) + "\n")
@@ -239,7 +267,9 @@ async function main() {
       id: r.id, detectedAt: r.detectedAt, chain: r.chain.name, tx: r.detection.tx,
       contract: r.detection.contract, asset: r.detection.asset, approxUsd: r.detection.approxUsd,
       removedShare: r.detection.balanceRemovedShare, protocol: r.protocol, instrument: r.instrument,
-      decision: r.decision, gatePassed: r.gate.passed, confidence: r.confidence,
+      decision: r.decision, gatePassed: r.agent?.gatePassed ?? r.gate.passed, confidence: r.confidence,
+      proposed: r.proposed ?? null, refusals: r.refusals ?? [],
+      aiDecision: r.aiDecision ? { action: r.aiDecision.action, confidence: r.aiDecision.confidence, thesis: r.aiDecision.thesis, rationale: r.aiDecision.rationale } : null,
       modeledDeltaPct: r.modeledDeltaPct, marketDeltaPct: r.marketDeltaPct,
       exposureMeasured: r.exposure?.quantified === true, sizing: r.sizing?.computable ? r.sizing : null,
       falsification: r.falsification,
