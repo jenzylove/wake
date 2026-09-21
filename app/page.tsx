@@ -150,36 +150,26 @@ function useConsoleData() {
   return data
 }
 
-// Live marks for the instruments the agent is holding, so open positions show a real number
-// rather than their entry price. Public Bitget data, refreshed every 30 seconds.
-function useMarks(symbols: string[]) {
-  const [marks, setMarks] = React.useState<Record<string, number>>({})
-  const key = symbols.join(",")
-  React.useEffect(() => {
-    let cancelled = false
-    const load = async () => {
-      const list = key ? key.split(",") : []
-      const pairs = await Promise.all(list.map(async (symbol) => {
-        try {
-          const r = await fetch(`/api/market/ticker?symbol=${symbol}`).then((x) => x.json() as Promise<Json>)
-          return [symbol, Number(r.markPrice)] as const
-        } catch { return [symbol, NaN] as const }
-      }))
-      if (!cancelled) setMarks(Object.fromEntries(pairs.filter(([, v]) => Number.isFinite(v))))
-    }
-    load()
-    const timer = setInterval(load, 30_000)
-    return () => { cancelled = true; clearInterval(timer) }
-  }, [key])
-  return marks
-}
-
 const STAGES = [
   { key: "watch", word: "Watch", lead: "Every two hours WAKE reads the public exploit feed, keeps anything material and recent, and opens an investigation. No human files the incident." },
   { key: "investigate", word: "Investigate", lead: "It pulls the transaction, reads the token flows, names the contract that lost value and finds who else holds the damaged asset. Claude explains the mechanism and may veto." },
   { key: "price", word: "Price", lead: "The measured loss becomes a modeled move, set against what the market has already done. Most incidents are already priced, and that is a refusal." },
   { key: "act", word: "Act", lead: "Only if the gap survives every check does WAKE size the position from the capture, place a Bitget Demo order itself, and manage it to a stop, a changed thesis or a time stop." },
 ] as const
+
+// Sections settle in as they arrive. Decorative only: under reduced motion everything is
+// already in place and the observer never runs.
+function useReveal() {
+  React.useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    const items = Array.from(document.querySelectorAll<HTMLElement>(".wkc-reveal"))
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target) }
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.12 })
+    items.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  })
+}
 
 export default function Console() {
   const { items, state, error } = useConsoleData()
@@ -191,6 +181,8 @@ export default function Console() {
     [items, filter],
   )
   const current = shown.find((i) => i.id === selected) ?? shown[0] ?? null
+  useReveal()
+  const [showAll, setShowAll] = React.useState(false)
   const [stage, setStage] = React.useState(0)
   React.useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -199,7 +191,6 @@ export default function Console() {
   }, [])
 
   const openPositions = React.useMemo(() => (state.positions?.open ?? []) as Json[], [state.positions])
-  const marks = useMarks(React.useMemo(() => [...new Set(openPositions.map((p) => String(p.instrument)))], [openPositions]))
   // Decision mix across everything the agent has seen. Refusals are the majority by design.
   const mix = React.useMemo(() => {
     const trade = items.filter((i) => i.decision.startsWith("TRADE") || i.decision === "HEDGE").length
@@ -212,6 +203,8 @@ export default function Console() {
   const disc = ((state as Json).discovery?.lastRun ?? {}) as Json
   const exchange = ((state as Json).exchange ?? null) as Json | null
   const venuePositions = ((exchange?.positions ?? []) as Json[])
+  const closed = ((state.positions?.closed ?? []) as Json[])
+  const realised = closed.reduce((sum, c) => sum + Number(c.pnlUsd ?? 0), 0)
   const venuePnl = venuePositions.length ? venuePositions.reduce((sum, p) => sum + Number(p.unrealizedPnlUsd ?? 0), 0) : null
   const logEntries = (state as Json).logEntries ?? "--"
   const agent = state.agent
@@ -222,11 +215,16 @@ export default function Console() {
     <div className="wkc">
       <header className="wkc-top">
         <span className="wkc-mark">WAKE<span>.</span></span>
-        <span className="wkc-tag">autonomous incident trader · Bitget Demo only</span>
+        <span className="wkc-tag">Trades the fallout of on-chain incidents. Bitget Demo only.</span>
         <div className="wkc-top-right">
-          <span className="wkc-live"><span className={`wkc-dot${live ? "" : " is-idle"}`} />{live ? "agent live" : "agent idle"} · tick {ago(agent?.updatedAt)}</span>
-          <a className="wkc-link" href="/classic">evidence view</a>
-          <a className="wkc-link" href="https://github.com/jenzylove/wake">repository</a>
+          <nav className="wkc-nav">
+            <a href="#record">Trade record</a>
+            <a href="#desk">Decisions</a>
+            <a href="#wkc-why">Why it refuses</a>
+            <a href="#wkc-how">How it works</a>
+          </nav>
+          <span className="wkc-live"><span className={`wkc-dot${live ? "" : " is-idle"}`} />{live ? "live" : "idle"} · {ago(agent?.updatedAt)}</span>
+          <a className="wkc-link" href="https://github.com/jenzylove/wake">Source</a>
         </div>
       </header>
 
@@ -278,20 +276,27 @@ export default function Console() {
       </section>
 
 
-      <section className="wkc-venue" aria-labelledby="wkc-venue-title">
+      <section className="wkc-venue wkc-reveal" id="record" aria-labelledby="wkc-venue-title">
         <div className="wkc-venue-inner">
           <div className="wkc-venue-head">
-            <h2 id="wkc-venue-title">On Bitget Demo right now</h2>
-            <span>read back from the exchange, not from this app</span>
+            <h2 id="wkc-venue-title">The trade record</h2>
+            <span>read back from Bitget, not from this app</span>
             {exchange?.account && (
               <span className="wkc-equity" style={{ marginLeft: "auto" }}>
-                account equity <b>{Number(exchange.account.equity).toLocaleString("en-US", { maximumFractionDigits: 2 })} {String(exchange.account.marginCoin ?? "USDT")}</b>
-                {" · "}reconciled {ago(String(exchange.at ?? ""))}
+                Demo account <b>{Number(exchange.account.equity).toLocaleString("en-US", { maximumFractionDigits: 2 })} USDT</b> · checked {ago(String(exchange.at ?? ""))}
               </span>
             )}
           </div>
 
-          {venuePositions.length > 0 ? (
+          <div className="wkc-tally">
+            <div><dl><dt>closed trades</dt><dd>{closed.length}</dd></dl></div>
+            <div><dl><dt>realised</dt><dd className={realised >= 0 ? "is-trade" : "is-stop"}>{realised >= 0 ? "+" : ""}{realised.toFixed(2)} USDT</dd></dl></div>
+            <div><dl><dt>open now</dt><dd>{openPositions.length}</dd></dl></div>
+            <div><dl><dt>unrealised</dt><dd className={(venuePnl ?? 0) >= 0 ? "is-trade" : "is-stop"}>{venuePnl === null ? "--" : `${venuePnl >= 0 ? "+" : ""}${venuePnl.toFixed(2)} USDT`}</dd></dl></div>
+            <div><dl><dt>win rate</dt><dd>{closed.length ? `${Math.round((closed.filter((c) => Number(c.pnlUsd) > 0).length / closed.length) * 100)}%` : "--"}</dd></dl></div>
+          </div>
+
+          {venuePositions.length > 0 && (
             <div className="wkc-venue-grid">
               {venuePositions.map((p) => {
                 const local = openPositions.find((o) => o.instrument === p.symbol && o.side === p.side)
@@ -309,25 +314,49 @@ export default function Console() {
                       <dt>mark</dt><dd>{String(p.markPrice)}</dd>
                       <dt>order</dt><dd>{String(local?.orderId ?? "n/a")}</dd>
                       <dt>opened</dt><dd>{local ? ago(String(local.openedAt)) : "n/a"}</dd>
-                      <dt>from</dt><dd>{local ? `${String(local.source)} incident` : "n/a"}</dd>
                     </dl>
                   </article>
                 )
               })}
             </div>
-          ) : (
-            <p className="wkc-venue-note">No position is open. The agent holds unless an incident clears every check.</p>
+          )}
+
+          {closed.length > 0 && (
+            <div className="wkc-record">
+              <table>
+                <thead>
+                  <tr><th>Instrument</th><th>Side</th><th>Entry</th><th>Exit</th><th>Held</th><th>Closed because</th><th style={{ textAlign: "right" }}>Result</th></tr>
+                </thead>
+                <tbody>
+                  {closed.slice().reverse().map((c) => {
+                    const pnl = Number(c.pnlUsd)
+                    const held = (Date.parse(String(c.closedAt)) - Date.parse(String(c.openedAt))) / 3_600_000
+                    return (
+                      <tr key={String(c.incidentId) + String(c.closedAt)}>
+                        <td className="n">{String(c.instrument)}</td>
+                        <td>{String(c.side)}</td>
+                        <td className="n">{String(c.entryPrice)}</td>
+                        <td className="n">{String(c.exitPrice)}</td>
+                        <td>{held.toFixed(1)}h</td>
+                        <td>{String(c.exitReason).replace(/:.*/, "")}</td>
+                        <td className={`n ${pnl >= 0 ? "is-trade" : "is-stop"}`} style={{ textAlign: "right" }}>{pnl >= 0 ? "+" : ""}{pnl.toFixed(2)}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
 
           <p className="wkc-venue-note">
-            Every order above was placed by the agent itself, signed with <code>paptrading: 1</code> and capped at $100 of notional.
-            The entry shown is the fill the exchange reports, not the price this app expected. No real incident has cleared the risk
-            gate yet, so every position here came from a blind test; that is the honest state, and it is labelled everywhere.
+            Every order was placed by the agent itself, capped at $100 of notional, and the entry shown is the fill Bitget reports
+            rather than the price this app expected. No real incident has cleared the risk gate yet, so each position here came from a
+            blind test; that is the honest state and it is labelled throughout.
           </p>
         </div>
       </section>
 
-      <div className="wkc-desk" id="desk">
+      <div className="wkc-desk wkc-reveal" id="desk">
         <div className="wkc-col">
           <div className="wkc-colhead"><span className="wkc-livedot" /><h2>Incident queue</h2><span className="wkc-count">{shown.length}</span></div>
           <div className="wkc-filters">
@@ -339,7 +368,7 @@ export default function Console() {
           </div>
           <div className="wkc-queue">
             {shown.length === 0 && <div className="wkc-empty">{error ? `Could not load: ${error}` : "Loading the agent's queue."}</div>}
-            {shown.map((item) => (
+            {(showAll ? shown : shown.slice(0, 9)).map((item) => (
               <button key={item.id} className="wkc-row" aria-current={current?.id === item.id} onClick={() => setSelected(item.id)}>
                 <div className="wkc-row-top">
                   <span className={`wkc-chip ${tone(item.decision)}`}>{item.decision.replace("TRADE_", "").toLowerCase()}</span>
@@ -352,6 +381,11 @@ export default function Console() {
                 </div>
               </button>
             ))}
+            {shown.length > 9 && (
+              <button className="wkc-more" onClick={() => setShowAll((v) => !v)}>
+                {showAll ? "Show fewer" : `Show all ${shown.length}`}
+              </button>
+            )}
           </div>
         </div>
 
@@ -445,69 +479,9 @@ export default function Console() {
           )}
         </div>
 
-        <div className="wkc-col">
-          <div className="wkc-colhead"><span className="wkc-livedot" /><h2>Demo positions</h2><span className="wkc-count">{state.positions?.open.length ?? 0} open</span></div>
-          {(state.positions?.open ?? []).length === 0 && <div className="wkc-empty">No position open. The agent holds unless an incident clears every check.</div>}
-          {openPositions.map((p) => {
-            // The exchange's own unrealised PnL when the last reconcile carried one, else the
-            // live mark against the recorded fill.
-            const venue = venuePositions.find((v) => v.symbol === p.instrument && v.side === p.side)
-            const mark = Number(venue?.markPrice ?? marks[String(p.instrument)])
-            const move = Number.isFinite(mark) ? (mark / Number(p.entryPrice) - 1) * (p.side === "LONG" ? 1 : -1) : null
-            const live = venue ? Number(venue.unrealizedPnlUsd) : move === null ? null : move * Number(p.notionalUsd)
-            return (
-              <div className="wkc-pos" key={String(p.incidentId)}>
-                <div className="wkc-pos-top">
-                  <span className="is-trade">{String(p.side)}</span>
-                  <strong>{String(p.instrument)}</strong>
-                  <span className={`wkc-count ${live === null ? "" : live >= 0 ? "is-trade" : "is-stop"}`}>
-                    {live === null ? "--" : `${live >= 0 ? "+" : ""}${live.toFixed(2)} USDT`}
-                  </span>
-                </div>
-                <div className="wkc-pos-meta">
-                  {String(p.size)} @ {String(p.entryPrice)} · mark {Number.isFinite(mark) ? mark : "--"} · {move === null ? "" : pct(move * 100)}
-                </div>
-                <div className="wkc-pos-meta">opened {ago(String(p.openedAt))} · order {String(p.orderId ?? "n/a")} · {String(p.source)} incident</div>
-              </div>
-            )
-          })}
-          {(state.positions?.closed ?? []).slice(-3).reverse().map((c) => (
-            <div className="wkc-pos" key={String(c.incidentId) + String(c.closedAt)}>
-              <div className="wkc-pos-top">
-                <span className={Number(c.pnlUsd) >= 0 ? "is-trade" : "is-stop"}>closed</span>
-                <strong>{String(c.instrument)}</strong>
-                <span className="wkc-count">{usd(Number(c.pnlUsd), 2)}</span>
-              </div>
-              <div className="wkc-pos-meta">{String(c.exitReason)}</div>
-            </div>
-          ))}
-
-          <div className="wkc-colhead" style={{ borderTop: "1px solid var(--line)" }}><h2>Decision log</h2><span className="wkc-count">{state.recentLog?.length ?? 0} of {(state as { logEntries?: number }).logEntries ?? 0}</span></div>
-          <div className="wkc-log">
-            {(() => {
-              const seen = new Set<string>()
-              return ((state.recentLog ?? []) as Json[])
-                .filter((l) => {
-                  // One line per distinct event, so a quiet hour does not fill the rail.
-                  const key = `${l.event}|${l.incidentId ?? l.instrument ?? ""}|${l.decision ?? l.reason ?? ""}`
-                  if (seen.has(key)) return false
-                  seen.add(key)
-                  return true
-                })
-                .slice(0, 26)
-                .map((l, i) => (
-                  <div key={`${String(l.at)}-${i}`} title={JSON.stringify(l)}>
-                    <b className={l.event === "ENTRY" ? "is-trade" : String(l.event).includes("FAIL") ? "is-stop" : ""}>{String(l.event).toLowerCase()}</b>{" "}
-                    {String(l.decision ?? l.instrument ?? l.incidentId ?? "")}{" "}
-                    <span style={{ color: "var(--txt-3)" }}>{ago(String(l.at))}</span>
-                  </div>
-                ))
-            })()}
-          </div>
-        </div>
       </div>
 
-      <section className="wkc-section" aria-labelledby="wkc-why">
+      <section className="wkc-section wkc-reveal" aria-labelledby="wkc-why">
         <header>
           <h2 id="wkc-why">Most incidents are <em>not</em> a trade</h2>
           <p>That is the product. Anyone can short a hacked token. The work is knowing when the move has already happened, and refusing the rest.</p>
@@ -568,7 +542,7 @@ export default function Console() {
         </div>
       </section>
 
-      <section className="wkc-section" aria-labelledby="wkc-how">
+      <section className="wkc-section wkc-reveal" aria-labelledby="wkc-how">
         <header>
           <h2 id="wkc-how">One loop, four moves</h2>
           <p>The same loop runs whether the incident arrived from the feed, from a capture, or from a blind test.</p>
@@ -630,7 +604,7 @@ export default function Console() {
         </div>
       </section>
 
-      <section className="wkc-section" aria-labelledby="wkc-close">
+      <section className="wkc-section wkc-reveal" aria-labelledby="wkc-close">
         <div className="wkc-close">
           <div className="wkc-close-grid">
             <div><div className="k">incidents evaluated</div><div className="v">{agent?.incidentsEvaluated ?? "--"}</div></div>
@@ -651,43 +625,41 @@ export default function Console() {
           <div>
             <span className="wkc-mark">WAKE<span>.</span></span>
             <p style={{ marginTop: 12 }}>
-              An autonomous incident trader built for the Bitget AI Genesis hackathon, Agentic Trading track. Paper only: every order is
-              a Bitget Demo order capped at $100 of notional, and the exchange keys never leave the server.
+              An autonomous incident trader for the Bitget AI Genesis hackathon. It reads security incidents, works out who absorbs
+              the loss, and trades only the part the market has not already priced.
             </p>
+            <p style={{ color: "#7f92a8", fontSize: 12 }}>Paper only. Every order is a Bitget Demo order capped at $100, and the exchange keys never leave the server.</p>
           </div>
           <div>
-            <h5>Surfaces</h5>
+            <h5>On this page</h5>
             <ul>
-              <li><a href="#desk">The desk</a></li>
-              <li><a href="/classic">Evidence and replay</a></li>
-              <li><a href="/api/incidents">/api/incidents</a></li>
-              <li><a href="/api/discovered">/api/discovered</a></li>
-              <li><a href="/api/agent/state">/api/agent/state</a></li>
+              <li><a href="#record">Trade record</a></li>
+              <li><a href="#desk">Every decision</a></li>
+              <li><a href="#wkc-why">Why it refuses</a></li>
+              <li><a href="#wkc-how">How it works</a></li>
             </ul>
           </div>
           <div>
-            <h5>Verify</h5>
+            <h5>Evidence</h5>
             <ul>
-              <li><code>npm test</code></li>
-              <li><code>npm run data:verify</code></li>
-              <li><code>npm run blind:run</code></li>
-              <li><code>npm run agent:tick</code></li>
-            </ul>
-          </div>
-          <div>
-            <h5>Source</h5>
-            <ul>
-              <li><a href="https://github.com/jenzylove/wake">Repository</a></li>
-              <li><a href="https://github.com/jenzylove/wake/tree/main/data/wake-paper">Paper log</a></li>
-              <li><a href="https://github.com/jenzylove/wake/tree/main/data/blind">Blind runs</a></li>
+              <li><a href="https://github.com/jenzylove/wake/tree/main/data/wake-paper">Decision log</a></li>
+              <li><a href="https://github.com/jenzylove/wake/tree/main/data/blind">Blind challenge runs</a></li>
               <li><a href="https://github.com/jenzylove/wake/tree/main/data/discovered">Discovered incidents</a></li>
+              <li><a href="/classic">Capture packets</a></li>
+            </ul>
+          </div>
+          <div>
+            <h5>Project</h5>
+            <ul>
+              <li><a href="https://github.com/jenzylove/wake">Source code</a></li>
+              <li><a href="https://github.com/jenzylove/wake#readme">How to reproduce</a></li>
+              <li><a href="https://github.com/jenzylove/wake/actions">Scheduled runs</a></li>
             </ul>
           </div>
         </div>
         <div className="wkc-footer-bar">
-          <span>no live trading · paptrading 1 on every signed request</span>
-          <span>blind test incidents are labelled and never blended with real performance</span>
-          <span className="sep">agent tick {ago(agent?.updatedAt)}</span>
+          <span>No live trading. Blind test results are labelled and never blended with real performance.</span>
+          <span className="sep">Last agent run {ago(agent?.updatedAt)}</span>
         </div>
       </footer>
     </div>
