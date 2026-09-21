@@ -1,45 +1,102 @@
 {
-  "updatedAt": "2026-09-21T13:02:10.193Z",
+  "updatedAt": "2026-09-21T14:09:26.333Z",
   "minUsd": 250000,
   "chains": {
     "1": {
       "name": "ethereum",
-      "from": 26026036,
-      "to": 26026049,
-      "blocks": 14,
+      "from": 26026050,
+      "to": 26026371,
+      "blocks": 322,
       "skipped": 0,
-      "largeTransfers": 76,
+      "largeTransfers": 1379,
       "drains": 1
     },
     "8453": {
       "name": "base",
-      "error": "eth_call: over rate limit"
+      "from": 51603112,
+      "to": 51605142,
+      "blocks": 2031,
+      "skipped": 0,
+      "largeTransfers": 4779,
+      "drains": 0
     },
     "42161": {
       "name": "arbitrum",
-      "from": 507449145,
-      "to": 507449824,
-      "blocks": 680,
+      "from": 507449825,
+      "to": 507465746,
+      "blocks": 15922,
       "skipped": 0,
-      "largeTransfers": 7,
+      "largeTransfers": 113,
       "drains": 0
     }
   },
   "scanned": {
     "1": {
-      "lastBlock": 26026049,
-      "scannedAt": "2026-09-21T13:01:45.043Z"
+      "lastBlock": 26026371,
+      "scannedAt": "2026-09-21T14:06:42.083Z"
     },
     "8453": {
-      "lastBlock": 51603111,
-      "scannedAt": "2026-09-21T12:59:08.536Z"
+      "lastBlock": 51605142,
+      "scannedAt": "2026-09-21T14:08:14.798Z"
     },
     "42161": {
-      "lastBlock": 507449824,
-      "scannedAt": "2026-09-21T13:02:10.188Z"
+      "lastBlock": 507465746,
+      "scannedAt": "2026-09-21T14:09:26.317Z"
     }
   },
   "incidents": [
+    {
+      "id": "live-1-44b300bcc4",
+      "detectedAt": "2026-09-21T14:06:42.079Z",
+      "chain": "ethereum",
+      "tx": "0x44b300bcc403f9c313dd3f79757b53943904b71f869af78f89ada3f6c70cf0ca",
+      "contract": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+      "asset": "USDC",
+      "approxUsd": 50000000,
+      "removedShare": 0.7747,
+      "protocol": null,
+      "instrument": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "The outflow is indistinguishable from an authorised treasury, exchange or bridge movement: the packet shows no unauthorised-access indicator and no protocol or integrator exposure to price a loss against."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "An address moved 50,000,000.05 USDC out in one transaction, taking 77.47% of what it held. That is the entire evidence. There is no protocol attached, no integrator exposure listed, and nothing in the packet showing the transfer was unauthorised: no hijacked admin role, no reinitialisation, no price distortion, no reentrant call. A round-figure fifty-million stablecoin transfer draining most of a balance is exactly what an exchange hot-wallet rebalance, treasury sweep or bridge settlement looks like. Absent authorisation evidence, treating this as an exploit would be a guess, so no loss path is supported.",
+        "lossBearer": "Unidentified. The holder of 0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43 bears the balance reduction, but no protocol, depositor base or integrator is shown to be exposed.",
+        "concerns": [
+          "No call trace, signer or permission-change evidence to test whether the outflow was authorised",
+          "Round-number 50M USDC transfer draining most of a balance is a typical operational sweep pattern",
+          "protocol and instrument are null; the drained address is unlabelled, so the loss bearer is unknown",
+          "exposure.integrators is empty, so no downstream party is shown to carry the loss"
+        ]
+      }
+    },
     {
       "id": "live-1-bbc70ec38b",
       "detectedAt": "2026-09-21T13:01:45.040Z",

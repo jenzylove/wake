@@ -171,7 +171,7 @@ async function main() {
   for (const [chainId, chain] of Object.entries(WATCHED)) {
     const seen = state.chains[chainId] ?? {}
     try {
-      const head = Number(await rpc(chain.rpc, "eth_blockNumber", []))
+      const head = Number(await rpc(chain.rpc, "eth_blockNumber", [], 3, chain.fallbacks ?? []))
       const { from, to, skipped } = scanWindow({ head, lastScanned: seen.lastBlock, blockSeconds: chain.blockSeconds })
       // Public nodes cap how much a single getLogs may return, and the cap differs per provider
       // and per range. Rather than guess, the range halves on refusal until it is accepted.
@@ -182,7 +182,7 @@ async function main() {
       while (start <= to && failures < 6) {
         const end = Math.min(start + step - 1, to)
         try {
-          transfers.push(...await watchedTransfers({ url: chain.rpc, tokens: chain.tokens, fromBlock: start, toBlock: end, ethUsd }))
+          transfers.push(...await watchedTransfers({ url: chain.rpc, tokens: chain.tokens, fromBlock: start, toBlock: end, ethUsd, fallbacks: chain.fallbacks ?? [] }))
           start = end + 1
         } catch (error) {
           const msg = String(error.message ?? error)
@@ -197,7 +197,7 @@ async function main() {
       const confirmed = []
       for (const t of transfers.sort((a, b) => b.usd - a.usd).slice(0, 14)) {
         try {
-          const drain = await confirmDrain({ url: chain.rpc, transfer: t })
+          const drain = await confirmDrain({ url: chain.rpc, transfer: t, fallbacks: chain.fallbacks ?? [] })
           if (drain.candidate) confirmed.push({ transfer: t, drain })
         } catch (error) {
           report.chains[chainId] = { ...(report.chains[chainId] ?? {}), lastError: String(error.message ?? error).slice(0, 110) }
