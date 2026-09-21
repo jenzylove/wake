@@ -31,8 +31,21 @@ const DIRECT = !EXECUTOR && process.env.WAKE_EXECUTION_MODE === "bitget-demo" &&
 const DEMO = Boolean(EXECUTOR || DIRECT)
 const TICK = new Date().toISOString()
 
+// Bitget rejects a signature more than about 30 seconds out, and desktop clocks drift. The offset
+// against the venue's own clock is measured once per run and applied to every signature.
+let clockOffsetMs = null
+async function venueClockOffset() {
+  if (clockOffsetMs !== null) return clockOffsetMs
+  try {
+    const t0 = Date.now()
+    const body = await (await fetch(`${BITGET}/api/v2/public/time`, { signal: AbortSignal.timeout(15_000) })).json()
+    clockOffsetMs = Number(body.data.serverTime) - Math.round((t0 + Date.now()) / 2)
+  } catch { clockOffsetMs = 0 }
+  return clockOffsetMs
+}
+
 async function bitget(method, requestPath, body = "", signed = false) {
-  const ts = String(Date.now())
+  const ts = String(Date.now() + (signed ? await venueClockOffset() : 0))
   const headers = { "Content-Type": "application/json", locale: "en-US" }
   if (signed) {
     Object.assign(headers, {
