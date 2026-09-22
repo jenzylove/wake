@@ -32,6 +32,16 @@ A large transfer is not a drain, and the first live runs proved it: a settlement
 
 The DefiLlama exploit feed is read every hour as a second source (`data/discovered/`). Feed entries publish no transaction hashes, so they hold at MONITOR until a receipt is attached with `node scripts/attach-receipt.mjs` and measured with `node scripts/quantify-exposure.mjs`.
 
+## Supply to exchange: the everyday event class
+
+Exploits are rare, so a watcher that only trades exploits almost never trades. The second live class is a holder moving a large block of a token onto an exchange, where it can be sold. `scripts/watch-supply.mjs` runs every hour on the four Ethereum tokens with a Bitget Demo perpetual: LINK, UNI, PEPE and SHIB.
+
+- **Finding the deposit.** Exchanges sweep user deposit addresses into hot wallets, so a deposit is found from the sweep and traced one hop back to the wallet that funded the deposit address. Hot wallets come from a short list of publicly labelled addresses or are inferred from the chain (a plain wallet receiving these tokens from eight or more distinct senders in one pass); each record says which. Exchange to exchange movement is ignored.
+- **Measuring it.** The modeled move is the square root impact of selling the whole block into the token's real daily volume across all venues. The depositor is profiled from chain state: contract or wallet, transaction count, share of its own balance sent, share of supply.
+- **Deciding.** Claude judges whether this is supply that will be sold (team, treasury, unlock, fund or long held wallets) or not (market makers, custody, OTC settlement, wallets that deposit all day). Code refuses unless the modeled move, less what the market has already done, beats **three times the live round trip cost**: two taker fees plus the spread quoted on Bitget's book at that moment. That bar was fixed before any data was seen. A depositor already in a position is refused.
+
+Replaying the 24 hours before launch (`node scripts/probe-supply.mjs 24`): 26 deposits of $500,000 or more, one of which cleared the bar, a $4.8M PEPE deposit to Coinbase. So this class is expected to trade about once a day, not constantly. Supply records carry `eventClass: "SUPPLY_TO_EXCHANGE"` and are reported apart from drains and blind tests.
+
 ## Trade record, verified by the exchange
 
 Realised profit and loss is not computed by WAKE. After each close the agent reads Bitget's own position history (`/api/v2/mix/position/history-position`) and records the venue's net profit, including fees and funding, as `pnlUsd` with `pnlSource: "bitget"`. The value WAKE computed is kept beside it as `pnlComputedUsd`.
