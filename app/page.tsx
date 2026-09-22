@@ -342,7 +342,7 @@ export default function Console() {
               <span className={live ? "is-live" : ""}>{live ? "live on bitget demo" : "paper"}</span>
               <span>event driven agent</span>
             </div>
-            <h1 id="wkc-title">Who pays<br />for the <em>hack?</em></h1>
+            <h1 id="wkc-title">Who absorbs<br />the <em>hit?</em></h1>
           </div>
 
           <a className="wkc-cta" href="#desk">Open the desk <i>↓</i></a>

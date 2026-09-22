@@ -12,8 +12,8 @@ import React from "react"
 type Props = { className?: string }
 
 const W = 1200
-const H = 620
-const BASE = 470          // the price line's resting level
+const H = 520
+const BASE = 300          // the price line's resting level
 const EVENT_X = 700       // where the event lands
 
 // A deterministic walk, so the server and the client draw the same line.
@@ -62,7 +62,7 @@ export function ImpactTape({ className }: Props) {
 
       <rect width={W} height={H} fill="none" />
       <g stroke="#dbe4ee" strokeWidth="1">
-        {[0, 1, 2, 3, 4].map((i) => <line key={i} x1="0" x2={W} y1={200 + i * 90} y2={200 + i * 90} />)}
+        {[0, 1, 2, 3].map((i) => <line key={i} x1="0" x2={W} y1={110 + i * 95} y2={110 + i * 95} />)}
       </g>
 
       <circle cx={EVENT_X} cy={eventY} r="250" fill="url(#glow)" />
@@ -81,7 +81,7 @@ export function ImpactTape({ className }: Props) {
             </>}
           </circle>
         ))}
-        <line x1={EVENT_X} y1={eventY} x2={EVENT_X} y2={H - 96} stroke="#1f6fd0" strokeWidth="1.4" strokeDasharray="3 6" strokeOpacity=".55" />
+        <line x1={EVENT_X} y1={eventY} x2={EVENT_X} y2={H - 88} stroke="#1f6fd0" strokeWidth="1.4" strokeDasharray="3 6" strokeOpacity=".55" />
         <circle cx={EVENT_X} cy={eventY} r="6" fill="#1f6fd0" />
       </g>
 
@@ -94,7 +94,7 @@ export function ImpactTape({ className }: Props) {
       </g>
 
       {/* blocks arriving underneath: the chain WAKE reads */}
-      <g transform={`translate(0 ${H - 74})`}>
+      <g transform={`translate(0 ${H - 66})`}>
         {Array.from({ length: 40 }, (_, i) => (
           <rect key={i} x={i * 30} y={i % 7 === 0 ? 0 : 6} width="12" height={i % 7 === 0 ? 20 : 12} rx="2"
             fill={i * 30 > EVENT_X ? "#1f6fd0" : "#b9c8d8"} fillOpacity={i * 30 > EVENT_X ? ".55" : ".7"}>
