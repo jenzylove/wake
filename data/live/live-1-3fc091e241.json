@@ -1,0 +1,181 @@
+{
+  "schema": "wake.live.incident.v1",
+  "id": "live-1-3fc091e241",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T01:44:15.148Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x3fc091e2419fba816d1895f354fa579f6b66b4cce69fa721b4ac35009b46d8e8",
+    "block": 26029749,
+    "contract": "0x109830a1aaad605bbf02a9dfa7b0b92ec2fb7daa",
+    "recipient": "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+    "asset": "WETH",
+    "amount": 1734.3505094705044,
+    "approxUsd": 4764365,
+    "balanceRemovedShare": 0.7909
+  },
+  "exposure": {
+    "quantified": true,
+    "chainId": "1",
+    "txHash": "0x3fc091e2419fba816d1895f354fa579f6b66b4cce69fa721b4ac35009b46d8e8",
+    "block": 26029749,
+    "victim": "0x109830a1aaad605bbf02a9dfa7b0b92ec2fb7daa",
+    "drainedUsd": 4770328.997499148,
+    "drainedTokens": [
+      {
+        "token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "symbol": "WETH",
+        "amount": -1734.3505094705044,
+        "usd": -4770328.997499148
+      }
+    ],
+    "victimIssuesToken": false,
+    "holderScan": "skipped: victim does not issue a token",
+    "integrators": [],
+    "method": "receipt Transfer logs, ERC20 state at the block before and the block of the exploit, DefiLlama current prices"
+  },
+  "protocol": null,
+  "instrument": null,
+  "market": null,
+  "sizing": {
+    "computable": false,
+    "reason": "no instrument"
+  },
+  "evidence": [
+    {
+      "key": "drain",
+      "ok": true,
+      "weight": 25,
+      "detail": "79% of the contract's WETH left in one transaction"
+    },
+    {
+      "key": "loss-path",
+      "ok": true,
+      "weight": 25,
+      "detail": "measured $4,770,329"
+    },
+    {
+      "key": "protocol",
+      "ok": false,
+      "weight": 20,
+      "detail": "contract does not match a known protocol"
+    },
+    {
+      "key": "instrument",
+      "ok": false,
+      "weight": 15,
+      "detail": "no Bitget perpetual for the affected protocol"
+    },
+    {
+      "key": "ai-review",
+      "ok": false,
+      "weight": 15,
+      "detail": "unknown (vetoed)"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "loss-path",
+      "question": "Is the loss path measured from chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "market",
+      "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+      "status": "UNRESOLVED",
+      "blocksTrade": true
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "Mechanism is unresolved and the outflow is indistinguishable from an authorised movement on the supplied evidence. No exposure path is shown: the integrators list is empty and the drained contract has no protocol or instrument mapping, so no loss-bearing entity can be named."
+    }
+  ],
+  "confidence": null,
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": false,
+        "value": "$0",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "2 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "unknown",
+    "mechanism": "Evidence shows only an outcome: a single transaction moved 1,734.3505094705044 WETH (~$4,764,365) out of 0x109830a1aaad605bbf02a9dfa7b0b92ec2fb7daa, removing 0.7909 of the contract's balance. The packet contains no call trace, no privilege change, no oracle input, no reentrancy pattern and no protocol identity, so no mechanism can be named.",
+    "lossBearer": "Undetermined. Claim-holders on 0x109830a1aaad605bbf02a9dfa7b0b92ec2fb7daa would bear it if this is unauthorised, but the packet does not identify the contract's role, its depositors, or any integrator",
+    "narrative": "A large WETH outflow emptied about 79% of one contract in a single transaction, ~$4.76M at the quoted value. That is all the evidence establishes. There is no trace showing who authorised the call, no protocol or instrument attached to the address, and no integrator exposure listed. A treasury sweep, a bridge settlement or a planned migration produces exactly this shape on-chain, and the packet itself flags that. Without an authorisation signal or a named mechanism, calling this an exploit would be a guess, and a trader acting on that guess is taking directional risk on an unidentified counterparty.",
+    "veto": true,
+    "vetoReason": "Mechanism is unresolved and the outflow is indistinguishable from an authorised movement on the supplied evidence. No exposure path is shown: the integrators list is empty and the drained contract has no protocol or instrument mapping, so no loss-bearing entity can be named.",
+    "concerns": [
+      "No call trace, caller identity or privilege change supplied; authorised vs unauthorised cannot be separated.",
+      "Drained contract has null protocol and null instrument, so its role and depositors are unknown.",
+      "Integrators list is empty: no demonstrated exposure path to any tradable entity.",
+      "drainedUsd 4,770,329 differs slightly from asset approxUsd 4,764,365; basis of each figure is unstated."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "MONITOR",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 80,
+    "thesis": "A single tx removed 1,734 WETH (~$4.76M, 79% of balance) from an unidentified contract, but the packet names no protocol, no mechanism and no loss-bearer. No listed instrument maps to this address, so there is no market that pays for this observation even if it is an exploit.",
+    "invalidation": "Attribution of 0x1098...7daa to a listed protocol, or a disclosed exploit statement naming the victim, with a tradable instrument and unpriced downside.",
+    "rationale": "Investigator veto stands: outcome-only evidence, no call trace, no privilege change, no oracle or reentrancy pattern, no protocol identity. Could equally be an authorised treasury or vault migration. Candidate list is empty, so there is no sized position available. Acting here would be a naked guess on an unattributed address."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "5092f82484fcf0d8f677212e378b17c271c4919c31b0fe8dd040eb53dca5b654"
+}

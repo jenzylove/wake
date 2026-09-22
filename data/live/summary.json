@@ -1,58 +1,177 @@
 {
-  "updatedAt": "2026-09-21T23:31:58.611Z",
+  "updatedAt": "2026-09-22T01:46:47.156Z",
   "minUsd": 250000,
   "chains": {
     "1": {
-      "lastError": "eth_call: Unexpected token 'o', \"forbidden\" is not valid JSON",
+      "lastError": "node returned no balance for that block",
       "name": "ethereum",
-      "from": 26028769,
-      "to": 26029144,
+      "from": 26029447,
+      "to": 26029822,
       "blocks": 376,
-      "skipped": 757,
-      "largeTransfers": 696,
-      "recurringSenders": 91,
-      "rejectedCandidates": 6,
-      "drains": 0
+      "skipped": 303,
+      "largeTransfers": 756,
+      "recurringSenders": 97,
+      "rejectedCandidates": 11,
+      "drains": 2
     },
     "8453": {
       "name": "base",
-      "from": 51619710,
-      "to": 51621960,
+      "from": 51623813,
+      "to": 51626063,
       "blocks": 2251,
-      "skipped": 4640,
-      "largeTransfers": 12779,
-      "recurringSenders": 50,
-      "rejectedCandidates": 13,
-      "drains": 1
+      "skipped": 1853,
+      "largeTransfers": 10560,
+      "recurringSenders": 57,
+      "rejectedCandidates": 14,
+      "drains": 0
     },
     "42161": {
-      "lastError": "eth_call: fetch failed",
       "name": "arbitrum",
-      "from": 507580855,
-      "to": 507598855,
+      "from": 507612841,
+      "to": 507630841,
       "blocks": 18001,
-      "skipped": 36052,
-      "largeTransfers": 16,
-      "recurringSenders": 0,
-      "rejectedCandidates": 10,
+      "skipped": 13986,
+      "largeTransfers": 58,
+      "recurringSenders": 10,
+      "rejectedCandidates": 14,
       "drains": 0
     }
   },
   "scanned": {
     "1": {
-      "lastBlock": 26029144,
-      "scannedAt": "2026-09-21T23:27:48.107Z"
+      "lastBlock": 26029822,
+      "scannedAt": "2026-09-22T01:44:34.597Z"
     },
     "8453": {
-      "lastBlock": 51621960,
-      "scannedAt": "2026-09-21T23:28:44.071Z"
+      "lastBlock": 51626063,
+      "scannedAt": "2026-09-22T01:45:17.936Z"
     },
     "42161": {
-      "lastBlock": 507598855,
-      "scannedAt": "2026-09-21T23:31:58.610Z"
+      "lastBlock": 507630841,
+      "scannedAt": "2026-09-22T01:46:47.154Z"
     }
   },
   "incidents": [
+    {
+      "id": "live-1-b188540393",
+      "detectedAt": "2026-09-22T01:44:34.596Z",
+      "chain": "ethereum",
+      "tx": "0xb1885403931ce7bda594a59d56edf774c363212f7a14c4b37271a9e898997b35",
+      "contract": "0x100ae042ef0ea159ecc3513e9a378ff21f3829ba",
+      "asset": "USDC",
+      "approxUsd": 4190630,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 80,
+        "thesis": "A single transfer moving 100% of a $4.19M USDC balance out of an unattributed EOA/contract is indistinguishable from a treasury or hot-wallet sweep. No protocol attribution, no call trace, no failed-auth signal, no integrator exposure, and no listed instrument maps to the address, so no causal loss path to any tradable token exists.",
+        "rationale": "Investigator veto stands: mechanism unknown, loss bearer unidentified, candidate list empty. Clean full-balance USDC transfers are far more often authorised operations than exploits. With zero candidates there is no instrument that could pay, so sizing is moot; acting would be inventing a market. Monitoring adds nothing without attribution, so decline."
+      },
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "The outflow is indistinguishable from an authorised treasury, bridge or migration movement: no protocol attribution, no caller or permission evidence, and exposure.integrators is empty, so no loss bearer is demonstrated."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "A contract on Ethereum had its entire USDC balance moved out in one transaction: 4,190,629.677573 USDC, about $4,190,630, leaving nothing behind. That full-sweep pattern is what a drain looks like, but it is also exactly what a treasury sweep, a bridge settlement or a migration to a new contract looks like. The packet gives no owner, no protocol name, no caller permissions and no affected integrators, so there is no way to tell an unauthorised withdrawal from a routine one. Nothing here establishes who would actually lose money, so there is no tradeable loss path to act on.",
+        "lossBearer": "Unidentified. The drained address 0x100ae042ef0ea159ecc3513e9a378ff21f3829ba is not attributed to any protocol, and the integrator list is empty, so no downstream loss bearer is shown.",
+        "concerns": [
+          "No call trace or caller/role evidence to distinguish authorised from unauthorised withdrawal",
+          "Drained address not attributed to any protocol or instrument",
+          "Integrator exposure list is empty; no downstream victim identified",
+          "Full-balance sweep is consistent with migration or bridge settlement per the packet note"
+        ]
+      }
+    },
+    {
+      "id": "live-1-3fc091e241",
+      "detectedAt": "2026-09-22T01:44:15.148Z",
+      "chain": "ethereum",
+      "tx": "0x3fc091e2419fba816d1895f354fa579f6b66b4cce69fa721b4ac35009b46d8e8",
+      "contract": "0x109830a1aaad605bbf02a9dfa7b0b92ec2fb7daa",
+      "asset": "WETH",
+      "approxUsd": 4764365,
+      "removedShare": 0.7909,
+      "protocol": null,
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 80,
+        "thesis": "A single tx removed 1,734 WETH (~$4.76M, 79% of balance) from an unidentified contract, but the packet names no protocol, no mechanism and no loss-bearer. No listed instrument maps to this address, so there is no market that pays for this observation even if it is an exploit.",
+        "rationale": "Investigator veto stands: outcome-only evidence, no call trace, no privilege change, no oracle or reentrancy pattern, no protocol identity. Could equally be an authorised treasury or vault migration. Candidate list is empty, so there is no sized position available. Acting here would be a naked guess on an unattributed address."
+      },
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "Mechanism is unresolved and the outflow is indistinguishable from an authorised movement on the supplied evidence. No exposure path is shown: the integrators list is empty and the drained contract has no protocol or instrument mapping, so no loss-bearing entity can be named."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "A large WETH outflow emptied about 79% of one contract in a single transaction, ~$4.76M at the quoted value. That is all the evidence establishes. There is no trace showing who authorised the call, no protocol or instrument attached to the address, and no integrator exposure listed. A treasury sweep, a bridge settlement or a planned migration produces exactly this shape on-chain, and the packet itself flags that. Without an authorisation signal or a named mechanism, calling this an exploit would be a guess, and a trader acting on that guess is taking directional risk on an unidentified counterparty.",
+        "lossBearer": "Undetermined. Claim-holders on 0x109830a1aaad605bbf02a9dfa7b0b92ec2fb7daa would bear it if this is unauthorised, but the packet does not identify the contract's role, its depositors, or any integrator",
+        "concerns": [
+          "No call trace, caller identity or privilege change supplied; authorised vs unauthorised cannot be separated.",
+          "Drained contract has null protocol and null instrument, so its role and depositors are unknown.",
+          "Integrators list is empty: no demonstrated exposure path to any tradable entity.",
+          "drainedUsd 4,770,329 differs slightly from asset approxUsd 4,764,365; basis of each figure is unstated."
+        ]
+      }
+    },
     {
       "id": "live-8453-8b38d8e075",
       "detectedAt": "2026-09-21T23:28:44.070Z",
