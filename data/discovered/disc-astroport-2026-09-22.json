@@ -1,0 +1,62 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-astroport-2026-09-22",
+  "discoveredAt": "2026-09-22T18:52:10.615Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1790035200,
+      "name": "Astroport",
+      "classification": "Governance",
+      "technique": "Malicious Proposal",
+      "amount": 4900000,
+      "chain": [
+        "Neutron"
+      ],
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "3117",
+      "language": "Rust"
+    },
+    "sha256": "ec670be6bbfdf9c3d9cda563e6fcac75cc5cbe0b081312ec8114d4e240ed9bf9"
+  },
+  "protocol": {
+    "id": "3117",
+    "name": "Astroport",
+    "slug": "astroport",
+    "symbol": "ASTRO",
+    "category": "Dexs",
+    "mcapUsd": 152673.8682738247
+  },
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "other",
+    "mechanism": "Feed record labels this a governance attack on Astroport (Neutron): a malicious proposal passed through the protocol's own governance path and drained value. No on-chain receipt, proposal ID, executing address or transfer trace has been captured, so the mechanism is asserted by the feed, not demonstrated by evidence.",
+    "lossBearer": "Unverified. Feed implies Astroport protocol/ASTRO governance treasury or pool depositors on Neutron; the packet shows no balance deltas or exposure records to confirm who actually bears the ~$4,900,00",
+    "narrative": "All we have is a feed line: Astroport, Neutron, 'Malicious Proposal', $4,900,000. Nothing else. There is no captured transaction, no proposal record, no before/after balances, and the exposures list is empty — we cannot show that any position we care about is downstream of this. A governance exploit is also the hardest class to price blind: the outflow is executed by the protocol's own voting machinery, so on-chain it can look identical to an authorised treasury action until you read the proposal text. Until a receipt lands, the loss path is asserted rather than evidenced, and we should not trade it.",
+    "veto": true,
+    "vetoReason": "Feed record only; no on-chain receipt captured. No exposure is shown linking us to the loss, and a governance-executed outflow is ambiguous between a malicious proposal and an authorised treasury action without the proposal contents.",
+    "concerns": [
+      "No transaction hash, proposal ID or balance deltas — mechanism is feed-asserted, unverified",
+      "Exposures array is empty: no demonstrated path from this event to our book",
+      "Governance outflows can be indistinguishable from authorised treasury spends on-chain",
+      "Source field is blank and returnedFunds is null; recovery status unknown"
+    ]
+  },
+  "integrity": "77a3daaace65fa57a92a2bf7cc4d0c28600cca3c36fd5887b4802c2101c26eb5"
+}

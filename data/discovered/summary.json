@@ -1,6 +1,98 @@
 {
-  "updatedAt": "2026-09-22T14:50:19.567Z",
+  "updatedAt": "2026-09-22T18:52:29.420Z",
   "incidents": [
+    {
+      "id": "disc-drop-2026-09-22",
+      "name": "Drop",
+      "day": "2026-09-22",
+      "amountUsd": 4400000,
+      "chains": [
+        "Neutron"
+      ],
+      "technique": "Malicious Proposal",
+      "classification": "Governance",
+      "protocol": {
+        "id": "4993",
+        "name": "Drop",
+        "slug": "drop",
+        "symbol": "-",
+        "category": "Liquid Staking",
+        "mcapUsd": null
+      },
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-22T18:51:51.068Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "9994d5ca23c79fd69fab49eea7cc6468639724e66eb36e9d537971b08d54014e",
+      "sourceSha256": "f8a695a6366158ca69f6fde76b6c610a9e753d1b0f69efb053765f7e7d24a7bf",
+      "ai": {
+        "exploitClass": "unknown",
+        "mechanism": "Feed record alone reports a governance 'Malicious Proposal' against Drop (liquid staking, Neutron) for USD 4,400,000. No on-chain receipt, no transaction path, no proposal identifier and no source link are supplied, so the actual mechanism of value extraction is unverified.",
+        "lossBearer": "Not established by the packet. No exposures array entries, no treasury or LST-holder balances, and no receipt identifying which account the funds left or who held the claim.",
+        "narrative": "All we have is a feed line: someone allegedly pushed a malicious governance proposal at Drop on Neutron and USD 4.4m moved. There is no on-chain receipt in this packet, so we cannot see whether the proposal actually executed, what contract call it made, or whether the outflow was a protocol drain versus a treasury transfer that governance nominally authorised. Critically, no exposure is shown at all, so we cannot say who bears the loss. A governance attack is also the hardest class to price blind: if the proposal passed through normal voting, the 'loss' may sit with stakers, the treasury, or nobody we are positioned against.",
+        "veto": true,
+        "concerns": [
+          "No transaction or proposal receipt captured; the event itself is unconfirmed by chain data.",
+          "Exposures array is empty - no entity is shown to carry the loss.",
+          "Source field blank; the USD 4,400,000 figure has no traceable provenance in this packet.",
+          "Governance execution may be nominally authorised, which would change the class to authorised-operation."
+        ]
+      }
+    },
+    {
+      "id": "disc-astroport-2026-09-22",
+      "name": "Astroport",
+      "day": "2026-09-22",
+      "amountUsd": 4900000,
+      "chains": [
+        "Neutron"
+      ],
+      "technique": "Malicious Proposal",
+      "classification": "Governance",
+      "protocol": {
+        "id": "3117",
+        "name": "Astroport",
+        "slug": "astroport",
+        "symbol": "ASTRO",
+        "category": "Dexs",
+        "mcapUsd": 152673.8682738247
+      },
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-22T18:52:10.615Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "77a3daaace65fa57a92a2bf7cc4d0c28600cca3c36fd5887b4802c2101c26eb5",
+      "sourceSha256": "ec670be6bbfdf9c3d9cda563e6fcac75cc5cbe0b081312ec8114d4e240ed9bf9",
+      "ai": {
+        "exploitClass": "other",
+        "mechanism": "Feed record labels this a governance attack on Astroport (Neutron): a malicious proposal passed through the protocol's own governance path and drained value. No on-chain receipt, proposal ID, executing address or transfer trace has been captured, so the mechanism is asserted by the feed, not demonstrated by evidence.",
+        "lossBearer": "Unverified. Feed implies Astroport protocol/ASTRO governance treasury or pool depositors on Neutron; the packet shows no balance deltas or exposure records to confirm who actually bears the ~$4,900,00",
+        "narrative": "All we have is a feed line: Astroport, Neutron, 'Malicious Proposal', $4,900,000. Nothing else. There is no captured transaction, no proposal record, no before/after balances, and the exposures list is empty — we cannot show that any position we care about is downstream of this. A governance exploit is also the hardest class to price blind: the outflow is executed by the protocol's own voting machinery, so on-chain it can look identical to an authorised treasury action until you read the proposal text. Until a receipt lands, the loss path is asserted rather than evidenced, and we should not trade it.",
+        "veto": true,
+        "concerns": [
+          "No transaction hash, proposal ID or balance deltas — mechanism is feed-asserted, unverified",
+          "Exposures array is empty: no demonstrated path from this event to our book",
+          "Governance outflows can be indistinguishable from authorised treasury spends on-chain",
+          "Source field is blank and returnedFunds is null; recovery status unknown"
+        ]
+      }
+    },
     {
       "id": "disc-nunet-2026-09-19",
       "name": "NuNet",
@@ -35,14 +127,14 @@
         "windowSigma": 0.023536
       },
       "microstructure": {
-        "observedAt": "2026-09-22T14:50:18.240Z",
-        "mid": 2733.2349999999997,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 1843037,
-        "askDepthUsd1pct": 2023275,
-        "fundingRate": 0.000077,
+        "observedAt": "2026-09-22T18:52:28.202Z",
+        "mid": 2747.9849999999997,
+        "spreadBps": 0.036,
+        "bidDepthUsd1pct": 1894595,
+        "askDepthUsd1pct": 1472219,
+        "fundingRate": 0.00007,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 773594.7999999998
+        "openInterestContracts": 770651.0499999998
       },
       "sizing": {
         "notionalUsd": 9987.700881141289,
@@ -82,7 +174,7 @@
           }
         ]
       },
-      "integrity": "ad046c87590ae0f40539c787d1158b62a9a527bb60c9e584105f54f05c34ec44",
+      "integrity": "bb1e96212b265033dcba549a4e86dec7f043ca9006d9c6119258ce9f395ba5b0",
       "sourceSha256": "cd7f4f910e73549291b092e62dd7e24957306664c4b484ad54b509140dd9edf6",
       "ai": {
         "exploitClass": "key-compromise",
@@ -132,14 +224,14 @@
         "windowSigma": 0.023536
       },
       "microstructure": {
-        "observedAt": "2026-09-22T14:50:18.458Z",
-        "mid": 2733.375,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 1538731,
-        "askDepthUsd1pct": 1819568,
-        "fundingRate": 0.000077,
+        "observedAt": "2026-09-22T18:52:27.977Z",
+        "mid": 2747.9849999999997,
+        "spreadBps": 0.036,
+        "bidDepthUsd1pct": 1867152,
+        "askDepthUsd1pct": 1452326,
+        "fundingRate": 0.00007,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 773594.7999999998
+        "openInterestContracts": 770651.0499999998
       },
       "sizing": {
         "notionalUsd": 9987.700881141289,
@@ -179,7 +271,7 @@
           }
         ]
       },
-      "integrity": "fd0c7fccdd9bd077d840ae9cfac419fcba632dda3cf6b7931b53e68a8666cac3",
+      "integrity": "08489c68f83747b228a142ba80df08207f9c6d17d58448a51a0dc58aab300cc9",
       "sourceSha256": "f5dc7c110bc798868337b3169f5bfbd57ec51ceb7dcad45d3fcb8d1f5bde3f87",
       "ai": {
         "exploitClass": "key-compromise",
@@ -235,14 +327,14 @@
         "windowSigma": 0.093086
       },
       "microstructure": {
-        "observedAt": "2026-09-22T14:50:18.669Z",
-        "mid": 0.041306999999999996,
-        "spreadBps": 5.326,
-        "bidDepthUsd1pct": 13152,
-        "askDepthUsd1pct": 37696,
+        "observedAt": "2026-09-22T18:52:28.379Z",
+        "mid": 0.042312,
+        "spreadBps": 4.254,
+        "bidDepthUsd1pct": 25202,
+        "askDepthUsd1pct": 52884,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 68674960.6
+        "openInterestContracts": 68406542.4
       },
       "sizing": {
         "notionalUsd": 2581.2763696243665,
@@ -282,7 +374,7 @@
           }
         ]
       },
-      "integrity": "6f06c0eca5dadbb4181376574b9ecbfc01fd1f3caa41a37b82906f1248d3c406",
+      "integrity": "f47e1e3be591a3bfd015b7426178b56d4d0c524d9011608697f6da86bfec75ce",
       "sourceSha256": "a5ba1e0c4c075a07d9e23610c5f06cf6e9b0ba3af3aa9efc0a2e256e200ba795",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -338,14 +430,14 @@
         "windowSigma": 0.023092
       },
       "microstructure": {
-        "observedAt": "2026-09-22T14:50:18.887Z",
-        "mid": 2733.385,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 1594786,
-        "askDepthUsd1pct": 2238765,
-        "fundingRate": 0.000077,
+        "observedAt": "2026-09-22T18:52:28.850Z",
+        "mid": 2747.9849999999997,
+        "spreadBps": 0.036,
+        "bidDepthUsd1pct": 1884895,
+        "askDepthUsd1pct": 1665755,
+        "fundingRate": 0.00007,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 773594.7999999998
+        "openInterestContracts": 770651.0499999998
       },
       "sizing": {
         "notionalUsd": 10057.337193082429,
@@ -385,7 +477,7 @@
           }
         ]
       },
-      "integrity": "e1b8dfb6cd224d6bbdf9fcbfcb162f129f8eecd7e780c9a3e54863ca2452ebf8",
+      "integrity": "26c992ae1cd9f5b6a6e8d68d3f1a6d521c05fe2bc2c0ed3eafa239a081ddad50",
       "sourceSha256": "4db1acd661af1253c4b6298aaa787d910351b4e7cf6df87e1c3ac39919407188",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -441,14 +533,14 @@
         "windowSigma": 0.012226
       },
       "microstructure": {
-        "observedAt": "2026-09-22T14:50:19.120Z",
-        "mid": 0.341195,
-        "spreadBps": 0.293,
-        "bidDepthUsd1pct": 457192,
-        "askDepthUsd1pct": 323735,
-        "fundingRate": -0.000138,
+        "observedAt": "2026-09-22T18:52:29.031Z",
+        "mid": 0.34146,
+        "spreadBps": 1.171,
+        "bidDepthUsd1pct": 345000,
+        "askDepthUsd1pct": 576941,
+        "fundingRate": -0.000201,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 27641483
+        "openInterestContracts": 27921487
       },
       "sizing": {
         "notionalUsd": 18994.636739694917,
@@ -488,7 +580,7 @@
           }
         ]
       },
-      "integrity": "9cff62d2a54121397ab5f615a2613770e2b8ff807382b7a001cf83c97ce17b02",
+      "integrity": "212db1f154d1101add132b4d511e6fc3fa3c094ea41b08193bec11144a056fb8",
       "sourceSha256": "8c569e59ad6e81569ec8a383dacbfb32f8bd18b2cc2729eb14123fa530cb7f6a",
       "ai": {
         "exploitClass": "bridge",
@@ -551,14 +643,14 @@
         "windowSigma": 0.025142
       },
       "microstructure": {
-        "observedAt": "2026-09-22T14:50:19.333Z",
-        "mid": 784.065,
-        "spreadBps": 0.128,
-        "bidDepthUsd1pct": 192626,
-        "askDepthUsd1pct": 597482,
-        "fundingRate": 0.0001,
+        "observedAt": "2026-09-22T18:52:29.241Z",
+        "mid": 786.045,
+        "spreadBps": 0.127,
+        "bidDepthUsd1pct": 218891,
+        "askDepthUsd1pct": 244380,
+        "fundingRate": 0.000064,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 96531.89000000001
+        "openInterestContracts": 95369.52
       },
       "sizing": {
         "notionalUsd": 9413.336066672246,
@@ -598,7 +690,7 @@
           }
         ]
       },
-      "integrity": "67ed38788c43905a3f6149a0a392d0c03a0cd33ee988c709549aafc053d3ce8b",
+      "integrity": "e978a2b5c2e1088fcdeb77481e3fbf85a93f5ac67d96607e702cca8d95a28dc1",
       "sourceSha256": "9ac936ccab0550e2e1758c3f57d7bf6de46afa68833b4b6da910379a14c2d693",
       "ai": {
         "exploitClass": "bridge",
@@ -732,14 +824,14 @@
         "windowSigma": 0.027691
       },
       "microstructure": {
-        "observedAt": "2026-09-22T14:50:19.564Z",
-        "mid": 2733.255,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 3595195,
-        "askDepthUsd1pct": 1948061,
-        "fundingRate": 0.000077,
+        "observedAt": "2026-09-22T18:52:29.416Z",
+        "mid": 2747.715,
+        "spreadBps": 0.036,
+        "bidDepthUsd1pct": 1808940,
+        "askDepthUsd1pct": 1658253,
+        "fundingRate": 0.00007,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 773594.7999999998
+        "openInterestContracts": 770651.0499999998
       },
       "sizing": {
         "notionalUsd": 8607.537650513013,
@@ -779,7 +871,7 @@
           }
         ]
       },
-      "integrity": "3f0913c162ca6ea8f4a351adc8b856e82f75417861fb4f5b3ccc12409e71bf31",
+      "integrity": "c62010840bc4009460c1af1f9662aec75d82b3b12ecc172f220ec4f0c387e7b8",
       "sourceSha256": "6c61ec018e6cffb7f59fca226db571c9bd28de2dd0284bc5db7e9d05a5dcb5ff",
       "ai": {
         "exploitClass": "other",

@@ -1,0 +1,62 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-drop-2026-09-22",
+  "discoveredAt": "2026-09-22T18:51:51.068Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1790035200,
+      "name": "Drop",
+      "classification": "Governance",
+      "technique": "Malicious Proposal",
+      "amount": 4400000,
+      "chain": [
+        "Neutron"
+      ],
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "4993",
+      "language": "Rust"
+    },
+    "sha256": "f8a695a6366158ca69f6fde76b6c610a9e753d1b0f69efb053765f7e7d24a7bf"
+  },
+  "protocol": {
+    "id": "4993",
+    "name": "Drop",
+    "slug": "drop",
+    "symbol": "-",
+    "category": "Liquid Staking",
+    "mcapUsd": null
+  },
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "unknown",
+    "mechanism": "Feed record alone reports a governance 'Malicious Proposal' against Drop (liquid staking, Neutron) for USD 4,400,000. No on-chain receipt, no transaction path, no proposal identifier and no source link are supplied, so the actual mechanism of value extraction is unverified.",
+    "lossBearer": "Not established by the packet. No exposures array entries, no treasury or LST-holder balances, and no receipt identifying which account the funds left or who held the claim.",
+    "narrative": "All we have is a feed line: someone allegedly pushed a malicious governance proposal at Drop on Neutron and USD 4.4m moved. There is no on-chain receipt in this packet, so we cannot see whether the proposal actually executed, what contract call it made, or whether the outflow was a protocol drain versus a treasury transfer that governance nominally authorised. Critically, no exposure is shown at all, so we cannot say who bears the loss. A governance attack is also the hardest class to price blind: if the proposal passed through normal voting, the 'loss' may sit with stakers, the treasury, or nobody we are positioned against.",
+    "veto": true,
+    "vetoReason": "Packet is feed-only with no on-chain receipt, empty exposures and no source. Mechanism (genuine governance capture vs. authorised treasury action) is ambiguous and the loss-bearing entity is unidentified, so no supported loss path exists.",
+    "concerns": [
+      "No transaction or proposal receipt captured; the event itself is unconfirmed by chain data.",
+      "Exposures array is empty - no entity is shown to carry the loss.",
+      "Source field blank; the USD 4,400,000 figure has no traceable provenance in this packet.",
+      "Governance execution may be nominally authorised, which would change the class to authorised-operation."
+    ]
+  },
+  "integrity": "9994d5ca23c79fd69fab49eea7cc6468639724e66eb36e9d537971b08d54014e"
+}
