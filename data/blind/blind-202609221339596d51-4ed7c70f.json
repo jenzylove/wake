@@ -1,0 +1,272 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609221339596d51-4ed7c70f",
+  "runId": "202609221339596d51",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 92,
+    "blockTimestamp": 1790084436
+  },
+  "detection": {
+    "tx": "0x1ec55cb4b9e401f097c3fd2f8c8d2dd7561070c67fc08204751eeabfa1acd88c",
+    "txs": [
+      "0x1ec55cb4b9e401f097c3fd2f8c8d2dd7561070c67fc08204751eeabfa1acd88c"
+    ],
+    "firstDetectedAt": "2026-09-22T13:40:36.824Z",
+    "victim": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+    "token": "0x59b670e9fa9d0a427751af201d676719a970857b",
+    "before": 919130,
+    "after": 0,
+    "detectedAt": "2026-09-22T13:40:36.824Z",
+    "latencyMs": 824
+  },
+  "investigation": {
+    "from": "0xc5167e84f47ea747f19de69a8650bf45578b641f",
+    "to": "0xcf2a5312a2531c2f504dd9ebd185069b79142a76",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xcf2a5312a2531c2f504dd9ebd185069b79142a76",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x59b670e9fa9d0a427751af201d676719a970857b",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x59b670e9fa9d0a427751af201d676719a970857b",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 919130,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+      "lossUsd": 919130,
+      "name": "Onyx Earn",
+      "instrument": "LTCUSDT",
+      "marketCapUsd": 9000000,
+      "modeledDeltaPct": 2.553,
+      "markAtDetection": 61.12,
+      "markAtDecision": 61.12,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5287.551221772692,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.08984759232600452,
+        "costPct": 0.004714139377158278,
+        "spreadPct": 0.0035141393771582776,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04492379616300226,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 43704294.350999996,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0035141393771582776,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 2.553,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x1ec55cb4b9e401f097c3fd2f8c8d2dd7561070c67fc08204751eeabfa1acd88c succeeded in block 92"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xc5167e84f47ea747f19de69a8650bf45578b641f is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $919,130 at Onyx Earn"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Attacker contract called the vault (0x4ed7...e1c1) with initialize(address) (0xc4d66de8) though ownerBeforeTx was 0xf39F... and the call was not owner-authorised, seizing privileged control. It then read the underlying token and balance and invoked sweepToken (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) moving the full 919,130 balance out."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": true,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": true,
+        "value": "2.6%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "reinitialisation",
+    "mechanism": "Attacker contract called the vault (0x4ed7...e1c1) with initialize(address) (0xc4d66de8) though ownerBeforeTx was 0xf39F... and the call was not owner-authorised, seizing privileged control. It then read the underlying token and balance and invoked sweepToken (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) moving the full 919,130 balance out.",
+    "lossBearer": "Onyx Earn vault 0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1 and its depositors; share price went 1 -> 0. No integrator exposure is shown in the packet.",
+    "narrative": "An unprotected initialiser let an attacker re-initialise the Onyx Earn vault and make itself the privileged party in a single transaction. With that role it called the vault's token sweep function, which transferred the entire underlying token balance out: holdings went from 919,130 to 0 and the share price collapsed from 1 to 0. This was not an owner-authorised action - the recorded owner before the transaction was a different address and the packet flags the call as unauthorised. Loss sits directly with the vault and its depositors; the packet lists no downstream integrators.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Integrators list is empty, so any second-order exposure is unmeasured, not proven absent",
+      "lossUsd 919,130 is stated in token holding units; unit/price basis not shown in packet",
+      "modeledDeltaPct 2.553 vs 9,000,000 market cap is a model output, not observed price impact",
+      "No post-transaction recovery, pause or whitelist action is recorded either way"
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "TRADE_DIRECT",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 72,
+    "thesis": "The exploit path is coherent (unauthorised initialize -> sweepToken drains 919,130 units, share price 1 -> 0), but the only candidate market is LTCUSDT, which has no causal link to an Onyx Earn vault. Shorting Litecoin does not monetise this loss, and a $0.9M vault drain is immaterial to LTC.",
+    "invalidation": "A candidate appears on an instrument actually tied to Onyx/XCN or a protocol holding the drained vault asset, with the loss still unpriced.",
+    "rationale": "Instrument mismatch is disqualifying: the modeled 2.55% move is derived from a $9M cap figure that cannot describe LTC, so the edge is an artefact. Additionally ownerBeforeTx 0xf39F... is the canonical Hardhat test account, which suggests a fork/simulation rather than a live mainnet drain. No tradeable, causally connected venue is offered."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "d10edfd03be73a93b2aad974cbc1a35272130a97e63467c6ac8506f64ebcc10d"
+}

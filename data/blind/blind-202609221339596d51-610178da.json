@@ -1,0 +1,323 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609221339596d51-610178da",
+  "runId": "202609221339596d51",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 93,
+    "blockTimestamp": 1790084443
+  },
+  "detection": {
+    "tx": "0x48fd305c277f4560c8a27e24340a34ba7d288a416d8dcbbef2efc01057b6586f",
+    "txs": [
+      "0x48fd305c277f4560c8a27e24340a34ba7d288a416d8dcbbef2efc01057b6586f"
+    ],
+    "firstDetectedAt": "2026-09-22T13:41:02.505Z",
+    "victim": "0x610178da211fef7d417bc0e6fed39f05609ad788",
+    "token": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+    "before": 691782,
+    "after": 276712.8,
+    "detectedAt": "2026-09-22T13:41:02.505Z",
+    "latencyMs": 19505
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0x610178da211fef7d417bc0e6fed39f05609ad788",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x610178da211fef7d417bc0e6fed39f05609ad788",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 691782,
+    "integrators": [
+      {
+        "address": "0x9e545e3c0baab3e08cdfd552c960a1050f373042",
+        "heldSharesBefore": 377917.1,
+        "heldSharesAfter": 377917.1,
+        "collateralValueBeforeUsd": 377917.1,
+        "collateralValueAfterUsd": 151166.84,
+        "lentUsd": 205327.6914,
+        "badDebtUsd": 54160.851400000014
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x610178da211fef7d417bc0e6fed39f05609ad788",
+      "lossUsd": 415069.2,
+      "name": "Drift Vault",
+      "instrument": "LINKUSDT",
+      "marketCapUsd": 36000000,
+      "modeledDeltaPct": 0.288,
+      "markAtDetection": 12.944,
+      "markAtDecision": 12.944,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5873.036575554393,
+        "maxLossUsd": 500,
+        "stopPct": 0.07966867744178453,
+        "costPct": 0.005466157590773024,
+        "spreadPct": 0.004266157590773025,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.039834338720892266,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 72639633.36299999,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004266157590773025,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.288,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0x9e545e3c0baab3e08cdfd552c960a1050f373042",
+      "lossUsd": 54160.851400000014,
+      "name": "Mistral Lend",
+      "instrument": "NEARUSDT",
+      "marketCapUsd": 77000000,
+      "modeledDeltaPct": 0.018,
+      "markAtDetection": 4.4945,
+      "markAtDecision": 4.4945,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2205.2409113604404,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.21639785027760935,
+        "costPct": 0.010334747246868736,
+        "spreadPct": 0.009134747246868736,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.10819892513880468,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 315518272.02330005,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.009134747246868736,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.018,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x48fd305c277f4560c8a27e24340a34ba7d288a416d8dcbbef2efc01057b6586f succeeded in block 93"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $415,069 at Drift Vault"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The outflow was made by the pre-transaction owner and is marked authorisedByOwner=true, with no privilege escalation, reinitialisation or ownership change in the trace. The mechanism is ambiguous between an intentional owner withdrawal and a compromised owner key, so the DIRECT exploit loss path for"
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.3%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Pre-existing owner 0xf39F...2266 called selector 0x6ea056a9 (a sweep-style entrypoint) on vault 0x6101...D788, which made a single ERC-20 transfer (0xa9059cbb) of token 0x8a79...C318. Holdings fell 691782 -> 276712.8 and share price 1 -> 0.4. The outflow was executed by the recorded owner and is flagged authorisedByOwner=true; no access-control bypass, reinitialisation or ownership change is shown",
+    "lossBearer": "Vault depositors/share holders of 0x6101...D788; downstream, lender Mistral Lend (0x9e54...3042) carries badDebtUsd 54160.851400000014 on lentUsd 205327.6914.",
+    "narrative": "The vault's own owner key pulled tokens out with a privileged sweep call. Vault assets went from 691782 to 276712.8 and each share is now worth 0.4 instead of 1. Anyone holding shares is worth 60% less, and Mistral Lend, which accepted 377917.1 shares as collateral (now valued 151166.84 against 205327.6914 lent), is left with 54160.8514 of bad debt. But the packet says this transfer was authorised by the address that was already owner before the transaction. Economically it looks like a rug or a stolen owner key, and the evidence cannot tell those apart, so this is not a demonstrated exploit path.",
+    "veto": true,
+    "vetoReason": "The outflow was made by the pre-transaction owner and is marked authorisedByOwner=true, with no privilege escalation, reinitialisation or ownership change in the trace. The mechanism is ambiguous between an intentional owner withdrawal and a compromised owner key, so the DIRECT exploit loss path for",
+    "concerns": [
+      "No evidence in packet on whether the owner key was compromised or acting intentionally.",
+      "Direct candidate lossUsd 415069.2 is attributed to an exploit, but the trace shows only an owner-authorised transfer.",
+      "Contagion at Mistral Lend is quantified (badDebtUsd 54160.8514) but depends on how the lender marks the shares, which is not shown.",
+      "Destination of the swept tokens is not in the packet, so no recipient attribution is possible."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 80,
+    "thesis": "The outflow from vault 0x6101...D788 was executed by the pre-existing owner via a sweep entrypoint with no access-control bypass, reinitialisation or ownership change. This reads as an authorised operation, not an exploit, so there is no exploit-driven repricing to short.",
+    "invalidation": "Evidence that the owner key was compromised, or an ownership change/reinitialisation preceding the sweep, or the protocol publicly declaring the withdrawal unauthorised with depositors unmade whole.",
+    "rationale": "Investigator classifies this as authorised-operation with veto set. Loss bearers are vault share holders and Mistral Lend's 54k bad debt, but the tokens shorted (LINK, NEAR) are only proxies and the causal path from an owner-sanctioned sweep to their spot price is not established. Both candidates show marketDeltaPct 0, meaning the market sees no incident at all."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "7ad7eea9f0e0c89051418781aefa7c0e685cedaa48a2ae5f17b5e140abdf5f44"
+}
