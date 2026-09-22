@@ -1,0 +1,335 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260922234829041a-4a679253",
+  "runId": "20260922234829041a",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 86,
+    "blockTimestamp": 1790120944
+  },
+  "detection": {
+    "tx": "0x606c3a2c4215b694c752f46308050e520c6caa5e7ef064b52a88a1cb712b16d4",
+    "txs": [
+      "0x606c3a2c4215b694c752f46308050e520c6caa5e7ef064b52a88a1cb712b16d4"
+    ],
+    "firstDetectedAt": "2026-09-22T23:49:21.490Z",
+    "victim": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+    "token": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+    "before": 764689,
+    "after": 0,
+    "detectedAt": "2026-09-22T23:49:21.490Z",
+    "latencyMs": 17490
+  },
+  "investigation": {
+    "from": "0x7623d785d0f6a4194584b44bfc99220a2454a183",
+    "to": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+    "selector": "0xa441d067",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+        "selector": "0xa441d067",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 764689,
+    "integrators": [
+      {
+        "address": "0x84ea74d481ee0a5332c457a4d796187f6ba67feb",
+        "heldSharesBefore": 436587.65,
+        "heldSharesAfter": 436587.65,
+        "collateralValueBeforeUsd": 436587.65,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 260605.19770000002,
+        "badDebtUsd": 260605.19770000002
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+      "lossUsd": 764689,
+      "name": "Basalt Pool",
+      "instrument": "BCHUSDT",
+      "marketCapUsd": 33000000,
+      "modeledDeltaPct": 0.579,
+      "markAtDetection": 344.6,
+      "markAtDecision": 344.6,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2517.4188931071076,
+        "maxLossUsd": 500,
+        "stopPct": 0.1922052294390175,
+        "costPct": 0.006410901300701513,
+        "spreadPct": 0.005210901300701514,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.09610261471950875,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 116022282.08470002,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.005210901300701514,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.579,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0x84ea74d481ee0a5332c457a4d796187f6ba67feb",
+      "lossUsd": 260605.19770000002,
+      "name": "Ember Lend",
+      "instrument": "DOGEUSDT",
+      "marketCapUsd": 95000000,
+      "modeledDeltaPct": 0.069,
+      "markAtDetection": 0.1,
+      "markAtDecision": 0.1,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 4881.326258596586,
+        "maxLossUsd": 500,
+        "stopPct": 0.09669175938350244,
+        "costPct": 0.005739418847913992,
+        "spreadPct": 0.004539418847913992,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04834587969175122,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 487129002.84375995,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004539418847913992,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.069,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x606c3a2c4215b694c752f46308050e520c6caa5e7ef064b52a88a1cb712b16d4 succeeded in block 86"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x7623d785d0f6a4194584b44bfc99220a2454a183 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $764,689 at Basalt Pool"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Unprotected entry point 0xa441d067 on vault 0x4a67... let a non-owner caller (0x7623...) trigger an internal balanceOf then a full ERC20 transfer of token 0xa852..., moving the vault's entire 764689 balance out in one successful call. ownerBeforeTx was 0xf39F... and the call was not authorised by the owner."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.6%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "Unprotected entry point 0xa441d067 on vault 0x4a67... let a non-owner caller (0x7623...) trigger an internal balanceOf then a full ERC20 transfer of token 0xa852..., moving the vault's entire 764689 balance out in one successful call. ownerBeforeTx was 0xf39F... and the call was not authorised by the owner.",
+    "lossBearer": "Directly: holders of Basalt Pool vault 0x4a679253410272dd5232b3ff7cf5dbb88f295319 (share price 1 -> 0). Downstream: lender 0x84ea74d4... (Ember Lend), left with 260605.1977 USD bad debt.",
+    "narrative": "The vault exposed a function that anyone could call. An unauthorised address called it, the vault read its own token balance and then transferred the whole 764689 of token 0xa852... out. The call succeeded, holdings went to 0 and the share price went from 1 to 0, so every share is now worthless. Ember Lend had accepted 436587.65 of those shares as collateral against 260605.1977 USD of loans; the share count is unchanged but the collateral is now valued at 0, leaving that full amount as bad debt on the lender. Direct loss 764689 USD at Basalt Pool; contagion 260605.1977 USD at Ember Lend.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Selector 0xa441d067 is unresolved; the packet shows no owner/permission check in the callee, only that the caller was not the owner.",
+      "Bad debt assumes zero recovery on the 436587.65 collateral shares; no liquidation or residual-value evidence supplied.",
+      "Post-state share price of 0 is a modelled value, not an observed market print.",
+      "No event logs or recipient address for the outbound transfer are included to confirm where the 764689 went."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "TRADE_DIRECT",
+    "candidate": 0,
+    "confidence": 66,
+    "thesis": "Unprotected entry point 0xa441d067 let a non-owner drain the entire 764,689 token balance from Basalt Pool's vault in one call; share price went 1 -> 0 with no owner authorisation, so this is a total loss, not an operation. Loss is ~2.3% of the protocol's $33M cap and the market has not moved at all yet (marketDeltaPct 0).",
+    "invalidation": "Funds returned or whitehat recovery announced, owner confirms the call was authorised/test, or price gaps down past the modeled 0.58% before entry fills.",
+    "rationale": "Direct venue pays first and largest: the drained vault's own market carries the full $764k loss versus $260k of downstream bad debt at Ember Lend, whose modeled 0.069% move is noise against costs. Causal path is clean and irreversible (share price 1->0, access-control class, veto false, non-owner caller), and nothing is priced in, so the direct short is the position that actually captures the repricing."
+  },
+  "aiDecisionError": null,
+  "refusals": [
+    "edge after what the market already did is 0.58%, below 1.2%",
+    "conviction 66 is below 75"
+  ],
+  "proposed": "TRADE_DIRECT",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [
+      "edge after what the market already did is 0.58%, below 1.2%",
+      "conviction 66 is below 75"
+    ]
+  },
+  "integrity": "a7f44a9a44bef3073a67e8a37428b0d194e19553bb26d306d283ccc5e26fda98"
+}

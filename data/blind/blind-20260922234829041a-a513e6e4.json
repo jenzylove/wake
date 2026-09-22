@@ -1,0 +1,248 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260922234829041a-a513e6e4",
+  "runId": "20260922234829041a",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 85,
+    "blockTimestamp": 1790120936
+  },
+  "detection": {
+    "tx": "0xc842cf6042a96126710c0ca023bf8e0badad3ddb290a793ef1c7904f79d34de7",
+    "txs": [
+      "0xc842cf6042a96126710c0ca023bf8e0badad3ddb290a793ef1c7904f79d34de7"
+    ],
+    "firstDetectedAt": "2026-09-22T23:48:58.166Z",
+    "victim": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
+    "token": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+    "before": 1229792,
+    "after": 491916.8,
+    "detectedAt": "2026-09-22T23:48:58.166Z",
+    "latencyMs": 2166
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 1229792,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
+      "lossUsd": 737875.2,
+      "name": "Pollen Yield",
+      "instrument": "LINKUSDT",
+      "marketCapUsd": 56000000,
+      "modeledDeltaPct": 0.329,
+      "markAtDetection": 13.031,
+      "markAtDecision": 13.031,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5753.870977163588,
+        "maxLossUsd": 500,
+        "stopPct": 0.08152126177197398,
+        "costPct": 0.005376759053386717,
+        "spreadPct": 0.004176759053386717,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04076063088598699,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 78854866.185,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004176759053386717,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.329,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xc842cf6042a96126710c0ca023bf8e0badad3ddb290a793ef1c7904f79d34de7 succeeded in block 85"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $737,875 at Pollen Yield"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The outflow is authorised: sender matches ownerBeforeTx and authorisedByOwner is true, with no exploit primitive in the trace. The packet cannot distinguish a legitimate privileged operation from an insider withdrawal, and integrator exposure is empty, so the proposed loss path is not supported."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.3%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "The tx sender equals the vault's owner-of-record and calls selector 0x6ea056a9 (sweep-style) on the vault, which makes a single ERC20 transfer (0xa9059cbb) of the held token out of the vault. Holdings fall 1,229,792 -> 491,916.8 and share price 1 -> 0.4. No unauthorised entry, no reinit, no oracle or reentrancy pattern in the trace.",
+    "lossBearer": "Economically, holders of the vault's shares (share price 1 -> 0.4); the packet names only DIRECT candidate Pollen Yield and shows no integrator exposure.",
+    "narrative": "The vault owner called a sweep function on its own vault and pulled out roughly 60% of the token balance in one plain ERC20 transfer. Share price went from 1 to 0.4, so whoever holds the shares is worse off. But mechanically nothing was broken: the caller was the recorded owner, the permission check passed, and the call trace is a two-hop owner-authorised transfer. That is the same on-chain shape as a legitimate treasury move, a migration, or an insider withdrawal. The packet lists no integrators, so there is no evidence of a downstream counterparty carrying this loss.",
+    "veto": true,
+    "vetoReason": "The outflow is authorised: sender matches ownerBeforeTx and authorisedByOwner is true, with no exploit primitive in the trace. The packet cannot distinguish a legitimate privileged operation from an insider withdrawal, and integrator exposure is empty, so the proposed loss path is not supported.",
+    "concerns": [
+      "Owner-authorised outflow is indistinguishable here from a sanctioned treasury or migration action.",
+      "integrators array is empty - no evidence any counterparty bears the share-price loss.",
+      "Loss attribution rests on modelled DIRECT candidate (Pollen Yield, 0.329 modelled delta), not on observed holder impact.",
+      "No evidence supplied on whether the sweep destination is owner-controlled or third-party."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 78,
+    "thesis": "Owner-of-record called a sweep selector on its own vault; a single ERC20 transfer moved 60% of holdings out. No unauthorised entry, reinit, oracle or reentrancy pattern. This is an authorised operation, not an exploit, and the investigator veto stands.",
+    "invalidation": "Evidence that the caller's owner key was compromised or that the sweep was not sanctioned (governance dispute, protocol incident disclosure), plus confirmation shareholders cannot be made whole.",
+    "rationale": "Authorised-operation class with explicit veto removes the causal path from loss to a market repricing. The only candidate is also a proxy instrument (LINKUSDT) for a $56m protocol, so even a real $738k loss would not reliably pay through that market. Loss is also small relative to the traded instrument. Stand down."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "a9c7e8e02838c8ff8ded0079609787bfae38d901a36d0dbd9888fa5cbeee56cb"
+}

@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-09-22T21:41:16.476Z",
-  "runs": 35,
-  "detected": 34,
-  "decoysDismissed": 35,
+  "updatedAt": "2026-09-22T23:49:53.466Z",
+  "runs": 36,
+  "detected": 35,
+  "decoysDismissed": 36,
   "contagionFound": {
-    "found": 10,
-    "applicable": 10
+    "found": 11,
+    "applicable": 11
   },
-  "tradeTargetCorrect": 34,
+  "tradeTargetCorrect": 35,
   "gateCleared": 5,
   "falsePositives": 0,
   "medianDetectionMs": 4110,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "20260922234829041a",
+      "commitment": "1e3b713ea903c782d1b5d5063470ec49fcc7e936f8e174db6a0c990fa77573d7",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 17490,
+      "decoyDismissed": true,
+      "contagionFound": true,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "TRADE_DIRECT",
+      "falsePositives": 0,
+      "at": "2026-09-22T23:49:53.465Z",
+      "prevHash": "84af17797dd8f7899d9e06aa735dd914b520a58949d20a58e1c3472c56867727",
+      "hash": "aa6e18321e25e16ee88b17257e86fc5822c5b18504134f428a120ae4226eac58"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "2026092221390155a6",
@@ -214,26 +233,96 @@
       "at": "2026-09-21T01:38:53.970Z",
       "prevHash": "9214cacbff760610e7cfe83e342ab0ac0fcda22749e0177bb43e39f05580e06b",
       "hash": "b13a110dcacdd5239b793586bfa043868fed161375b2aa3b445d609cd32329c6"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "20260920232934196c",
-      "commitment": "36269f64651e447b27ec1029156dca33c9c177c7ed5b7e27df1c83047bdfb621",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 10806,
-      "decoyDismissed": true,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "falsePositives": 0,
-      "at": "2026-09-20T23:30:58.461Z",
-      "prevHash": "ae49d53c5de185d1de9a5cd467a5044f69ce353245853db6a0cc9141082d3940",
-      "hash": "9214cacbff760610e7cfe83e342ab0ac0fcda22749e0177bb43e39f05580e06b"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-20260922234829041a-4a679253",
+      "runId": "20260922234829041a",
+      "detectedAt": "2026-09-22T23:49:21.490Z",
+      "latencyMs": 17490,
+      "victim": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "TRADE_DIRECT",
+      "refusals": [
+        "edge after what the market already did is 0.58%, below 1.2%",
+        "conviction 66 is below 75"
+      ],
+      "aiDecision": {
+        "action": "TRADE_DIRECT",
+        "confidence": 66,
+        "thesis": "Unprotected entry point 0xa441d067 let a non-owner drain the entire 764,689 token balance from Basalt Pool's vault in one call; share price went 1 -> 0 with no owner authorisation, so this is a total loss, not an operation. Loss is ~2.3% of the protocol's $33M cap and the market has not moved at all yet (marketDeltaPct 0).",
+        "invalidation": "Funds returned or whitehat recovery announced, owner confirms the call was authorised/test, or price gaps down past the modeled 0.58% before entry fills.",
+        "rationale": "Direct venue pays first and largest: the drained vault's own market carries the full $764k loss versus $260k of downstream bad debt at Ember Lend, whose modeled 0.069% move is noise against costs. Causal path is clean and irreversible (share price 1->0, access-control class, veto false, non-owner caller), and nothing is priced in, so the direct short is the position that actually captures the repricing."
+      },
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 764689,
+      "target": "Basalt Pool",
+      "modeledDeltaPct": 0.579,
+      "marketDeltaPct": 0,
+      "integrators": 1,
+      "ai": {
+        "exploitClass": "access-control",
+        "veto": false,
+        "narrative": "The vault exposed a function that anyone could call. An unauthorised address called it, the vault read its own token balance and then transferred the whole 764689 of token 0xa852... out. The call succeeded, holdings went to 0 and the share price went from 1 to 0, so every share is now worthless. Ember Lend had accepted 436587.65 of those shares as collateral against 260605.1977 USD of loans; the share count is unchanged but the collateral is now valued at 0, leaving that full amount as bad debt on the lender. Direct loss 764689 USD at Basalt Pool; contagion 260605.1977 USD at Ember Lend.",
+        "lossBearer": "Directly: holders of Basalt Pool vault 0x4a679253410272dd5232b3ff7cf5dbb88f295319 (share price 1 -> 0). Downstream: lender 0x84ea74d4... (Ember Lend), left with 260605.1977 USD bad debt.",
+        "concerns": [
+          "Selector 0xa441d067 is unresolved; the packet shows no owner/permission check in the callee, only that the caller was not the owner.",
+          "Bad debt assumes zero recovery on the 436587.65 collateral shares; no liquidation or residual-value evidence supplied.",
+          "Post-state share price of 0 is a modelled value, not an observed market print.",
+          "No event logs or recipient address for the outbound transfer are included to confirm where the 764689 went."
+        ]
+      }
+    },
+    {
+      "id": "blind-20260922234829041a-a513e6e4",
+      "runId": "20260922234829041a",
+      "detectedAt": "2026-09-22T23:48:58.166Z",
+      "latencyMs": 2166,
+      "victim": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 78,
+        "thesis": "Owner-of-record called a sweep selector on its own vault; a single ERC20 transfer moved 60% of holdings out. No unauthorised entry, reinit, oracle or reentrancy pattern. This is an authorised operation, not an exploit, and the investigator veto stands.",
+        "invalidation": "Evidence that the caller's owner key was compromised or that the sweep was not sanctioned (governance dispute, protocol incident disclosure), plus confirmation shareholders cannot be made whole.",
+        "rationale": "Authorised-operation class with explicit veto removes the causal path from loss to a market repricing. The only candidate is also a proxy instrument (LINKUSDT) for a $56m protocol, so even a real $738k loss would not reliably pay through that market. Loss is also small relative to the traded instrument. Stand down."
+      },
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 737875.2,
+      "target": "Pollen Yield",
+      "modeledDeltaPct": 0.329,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "The vault owner called a sweep function on its own vault and pulled out roughly 60% of the token balance in one plain ERC20 transfer. Share price went from 1 to 0.4, so whoever holds the shares is worse off. But mechanically nothing was broken: the caller was the recorded owner, the permission check passed, and the call trace is a two-hop owner-authorised transfer. That is the same on-chain shape as a legitimate treasury move, a migration, or an insider withdrawal. The packet lists no integrators, so there is no evidence of a downstream counterparty carrying this loss.",
+        "lossBearer": "Economically, holders of the vault's shares (share price 1 -> 0.4); the packet names only DIRECT candidate Pollen Yield and shows no integrator exposure.",
+        "concerns": [
+          "Owner-authorised outflow is indistinguishable here from a sanctioned treasury or migration action.",
+          "integrators array is empty - no evidence any counterparty bears the share-price loss.",
+          "Loss attribution rests on modelled DIRECT candidate (Pollen Yield, 0.329 modelled delta), not on observed holder impact.",
+          "No evidence supplied on whether the sweep destination is owner-controlled or third-party."
+        ]
+      }
+    },
     {
       "id": "blind-2026092221390155a6-9a9f2ccf",
       "runId": "2026092221390155a6",
