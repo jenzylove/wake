@@ -1,18 +1,36 @@
 {
-  "updatedAt": "2026-09-22T06:30:36.747Z",
-  "runs": 31,
-  "detected": 30,
-  "decoysDismissed": 31,
+  "updatedAt": "2026-09-22T07:58:02.510Z",
+  "runs": 32,
+  "detected": 31,
+  "decoysDismissed": 32,
   "contagionFound": {
     "found": 9,
     "applicable": 9
   },
-  "tradeTargetCorrect": 30,
+  "tradeTargetCorrect": 31,
   "gateCleared": 5,
-  "claudeProposedTrade": 2,
   "falsePositives": 0,
-  "medianDetectionMs": 4110,
+  "medianDetectionMs": 3939,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "202609220756428196",
+      "commitment": "46ae479ab85bb47ada4897cefadb84e97494656d3b30a8b85459d6c3a0f81131",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 2543,
+      "decoyDismissed": true,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "falsePositives": 0,
+      "at": "2026-09-22T07:58:02.509Z",
+      "prevHash": "d91404690bb40c45f96d430e2492ed474804d94db89a4c6e471657140119d879",
+      "hash": "81147e28184cfedd75df6adb49c8ba5a5e730f256df016c3a6cab60ea4d0c8f8"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "2026092201494969c0",
@@ -207,26 +225,92 @@
       "at": "2026-09-20T11:50:27.375Z",
       "prevHash": "ea8375ed6251b32f93d5ed0e89db78823439789b3f3280e6d272c4844399f483",
       "hash": "31b6830c20a472700dea6e8bed439763ff8c83a90cf78eb9f3e726e6438af982"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "202609200525369e81",
-      "commitment": "43b0bc05c4e8459a505d84999a1346b6986caca1870947c0d645bccf2a8abfca",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 3506,
-      "decoyDismissed": true,
-      "contagionFound": true,
-      "tradeTargetCorrect": true,
-      "decision": "TRADE_DIRECT",
-      "gatePassed": true,
-      "falsePositives": 0,
-      "at": "2026-09-20T05:26:58.861Z",
-      "prevHash": "d10821f3a24c2903e05aa9247b9c54398387e483e4e1616ec8adbaca636b8bb7",
-      "hash": "ea8375ed6251b32f93d5ed0e89db78823439789b3f3280e6d272c4844399f483"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-202609220756428196-0165878a",
+      "runId": "202609220756428196",
+      "detectedAt": "2026-09-22T07:57:38.985Z",
+      "latencyMs": 23985,
+      "victim": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 88,
+        "thesis": "Owner-initiated sweep on the Xenon Vault: caller equals ownerBeforeTx, single ERC-20 transfer, no access-control break, reinitialisation, oracle manipulation or reentrancy. Share price move 1 -> 0.4 reflects an authorised withdrawal, not an exploit. Investigator veto stands, and the only candidate maps to an unrelated instrument (BCHUSDT).",
+        "invalidation": "Evidence that the caller was not the legitimate owner (key compromise, ownership takeover tx) or that the swept token was user-deposited collateral, plus a listed instrument actually tracking the vault.",
+        "rationale": "Authorised-operation class with explicit veto: no causal path from an owner sweep to a short that pays. Loss is borne by vault shareholders, not a tradable listed venue, and the proposed instrument BCHUSDT has no exposure to Xenon Vault, so the candidate would not capture the modeled move even if the loss were real."
+      },
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 593751,
+      "target": "Xenon Vault",
+      "modeledDeltaPct": 0.707,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "A vault admin function was called by the vault's own owner and moved most of the vault's token balance out in one transfer. Vault holdings went from 989585 to 395834 and modeled share price from 1 to 0.4, so share holders are diluted in value - but mechanically this is the owner using a privilege the contract grants, not a broken control. The packet gives no evidence of a stolen key, a spoofed owner, or an unauthorised path, and lists no integrator exposure. Economically it may still be a rug, but the evidence supports 'authorised drain' rather than a nameable exploit, so the loss path behind the DIRECT 593751 USD candidate is not established.",
+        "lossBearer": "Holders of Xenon Vault shares, whose share price moved 1 -> 0.4 as vault holdings fell from 989585 to 395834; no integrator exposure is listed in the packet.",
+        "concerns": [
+          "Cannot distinguish a legitimate owner sweep from key compromise: no evidence on owner-key provenance in the packet.",
+          "modeledDeltaPct 0.707 vs marketCapUsd 21000000 is a model output, not observed market impact.",
+          "No integrators listed, so any second-order exposure is unverified.",
+          "Post-sweep remaining balance 395834 may still be movable by the same owner; further outflow is not excluded."
+        ]
+      }
+    },
+    {
+      "id": "blind-202609220756428196-68b1d87f",
+      "runId": "202609220756428196",
+      "detectedAt": "2026-09-22T07:57:15.543Z",
+      "latencyMs": 2543,
+      "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 80,
+        "thesis": "Real unprotected-initializer drain of the Yarrow Reserve vault (share price 1 -> 0), but the loss is only ~$270k and the only candidate instrument is DOGEUSDT, which has no causal link to this vault. Modeled move is 0.19%, indistinguishable from noise and far below cost.",
+        "invalidation": "A listed instrument with genuine exposure to Yarrow Reserve appears, or the confirmed loss scales to a level that moves that instrument materially (>2-3%).",
+        "rationale": "Exploit path is established and unauthorised, but tradability fails: DOGEUSDT is not the market that bears this vault's loss, and a 0.19% modeled delta on a $270k drain is immaterial. Shorting DOGE here is an unrelated directional bet, not an incident trade."
+      },
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 269781,
+      "target": "Yarrow Reserve",
+      "modeledDeltaPct": 0.193,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "reinitialisation",
+        "veto": false,
+        "narrative": "A vault left its initializer callable after deployment. An attacker-controlled contract re-ran initialize on the vault, installed itself as the privileged party, and then used the vault's own admin sweep path to move the entire token balance out in a single transaction. Holdings of token 0x9a9f...63ae went from 269781 to 0 and share price from 1 to 0, so the vault is emptied, not merely marked down. The pre-tx owner was 0xf39F...2266 and the call was not owner-authorised, so this is theft rather than an admin withdrawal. No integrator exposure is recorded in the packet; the loss sits with Yarrow Reserve depositors.",
+        "lossBearer": "Depositors/share holders of the Yarrow Reserve vault 0x68b1d87f95878fe05b998f19b66f4baba5de1aed; share price went 1 -> 0, so residual claim holders absorb the full loss.",
+        "concerns": [
+          "No integrators listed, so second-order exposure (wrappers, LPs holding vault shares) is unverified, not proven absent.",
+          "modeledDeltaPct 0.193 is supplied without derivation and does not obviously follow from lossUsd 269781 vs marketCapUsd 35000000.",
+          "Selector 0x6ea056a9 is treated as a sweep based on the nested ERC20 transfer; the function's exact semantics are inferred from trace shape."
+        ]
+      }
+    },
     {
       "id": "blind-2026092201494969c0-a51c1fc2",
       "runId": "2026092201494969c0",

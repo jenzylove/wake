@@ -1,0 +1,271 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609220756428196-68b1d87f",
+  "runId": "202609220756428196",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 71,
+    "blockTimestamp": 1790063833
+  },
+  "detection": {
+    "tx": "0xdd5589bf9dc71c6c3e15025f25e98813a9ce8df0f2bb91bd84b0563d7f86f756",
+    "txs": [
+      "0xdd5589bf9dc71c6c3e15025f25e98813a9ce8df0f2bb91bd84b0563d7f86f756"
+    ],
+    "firstDetectedAt": "2026-09-22T07:57:15.543Z",
+    "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+    "token": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "before": 269781,
+    "after": 0,
+    "detectedAt": "2026-09-22T07:57:15.543Z",
+    "latencyMs": 2543
+  },
+  "investigation": {
+    "from": "0x97134376e0d80621a5a54a27e3d2745322122972",
+    "to": "0x583270c8a82b34a2b2778ac1f3b257dc3f9ebbb6",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x583270c8a82b34a2b2778ac1f3b257dc3f9ebbb6",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 269781,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+      "lossUsd": 269781,
+      "name": "Yarrow Reserve",
+      "instrument": "DOGEUSDT",
+      "marketCapUsd": 35000000,
+      "modeledDeltaPct": 0.193,
+      "markAtDetection": 0.0988,
+      "markAtDecision": 0.0988,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 4990.62916870864,
+        "maxLossUsd": 500,
+        "stopPct": 0.09500543847305674,
+        "costPct": 0.0051823300622236505,
+        "spreadPct": 0.003982330062223651,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04750271923652837,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 463675031.4045101,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.003982330062223651,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.193,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xdd5589bf9dc71c6c3e15025f25e98813a9ce8df0f2bb91bd84b0563d7f86f756 succeeded in block 71"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x97134376e0d80621a5a54a27e3d2745322122972 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $269,781 at Yarrow Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Attacker contract called an unprotected initializer (0xc4d66de8) on the vault 0x68b1...1aed, taking over privileged control despite owner being 0xf39F...2266 (authorisedByOwner=false). It then read the vault's asset and balance and invoked a sweep-style function (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) draining the full token balance."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.2%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "reinitialisation",
+    "mechanism": "Attacker contract called an unprotected initializer (0xc4d66de8) on the vault 0x68b1...1aed, taking over privileged control despite owner being 0xf39F...2266 (authorisedByOwner=false). It then read the vault's asset and balance and invoked a sweep-style function (0x6ea056a9), which executed an ERC20 transfer (0xa9059cbb) draining the full token balance.",
+    "lossBearer": "Depositors/share holders of the Yarrow Reserve vault 0x68b1d87f95878fe05b998f19b66f4baba5de1aed; share price went 1 -> 0, so residual claim holders absorb the full loss.",
+    "narrative": "A vault left its initializer callable after deployment. An attacker-controlled contract re-ran initialize on the vault, installed itself as the privileged party, and then used the vault's own admin sweep path to move the entire token balance out in a single transaction. Holdings of token 0x9a9f...63ae went from 269781 to 0 and share price from 1 to 0, so the vault is emptied, not merely marked down. The pre-tx owner was 0xf39F...2266 and the call was not owner-authorised, so this is theft rather than an admin withdrawal. No integrator exposure is recorded in the packet; the loss sits with Yarrow Reserve depositors.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "No integrators listed, so second-order exposure (wrappers, LPs holding vault shares) is unverified, not proven absent.",
+      "modeledDeltaPct 0.193 is supplied without derivation and does not obviously follow from lossUsd 269781 vs marketCapUsd 35000000.",
+      "Selector 0x6ea056a9 is treated as a sweep based on the nested ERC20 transfer; the function's exact semantics are inferred from trace shape."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 80,
+    "thesis": "Real unprotected-initializer drain of the Yarrow Reserve vault (share price 1 -> 0), but the loss is only ~$270k and the only candidate instrument is DOGEUSDT, which has no causal link to this vault. Modeled move is 0.19%, indistinguishable from noise and far below cost.",
+    "invalidation": "A listed instrument with genuine exposure to Yarrow Reserve appears, or the confirmed loss scales to a level that moves that instrument materially (>2-3%).",
+    "rationale": "Exploit path is established and unauthorised, but tradability fails: DOGEUSDT is not the market that bears this vault's loss, and a 0.19% modeled delta on a $270k drain is immaterial. Shorting DOGE here is an unrelated directional bet, not an incident trade."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "f96bebfe627e9fe325175a6c00856f4c9abd7f036abddb5688c49fdb255de753"
+}
