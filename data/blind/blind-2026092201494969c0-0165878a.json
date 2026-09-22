@@ -1,0 +1,248 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-2026092201494969c0-0165878a",
+  "runId": "2026092201494969c0",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 73,
+    "blockTimestamp": 1790041827
+  },
+  "detection": {
+    "tx": "0xa4835c7657f4568d30988c6d939dc442455e9b2045ff3e84cdfe0e8c1d5abcd1",
+    "txs": [
+      "0xa4835c7657f4568d30988c6d939dc442455e9b2045ff3e84cdfe0e8c1d5abcd1"
+    ],
+    "firstDetectedAt": "2026-09-22T01:50:30.455Z",
+    "victim": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+    "token": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+    "before": 417774,
+    "after": 167109.6,
+    "detectedAt": "2026-09-22T01:50:30.455Z",
+    "latencyMs": 3455
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 417774,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+      "lossUsd": 250664.4,
+      "name": "Quartz Reserve",
+      "instrument": "LTCUSDT",
+      "marketCapUsd": 32000000,
+      "modeledDeltaPct": 0.196,
+      "markAtDetection": 61.08,
+      "markAtDecision": 61.08,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5210.348113945197,
+        "maxLossUsd": 500,
+        "stopPct": 0.09135721871420113,
+        "costPct": 0.0046056592097860945,
+        "spreadPct": 0.003405659209786095,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.045678609357100566,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 41464875.047999986,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.003405659209786095,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.196,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xa4835c7657f4568d30988c6d939dc442455e9b2045ff3e84cdfe0e8c1d5abcd1 succeeded in block 73"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $250,664 at Quartz Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The outflow is authorised: caller matches ownerBeforeTx and authorisedByOwner is true, with no evidence of key compromise or access-control bypass, and no integrator exposure is shown. The distinction between legitimate treasury action and owner misconduct is not resolvable from this packet."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.2%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Owner-privileged sweep (selector 0x6ea056a9) on Quartz Reserve moved token 0x5fc8...5707 out of the vault; holdings fell 417774 -> 167109.6 and share price 1 -> 0.4. Caller 0xf39f...2266 equals ownerBeforeTx and authorisedByOwner is true, so the transfer used a legitimate admin path, not a bypass.",
+    "lossBearer": "Quartz Reserve share holders, via the drop in share price from 1 to 0.4; no integrator exposure is shown in the packet.",
+    "narrative": "A privileged sweep call by the vault's own owner pulled roughly 60% of the underlying token out of Quartz Reserve, cutting share price from 1 to 0.4 and implying about 250,664.4 USD of value leaving holders. Mechanically this is an authorised admin action: the sender is the recorded owner, the packet marks it authorised, and the trace is just the vault calling transfer on the token. Nothing in the evidence shows a compromised key, a re-initialisation, or a missing access check, and no integrator positions are listed. Without that, the loss path is an owner decision, not a demonstrated exploit.",
+    "veto": true,
+    "vetoReason": "The outflow is authorised: caller matches ownerBeforeTx and authorisedByOwner is true, with no evidence of key compromise or access-control bypass, and no integrator exposure is shown. The distinction between legitimate treasury action and owner misconduct is not resolvable from this packet.",
+    "concerns": [
+      "Cannot distinguish legitimate owner withdrawal from owner misconduct or key compromise on this evidence.",
+      "No integrator list, so downstream exposure and who ultimately holds the diluted shares is unknown.",
+      "Destination of the swept tokens is not in the packet; trace stops at the token transfer call.",
+      "modeledDeltaPct 0.196 against 32,000,000 marketCapUsd is a model output, not observed price impact."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 82,
+    "thesis": "Quartz Reserve's share price drop from 1 to 0.4 came from an owner-privileged sweep (0x6ea056a9) executed by the recorded owner address, with authorisedByOwner true. That is an admin path, not an exploit; no bypass, no unauthorised actor, and no integrator exposure in the packet. There is no established causal path from this to a tradeable market move.",
+    "invalidation": "Evidence that the owner key was compromised or the sweep was unsanctioned (ownership transfer immediately prior, disavowal by the team, or funds routed to a mixer) would reopen a direct short.",
+    "rationale": "Investigator classifies this as authorised-operation and sets veto. The only candidate is a DIRECT short on LTCUSDT, a proxy instrument whose link to a $250k sweep on a $32m vault is weak, and marketDeltaPct is 0 because the market has no reason to react to a sanctioned admin transfer. Trading a legitimate operational move is exactly the false positive to avoid."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "69dbc462d1356b2d1edf8248c4494e4ed75a051f8281280291d519c613ff5b95"
+}

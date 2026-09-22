@@ -1,0 +1,335 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-2026092201494969c0-a51c1fc2",
+  "runId": "2026092201494969c0",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 74,
+    "blockTimestamp": 1790041835
+  },
+  "detection": {
+    "tx": "0xec9694ad283bcab0882ab6b5244240edf7e4936a095c1b7adec1bd153104ce38",
+    "txs": [
+      "0xec9694ad283bcab0882ab6b5244240edf7e4936a095c1b7adec1bd153104ce38"
+    ],
+    "firstDetectedAt": "2026-09-22T01:50:54.606Z",
+    "victim": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+    "token": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+    "before": 607704,
+    "after": 0,
+    "detectedAt": "2026-09-22T01:50:54.606Z",
+    "latencyMs": 19606
+  },
+  "investigation": {
+    "from": "0x53a00cdaffd66f7ce7d537d040c67a4bf598561a",
+    "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+    "selector": "0xa441d067",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+        "selector": "0xa441d067",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 607704,
+    "integrators": [
+      {
+        "address": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+        "heldSharesBefore": 322345.9,
+        "heldSharesAfter": 322345.9,
+        "collateralValueBeforeUsd": 322345.9,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 190716.96039999998,
+        "badDebtUsd": 190716.96039999998
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+      "lossUsd": 607704,
+      "name": "Kestrel Reserve",
+      "instrument": "SOLUSDT",
+      "marketCapUsd": 17000000,
+      "modeledDeltaPct": 0.894,
+      "markAtDetection": 117.356,
+      "markAtDecision": 117.356,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 7341.09492809664,
+        "maxLossUsd": 500,
+        "stopPct": 0.06403447507658641,
+        "costPct": 0.004075255814693228,
+        "spreadPct": 0.0028752558146932275,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.032017237538293206,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 897788742.9461,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0028752558146932275,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.894,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+      "lossUsd": 190716.96039999998,
+      "name": "Vesper Lend",
+      "instrument": "BCHUSDT",
+      "marketCapUsd": 13000000,
+      "modeledDeltaPct": 0.367,
+      "markAtDetection": 264.31,
+      "markAtDecision": 264.31,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5161.130483487778,
+        "maxLossUsd": 500,
+        "stopPct": 0.09193396895540326,
+        "costPct": 0.004944031242357871,
+        "spreadPct": 0.0037440312423578713,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04596698447770163,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 49724825.8889,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0037440312423578713,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.367,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xec9694ad283bcab0882ab6b5244240edf7e4936a095c1b7adec1bd153104ce38 succeeded in block 74"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x53a00cdaffd66f7ce7d537d040c67a4bf598561a is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $607,704 at Kestrel Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Caller 0x53a0...561a (not the recorded owner 0xf39F...2266, authorisedByOwner=false) invoked selector 0xa441d067 on the vault; the trace shows a balanceOf read followed immediately by an ERC20 transfer that moved the vault's entire token balance (607704 -> 0) out. Missing/failed authorisation check on a balance-sweeping entrypoint."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.9%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "Caller 0x53a0...561a (not the recorded owner 0xf39F...2266, authorisedByOwner=false) invoked selector 0xa441d067 on the vault; the trace shows a balanceOf read followed immediately by an ERC20 transfer that moved the vault's entire token balance (607704 -> 0) out. Missing/failed authorisation check on a balance-sweeping entrypoint.",
+    "lossBearer": "Vault shareholders of Kestrel Reserve (0xa51c...91c0) bear the direct 607704 loss; Vesper Lend (0x67d2...5933) bears 190716.9604 USD bad debt on loans against now-worthless shares.",
+    "narrative": "An unauthorised caller hit a single function on the Kestrel Reserve vault that read the vault's token balance and transferred all of it out in the same transaction. The caller was not the vault owner and the packet flags the outflow as unauthorised, so this is a broken access-control check, not a normal withdrawal or admin action. The vault's holdings went 607704 -> 0 and share price 1 -> 0, wiping out shareholders. Vesper Lend still holds 322345.9 of those shares as collateral, unchanged in quantity but now valued at 0, against 190716.9604 USD lent - leaving that amount as bad debt on the lender.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Selector 0xa441d067 is not resolved to a named function in the packet, so intended semantics of the entrypoint are unknown.",
+      "Recorded owner 0xf39Fd6e5...92266 is a well-known default test address; environment provenance is not established by the packet.",
+      "No evidence on whether Vesper Lend can liquidate, pause, or recover any portion of the 190716.9604 USD exposure.",
+      "Market caps and modelled delta percentages are supplied as candidate metadata, not derived from the chain evidence shown."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "TRADE_DIRECT",
+    "candidate": 0,
+    "confidence": 72,
+    "thesis": "Unauthorised caller (not recorded owner) hit a balance-sweeping entrypoint on Kestrel Reserve and moved the vault's entire 607,704 token balance out; share price went 1 -> 0. The loss is realised, falls directly on vault shareholders, and none of the implied ~0.89% move is priced in (marketDeltaPct 0), so the direct short on candidate 0 is the instrument that pays.",
+    "invalidation": "Evidence the sweep was an owner-sanctioned migration/whitehat rescue, funds returned to the vault, share price restored above 0, or the market prints the modeled move before entry.",
+    "rationale": "Access-control failure with authorisedByOwner=false, no investigator veto, and a trace showing balanceOf read then full-balance ERC20 transfer to a non-owner address. Total drain to zero share price is the maximal direct-loss case, so the victim protocol absorbs it rather than an integrator. Contagion candidate 1 is smaller (190,717 bad debt) and second-order; direct is unpriced and sizeable, so take the primary leg only."
+  },
+  "aiDecisionError": null,
+  "refusals": [
+    "edge after what the market already did is 0.89%, below 1.2%",
+    "conviction 72 is below 75"
+  ],
+  "proposed": "TRADE_DIRECT",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [
+      "edge after what the market already did is 0.89%, below 1.2%",
+      "conviction 72 is below 75"
+    ]
+  },
+  "integrity": "d3281d9fbef20063318cf297f0cfc529c8141c72d59a2d01617ea7987c4bdf42"
+}

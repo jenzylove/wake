@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-09-21T23:35:34.655Z",
-  "runs": 30,
-  "detected": 29,
-  "decoysDismissed": 30,
+  "updatedAt": "2026-09-22T01:51:24.080Z",
+  "runs": 31,
+  "detected": 30,
+  "decoysDismissed": 31,
   "contagionFound": {
-    "found": 8,
-    "applicable": 8
+    "found": 9,
+    "applicable": 9
   },
-  "tradeTargetCorrect": 29,
+  "tradeTargetCorrect": 30,
   "gateCleared": 5,
   "falsePositives": 0,
-  "medianDetectionMs": 3939,
+  "medianDetectionMs": 4110,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "2026092201494969c0",
+      "commitment": "d513f12d2a0b3cb9ba3caa4908cceac86f35598a0007751b033d3d12958b6a0a",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 19606,
+      "decoyDismissed": true,
+      "contagionFound": true,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "TRADE_DIRECT",
+      "falsePositives": 0,
+      "at": "2026-09-22T01:51:24.080Z",
+      "prevHash": "40c3f7fa22250008b0072aeb9d2c1aa6b41ed3d1ba5fc388fad3d6470016b103",
+      "hash": "d91404690bb40c45f96d430e2492ed474804d94db89a4c6e471657140119d879"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "202609212334239560",
@@ -204,26 +223,96 @@
       "at": "2026-09-20T05:26:58.861Z",
       "prevHash": "d10821f3a24c2903e05aa9247b9c54398387e483e4e1616ec8adbaca636b8bb7",
       "hash": "ea8375ed6251b32f93d5ed0e89db78823439789b3f3280e6d272c4844399f483"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "20260919233720c032",
-      "commitment": "c7099adf5960ee54e6612f4b3d7f41341148e5be4e1867368ab2c4e4b67beb91",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 12803,
-      "decoyDismissed": true,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
-      "decision": "TRADE_DIRECT",
-      "gatePassed": true,
-      "falsePositives": 0,
-      "at": "2026-09-19T23:39:08.799Z",
-      "prevHash": "269af21a70521f11d685eb66a6858c7d5711e4b062cd3638de57c211551b8a24",
-      "hash": "d10821f3a24c2903e05aa9247b9c54398387e483e4e1616ec8adbaca636b8bb7"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-2026092201494969c0-a51c1fc2",
+      "runId": "2026092201494969c0",
+      "detectedAt": "2026-09-22T01:50:54.606Z",
+      "latencyMs": 19606,
+      "victim": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "TRADE_DIRECT",
+      "refusals": [
+        "edge after what the market already did is 0.89%, below 1.2%",
+        "conviction 72 is below 75"
+      ],
+      "aiDecision": {
+        "action": "TRADE_DIRECT",
+        "confidence": 72,
+        "thesis": "Unauthorised caller (not recorded owner) hit a balance-sweeping entrypoint on Kestrel Reserve and moved the vault's entire 607,704 token balance out; share price went 1 -> 0. The loss is realised, falls directly on vault shareholders, and none of the implied ~0.89% move is priced in (marketDeltaPct 0), so the direct short on candidate 0 is the instrument that pays.",
+        "invalidation": "Evidence the sweep was an owner-sanctioned migration/whitehat rescue, funds returned to the vault, share price restored above 0, or the market prints the modeled move before entry.",
+        "rationale": "Access-control failure with authorisedByOwner=false, no investigator veto, and a trace showing balanceOf read then full-balance ERC20 transfer to a non-owner address. Total drain to zero share price is the maximal direct-loss case, so the victim protocol absorbs it rather than an integrator. Contagion candidate 1 is smaller (190,717 bad debt) and second-order; direct is unpriced and sizeable, so take the primary leg only."
+      },
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 607704,
+      "target": "Kestrel Reserve",
+      "modeledDeltaPct": 0.894,
+      "marketDeltaPct": 0,
+      "integrators": 1,
+      "ai": {
+        "exploitClass": "access-control",
+        "veto": false,
+        "narrative": "An unauthorised caller hit a single function on the Kestrel Reserve vault that read the vault's token balance and transferred all of it out in the same transaction. The caller was not the vault owner and the packet flags the outflow as unauthorised, so this is a broken access-control check, not a normal withdrawal or admin action. The vault's holdings went 607704 -> 0 and share price 1 -> 0, wiping out shareholders. Vesper Lend still holds 322345.9 of those shares as collateral, unchanged in quantity but now valued at 0, against 190716.9604 USD lent - leaving that amount as bad debt on the lender.",
+        "lossBearer": "Vault shareholders of Kestrel Reserve (0xa51c...91c0) bear the direct 607704 loss; Vesper Lend (0x67d2...5933) bears 190716.9604 USD bad debt on loans against now-worthless shares.",
+        "concerns": [
+          "Selector 0xa441d067 is not resolved to a named function in the packet, so intended semantics of the entrypoint are unknown.",
+          "Recorded owner 0xf39Fd6e5...92266 is a well-known default test address; environment provenance is not established by the packet.",
+          "No evidence on whether Vesper Lend can liquidate, pause, or recover any portion of the 190716.9604 USD exposure.",
+          "Market caps and modelled delta percentages are supplied as candidate metadata, not derived from the chain evidence shown."
+        ]
+      }
+    },
+    {
+      "id": "blind-2026092201494969c0-0165878a",
+      "runId": "2026092201494969c0",
+      "detectedAt": "2026-09-22T01:50:30.455Z",
+      "latencyMs": 3455,
+      "victim": "0x0165878a594ca255338adfa4d48449f69242eb8f",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 82,
+        "thesis": "Quartz Reserve's share price drop from 1 to 0.4 came from an owner-privileged sweep (0x6ea056a9) executed by the recorded owner address, with authorisedByOwner true. That is an admin path, not an exploit; no bypass, no unauthorised actor, and no integrator exposure in the packet. There is no established causal path from this to a tradeable market move.",
+        "invalidation": "Evidence that the owner key was compromised or the sweep was unsanctioned (ownership transfer immediately prior, disavowal by the team, or funds routed to a mixer) would reopen a direct short.",
+        "rationale": "Investigator classifies this as authorised-operation and sets veto. The only candidate is a DIRECT short on LTCUSDT, a proxy instrument whose link to a $250k sweep on a $32m vault is weak, and marketDeltaPct is 0 because the market has no reason to react to a sanctioned admin transfer. Trading a legitimate operational move is exactly the false positive to avoid."
+      },
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 250664.4,
+      "target": "Quartz Reserve",
+      "modeledDeltaPct": 0.196,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "A privileged sweep call by the vault's own owner pulled roughly 60% of the underlying token out of Quartz Reserve, cutting share price from 1 to 0.4 and implying about 250,664.4 USD of value leaving holders. Mechanically this is an authorised admin action: the sender is the recorded owner, the packet marks it authorised, and the trace is just the vault calling transfer on the token. Nothing in the evidence shows a compromised key, a re-initialisation, or a missing access check, and no integrator positions are listed. Without that, the loss path is an owner decision, not a demonstrated exploit.",
+        "lossBearer": "Quartz Reserve share holders, via the drop in share price from 1 to 0.4; no integrator exposure is shown in the packet.",
+        "concerns": [
+          "Cannot distinguish legitimate owner withdrawal from owner misconduct or key compromise on this evidence.",
+          "No integrator list, so downstream exposure and who ultimately holds the diluted shares is unknown.",
+          "Destination of the swept tokens is not in the packet; trace stops at the token transfer call.",
+          "modeledDeltaPct 0.196 against 32,000,000 marketCapUsd is a model output, not observed price impact."
+        ]
+      }
+    },
     {
       "id": "blind-202609212334239560-a85233c6",
       "runId": "202609212334239560",
@@ -1356,86 +1445,6 @@
           "Function behind selector 0xa24188df is not identified, so the exact authorisation gap is inferred from the trace not from source",
           "Integrators list is empty: downstream or wrapped exposure, if any, is not visible in this packet",
           "modeledDeltaPct 0.209 is not reconciled in the packet against lossUsd 350651 vs marketCapUsd 42000000"
-        ]
-      }
-    },
-    {
-      "id": "blind-2026091921320743c6-68b1d87f",
-      "runId": "2026091921320743c6",
-      "detectedAt": "2026-09-19T21:32:39.672Z",
-      "latencyMs": 12672,
-      "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
-      "authorised": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "decidedBy": null,
-      "proposed": null,
-      "refusals": [],
-      "aiDecision": null,
-      "confidence": 80,
-      "instrument": "UNIUSDT",
-      "kind": "DIRECT",
-      "side": "SHORT",
-      "sizing": {
-        "notionalUsd": 2468.7354419182707,
-        "maxLossUsd": 500,
-        "stopPct": 0.19487626347469897
-      },
-      "lossUsd": 518214.6,
-      "target": "Iris Vault",
-      "modeledDeltaPct": 0.381,
-      "marketDeltaPct": 0,
-      "integrators": 0,
-      "ai": {
-        "exploitClass": "authorised-operation",
-        "veto": true,
-        "narrative": "The vault's own owner address (0xf39f...2266) called the vault and moved tokens out in one internal ERC-20 transfer. The vault's token balance dropped from 863691 to 345476.4 and share price from 1 to 0.4, so depositors bear roughly 518214.6 USD of value. Mechanically this is a privileged withdrawal, not a broken access check: the packet marks it authorisedByOwner and the trace shows no exploit primitive. That leaves the intent ambiguous - it could be a legitimate treasury sweep, a rug, or a stolen owner key - and the packet contains nothing that separates those. No integrator exposure is listed.",
-        "lossBearer": "Iris Vault share holders, whose per-share value fell from 1 to 0.4; modeled direct loss 518214.6 USD against a 34,000,000 USD market cap.",
-        "concerns": [
-          "authorisedByOwner is true and caller == ownerBeforeTx; no access-control failure visible in the trace",
-          "Cannot distinguish legitimate owner sweep from rug or key compromise on this evidence",
-          "No integrators listed, so no downstream exposure is demonstrated",
-          "Only the DIRECT candidate carries a loss figure (518214.6 USD, modeledDeltaPct 0.381); no independent confirmation in packet"
-        ]
-      }
-    },
-    {
-      "id": "blind-2026091921320743c6-a51c1fc2",
-      "runId": "2026091921320743c6",
-      "detectedAt": "2026-09-19T21:32:22.833Z",
-      "latencyMs": 1833,
-      "victim": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
-      "authorised": false,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "decidedBy": null,
-      "proposed": null,
-      "refusals": [],
-      "aiDecision": null,
-      "confidence": 100,
-      "instrument": "DOTUSDT",
-      "kind": "DIRECT",
-      "side": "SHORT",
-      "sizing": {
-        "notionalUsd": 4854.08441521078,
-        "maxLossUsd": 500,
-        "stopPct": 0.0973549841134582
-      },
-      "lossUsd": 632957,
-      "target": "Vesper Earn",
-      "modeledDeltaPct": 1.055,
-      "marketDeltaPct": 0,
-      "integrators": 0,
-      "ai": {
-        "exploitClass": "access-control",
-        "veto": false,
-        "narrative": "A non-owner address called a single function on the vault and walked out with everything it held. The trace is short and unambiguous: a balance read, then a transfer, and the vault's token holding went from 632957 to 0 in one successful transaction. The packet explicitly records the caller as not the owner and not authorised by the owner, so this is a missing access-control check rather than a routine withdrawal. Share price collapsed from 1 to 0, so the loss lands on the vault's own depositors. Modeled impact is 632957 USD against a 15000000 USD market cap, a 1.055% delta. No integrator exposure is shown.",
-        "lossBearer": "Depositors/share holders of the victim vault 0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0 (candidate DIRECT: Vesper Earn); share price went 1 -> 0. No integrators are listed in the packet.",
-        "concerns": [
-          "Transfer recipient is not shown in the trace, so the destination of the drained funds is unverified.",
-          "Selector 0xa441d067 is unresolved; the intended semantics of the function are not in the packet.",
-          "No integrators are listed, so any second-order exposure beyond the direct vault is unsupported by evidence.",
-          "Loss is modeled at 1.055% of stated market cap; the packet does not evidence how that delta was derived."
         ]
       }
     }
