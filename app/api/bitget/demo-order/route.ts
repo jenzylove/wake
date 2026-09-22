@@ -1,5 +1,5 @@
 import { getBitgetContractInfo, getBitgetDemoAccount, getBitgetMarkSnapshot, placeBitgetDemoOrder } from "@/lib/bitget-client"
-import { deriveDecision, evaluateRiskGate, incidents, isTradeDecision } from "@/lib/wake-engine"
+import { deriveDecision, evaluateRiskGate, incidents } from "@/lib/wake-engine"
 import { authorizeOperatorRequest } from "@/lib/request-auth.mjs"
 import { executionEligibility } from "@/lib/wake-policy.mjs"
 import { contractSize } from "@/lib/sizing.mjs"

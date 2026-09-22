@@ -22,7 +22,7 @@ This starts a fresh local chain, lets a red team deploy protocols nobody has see
 
 ## Blind tests prove detection and reasoning, not edge
 
-The blind challenge (`npm run blind:build && npm run blind:run`, hourly in `.github/workflows/blind.yml`) seals a SHA-256 commitment to its answer before the attack, so no model can have memorised it. Across 29 runs: 28 exploits detected, 29 of 29 decoys dismissed as authorised, 0 false positives, median detection about 4 seconds. Scores are in `data/blind/runs.jsonl`, hash chained.
+The blind challenge (`npm run blind:build && npm run blind:run`, hourly in `.github/workflows/blind.yml`) seals a SHA-256 commitment to its answer before the attack, so no model can have memorised it. As of 22 September 2026, across 31 runs: 30 exploits detected, 31 of 31 decoys dismissed as authorised, 0 false positives, median detection 4.1 seconds. Scores are in `data/blind/runs.jsonl`, hash chained.
 
 What blind tests cannot prove is tradeable edge. The red team pairs each invented protocol with a real Bitget perpetual and an invented market cap. The earlier rule based policy accepted that pairing and cleared 5 trades. With Claude deciding, it refuses them, for the correct reason: a drain on a protocol that does not exist cannot move a real token's price. We treat that refusal as the result. Blind trades are never presented as performance.
 
@@ -30,7 +30,7 @@ What blind tests cannot prove is tradeable edge. The red team pairs each invente
 
 `scripts/watch-chain.mjs` runs every hour on Ethereum, Base and Arbitrum. It reads every new block, takes transfers of USDC, USDT, DAI and WETH worth $250,000 or more, and keeps only those where the sending contract ended the block holding under 40% of what it held before.
 
-A large transfer is not a drain, and the first live runs proved it: a settlement contract on Base emptied itself five times in an hour. So a contract that empties itself repeatedly is treated as refilled, and one that was mostly empty an hour earlier as a forwarder. Incidents opened before a rule tightened are re checked by `scripts/recheck-live.mjs` and retracted with the reason appended to the hash chained log. Eight real drains are currently open, all at MONITOR, because none matches a listed protocol with a market to express the consequence in.
+A large transfer is not a drain, and the first live runs proved it: a settlement contract on Base emptied itself five times in an hour. So a contract that empties itself repeatedly is treated as refilled, and one that was mostly empty an hour earlier as a forwarder. Incidents opened before a rule tightened are re checked by `scripts/recheck-live.mjs` and retracted with the reason appended to the hash chained log. As of 22 September 2026, 13 real drain candidates have been recorded and none has traded: none matched a listed protocol with a market to express the consequence in. Each pass reports its own coverage (blocks read, blocks skipped, failed state reads), and the console shows it rather than implying every block was read.
 
 The DefiLlama exploit feed is read every hour as a second source (`data/discovered/`). Feed entries publish no transaction hashes, so they hold at MONITOR until a receipt is attached with `node scripts/attach-receipt.mjs` and measured with `node scripts/quantify-exposure.mjs`.
 
@@ -91,11 +91,9 @@ npm run lint
 npm run typecheck
 npm test
 npm run build
-npm run data:verify        # capture integrity and every hash chained log
+npm run data:verify        # capture packets plus the discovery, agent, blind and live hash chains
 npm run demo               # one continuous run, exploit to Demo order
 npm run discover           # one discovery pass against the live feeds
-npm run paper:tick         # one paper engine tick
-npm run paper:calibrate    # threshold calibration against a ticker snapshot
 ```
 
 `data:verify` checks packet schema, receipt success, transaction identity, candle ordering and OHLC invariants, incident-window alignment, and integrity hashes.
@@ -124,6 +122,10 @@ Key boundaries:
 - `POST /api/position/observations` is operator-protected. The public UI keeps its 15-second mark observations in the browser session instead of allowing anonymous durable writes.
 - `GET /api/watchers/run` fails closed on hosted deployments without a scheduler secret.
 - `POST /api/investigator` is operator-protected unless `WAKE_PUBLIC_INVESTIGATOR=1` is deliberately set.
+
+## Archived work
+
+`archive/basis-engine/` holds an earlier funding basis experiment. It is not WAKE's strategy, does not run, and none of its results appear on the console or in this record.
 
 ## Current boundary
 

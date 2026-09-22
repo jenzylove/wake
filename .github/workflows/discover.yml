@@ -33,5 +33,6 @@ jobs:
           git add data/discovered data/wake-paper
           git diff --cached --quiet && exit 0
           git commit -m "WAKE agent tick [skip ci]"
-          for i in 1 2 3; do git pull --no-rebase --no-edit && git push && exit 0; sleep 5; done
+          for i in 1 2 3 4 5; do git pull --rebase && git push && exit 0; git rebase --abort 2>/dev/null; git merge --abort 2>/dev/null; sleep $((i * 7)); done
+          echo "::error::could not publish this run after 5 attempts"
           exit 1

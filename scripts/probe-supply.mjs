@@ -3,7 +3,6 @@
 // Usage: node scripts/probe-supply.mjs [hours=24]
 import { WATCHED, rpc } from "../lib/chain-watch.mjs"
 import { LABELLED_HUBS, SUPPLY_TOKENS, findDeposits, hubCandidates, roundTripCost, supplyImpactPct, supplyMinEdgePct } from "../lib/supply-watch.mjs"
-import { computePositionSizing } from "../lib/sizing.mjs"
 
 const chain = WATCHED["1"]
 const call = (m, p) => rpc(chain.rpc, m, p, 3, chain.fallbacks)
@@ -20,7 +19,6 @@ for (const t of Object.values(SUPPLY_TOKENS)) {
   const sd = Math.sqrt(r.reduce((a, b) => a + (b - m) ** 2, 0) / (r.length - 1)) * Math.sqrt(24)
   await new Promise((r) => setTimeout(r, 2500))
   const cg = await j(`https://api.coingecko.com/api/v3/simple/price?ids=${t.coingecko}&vs_currencies=usd&include_24hr_vol=true`)
-  const sizing = computePositionSizing({ windowSigma: sd, quoteVolumeUsd: c.slice(-24).reduce((a, k) => a + k.quoteVolume, 0), candles: c })
   const tk = (await j(`https://api.bitget.com/api/v2/mix/market/ticker?symbol=${t.instrument}&productType=USDT-FUTURES`)).data[0]
   mk[t.symbol] = { sigma: sd, vol: cg[t.coingecko]?.usd_24h_vol, minEdge: supplyMinEdgePct(roundTripCost({ bid: +tk.bidPr, ask: +tk.askPr })) }
 }

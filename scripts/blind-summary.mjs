@@ -15,7 +15,6 @@ const incidents = readdirSync(dir)
   .filter((f) => f.startsWith("blind-") && f.endsWith(".json"))
   .map((f) => JSON.parse(readFileSync(path.join(dir, f), "utf8")))
   .sort((a, b) => (a.detection.firstDetectedAt < b.detection.firstDetectedAt ? 1 : -1))
-  .slice(0, 30)
   .map((r) => ({
     id: r.id, runId: r.runId, detectedAt: r.detection.firstDetectedAt, latencyMs: r.detection.latencyMs,
     victim: r.detection.victim, authorised: r.investigation.authorised, decision: r.decision,

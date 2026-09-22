@@ -1,5 +1,4 @@
 "use client"
-/* eslint-disable @next/next/no-img-element -- the hero uses a responsive art-directed asset rather than a content image */
 
 import * as React from "react"
 import {
@@ -78,7 +77,6 @@ type InvestigatorReview = {
   }
 }
 
-import { PaperPerformance } from "@/components/paper-performance"
 import { StressTest } from "@/components/stress-test"
 import { WakeOrb } from "@/components/wake-orb"
 
@@ -466,7 +464,6 @@ export default function Home() {
             <span>{actionNotice ?? (lastRun?.incidentId === incident.id ? `Last run ${lastRun.id} · ${lastRun.riskGate.passed ? "risk gate passed" : "risk gate held"}` : "Refresh graph to create a timestamped investigation run")}</span>
           </div>
 
-          <PaperPerformance />
 
           <div className="workspace-grid">
             <Card className="incident-queue card-dark" id="queue-anchor">

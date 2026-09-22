@@ -19,6 +19,45 @@ type Source = "captured" | "discovered" | "live" | "blind"
 type Falsifier = { key?: string; question: string; status: string; blocksTrade: boolean; answer?: string }
 type Ai = { exploitClass: string; mechanism?: string; lossBearer?: string; narrative?: string; veto: boolean; concerns?: string[] } | null
 
+// The ActionGraph for one incident: the causal path from the chain event to the decision, each
+// step marked observed (read from chain or venue), inferred (a model or a judgement) or blocking.
+function ActionGraph({ item }: { item: Item }) {
+  const blocking = item.falsification.filter((f) => f.blocksTrade).length + (item.refusals?.length ?? 0)
+  const traded = item.decision.startsWith("TRADE") || item.decision === "HEDGE"
+  const steps: Array<{ k: string; v: string; kind: "observed" | "inferred" | "blocking" | "cleared" }> = [
+    { k: "event", v: item.subtitle.split(" · ")[1] ?? item.subtitle, kind: "observed" },
+    { k: "consequence", v: item.numbers.slice(0, 2).map((n) => `${n.label} ${n.value}`).join(" · "), kind: "observed" },
+    { k: "market", v: item.instrument ?? "no listed market", kind: item.instrument ? "observed" : "blocking" },
+    { k: "claude", v: item.proposed ? item.proposed.toLowerCase().replace("_", " ") : item.ai ? (item.ai.veto ? "vetoed" : "reviewed") : "no review", kind: "inferred" },
+    { k: "code", v: blocking ? `${blocking} refusal${blocking > 1 ? "s" : ""}` : "all checks passed", kind: blocking ? "blocking" : "cleared" },
+    { k: "outcome", v: item.decision.toLowerCase().replace("_", " "), kind: traded ? "cleared" : "blocking" },
+  ]
+  const exportRecord = () => {
+    const blob = new Blob([JSON.stringify(item, null, 2)], { type: "application/json" })
+    const a = document.createElement("a")
+    a.href = URL.createObjectURL(blob)
+    a.download = `${item.id}.actiongraph.json`
+    a.click()
+    URL.revokeObjectURL(a.href)
+  }
+  return (
+    <div className="wkc-block">
+      <header>
+        <h4>ActionGraph</h4>
+        <span style={{ display: "flex", gap: 10 }}>
+          {item.record && <a className="wkc-link" href={`https://github.com/jenzylove/wake/blob/main/${item.record}`}>source record</a>}
+          <button className="wkc-link" onClick={exportRecord}>export</button>
+        </span>
+      </header>
+      <ol className="wkc-graph">
+        {steps.map((s) => (
+          <li key={s.k} data-kind={s.kind}><span className="k">{s.k}</span><span className="v">{s.v}</span><span className="t">{s.kind}</span></li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
 type Item = {
   id: string
   source: Source
@@ -34,6 +73,9 @@ type Item = {
   sizing?: { notionalUsd: number; maxLossUsd: number; stopPct?: number; bindingConstraint?: string } | null
   extra?: Array<{ label: string; value: string }>
   links?: Array<{ label: string; href: string }>
+  proposed?: string | null
+  refusals?: string[]
+  record?: string
 }
 
 type State = {
@@ -117,7 +159,7 @@ function useConsoleData() {
 
       // Incidents WAKE found itself by watching public chains.
       const liveFound: Item[] = ((stateRes.live?.incidents ?? []) as Json[]).map((r) => r.eventClass === "SUPPLY_TO_EXCHANGE" ? ({
-        id: String(r.id), source: "live" as const,
+        id: String(r.id), source: "live" as const, proposed: (r.proposed ?? null) as string | null, refusals: (r.refusals ?? []) as string[], record: `data/live/${String(r.id)}.json`,
         title: `${String(r.asset)} supply to ${String(r.exchange ?? "an exchange")}`,
         subtitle: `ethereum · ${usd(r.approxUsd)} of ${String(r.asset)} moved onto an exchange · supply to exchange`,
         decision: String(r.decision), instrument: r.instrument ?? null, when: String(r.detectedAt),
@@ -132,7 +174,7 @@ function useConsoleData() {
         note: `A holder moved a block onto an exchange. Modeled impact is the square root law against real daily volume; code refuses unless it beats three times the live round trip cost.${r.aiDecision?.thesis ? ` Claude: ${String(r.aiDecision.thesis)}` : ""}`,
         sizing: r.sizing ?? null,
       } as unknown as Item) : ({
-        id: String(r.id), source: "live" as const,
+        id: String(r.id), source: "live" as const, proposed: (r.proposed ?? null) as string | null, refusals: (r.refusals ?? []) as string[], record: `data/live/${String(r.id)}.json`,
         title: r.protocol?.name ? String(r.protocol.name) : `Unnamed contract on ${String(r.chain)}`,
         subtitle: `${String(r.chain)} · ${Math.round(Number(r.removedShare) * 100)}% of its ${String(r.asset)} left in one transaction · found by watching the chain`,
         decision: String(r.decision), instrument: r.instrument ?? null, when: String(r.detectedAt),
@@ -156,7 +198,7 @@ function useConsoleData() {
       }))
 
       const blind: Item[] = ((stateRes.blind?.incidents ?? []) as Json[]).map((r) => ({
-        id: String(r.id), source: "blind" as const,
+        id: String(r.id), source: "blind" as const, proposed: (r.proposed ?? null) as string | null, refusals: (r.refusals ?? []) as string[], record: `data/blind/${String(r.id)}.json`,
         title: `${r.target ?? "unregistered contract"}${r.authorised ? " (authorised sweep)" : ""}`,
         subtitle: `blind run ${r.runId} · detected in ${(Number(r.latencyMs) / 1000).toFixed(1)}s · ${r.authorised ? "decoy" : "exploit"}`,
         decision: String(r.decision), instrument: r.instrument ?? null, when: String(r.detectedAt),
@@ -191,7 +233,7 @@ function useConsoleData() {
 }
 
 const STAGES = [
-  { key: "watch", word: "Watch", lead: "Every two hours WAKE reads the public exploit feed, keeps anything material and recent, and opens an investigation. No human files the incident." },
+  { key: "watch", word: "Watch", lead: "Every hour WAKE reads new blocks on three chains and the public exploit feed, and opens an investigation for anything material. No human files the incident." },
   { key: "investigate", word: "Investigate", lead: "It pulls the transaction, reads the token flows, names the contract that lost value and finds who else holds the damaged asset. Claude explains the mechanism and may veto." },
   { key: "price", word: "Price", lead: "The measured loss becomes a modeled move, set against what the market has already done. Most incidents are already priced, and that is a refusal." },
   { key: "act", word: "Act", lead: "Only if the gap survives every check does WAKE size the position from the capture, place a Bitget Demo order itself, and manage it to a stop, a changed thesis or a time stop." },
@@ -313,6 +355,12 @@ export default function Console() {
           <div><dt>blind exploits detected</dt><dd>{blind ? `${blind.detected}/${blind.runs}` : "--"}<small>median {blind?.medianDetectionMs ? `${(blind.medianDetectionMs / 1000).toFixed(1)}s` : "n/a"}</small></dd></div>
           <div><dt>decoys dismissed</dt><dd>{blind ? `${blind.decoysDismissed}/${blind.runs}` : "--"}</dd></div>
           <div><dt>false positives</dt><dd>{blind?.falsePositives ?? "--"}</dd></div>
+          <div><dt>chain coverage, last pass</dt><dd>{(() => {
+            const chains = Object.values(((state as Json).live?.chains ?? {}) as Record<string, Json>)
+            if (!chains.length) return "--"
+            const degraded = chains.filter((c) => c.error || c.lastError || Number(c.skipped) > 0)
+            return degraded.length ? `${chains.length - degraded.length}/${chains.length} clean` : `${chains.length}/${chains.length} clean`
+          })()}<small>{Object.values(((state as Json).live?.chains ?? {}) as Record<string, Json>).filter((c) => c.error || c.lastError || Number(c.skipped) > 0).map((c) => `${c.name}: ${c.error || c.lastError ? "state reads failed" : ""}${Number(c.skipped) > 0 ? `${c.error || c.lastError ? ", " : ""}${c.skipped} blocks skipped` : ""}`).join(" · ") || "every block read"}</small></dd></div>
         </dl>
       </section>
 
@@ -447,6 +495,8 @@ export default function Console() {
             <div className="wkc-detail">
               <h3>{current.title}</h3>
               <p className="wkc-sub">{current.subtitle}</p>
+
+              <ActionGraph item={current} />
 
               <div className="wkc-block">
                 <header><h4>What the numbers say</h4></header>

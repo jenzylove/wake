@@ -24,6 +24,9 @@ const { verifyDiscoveryLog } = await import("../lib/discovery-log.mjs")
 const discoveryLog = verifyDiscoveryLog(path.resolve("data", "discovered", "log.jsonl"))
 const agentLog = verifyDiscoveryLog(path.resolve("data", "wake-paper", "log.jsonl"))
 
-const ok = results.every((result) => result.ok) && discoveryLog.ok && agentLog.ok
-console.log(JSON.stringify({ ok, packets: results, discoveryLog, agentLog }, null, 2))
+const blindLog = verifyDiscoveryLog(path.resolve("data", "blind", "runs.jsonl"))
+const liveLog = verifyDiscoveryLog(path.resolve("data", "live", "log.jsonl"))
+
+const ok = results.every((result) => result.ok) && discoveryLog.ok && agentLog.ok && blindLog.ok && liveLog.ok
+console.log(JSON.stringify({ ok, packets: results, discoveryLog, agentLog, blindLog, liveLog }, null, 2))
 process.exit(ok ? 0 : 1)

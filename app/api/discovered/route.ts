@@ -10,7 +10,7 @@ export async function GET() {
     product: "WAKE",
     source: "autonomous-discovery",
     feed: "https://api.llama.fi/hacks",
-    schedule: "every two hours (.github/workflows/discover.yml)",
+    schedule: "hourly (.github/workflows/discover.yml)",
     updatedAt: index.updatedAt,
     lastRun: index.lastRun,
     summary: {
