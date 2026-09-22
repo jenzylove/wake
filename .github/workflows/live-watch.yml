@@ -21,6 +21,11 @@ jobs:
           WAKE_AGENT_INTERPRET: https://bitget-lilac.vercel.app/api/agent/interpret
           WAKE_SCHEDULER_SECRET: ${{ secrets.WAKE_SCHEDULER_SECRET }}
         run: node scripts/watch-chain.mjs
+      - name: Supply to exchange (LINK, UNI, PEPE, SHIB deposits)
+        env:
+          WAKE_AGENT_INTERPRET: https://bitget-lilac.vercel.app/api/agent/interpret
+          WAKE_SCHEDULER_SECRET: ${{ secrets.WAKE_SCHEDULER_SECRET }}
+        run: node scripts/watch-supply.mjs || echo "supply pass failed; drains unaffected"
       - name: Agent tick
         env:
           WAKE_AGENT_EXECUTOR: https://bitget-lilac.vercel.app/api/agent/execute

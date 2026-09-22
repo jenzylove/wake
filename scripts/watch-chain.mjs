@@ -11,7 +11,7 @@
 // chain, not a curated list.
 
 import { createHash } from "node:crypto"
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { WATCHED, MIN_DRAIN_USD, RESTING_MINUTES, confirmDrain, recurringSenders, rpc, scanWindow, watchedTransfers } from "../lib/chain-watch.mjs"
 import { quantifyExposure } from "../lib/onchain-exposure.mjs"
@@ -21,6 +21,7 @@ import { demoListed } from "../lib/demo-listing.mjs"
 import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
 import { appendHashLog } from "../lib/hash-log.mjs"
+import { writeLiveSummary } from "../lib/live-summary.mjs"
 
 const OUT = path.join(process.cwd(), "data", "live")
 const STATE = path.join(OUT, "state.json")
@@ -257,27 +258,7 @@ async function main() {
   state.lastRun = report
   writeFileSync(STATE, JSON.stringify(state, null, 2) + "\n")
 
-  // Compact view for the console: every live incident, newest first.
-  const incidents = readdirSync(OUT)
-    .filter((f) => f.startsWith("live-") && f.endsWith(".json"))
-    .map((f) => JSON.parse(readFileSync(path.join(OUT, f), "utf8")))
-    .sort((a, b) => (a.detectedAt < b.detectedAt ? 1 : -1))
-    .slice(0, 40)
-    .map((r) => ({
-      id: r.id, detectedAt: r.detectedAt, chain: r.chain.name, tx: r.detection.tx,
-      contract: r.detection.contract, asset: r.detection.asset, approxUsd: r.detection.approxUsd,
-      removedShare: r.detection.balanceRemovedShare, protocol: r.protocol, instrument: r.instrument,
-      decision: r.decision, gatePassed: r.agent?.gatePassed ?? r.gate.passed, confidence: r.confidence,
-      proposed: r.proposed ?? null, refusals: r.refusals ?? [],
-      aiDecision: r.aiDecision ? { action: r.aiDecision.action, confidence: r.aiDecision.confidence, thesis: r.aiDecision.thesis, rationale: r.aiDecision.rationale } : null,
-      modeledDeltaPct: r.modeledDeltaPct, marketDeltaPct: r.marketDeltaPct,
-      exposureMeasured: r.exposure?.quantified === true, sizing: r.sizing?.computable ? r.sizing : null,
-      falsification: r.falsification,
-      ai: r.ai ? { exploitClass: r.ai.exploitClass, veto: r.ai.veto, narrative: r.ai.narrative, lossBearer: r.ai.lossBearer, concerns: r.ai.concerns } : null,
-    }))
-  writeFileSync(path.join(OUT, "summary.json"), JSON.stringify({
-    updatedAt: now(), minUsd: MIN_DRAIN_USD, chains: report.chains, scanned: state.chains, incidents,
-  }, null, 2) + "\n")
+  writeLiveSummary(OUT, { minUsd: MIN_DRAIN_USD, chains: report.chains, scanned: state.chains })
   appendHashLog(LOG, { event: "SCAN", chains: Object.fromEntries(Object.entries(report.chains).map(([k, v]) => [v.name ?? k, v.error ? "error" : `${v.blocks} blocks, ${v.largeTransfers} large transfers, ${v.drains} drains`])), opened: report.opened.length })
   console.log(JSON.stringify({ minUsd: MIN_DRAIN_USD, ...report }, null, 2))
 }
