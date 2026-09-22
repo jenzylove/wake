@@ -25,7 +25,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { rpc } from "../lib/chain-watch.mjs"
-import { LABELLED_HUBS, MIN_DEPOSIT_USD, SUPPLY_TOKENS, TAKER_FEE, findDeposits, hubCandidates, roundTripCost, supplyImpactPct, supplyMinEdgePct } from "../lib/supply-watch.mjs"
+import { LABELLED_HUBS, SUPPLY_TOKENS, TAKER_FEE, findDeposits, hubCandidates, roundTripCost, supplyImpactPct, supplyMinEdgePct } from "../lib/supply-watch.mjs"
 import { decideWithClaude, enforce } from "../lib/ai-decide.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
 import { appendHashLog, sha256 } from "../lib/hash-log.mjs"
