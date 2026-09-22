@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import "./console.css"
-import { ExposureField } from "@/components/exposure-field"
+import { ImpactTape } from "@/components/impact-tape"
 
 // The WAKE console.
 //
@@ -297,8 +297,15 @@ export default function Console() {
   return (
     <div className="wkc">
       <header className="wkc-top">
-        <span className="wkc-mark">WAKE<span>.</span></span>
-        <span className="wkc-tag">Trades the fallout of on-chain incidents. Bitget Demo only.</span>
+        <span className="wkc-brand">
+          <svg viewBox="0 0 64 64" aria-hidden="true" className="wkc-glyph">
+            <path d="M6 38 L18 34 L26 39 L32 30" fill="none" stroke="currentColor" strokeOpacity=".45" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M32 30 L40 44 L50 40 L58 47" fill="none" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="32" cy="30" r="5.5" fill="currentColor" />
+          </svg>
+          <span className="wkc-mark">WAKE</span>
+        </span>
+        <span className="wkc-tag">An event driven trading agent. On-chain events in, Bitget Demo orders out.</span>
         <div className="wkc-top-right">
           <nav className="wkc-nav">
             <a href="#record">Trade record</a>
@@ -313,7 +320,7 @@ export default function Console() {
 
       <section className="wkc-hero" aria-labelledby="wkc-title">
         <div className="wkc-stage">
-          <ExposureField className="wkc-field" />
+          <ImpactTape className="wkc-field" />
 
           <div className="wkc-float wkc-float-tl">
             <span className={live ? "wkc-pulse" : "wkc-dot is-idle"} />
@@ -323,10 +330,10 @@ export default function Console() {
           </div>
 
           <div className="wkc-float wkc-float-br">
-            <h3>The hit is obvious. The path is not.</h3>
+            <h3>The move is obvious. The part left to trade is not.</h3>
             <p>
-              A protocol is drained. WAKE traces who holds the damaged asset, prices what they lose, and asks whether the market
-              has already moved. Most of the time it has, and WAKE holds.
+              Funds leave a protocol, or a holder moves a block onto an exchange. WAKE measures who absorbs it, prices the move it
+              implies, and subtracts what the market has already done. Most of the time nothing is left, and WAKE holds.
             </p>
           </div>
 

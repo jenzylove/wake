@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "WAKE · On-chain Incident Response",
-  description: "WAKE maps who actually absorbs an on-chain loss, prices it against real traded liquidity, and refuses the position when the arithmetic does not clear.",
+  title: "WAKE · Event driven trading agent",
+  description: "WAKE reads exploits and exchange deposits from the chain, measures who absorbs them, and lets Claude decide the trade while code enforces the money. Bitget Demo only.",
   icons: {
     icon: "/brand/favicon.svg",
     shortcut: "/brand/favicon.svg",
