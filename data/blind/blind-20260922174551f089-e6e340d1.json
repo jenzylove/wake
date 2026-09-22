@@ -1,0 +1,248 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260922174551f089-e6e340d1",
+  "runId": "20260922174551f089",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 78,
+    "blockTimestamp": 1790099203
+  },
+  "detection": {
+    "tx": "0x8c512dedc6098e47d6da8a353b5bd2ed68dedc843f5b9198c6a99a02182d21ea",
+    "txs": [
+      "0x8c512dedc6098e47d6da8a353b5bd2ed68dedc843f5b9198c6a99a02182d21ea"
+    ],
+    "firstDetectedAt": "2026-09-22T17:47:06.937Z",
+    "victim": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+    "token": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+    "before": 774976,
+    "after": 309990.4,
+    "detectedAt": "2026-09-22T17:47:06.937Z",
+    "latencyMs": 23937
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 774976,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+      "lossUsd": 464985.6,
+      "name": "Xenon Reserve",
+      "instrument": "LTCUSDT",
+      "marketCapUsd": 58000000,
+      "modeledDeltaPct": 0.2,
+      "markAtDetection": 61.69,
+      "markAtDecision": 61.69,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5097.026896413305,
+        "maxLossUsd": 500,
+        "stopPct": 0.0931281456318887,
+        "costPct": 0.00496825647888727,
+        "spreadPct": 0.00376825647888727,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04656407281594435,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 46851011.024,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.00376825647888727,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.2,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x8c512dedc6098e47d6da8a353b5bd2ed68dedc843f5b9198c6a99a02182d21ea succeeded in block 78"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $464,986 at Xenon Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "Outflow is authorised: from-address equals ownerBeforeTx and the trace shows only an owner-permitted token transfer. No exploit mechanism is demonstrated and no integrator exposure is evidenced, so the proposed loss path is not supported."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.2%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Caller 0xf39f...2266 is the recorded owner of vault 0xe6e3...e57e and invoked a privileged sweep-style selector (0x6ea056a9), which made a single ERC-20 transfer (0xa9059cbb) of token 0x67d2...5933 out of the vault. Holdings fell 774976 -> 309990.4 and share price 1 -> 0.4. No auth bypass, no proxy/init anomaly, no oracle step in the trace.",
+    "lossBearer": "Economically, holders of Xenon Reserve vault shares (share price 1 -> 0.4); no integrator exposure is shown in the packet. No third-party contract was drained.",
+    "narrative": "The vault's own owner called an owner-only sweep function and moved tokens out in one transfer. Backing per share dropped from 1 to 0.4, so shareholders are worth less, but nothing in this packet shows the move was unauthorised: the sender matches the owner on record, and the call trace is a plain approved transfer with no bypass, re-init or oracle trick. It could be a rug, a treasury migration or a compromised owner key - the evidence cannot distinguish them. Candidate loss of 464985.6 USD against a 58,000,000 USD market cap is a modeled 0.2% impact on a single DIRECT name, with no integrator listed.",
+    "veto": true,
+    "vetoReason": "Outflow is authorised: from-address equals ownerBeforeTx and the trace shows only an owner-permitted token transfer. No exploit mechanism is demonstrated and no integrator exposure is evidenced, so the proposed loss path is not supported.",
+    "concerns": [
+      "Cannot distinguish legitimate owner action from stolen-owner-key exfiltration on this evidence.",
+      "No integrators listed, so second-order exposure is unquantified rather than proven absent.",
+      "Share price 1 -> 0.4 is stated but the redemption/accounting mechanism behind it is not traced.",
+      "Single-transaction view; no history of prior owner behaviour or ownership transfers supplied."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 80,
+    "thesis": "Owner-authorised sweep of the Xenon Reserve vault by the recorded owner via a privileged selector; no auth bypass, no exploit. Investigator veto stands. Also the proposed instrument (LTCUSDT) is an unrelated proxy with no causal link to vault share value, so it would not pay even if the loss were real.",
+    "invalidation": "Evidence that the caller was not the legitimate owner (key compromise, unauthorised proxy upgrade) or that a listed instrument is directly tied to the vault's share value.",
+    "rationale": "Authorised operation flagged with veto: owner called a sweep selector on his own vault, single ERC-20 transfer, no bypass or oracle manipulation. Share price drop reflects an internal withdrawal, not a drain. Candidate instrument LTCUSDT has no causal relationship to Xenon Reserve, so the trade has no payoff path."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "6a4218e4f3c8c5461acfb753989e15c2d3965d234334a26d7349ef0344fd01cf"
+}

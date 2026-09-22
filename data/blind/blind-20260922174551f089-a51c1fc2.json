@@ -1,0 +1,351 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260922174551f089-a51c1fc2",
+  "runId": "20260922174551f089",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 77,
+    "blockTimestamp": 1790099196
+  },
+  "detection": {
+    "tx": "0x53f111be3a1889d82f26e0556f7ace9be43606648916047be436b427547c5633",
+    "txs": [
+      "0x53f111be3a1889d82f26e0556f7ace9be43606648916047be436b427547c5633"
+    ],
+    "firstDetectedAt": "2026-09-22T17:46:40.727Z",
+    "victim": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+    "token": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+    "before": 762101,
+    "after": 0,
+    "detectedAt": "2026-09-22T17:46:40.727Z",
+    "latencyMs": 4727
+  },
+  "investigation": {
+    "from": "0x8fda11738b266ad242004318e6db277834065fa9",
+    "to": "0xf384e8490f23f41fe9972e064389e7e94737a0c5",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xf384e8490f23f41fe9972e064389e7e94737a0c5",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 762101,
+    "integrators": [
+      {
+        "address": "0x1613beb3b2c4f22ee086b2b38c1476a3ce7f78e8",
+        "heldSharesBefore": 177900.2,
+        "heldSharesAfter": 177900.2,
+        "collateralValueBeforeUsd": 177900.2,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 104009.75200000001,
+        "badDebtUsd": 104009.75200000001
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+      "lossUsd": 762101,
+      "name": "Sable Earn",
+      "instrument": "DOTUSDT",
+      "marketCapUsd": 22000000,
+      "modeledDeltaPct": 0.866,
+      "markAtDetection": 1.176,
+      "markAtDecision": 1.176,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 3934.681241569253,
+        "maxLossUsd": 500,
+        "stopPct": 0.12056084346671725,
+        "costPct": 0.006514253422347912,
+        "spreadPct": 0.005314253422347912,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.060280421733358625,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 34279075.19200001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.005314253422347912,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.866,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0x1613beb3b2c4f22ee086b2b38c1476a3ce7f78e8",
+      "lossUsd": 104009.75200000001,
+      "name": "Onyx Lend",
+      "instrument": "NEARUSDT",
+      "marketCapUsd": 62000000,
+      "modeledDeltaPct": 0.042,
+      "markAtDetection": 4.4477,
+      "markAtDecision": 4.4477,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2191.5986379986794,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.2178335889423825,
+        "costPct": 0.01031037470626682,
+        "spreadPct": 0.00911037470626682,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.10891679447119125,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 325767102.9448,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.00911037470626682,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.042,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x53f111be3a1889d82f26e0556f7ace9be43606648916047be436b427547c5633 succeeded in block 77"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x8fda11738b266ad242004318e6db277834065fa9 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $762,101 at Sable Earn"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "Attacker contract 0xf384...a0c5 called selector 0xc4d66de8 (initialize(address)) on vault 0xa51c...91c0, which had a prior owner 0xf39F...2266 and no owner authorisation. Having seized the privileged role, the same transaction called 0x6ea056a9 (sweep) on the vault, which executed transfer (0xa9059cbb) of the underlying token 0xb7f8...4f5e, moving holdings 762101 -> 0 and share price 1 -> 0."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.9%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "reinitialisation",
+    "mechanism": "Attacker contract 0xf384...a0c5 called selector 0xc4d66de8 (initialize(address)) on vault 0xa51c...91c0, which had a prior owner 0xf39F...2266 and no owner authorisation. Having seized the privileged role, the same transaction called 0x6ea056a9 (sweep) on the vault, which executed transfer (0xa9059cbb) of the underlying token 0xb7f8...4f5e, moving holdings 762101 -> 0 and share price 1 -> 0.",
+    "lossBearer": "Sable Earn vault depositors bear the direct loss of 762101 USD; integrator Onyx Lend (0x1613...78e8) holds 177900.2 now-worthless shares as collateral and carries 104009.752 USD of bad debt.",
+    "narrative": "An unprotected initializer on the Sable Earn vault let an attacker re-run initialize and make itself the privileged party, even though the recorded owner was a different address and never authorised this. In the same transaction the attacker used the vault's sweep function to transfer the entire underlying token balance out: holdings went 762101 -> 0 and the share price went 1 -> 0. Anyone who took those shares as collateral is now holding nothing: Onyx Lend still shows 177900.2 shares, now valued at 0, against 104009.752 USD lent, i.e. 104009.752 USD of bad debt. This is theft, not an authorised withdrawal.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Post-tx share price of 0 is as supplied; any residual recoverable value in the vault is not shown in the packet.",
+      "Onyx Lend share balance is unchanged post-tx; whether its collateral is liquidatable or already frozen is not evidenced.",
+      "Packet does not show whether other integrators beyond 0x1613...78e8 hold the same shares.",
+      "Candidate marketCap and modeledDeltaPct figures are model outputs, not observed chain data."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "TRADE_DIRECT",
+    "candidate": 0,
+    "confidence": 76,
+    "thesis": "Unauthorised reinitialize(address) on Sable Earn vault let attacker seize owner role and sweep the full 762,101 USD of underlying in the same tx; share price 1 -> 0. Loss is total, permanent and unauthorised, and the market has not moved at all yet (marketDelta 0 vs modeled 0.87%). Short the direct victim.",
+    "invalidation": "Funds returned/whitehat or protocol-covered reimbursement, evidence the initialize call was owner-sanctioned, or price already gapping down before entry.",
+    "rationale": "Clean, code-confirmed exploit path: prior owner existed, no owner authorisation, privileged selector then sweep, holdings 762101 -> 0. Direct candidate carries the whole loss (~3.5% of mcap) and is unpriced. Contagion leg (Onyx Lend, 104k bad debt, 0.04% modeled) is too small to pay after costs, so take the direct short only."
+  },
+  "aiDecisionError": null,
+  "refusals": [
+    "edge after what the market already did is 0.87%, below 1.2%"
+  ],
+  "proposed": "TRADE_DIRECT",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [
+      "edge after what the market already did is 0.87%, below 1.2%"
+    ]
+  },
+  "integrity": "fd64836d86fdfef3988e998abe9b2242c4c34484222fd13924fe9a62f92ea93f"
+}
