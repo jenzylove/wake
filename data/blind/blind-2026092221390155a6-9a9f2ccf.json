@@ -1,0 +1,255 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-2026092221390155a6-9a9f2ccf",
+  "runId": "2026092221390155a6",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 85,
+    "blockTimestamp": 1790113198
+  },
+  "detection": {
+    "tx": "0xc2e70e2cc641a5028ee339a7aa266f882f1e62e75a5250ca2d240d67be8dd1d3",
+    "txs": [
+      "0xe9b6aab1b27690d9cad59c40c50f2aea0bae8b0ee28dfb9629e39122d7141316",
+      "0xc2e70e2cc641a5028ee339a7aa266f882f1e62e75a5250ca2d240d67be8dd1d3"
+    ],
+    "firstDetectedAt": "2026-09-22T21:40:18.110Z",
+    "victim": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "token": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "before": 564679,
+    "after": 0,
+    "detectedAt": "2026-09-22T21:40:46.076Z",
+    "latencyMs": 48076
+  },
+  "investigation": {
+    "from": "0xe5c0298c6854548d4cc4d9ac4f40d6d2f818d3d7",
+    "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "selector": "0xa24188df",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0xa24188df",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 1,
+    "receiptSupplyBefore": 180238,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+      "lossUsd": 564679,
+      "name": "Basalt Earn",
+      "instrument": "DOGEUSDT",
+      "marketCapUsd": 6000000,
+      "modeledDeltaPct": 2.353,
+      "markAtDetection": 0.09996,
+      "markAtDecision": 0.09989,
+      "marketDeltaPct": 0.07,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 4888.4447080719965,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.09665607375001947,
+        "costPct": 0.005625946372736534,
+        "spreadPct": 0.004425946372736534,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.048328036875009736,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 484433850.30923,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004425946372736534,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 2.283,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xc2e70e2cc641a5028ee339a7aa266f882f1e62e75a5250ca2d240d67be8dd1d3 succeeded in block 85"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xe5c0298c6854548d4cc4d9ac4f40d6d2f818d3d7 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 1.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $564,679 at Basalt Earn"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "REJECTED",
+      "blocksTrade": false,
+      "answer": "An externally owned account that is not the recorded owner called selector 0xa24188df on the Basalt Earn vault; the call read the vault's token balance (0x70a08231) then executed a single ERC20 transfer (0xa9059cbb), moving the entire 564679 holding out. No owner authorisation flag is present, indicating a missing or broken permission check on the entry point."
+    }
+  ],
+  "confidence": 100,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": true,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": true,
+        "value": "2.3%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "An externally owned account that is not the recorded owner called selector 0xa24188df on the Basalt Earn vault; the call read the vault's token balance (0x70a08231) then executed a single ERC20 transfer (0xa9059cbb), moving the entire 564679 holding out. No owner authorisation flag is present, indicating a missing or broken permission check on the entry point.",
+    "lossBearer": "Basalt Earn vault (0x9a9f2c...63ae) and, through it, its depositors; the drained token balance was held directly by the vault. No integrator exposure is recorded in the packet.",
+    "narrative": "A caller who is not the vault owner invoked a single function on the Basalt Earn vault. That function checked the vault's token balance and then transferred the whole lot out in one ERC20 transfer. Holdings went from 564679 to 0 and the transaction succeeded, with no owner authorisation recorded. That is the signature of an unprotected privileged function rather than a normal withdrawal. The loss sits directly with the vault contract and its depositors; no downstream integrators are listed. Reported loss is 564679 USD against a 6,000,000 USD market cap.",
+    "veto": false,
+    "vetoReason": null,
+    "concerns": [
+      "Share price is reported unchanged (1 before, 1 after) despite full drain, so vault accounting may be stale or not yet repriced.",
+      "modeledDeltaPct of 2.353 is not consistent with lossUsd 564679 against marketCapUsd 6000000; sizing input should be re-derived.",
+      "Transfer recipient is not shown in the trace, so the destination of the drained tokens cannot be confirmed from this packet.",
+      "Integrators list is empty; absence of second-order exposure is unverified rather than proven."
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "TRADE_DIRECT",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 72,
+    "thesis": "The exploit is real — a non-owner EOA hit an unguarded entry point and swept the vault's entire 564,679 token balance — but the only tradable candidate is DOGEUSDT, which is not Basalt Earn equity or its vault share token. A ~$0.56M vault drain has no causal path to DOGE, an asset orders of magnitude larger than the quoted $6M cap.",
+    "invalidation": "A venue-listed instrument that actually references Basalt Earn or its vault/share token appears, or evidence shows the drained asset is a DOGE-denominated claim large enough to force DOGE-side selling.",
+    "rationale": "Access-control loss path is established and unauthorised, but the instrument does not carry the loss. modeledDeltaPct of 2.35% is derived from a $6M cap that cannot be DOGE's real float, so the edge is an artefact of a bad victim-to-market mapping. Shorting DOGE would be an unhedged directional bet on an unrelated majors market, not a claim on this incident. No contagion candidate and no integrator exposure recorded."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "f7aa33af6c3850ea5022759bed59380e0a0f810e3d90208abc6be761ae085529"
+}

@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-09-22T17:47:29.119Z",
-  "runs": 34,
-  "detected": 33,
-  "decoysDismissed": 34,
+  "updatedAt": "2026-09-22T21:41:16.476Z",
+  "runs": 35,
+  "detected": 34,
+  "decoysDismissed": 35,
   "contagionFound": {
     "found": 10,
     "applicable": 10
   },
-  "tradeTargetCorrect": 33,
+  "tradeTargetCorrect": 34,
   "gateCleared": 5,
   "falsePositives": 0,
-  "medianDetectionMs": 3939,
+  "medianDetectionMs": 4110,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "2026092221390155a6",
+      "commitment": "19d0ee5693355db0e744305c4ef597d4814e4200f7843ce333a13922c68eb3e6",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 48076,
+      "decoyDismissed": true,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "falsePositives": 0,
+      "at": "2026-09-22T21:41:16.476Z",
+      "prevHash": "6fa3120886087838e985d4a71b2ff85491078585271d2e896d8cc250ce8919f0",
+      "hash": "84af17797dd8f7899d9e06aa735dd914b520a58949d20a58e1c3472c56867727"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "20260922174551f089",
@@ -212,26 +231,93 @@
       "at": "2026-09-20T23:30:58.461Z",
       "prevHash": "ae49d53c5de185d1de9a5cd467a5044f69ce353245853db6a0cc9141082d3940",
       "hash": "9214cacbff760610e7cfe83e342ab0ac0fcda22749e0177bb43e39f05580e06b"
-    },
-    {
-      "event": "BLIND_RUN",
-      "runId": "202609202043421a65",
-      "commitment": "f1cc7cb5da866038c19ab2d416b93f191b63006151025ef5b4e39e29e4598706",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 1859,
-      "decoyDismissed": true,
-      "contagionFound": true,
-      "tradeTargetCorrect": true,
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "falsePositives": 0,
-      "at": "2026-09-20T20:44:45.510Z",
-      "prevHash": "a92acb0322daea5fd1665502b4afcf8e3609d50c93b6274bafa0c02229187c5f",
-      "hash": "ae49d53c5de185d1de9a5cd467a5044f69ce353245853db6a0cc9141082d3940"
     }
   ],
   "incidents": [
+    {
+      "id": "blind-2026092221390155a6-9a9f2ccf",
+      "runId": "2026092221390155a6",
+      "detectedAt": "2026-09-22T21:40:18.110Z",
+      "latencyMs": 48076,
+      "victim": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+      "authorised": false,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 72,
+        "thesis": "The exploit is real — a non-owner EOA hit an unguarded entry point and swept the vault's entire 564,679 token balance — but the only tradable candidate is DOGEUSDT, which is not Basalt Earn equity or its vault share token. A ~$0.56M vault drain has no causal path to DOGE, an asset orders of magnitude larger than the quoted $6M cap.",
+        "invalidation": "A venue-listed instrument that actually references Basalt Earn or its vault/share token appears, or evidence shows the drained asset is a DOGE-denominated claim large enough to force DOGE-side selling.",
+        "rationale": "Access-control loss path is established and unauthorised, but the instrument does not carry the loss. modeledDeltaPct of 2.35% is derived from a $6M cap that cannot be DOGE's real float, so the edge is an artefact of a bad victim-to-market mapping. Shorting DOGE would be an unhedged directional bet on an unrelated majors market, not a claim on this incident. No contagion candidate and no integrator exposure recorded."
+      },
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 564679,
+      "target": "Basalt Earn",
+      "modeledDeltaPct": 2.353,
+      "marketDeltaPct": 0.07,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "access-control",
+        "veto": false,
+        "narrative": "A caller who is not the vault owner invoked a single function on the Basalt Earn vault. That function checked the vault's token balance and then transferred the whole lot out in one ERC20 transfer. Holdings went from 564679 to 0 and the transaction succeeded, with no owner authorisation recorded. That is the signature of an unprotected privileged function rather than a normal withdrawal. The loss sits directly with the vault contract and its depositors; no downstream integrators are listed. Reported loss is 564679 USD against a 6,000,000 USD market cap.",
+        "lossBearer": "Basalt Earn vault (0x9a9f2c...63ae) and, through it, its depositors; the drained token balance was held directly by the vault. No integrator exposure is recorded in the packet.",
+        "concerns": [
+          "Share price is reported unchanged (1 before, 1 after) despite full drain, so vault accounting may be stale or not yet repriced.",
+          "modeledDeltaPct of 2.353 is not consistent with lossUsd 564679 against marketCapUsd 6000000; sizing input should be re-derived.",
+          "Transfer recipient is not shown in the trace, so the destination of the drained tokens cannot be confirmed from this packet.",
+          "Integrators list is empty; absence of second-order exposure is unverified rather than proven."
+        ]
+      }
+    },
+    {
+      "id": "blind-2026092221390155a6-322813fd",
+      "runId": "2026092221390155a6",
+      "detectedAt": "2026-09-22T21:39:54.607Z",
+      "latencyMs": 3607,
+      "victim": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+      "authorised": true,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "decidedBy": "claude",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 85,
+        "thesis": "Owner-initiated withdrawal (sweepToken-style selector 0x6ea056a9) called by the recorded pre-transaction owner, single ERC-20 transfer out, no privilege change or reinitialisation. This is an authorised treasury operation, not an exploit, so there is no loss path the market must price.",
+        "invalidation": "Evidence that the calling key was compromised, or that the owner address changed prior to the call, or public protocol disclosure of an unauthorised drain.",
+        "rationale": "Investigator veto on authorised-operation class. Loss of ~$349k on a $40m cap implies only ~0.22% modelled move, and the instrument (CRVUSDT) is not the drained entity anyway and is not demo listed. No causal path to a tradable market."
+      },
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 348523.8,
+      "target": "Lumen Reserve",
+      "modeledDeltaPct": 0.218,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": {
+        "exploitClass": "authorised-operation",
+        "veto": true,
+        "narrative": "A token sweep was executed on the vault contract by the address the packet records as its owner at the time of the call. The trace is one level deep: owner calls the contract, contract transfers the token out. Nothing in the evidence shows a broken access check, a stolen key, or a redemption path being abused. What it does show is value leaving the contract with permission, which halves the modelled share price to 0.4 and leaves a 348523.8 USD modelled hit against a 40000000 USD market cap (0.218 pct). That may be a rug or a routine treasury move, but the packet cannot tell the two apart.",
+        "lossBearer": "Holders of the 0x3228...6c44 position (share price 1 -> 0.4); modelled as DIRECT candidate 'Lumen Reserve', lossUsd 348523.8. No integrator exposure is shown in the packet.",
+        "concerns": [
+          "Caller matches recorded owner; no access-control or key-compromise indicator in the packet",
+          "integrators array is empty - no downstream exposure demonstrated",
+          "Cannot distinguish an owner rug from a routine treasury sweep from this trace alone",
+          "sharePrice before/after and lossUsd are modelled values, not observed market prints"
+        ]
+      }
+    },
     {
       "id": "blind-20260922174551f089-e6e340d1",
       "runId": "20260922174551f089",

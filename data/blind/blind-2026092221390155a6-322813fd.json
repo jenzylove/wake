@@ -1,0 +1,248 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-2026092221390155a6-322813fd",
+  "runId": "2026092221390155a6",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 81,
+    "blockTimestamp": 1790113191
+  },
+  "detection": {
+    "tx": "0x6cb18276117d75beb8f048c393e2dd6147b455a1d9599225a799eec0ac1c8caf",
+    "txs": [
+      "0x6cb18276117d75beb8f048c393e2dd6147b455a1d9599225a799eec0ac1c8caf"
+    ],
+    "firstDetectedAt": "2026-09-22T21:39:54.607Z",
+    "victim": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+    "token": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+    "before": 580873,
+    "after": 232349.2,
+    "detectedAt": "2026-09-22T21:39:54.607Z",
+    "latencyMs": 3607
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x4ed7c70f96b99c776995fb64377f0d4ab3b0e1c1",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 580873,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+      "lossUsd": 348523.8,
+      "name": "Lumen Reserve",
+      "instrument": "CRVUSDT",
+      "marketCapUsd": 40000000,
+      "modeledDeltaPct": 0.218,
+      "markAtDetection": 0.3584,
+      "markAtDecision": 0.3584,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 3844.737000578581,
+        "maxLossUsd": 500,
+        "stopPct": 0.12350181136770273,
+        "costPct": 0.006546095660725164,
+        "spreadPct": 0.005346095660725164,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.061750905683851366,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 14868212.114900006,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.005346095660725164,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.218,
+      "demoListed": false
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x6cb18276117d75beb8f048c393e2dd6147b455a1d9599225a799eec0ac1c8caf succeeded in block 81"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $348,524 at Lumen Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "The outflow is authorised: caller equals ownerBeforeTx and authorisedByOwner is true, so no exploit mechanism is evidenced. Mechanism is ambiguous between a legitimate treasury sweep and an owner rug, and the integrators list is empty, so no exposed counterparty is demonstrated."
+    }
+  ],
+  "confidence": 80,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.2%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "authorised-operation",
+    "mechanism": "Call from 0xf39f...2266, which equals the recorded pre-transaction owner, invoked selector 0x6ea056a9 on 0x3228...6c44, which made a single ERC-20 transfer (0xa9059cbb) of token 0x4ed7...e1c1 out of the contract. Holdings fell 580873 -> 232349.2 and modelled share price 1 -> 0.4. No privilege change, no reinitialisation, no unexpected caller.",
+    "lossBearer": "Holders of the 0x3228...6c44 position (share price 1 -> 0.4); modelled as DIRECT candidate 'Lumen Reserve', lossUsd 348523.8. No integrator exposure is shown in the packet.",
+    "narrative": "A token sweep was executed on the vault contract by the address the packet records as its owner at the time of the call. The trace is one level deep: owner calls the contract, contract transfers the token out. Nothing in the evidence shows a broken access check, a stolen key, or a redemption path being abused. What it does show is value leaving the contract with permission, which halves the modelled share price to 0.4 and leaves a 348523.8 USD modelled hit against a 40000000 USD market cap (0.218 pct). That may be a rug or a routine treasury move, but the packet cannot tell the two apart.",
+    "veto": true,
+    "vetoReason": "The outflow is authorised: caller equals ownerBeforeTx and authorisedByOwner is true, so no exploit mechanism is evidenced. Mechanism is ambiguous between a legitimate treasury sweep and an owner rug, and the integrators list is empty, so no exposed counterparty is demonstrated.",
+    "concerns": [
+      "Caller matches recorded owner; no access-control or key-compromise indicator in the packet",
+      "integrators array is empty - no downstream exposure demonstrated",
+      "Cannot distinguish an owner rug from a routine treasury sweep from this trace alone",
+      "sharePrice before/after and lossUsd are modelled values, not observed market prints"
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 85,
+    "thesis": "Owner-initiated withdrawal (sweepToken-style selector 0x6ea056a9) called by the recorded pre-transaction owner, single ERC-20 transfer out, no privilege change or reinitialisation. This is an authorised treasury operation, not an exploit, so there is no loss path the market must price.",
+    "invalidation": "Evidence that the calling key was compromised, or that the owner address changed prior to the call, or public protocol disclosure of an unauthorised drain.",
+    "rationale": "Investigator veto on authorised-operation class. Loss of ~$349k on a $40m cap implies only ~0.22% modelled move, and the instrument (CRVUSDT) is not the drained entity anyway and is not demo listed. No causal path to a tradable market."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "a0ee1b4f0d3da6f5258be13527d3183b49b2d4a085dbb204aab9c69ebf2cf168"
+}
