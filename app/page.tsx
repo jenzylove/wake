@@ -116,7 +116,22 @@ function useConsoleData() {
       }))
 
       // Incidents WAKE found itself by watching public chains.
-      const liveFound: Item[] = ((stateRes.live?.incidents ?? []) as Json[]).map((r) => ({
+      const liveFound: Item[] = ((stateRes.live?.incidents ?? []) as Json[]).map((r) => r.eventClass === "SUPPLY_TO_EXCHANGE" ? ({
+        id: String(r.id), source: "live" as const,
+        title: `${String(r.asset)} supply to ${String(r.exchange ?? "an exchange")}`,
+        subtitle: `ethereum · ${usd(r.approxUsd)} of ${String(r.asset)} moved onto an exchange · supply to exchange`,
+        decision: String(r.decision), instrument: r.instrument ?? null, when: String(r.detectedAt),
+        numbers: [
+          { label: "deposit", value: usd(r.approxUsd) },
+          { label: "depositor", value: r.depositor ? `${r.depositor.isContract ? "contract" : "wallet"}, ${r.depositor.transactionCount} txs` : "n/a" },
+          { label: "modeled impact", value: pct(r.modeledDeltaPct) },
+          { label: "bar (3x cost)", value: pct(r.minEdgePct) },
+        ],
+        falsification: [] as Falsifier[],
+        ai: null as Ai,
+        note: `A holder moved a block onto an exchange. Modeled impact is the square root law against real daily volume; code refuses unless it beats three times the live round trip cost.${r.aiDecision?.thesis ? ` Claude: ${String(r.aiDecision.thesis)}` : ""}`,
+        sizing: r.sizing ?? null,
+      } as unknown as Item) : ({
         id: String(r.id), source: "live" as const,
         title: r.protocol?.name ? String(r.protocol.name) : `Unnamed contract on ${String(r.chain)}`,
         subtitle: `${String(r.chain)} · ${Math.round(Number(r.removedShare) * 100)}% of its ${String(r.asset)} left in one transaction · found by watching the chain`,
