@@ -1,16 +1,16 @@
 {
   "schema": "wake.paper.metrics.v1",
-  "generatedAt": "2026-09-22T05:07:04.748Z",
+  "generatedAt": "2026-09-22T05:17:06.776Z",
   "window": {
     "from": "2026-09-15T18:59:01.153Z",
-    "to": "2026-09-22T05:07:04.170Z",
-    "days": 6.422,
-    "equityPoints": 266,
+    "to": "2026-09-22T05:17:06.212Z",
+    "days": 6.429,
+    "equityPoints": 267,
     "note": "Live paper run. Figures are observed from the committed log, not backtested."
   },
   "headline": {
-    "sharpeAnnualisedFromHourly": -5.744812478923085,
-    "sharpeAnnualisedFromDaily": 7.224329776448088,
+    "sharpeAnnualisedFromHourly": -5.746945748702954,
+    "sharpeAnnualisedFromDaily": 7.2213233906666785,
     "sharpeSampleSizeHourly": 81,
     "sharpeSampleSizeDaily": 7,
     "sharpeMinimumSamples": {
@@ -22,7 +22,7 @@
     "maxDrawdownPeakAt": "2026-09-15T18:59:01.153Z",
     "maxDrawdownTroughAt": "2026-09-16T04:42:51.521Z",
     "winRate": 0.15384615384615385,
-    "totalReturnRate": -0.02400566100000001
+    "totalReturnRate": -0.024014029000000048
   },
   "trades": {
     "closed": 13,
@@ -49,10 +49,10 @@
   },
   "equity": {
     "startingUsd": 100000,
-    "currentUsd": 97599.43,
-    "totalPnlUsd": -2400.57,
+    "currentUsd": 97598.6,
+    "totalPnlUsd": -2401.4,
     "realizedPnlUsd": -2401.5,
-    "openUnrealizedUsd": 0.93
+    "openUnrealizedUsd": 0.1
   },
   "provenance": {
     "returns": "OBSERVED · mark to market against Bitget public ticker markPrice",
@@ -61,9 +61,9 @@
     "funding": "OBSERVED · fundingRate from the Bitget public ticker"
   },
   "engine": {
-    "tickCount": 263,
+    "tickCount": 264,
     "startedAt": "2026-09-15T18:59:01.153Z",
-    "lastTickAt": "2026-09-22T05:07:04.170Z",
+    "lastTickAt": "2026-09-22T05:17:06.212Z",
     "strategy": "delta-neutral-basis",
     "config": {
       "minPerpUsdtVolume24h": 1000000,
@@ -79,34 +79,33 @@
       "maxNotionalShareOfVolume": 0.002,
       "stopCooldownMs": 14400000
     },
-    "universeSize": 123,
+    "universeSize": 124,
     "lastScan": {
       "perpsScanned": 803,
       "spotSymbols": 2710,
-      "pairsWithBothLegs": 123,
-      "evaluated": 123,
-      "triggered": 14,
+      "pairsWithBothLegs": 124,
+      "evaluated": 124,
+      "triggered": 12,
       "opened": 0,
-      "abstained": 123,
+      "abstained": 124,
       "reasons": {
-        "gap below trigger": 109,
-        "hedgeable,spread,clip-size": 2,
-        "spread,net-edge,clip-size": 1,
-        "hedgeable,clip-size": 1,
-        "net-edge,clip-size": 5,
-        "net-edge": 1,
-        "hedgeable,net-edge,clip-size": 2,
+        "gap below trigger": 112,
         "hedgeable,spread,net-edge,clip-size": 1,
+        "hedgeable,spread,clip-size": 2,
+        "hedgeable,net-edge,clip-size": 2,
+        "net-edge,clip-size": 4,
+        "hedgeable,clip-size": 1,
+        "net-edge": 1,
         "net-edge,duplicate": 1
       },
       "openingEnabled": true,
       "edgeBps": {
-        "best": 104.82,
-        "median": -35.66,
-        "worst": -135.78,
-        "hedgeable": 8,
+        "best": 105.71,
+        "median": -29.94,
+        "worst": -116.98,
+        "hedgeable": 6,
         "clearedCost": 3,
-        "sampled": 14
+        "sampled": 12
       }
     }
   }
