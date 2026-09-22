@@ -1,0 +1,125 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s22d7490dd4",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T07:53:54.179Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x22d7490dd463fdce263354e64ac42edcd7412f476ded8183542d8eec9d016bfa",
+    "txs": [
+      "0x22d7490dd463fdce263354e64ac42edcd7412f476ded8183542d8eec9d016bfa"
+    ],
+    "fundingTx": null,
+    "block": 26030879,
+    "contract": "0x2f1a791bf65638dd81e64caef805db0f8e13da19",
+    "recipient": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+    "exchange": "Coinbase",
+    "hubSource": "public label",
+    "asset": "PEPE",
+    "amount": 165002326669.62668,
+    "approxUsd": 851660,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0x2f1a791bf65638dd81e64caef805db0f8e13da19",
+    "isContract": false,
+    "transactionCount": 63,
+    "balanceBefore": 165002326669.62668,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.000392,
+    "viaDepositAddress": null
+  },
+  "instrument": "PEPEUSDT",
+  "market": {
+    "movePct": 2.817,
+    "roundTripCostPct": 0.1607,
+    "book": {
+      "bid": 0.0000051632,
+      "ask": 0.0000051653
+    },
+    "dailySigma": 0.110078,
+    "dailyVolumeUsd": 1551162569,
+    "bitgetVolume24hUsd": 220544486
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 2185.172015933331,
+    "maxLossUsd": 500,
+    "stopPct": 0.22015668403571523,
+    "costPct": 0.008658254263977365,
+    "spreadPct": 0.007458254263977365,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.11007834201785761,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 220544485.71524608,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.007458254263977365,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.258,
+  "marketDeltaPct": -2.817,
+  "minEdgePct": 0.482,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 82,
+    "thesis": "An $0.85M PEPE deposit into a $1.55B/day market implies only ~0.26% price impact, well below the ~0.48% minimum edge. The wallet sent 100% of its balance but holds just 0.039% of supply, so this is a small holder exiting, not a treasury or unlock event.",
+    "invalidation": "Clustered deposits from related wallets pushing total supply-to-exchange above ~0.5% of supply, or a modeled impact exceeding the minimum edge.",
+    "rationale": "Size is immaterial relative to PEPE's real liquidity; modeled delta (0.26%) is under the cost floor and the market has already ticked up 2.8%, the opposite direction. Low transaction count EOA fully draining a modest balance looks like ordinary retail/personal exit, not sellable treasury supply. No tradable edge."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "PEPEUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "35a3df2902797007206ebd8b199728773c0d451ffaeb75c436057cfefbac6ca4"
+}

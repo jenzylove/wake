@@ -1,58 +1,214 @@
 {
-  "updatedAt": "2026-09-22T04:42:11.527Z",
+  "updatedAt": "2026-09-22T07:53:54.582Z",
   "minUsd": 250000,
   "chains": {
     "1": {
-      "lastError": "eth_call: historical state a655313da91a1a326167170db2862aa71b5416a20e9aff719e78dd7554a060db is not available",
       "name": "ethereum",
-      "from": 26030313,
-      "to": 26030688,
-      "blocks": 376,
-      "skipped": 491,
-      "largeTransfers": 893,
-      "recurringSenders": 119,
-      "rejectedCandidates": 12,
+      "from": 26030746,
+      "to": 26031646,
+      "blocks": 901,
+      "skipped": 58,
+      "largeTransfers": 2155,
+      "recurringSenders": 267,
+      "rejectedCandidates": 14,
       "drains": 0
     },
     "8453": {
       "name": "base",
-      "from": 51629027,
-      "to": 51631277,
-      "blocks": 2251,
-      "skipped": 2964,
-      "largeTransfers": 13292,
-      "recurringSenders": 34,
-      "rejectedCandidates": 14,
-      "drains": 0
+      "from": 51631644,
+      "to": 51637044,
+      "blocks": 5401,
+      "skipped": 367,
+      "largeTransfers": 26194,
+      "recurringSenders": 61,
+      "rejectedCandidates": 13,
+      "drains": 1
     },
     "42161": {
-      "lastError": "eth_call: fetch failed",
+      "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
       "name": "arbitrum",
-      "from": 507653073,
-      "to": 507671073,
-      "blocks": 18001,
-      "skipped": 22232,
-      "largeTransfers": 72,
-      "recurringSenders": 9,
-      "rejectedCandidates": 10,
+      "from": 507672994,
+      "to": 507716194,
+      "blocks": 43201,
+      "skipped": 1921,
+      "largeTransfers": 121,
+      "recurringSenders": 17,
+      "rejectedCandidates": 13,
       "drains": 0
     }
   },
   "scanned": {
     "1": {
-      "lastBlock": 26030688,
-      "scannedAt": "2026-09-22T04:38:21.775Z"
+      "lastBlock": 26031646,
+      "scannedAt": "2026-09-22T07:50:36.708Z"
     },
     "8453": {
-      "lastBlock": 51631277,
-      "scannedAt": "2026-09-22T04:38:59.029Z"
+      "lastBlock": 51637044,
+      "scannedAt": "2026-09-22T07:52:18.137Z"
     },
     "42161": {
-      "lastBlock": 507671073,
-      "scannedAt": "2026-09-22T04:42:10.035Z"
+      "lastBlock": 507716194,
+      "scannedAt": "2026-09-22T07:53:39.899Z"
     }
   },
   "incidents": [
+    {
+      "id": "live-1-s22d7490dd4",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-22T07:53:54.179Z",
+      "chain": "ethereum",
+      "tx": "0x22d7490dd463fdce263354e64ac42edcd7412f476ded8183542d8eec9d016bfa",
+      "contract": "0x2f1a791bf65638dd81e64caef805db0f8e13da19",
+      "asset": "PEPE",
+      "approxUsd": 851660,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": "PEPEUSDT",
+      "exchange": "Coinbase",
+      "depositor": {
+        "address": "0x2f1a791bf65638dd81e64caef805db0f8e13da19",
+        "isContract": false,
+        "transactionCount": 63,
+        "balanceBefore": 165002326669.62668,
+        "shareOfBalanceSent": 1,
+        "shareOfSupply": 0.000392,
+        "viaDepositAddress": null
+      },
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 82,
+        "thesis": "An $0.85M PEPE deposit into a $1.55B/day market implies only ~0.26% price impact, well below the ~0.48% minimum edge. The wallet sent 100% of its balance but holds just 0.039% of supply, so this is a small holder exiting, not a treasury or unlock event.",
+        "rationale": "Size is immaterial relative to PEPE's real liquidity; modeled delta (0.26%) is under the cost floor and the market has already ticked up 2.8%, the opposite direction. Low transaction count EOA fully draining a modest balance looks like ordinary retail/personal exit, not sellable treasury supply. No tradable edge."
+      },
+      "modeledDeltaPct": 0.258,
+      "marketDeltaPct": -2.817,
+      "minEdgePct": 0.482,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2185.172015933331,
+        "maxLossUsd": 500,
+        "stopPct": 0.22015668403571523,
+        "costPct": 0.008658254263977365,
+        "spreadPct": 0.007458254263977365,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.11007834201785761,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 220544485.71524608,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.007458254263977365,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-8453-fb1785b01c",
+      "eventClass": "DRAIN",
+      "detectedAt": "2026-09-22T07:52:18.136Z",
+      "chain": "base",
+      "tx": "0xfb1785b01c8d29d346914b37feced51c203005c2f517ed1c25820f34f79b727f",
+      "contract": "0xbface6ad3c7f07714f2cc0a2651436f897537a95",
+      "asset": "USDC",
+      "approxUsd": 668000,
+      "removedShare": 0.9922,
+      "protocol": null,
+      "instrument": null,
+      "exchange": null,
+      "depositor": null,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 90,
+        "thesis": "An unattributed Base contract lost ~$668k USDC in one transaction, but there is no protocol identification, no mechanism, no named loss bearer, and no listed instrument that maps to the contract. Nothing to short and no established causal path to any tradable token.",
+        "rationale": "Investigator veto: outcome-only evidence, no caller privilege, function or trace data, so the event could be an authorised sweep or migration as easily as an exploit. Candidate list is empty, so even a correct read of the incident has no instrument that pays. $668k is also small for a contagion thesis."
+      },
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "minEdgePct": null,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "Evidence does not support any loss path: the outflow is indistinguishable from an authorised treasury or migration movement, the drained contract is unattributed, and the integrator exposure list is empty."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "A single transfer moved $668,000 USDC out of an unlabelled Base contract, taking 99.22% of what was there. That near-total sweep is the only suspicious signal, and a near-total sweep is exactly what a treasury consolidation, bridge settlement or contract migration also looks like. The packet contains no information about who called the contract, whether that caller was an owner or admin, or what function ran. It names no protocol and lists no integrators, so there is no identified party whose balance is impaired. Without that, calling this an exploit would be a guess dressed as a finding.",
+        "lossBearer": "Undetermined. The drained contract is unattributed (protocol null) and no integrator exposure is listed, so no entity can be said to bear the loss on this evidence.",
+        "concerns": [
+          "No caller identity or privilege evidence, so authorised versus unauthorised cannot be separated.",
+          "exposure.integrators is empty: no identified party is shown to bear the loss.",
+          "protocol and instrument are null; the drained contract has no attribution.",
+          "Packet note itself flags that legitimate treasury, bridge or migration flows present identically."
+        ]
+      }
+    },
     {
       "id": "live-1-b188540393",
       "eventClass": "DRAIN",
@@ -860,15 +1016,22 @@
     }
   ],
   "supply": {
-    "at": "2026-09-22T04:42:11.525Z",
-    "from": 26030643,
-    "to": 26030714,
-    "blocks": 72,
-    "transfers": 25,
+    "at": "2026-09-22T07:53:54.580Z",
+    "from": 26030764,
+    "to": 26031664,
+    "blocks": 901,
+    "transfers": 187,
     "hubs": 8,
     "inferredHubs": 0,
-    "deposits": 0,
+    "deposits": 1,
     "minUsd": 500000,
-    "opened": []
+    "opened": [
+      {
+        "id": "live-1-s22d7490dd4",
+        "token": "PEPE",
+        "usd": 851660,
+        "decision": "NO_TRADE"
+      }
+    ]
   }
 }
