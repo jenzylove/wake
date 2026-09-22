@@ -1,0 +1,126 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s26d6ebb25b",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T13:37:04.767Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x26d6ebb25b81b60e704ea4d7f4183dd469a50d8dcadd9923e7ce0229c384e5bf",
+    "txs": [
+      "0x26d6ebb25b81b60e704ea4d7f4183dd469a50d8dcadd9923e7ce0229c384e5bf",
+      "0x3600c46765c9e219ebaaf93fc8f86ec5bc512cdff236835fada1c0a9dd5188af"
+    ],
+    "fundingTx": null,
+    "block": 26033226,
+    "contract": "0xeae7380dd4cef6fbd1144f49e4d1e6964258a4f4",
+    "recipient": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "exchange": "Binance",
+    "hubSource": "public label",
+    "asset": "LINK",
+    "amount": 120255,
+    "approxUsd": 1565720,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0xeae7380dd4cef6fbd1144f49e4d1e6964258a4f4",
+    "isContract": false,
+    "transactionCount": 246798,
+    "balanceBefore": 64013,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.00012,
+    "viaDepositAddress": null
+  },
+  "instrument": "LINKUSDT",
+  "market": {
+    "movePct": 0.636,
+    "roundTripCostPct": 0.1277,
+    "book": {
+      "bid": 12.974,
+      "ask": 12.975
+    },
+    "dailySigma": 0.039747,
+    "dailyVolumeUsd": 688017869,
+    "bitgetVolume24hUsd": 24472869
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 5885.178186846602,
+    "maxLossUsd": 500,
+    "stopPct": 0.0794930372076958,
+    "costPct": 0.005466157590773024,
+    "spreadPct": 0.004266157590773025,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.0397465186038479,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 24472869.405,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.004266157590773025,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.19,
+  "marketDeltaPct": -0.636,
+  "minEdgePct": 0.383,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 86,
+    "thesis": "Depositor 0xeae7 has ~247k transactions and sent more than its standing balance, the signature of a hot wallet or market maker routing flow, not a team/treasury/unlock block. 120k LINK (~$1.57M) into $688M daily volume implies only ~0.19% impact, below the edge threshold and already outrun by the -0.64% two-hour move.",
+    "invalidation": "A low-activity, long-dormant wallet moving a comparable or larger LINK block to an exchange, or cumulative deposits large enough to imply >1% impact versus real volume.",
+    "rationale": "Transaction count in the hundreds of thousands plus full-balance sweep marks this as operational flow, so the causal path from deposit to sustained selling is not established. Even if it were sold, the modeled 0.19% move is immaterial against LINK's $688M daily volume and 3.97% sigma, and the market has already moved further than the model implies."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "LINKUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "5c4ce64776cd076fd2e93bfc53f6820cc6dc19bb8c0a3c43ef139c8375f683eb"
+}

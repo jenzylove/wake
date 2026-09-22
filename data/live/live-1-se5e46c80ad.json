@@ -1,0 +1,125 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-se5e46c80ad",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T13:37:25.420Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0xe5e46c80add013464ad2395343d5ab8e911a17f86d8b2c5be4b427d06637e453",
+    "txs": [
+      "0xe5e46c80add013464ad2395343d5ab8e911a17f86d8b2c5be4b427d06637e453"
+    ],
+    "fundingTx": "0x6d5d5c3ece58ef5ef06df89413c7cd0a12990bf43419df2881c392cc423f1075",
+    "block": 26033252,
+    "contract": "0xeff6cb8b614999d130e537751ee99724d01aa167",
+    "recipient": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "exchange": "Binance",
+    "hubSource": "public label",
+    "asset": "LINK",
+    "amount": 53453.090000000004,
+    "approxUsd": 695959,
+    "balanceRemovedShare": 0.9469
+  },
+  "depositor": {
+    "address": "0xeff6cb8b614999d130e537751ee99724d01aa167",
+    "isContract": true,
+    "transactionCount": 1,
+    "balanceBefore": 56453.091508112724,
+    "shareOfBalanceSent": 0.9469,
+    "shareOfSupply": 0.000053,
+    "viaDepositAddress": "0x08dc8ffc2db71ea07537d1328b3be0799b604396"
+  },
+  "instrument": "LINKUSDT",
+  "market": {
+    "movePct": 0.581,
+    "roundTripCostPct": 0.1277,
+    "book": {
+      "bid": 12.972,
+      "ask": 12.973
+    },
+    "dailySigma": 0.039757,
+    "dailyVolumeUsd": 688017869,
+    "bitgetVolume24hUsd": 24480347
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 5883.698025960108,
+    "maxLossUsd": 499.99999999999994,
+    "stopPct": 0.07951441037751754,
+    "costPct": 0.005466157590773024,
+    "spreadPct": 0.004266157590773025,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.03975720518875877,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 24480346.648000002,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.004266157590773025,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.126,
+  "marketDeltaPct": -0.581,
+  "minEdgePct": 0.383,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 86,
+    "thesis": "A $0.70M LINK deposit into Binance is trivial against $688M daily volume; square-root impact is only ~0.13%, far below the ~0.38% minimum edge, and the market has already drifted +0.58% the other way. No tradable supply shock.",
+    "invalidation": "A materially larger LINK block (multi-million USD, >1% of daily volume) from a team/treasury wallet hitting an exchange would justify revisiting.",
+    "rationale": "Depositor is a fresh single-transaction contract routing via a deposit address and sent 95% of its balance, which is consistent with real supply, but the size is immaterial: 0.0053% of supply and 0.1% of daily volume. Modeled 0.126% move sits under costs while price has moved opposite. Size, not classification, kills this trade."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "LINKUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "89ca5e74e551a7ea4433eeebcf3b1c50663ef4be49a6e9737c0638edc42d6098"
+}

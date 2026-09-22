@@ -1,0 +1,125 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s084de6ecfc",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T13:36:43.414Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x084de6ecfc8e7d62a034e6bb3ed3f995e58072ff03cceb5bb3dcb36652890a47",
+    "txs": [
+      "0x084de6ecfc8e7d62a034e6bb3ed3f995e58072ff03cceb5bb3dcb36652890a47"
+    ],
+    "fundingTx": null,
+    "block": 26032518,
+    "contract": "0x5a52e96bacdabb82fd05763e25335261b270efcb",
+    "recipient": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "exchange": "Binance",
+    "hubSource": "public label",
+    "asset": "PEPE",
+    "amount": 10000000000000,
+    "approxUsd": 49413000,
+    "balanceRemovedShare": 0.2646
+  },
+  "depositor": {
+    "address": "0x5a52e96bacdabb82fd05763e25335261b270efcb",
+    "isContract": false,
+    "transactionCount": 5482,
+    "balanceBefore": 37788971703590.96,
+    "shareOfBalanceSent": 0.2646,
+    "shareOfSupply": 0.02377,
+    "viaDepositAddress": null
+  },
+  "instrument": "PEPEUSDT",
+  "market": {
+    "movePct": 0.262,
+    "roundTripCostPct": 0.1585,
+    "book": {
+      "bid": 0.0000049361,
+      "ask": 0.000004938
+    },
+    "dailySigma": 0.112004,
+    "dailyVolumeUsd": 1506764440,
+    "bitgetVolume24hUsd": 234329850
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 2149.9540571769,
+    "maxLossUsd": 499.99999999999994,
+    "stopPct": 0.2240078125321278,
+    "costPct": 0.008555296586840512,
+    "spreadPct": 0.007355296586840513,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.1120039062660639,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 234329849.787103,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.007355296586840513,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 2.028,
+  "marketDeltaPct": -0.262,
+  "minEdgePct": 0.475,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 62,
+    "thesis": "The depositor is a highly active EOA (5,482 txs) that sent 26% of its PEPE balance straight into Binance's hot wallet rather than a unique deposit address. That pattern reads as market-maker / internal exchange flow or routine inventory rotation, not team, treasury or unlock supply that must be sold.",
+    "invalidation": "If the same wallet keeps pushing PEPE in with no offsetting withdrawals, or PEPE breaks down more than ~1.5% on rising volume after the deposit, treat it as genuine distribution and reassess.",
+    "rationale": "Modeled 2.03% impact is only meaningful if the block is actually liquidated. A wallet with thousands of transactions retaining 74% of a 2.4%-of-supply stake, transferring direct to a hub hot wallet, is far more consistent with a trading/MM or exchange-affiliated address than with distributable supply. Market has moved +0.26%, showing no stress. Default to no trade."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "PEPEUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "7923e8618d3748191c4f5ba93932687e9f4713c6f5721ec8f44f77f0cef875db"
+}

@@ -1,57 +1,730 @@
 {
-  "updatedAt": "2026-09-22T07:53:54.582Z",
+  "updatedAt": "2026-09-22T13:37:33.930Z",
   "minUsd": 250000,
   "chains": {
     "1": {
       "name": "ethereum",
-      "from": 26030746,
-      "to": 26031646,
+      "from": 26032444,
+      "to": 26033344,
       "blocks": 901,
-      "skipped": 58,
-      "largeTransfers": 2155,
-      "recurringSenders": 267,
+      "skipped": 798,
+      "largeTransfers": 2683,
+      "recurringSenders": 310,
       "rejectedCandidates": 14,
-      "drains": 0
+      "drains": 0,
+      "logCoverageComplete": true,
+      "evidenceComplete": true,
+      "failedRanges": [],
+      "confirmationErrors": []
     },
     "8453": {
       "name": "base",
-      "from": 51631644,
-      "to": 51637044,
+      "from": 51641909,
+      "to": 51647309,
       "blocks": 5401,
-      "skipped": 367,
-      "largeTransfers": 26194,
-      "recurringSenders": 61,
+      "skipped": 4865,
+      "largeTransfers": 38977,
+      "recurringSenders": 67,
       "rejectedCandidates": 13,
-      "drains": 1
+      "drains": 1,
+      "logCoverageComplete": true,
+      "evidenceComplete": true,
+      "failedRanges": [],
+      "confirmationErrors": []
     },
     "42161": {
       "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
       "name": "arbitrum",
-      "from": 507672994,
-      "to": 507716194,
+      "from": 507754480,
+      "to": 507797680,
       "blocks": 43201,
-      "skipped": 1921,
-      "largeTransfers": 121,
+      "skipped": 38286,
+      "largeTransfers": 140,
       "recurringSenders": 17,
-      "rejectedCandidates": 13,
-      "drains": 0
+      "rejectedCandidates": 11,
+      "drains": 0,
+      "logCoverageComplete": true,
+      "evidenceComplete": false,
+      "failedRanges": [],
+      "confirmationErrors": [
+        {
+          "tx": "0x3345419477f3887ee03640345e874676051ab17fc51aae982bde0f90bb1549c4",
+          "block": 507789470,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        },
+        {
+          "tx": "0x3ab700872c23a35a7705b0148a71382b26a696de0fdb9119c19ab00cfa715077",
+          "block": 507761991,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        },
+        {
+          "tx": "0x7b0ede826cac23a25739abfc3a5ae3bdfa6b936ec0692e28aaefe6a120a07e86",
+          "block": 507788045,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        }
+      ]
     }
   },
   "scanned": {
     "1": {
-      "lastBlock": 26031646,
-      "scannedAt": "2026-09-22T07:50:36.708Z"
+      "lastBlock": 26033344,
+      "scannedAt": "2026-09-22T13:32:45.217Z",
+      "logCoverageComplete": true,
+      "evidenceComplete": true,
+      "failedRanges": [],
+      "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 51637044,
-      "scannedAt": "2026-09-22T07:52:18.137Z"
+      "lastBlock": 51647309,
+      "scannedAt": "2026-09-22T13:34:03.137Z",
+      "logCoverageComplete": true,
+      "evidenceComplete": true,
+      "failedRanges": [],
+      "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 507716194,
-      "scannedAt": "2026-09-22T07:53:39.899Z"
+      "lastBlock": 507797680,
+      "scannedAt": "2026-09-22T13:36:16.488Z",
+      "logCoverageComplete": true,
+      "evidenceComplete": false,
+      "failedRanges": [],
+      "confirmationErrors": [
+        {
+          "tx": "0x3345419477f3887ee03640345e874676051ab17fc51aae982bde0f90bb1549c4",
+          "block": 507789470,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        },
+        {
+          "tx": "0x3ab700872c23a35a7705b0148a71382b26a696de0fdb9119c19ab00cfa715077",
+          "block": 507761991,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        },
+        {
+          "tx": "0x7b0ede826cac23a25739abfc3a5ae3bdfa6b936ec0692e28aaefe6a120a07e86",
+          "block": 507788045,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        }
+      ]
     }
   },
   "incidents": [
+    {
+      "id": "live-1-scc0b43053c",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-22T13:37:33.526Z",
+      "chain": "ethereum",
+      "tx": "0xcc0b43053c33594e7644a14e7d4becdb071323e4d78cac58216bc53321ad69f5",
+      "contract": "0x4462f45a56f62c7f8a1c29cb7cf8db95f4108553",
+      "asset": "UNI",
+      "approxUsd": 579320,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": "UNIUSDT",
+      "exchange": "Coinbase",
+      "depositor": {
+        "address": "0x4462f45a56f62c7f8a1c29cb7cf8db95f4108553",
+        "isContract": false,
+        "transactionCount": 28,
+        "balanceBefore": 63577.680473442866,
+        "shareOfBalanceSent": 1,
+        "shareOfSupply": 0.000064,
+        "viaDepositAddress": null
+      },
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 80,
+        "thesis": "A $579k UNI deposit is immaterial against $1.35bn daily volume; modeled impact of 0.20% sits below the 0.49% cost threshold, and the market has already moved +3.44% against the short direction in the last two hours.",
+        "rationale": "Wallet is an EOA with only 28 transactions sending its full balance, which is consistent with real supply rather than a market maker, but size is the problem: 0.000064% of supply against deep liquidity gives a sub-cost modeled move. Price is also already up 3.44%, so a short has no priced-in edge to harvest. Size, not classification, kills this one."
+      },
+      "modeledDeltaPct": 0.201,
+      "marketDeltaPct": -3.44,
+      "minEdgePct": 0.493,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2471.9882248526483,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.1943152761387724,
+        "costPct": 0.007951059506820839,
+        "spreadPct": 0.006751059506820838,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.0971576380693862,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 56996028.98,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.006751059506820838,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-1-se5e46c80ad",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-22T13:37:25.420Z",
+      "chain": "ethereum",
+      "tx": "0xe5e46c80add013464ad2395343d5ab8e911a17f86d8b2c5be4b427d06637e453",
+      "contract": "0xeff6cb8b614999d130e537751ee99724d01aa167",
+      "asset": "LINK",
+      "approxUsd": 695959,
+      "removedShare": 0.9469,
+      "protocol": null,
+      "instrument": "LINKUSDT",
+      "exchange": "Binance",
+      "depositor": {
+        "address": "0xeff6cb8b614999d130e537751ee99724d01aa167",
+        "isContract": true,
+        "transactionCount": 1,
+        "balanceBefore": 56453.091508112724,
+        "shareOfBalanceSent": 0.9469,
+        "shareOfSupply": 0.000053,
+        "viaDepositAddress": "0x08dc8ffc2db71ea07537d1328b3be0799b604396"
+      },
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 86,
+        "thesis": "A $0.70M LINK deposit into Binance is trivial against $688M daily volume; square-root impact is only ~0.13%, far below the ~0.38% minimum edge, and the market has already drifted +0.58% the other way. No tradable supply shock.",
+        "rationale": "Depositor is a fresh single-transaction contract routing via a deposit address and sent 95% of its balance, which is consistent with real supply, but the size is immaterial: 0.0053% of supply and 0.1% of daily volume. Modeled 0.126% move sits under costs while price has moved opposite. Size, not classification, kills this trade."
+      },
+      "modeledDeltaPct": 0.126,
+      "marketDeltaPct": -0.581,
+      "minEdgePct": 0.383,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5883.698025960108,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.07951441037751754,
+        "costPct": 0.005466157590773024,
+        "spreadPct": 0.004266157590773025,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.03975720518875877,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 24480346.648000002,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004266157590773025,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-1-s84f88fefb3",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-22T13:37:14.027Z",
+      "chain": "ethereum",
+      "tx": "0x84f88fefb3f63234f7ecdc2016b384acd7f912c973f4efd8af8240ed917b5063",
+      "contract": "0x4266bbc1c8e0c8be1ed48ff3e9e976fe1a152a82",
+      "asset": "UNI",
+      "approxUsd": 803991,
+      "removedShare": 0.6969,
+      "protocol": null,
+      "instrument": "UNIUSDT",
+      "exchange": "Coinbase",
+      "depositor": {
+        "address": "0x4266bbc1c8e0c8be1ed48ff3e9e976fe1a152a82",
+        "isContract": false,
+        "transactionCount": 48,
+        "balanceBefore": 126615.01233153543,
+        "shareOfBalanceSent": 0.6969,
+        "shareOfSupply": 0.000088,
+        "viaDepositAddress": null
+      },
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 80,
+        "thesis": "An $0.8M UNI deposit into Coinbase is immaterial against $1.35B daily volume; modeled impact of 0.24% sits below the 0.46% cost threshold, and price is already up 3.68% against the short. No tradable edge.",
+        "rationale": "Depositor is an EOA with 48 txs sending 70% of a modest balance (0.009% of supply) - plausibly a real seller but far too small to move a deep, high-volume market. Square-root impact (0.235%) is under minimum edge (0.459%), and the recent +3.68% move is the wrong way for a short. Size, not causality, is the binding constraint."
+      },
+      "modeledDeltaPct": 0.235,
+      "marketDeltaPct": -3.68,
+      "minEdgePct": 0.459,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2486.0303447668207,
+        "maxLossUsd": 500,
+        "stopPct": 0.19317279284378186,
+        "costPct": 0.007951059506820839,
+        "spreadPct": 0.006751059506820838,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.09658639642189093,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 56956159.127,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.006751059506820838,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-1-s26d6ebb25b",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-22T13:37:04.767Z",
+      "chain": "ethereum",
+      "tx": "0x26d6ebb25b81b60e704ea4d7f4183dd469a50d8dcadd9923e7ce0229c384e5bf",
+      "contract": "0xeae7380dd4cef6fbd1144f49e4d1e6964258a4f4",
+      "asset": "LINK",
+      "approxUsd": 1565720,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": "LINKUSDT",
+      "exchange": "Binance",
+      "depositor": {
+        "address": "0xeae7380dd4cef6fbd1144f49e4d1e6964258a4f4",
+        "isContract": false,
+        "transactionCount": 246798,
+        "balanceBefore": 64013,
+        "shareOfBalanceSent": 1,
+        "shareOfSupply": 0.00012,
+        "viaDepositAddress": null
+      },
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 86,
+        "thesis": "Depositor 0xeae7 has ~247k transactions and sent more than its standing balance, the signature of a hot wallet or market maker routing flow, not a team/treasury/unlock block. 120k LINK (~$1.57M) into $688M daily volume implies only ~0.19% impact, below the edge threshold and already outrun by the -0.64% two-hour move.",
+        "rationale": "Transaction count in the hundreds of thousands plus full-balance sweep marks this as operational flow, so the causal path from deposit to sustained selling is not established. Even if it were sold, the modeled 0.19% move is immaterial against LINK's $688M daily volume and 3.97% sigma, and the market has already moved further than the model implies."
+      },
+      "modeledDeltaPct": 0.19,
+      "marketDeltaPct": -0.636,
+      "minEdgePct": 0.383,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5885.178186846602,
+        "maxLossUsd": 500,
+        "stopPct": 0.0794930372076958,
+        "costPct": 0.005466157590773024,
+        "spreadPct": 0.004266157590773025,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.0397465186038479,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 24472869.405,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004266157590773025,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-1-s7bc662f8b2",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-22T13:36:54.102Z",
+      "chain": "ethereum",
+      "tx": "0x7bc662f8b206ca3ba84ab6bf26a9baddc33342966a61efcd109ab1e901714373",
+      "contract": "0xeae7380dd4cef6fbd1144f49e4d1e6964258a4f4",
+      "asset": "UNI",
+      "approxUsd": 1664457,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": "UNIUSDT",
+      "exchange": "Binance",
+      "depositor": {
+        "address": "0xeae7380dd4cef6fbd1144f49e4d1e6964258a4f4",
+        "isContract": false,
+        "transactionCount": 246798,
+        "balanceBefore": 107219.824869,
+        "shareOfBalanceSent": 1,
+        "shareOfSupply": 0.000183,
+        "viaDepositAddress": null
+      },
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 85,
+        "thesis": "Depositor 0xeae7... has ~247k transactions and forwarded its entire balance, the signature of a market maker or exchange routing wallet, not a team, treasury or unlock holder. The block is only 0.018% of UNI supply and $1.66m against $1.35bn daily volume, so modeled impact is 0.34% while price is already up 3.5%.",
+        "rationale": "High transaction count plus 100% of balance sent and amount exceeding prior balance indicates pass-through flow, not sellable supply. Notional is immaterial versus UNI's daily volume, modeled 0.34% sits below the 0.459% minimum edge, and the market has moved 3.5% the other way. No tradable supply overhang."
+      },
+      "modeledDeltaPct": 0.34,
+      "marketDeltaPct": -3.475,
+      "minEdgePct": 0.459,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2474.0095270395013,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.19415002156634706,
+        "costPct": 0.007951059506820839,
+        "spreadPct": 0.006751059506820838,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.09707501078317353,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 56940528.59199999,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.006751059506820838,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-1-s084de6ecfc",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-22T13:36:43.414Z",
+      "chain": "ethereum",
+      "tx": "0x084de6ecfc8e7d62a034e6bb3ed3f995e58072ff03cceb5bb3dcb36652890a47",
+      "contract": "0x5a52e96bacdabb82fd05763e25335261b270efcb",
+      "asset": "PEPE",
+      "approxUsd": 49413000,
+      "removedShare": 0.2646,
+      "protocol": null,
+      "instrument": "PEPEUSDT",
+      "exchange": "Binance",
+      "depositor": {
+        "address": "0x5a52e96bacdabb82fd05763e25335261b270efcb",
+        "isContract": false,
+        "transactionCount": 5482,
+        "balanceBefore": 37788971703590.96,
+        "shareOfBalanceSent": 0.2646,
+        "shareOfSupply": 0.02377,
+        "viaDepositAddress": null
+      },
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 62,
+        "thesis": "The depositor is a highly active EOA (5,482 txs) that sent 26% of its PEPE balance straight into Binance's hot wallet rather than a unique deposit address. That pattern reads as market-maker / internal exchange flow or routine inventory rotation, not team, treasury or unlock supply that must be sold.",
+        "rationale": "Modeled 2.03% impact is only meaningful if the block is actually liquidated. A wallet with thousands of transactions retaining 74% of a 2.4%-of-supply stake, transferring direct to a hub hot wallet, is far more consistent with a trading/MM or exchange-affiliated address than with distributable supply. Market has moved +0.26%, showing no stress. Default to no trade."
+      },
+      "modeledDeltaPct": 2.028,
+      "marketDeltaPct": -0.262,
+      "minEdgePct": 0.475,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2149.9540571769,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.2240078125321278,
+        "costPct": 0.008555296586840512,
+        "spreadPct": 0.007355296586840513,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.1120039062660639,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 234329849.787103,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.007355296586840513,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-8453-0019098910",
+      "eventClass": "DRAIN",
+      "detectedAt": "2026-09-22T13:34:03.136Z",
+      "chain": "base",
+      "tx": "0x0019098910850188e5e3a93b656b240d15bb9dd7610c1dd79eaa93d95b463abc",
+      "contract": "0x80891885537e20e240987385490017fc03d9d7ed",
+      "asset": "USDC",
+      "approxUsd": 600259,
+      "removedShare": 0.9029,
+      "protocol": null,
+      "instrument": null,
+      "exchange": null,
+      "depositor": null,
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": "NO_TRADE",
+      "refusals": [],
+      "aiDecision": {
+        "action": "NO_TRADE",
+        "confidence": 92,
+        "thesis": "Single USDC outflow from an unidentified Base contract with no named protocol, no mechanism and no loss bearer. Signature is indistinguishable from a treasury sweep, bridge settlement or migration. No listed instrument maps to the contract, so there is no market that would pay even if it were an exploit.",
+        "rationale": "Investigator veto stands: no call trace, caller role or permission check supplied, so the causal path from outflow to protocol loss is unestablished. Candidate list is empty, so no sizeable position exists regardless of conviction. ~$600k is also small relative to any plausible listed venue's cap. Default to no action."
+      },
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "minEdgePct": null,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        },
+        {
+          "key": "ai-review",
+          "question": "Does the investigator's review support the loss path?",
+          "status": "SUPPORTED",
+          "blocksTrade": true,
+          "answer": "The packet does not support any loss path: no protocol, no caller authorisation evidence, and an empty integrator list. The outflow is indistinguishable from an authorised treasury or bridge movement, which the note itself flags."
+        }
+      ],
+      "ai": {
+        "exploitClass": "unknown",
+        "veto": true,
+        "narrative": "About $600k of USDC left a single Base contract in one transaction, taking roughly 90% of what was there. That is the entire extent of what the evidence shows. There is no record of who called it, whether the caller was authorised, or what the contract does. A drained vault and a scheduled treasury move out of an operations wallet look exactly the same from this angle. The integrator list is empty, so no second-order exposure is demonstrated either. Without a caller role or a protocol identity, there is no loss path here that can be traded on, only a large transfer.",
+        "lossBearer": "Not established. Whoever holds claims on contract 0x80891885...d9d7ed bears the ~$600,159 outflow, but the packet names no protocol, no depositor set and no integrators.",
+        "concerns": [
+          "No protocol or instrument identified for the drained contract",
+          "No call trace or caller permissions supplied; cannot separate authorised from unauthorised",
+          "Empty integrator list means no second-order exposure is evidenced",
+          "balanceRemovedShare 0.9029 is high but alone does not imply theft"
+        ]
+      }
+    },
     {
       "id": "live-1-s22d7490dd4",
       "eventClass": "SUPPLY_TO_EXCHANGE",
@@ -1016,20 +1689,50 @@
     }
   ],
   "supply": {
-    "at": "2026-09-22T07:53:54.580Z",
-    "from": 26030764,
-    "to": 26031664,
+    "at": "2026-09-22T13:37:33.927Z",
+    "from": 26032467,
+    "to": 26033367,
     "blocks": 901,
-    "transfers": 187,
+    "transfers": 373,
     "hubs": 8,
     "inferredHubs": 0,
-    "deposits": 1,
+    "deposits": 7,
     "minUsd": 500000,
     "opened": [
       {
-        "id": "live-1-s22d7490dd4",
+        "id": "live-1-s084de6ecfc",
         "token": "PEPE",
-        "usd": 851660,
+        "usd": 49413000,
+        "decision": "NO_TRADE"
+      },
+      {
+        "id": "live-1-s7bc662f8b2",
+        "token": "UNI",
+        "usd": 1664457,
+        "decision": "NO_TRADE"
+      },
+      {
+        "id": "live-1-s26d6ebb25b",
+        "token": "LINK",
+        "usd": 1565720,
+        "decision": "NO_TRADE"
+      },
+      {
+        "id": "live-1-s84f88fefb3",
+        "token": "UNI",
+        "usd": 803991,
+        "decision": "NO_TRADE"
+      },
+      {
+        "id": "live-1-se5e46c80ad",
+        "token": "LINK",
+        "usd": 695959,
+        "decision": "NO_TRADE"
+      },
+      {
+        "id": "live-1-scc0b43053c",
+        "token": "UNI",
+        "usd": 579320,
         "decision": "NO_TRADE"
       }
     ]
