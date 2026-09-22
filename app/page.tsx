@@ -25,11 +25,11 @@ function ActionGraph({ item }: { item: Item }) {
   const blocking = item.falsification.filter((f) => f.blocksTrade).length + (item.refusals?.length ?? 0)
   const traded = item.decision.startsWith("TRADE") || item.decision === "HEDGE"
   const steps: Array<{ k: string; v: string; kind: "observed" | "inferred" | "blocking" | "cleared" }> = [
-    { k: "event", v: item.subtitle.split(" · ")[1] ?? item.subtitle, kind: "observed" },
+    { k: "event", v: item.subtitle, kind: "observed" },
     { k: "consequence", v: item.numbers.slice(0, 2).map((n) => `${n.label} ${n.value}`).join(" · "), kind: "observed" },
     { k: "market", v: item.instrument ?? "no listed market", kind: item.instrument ? "observed" : "blocking" },
     { k: "claude", v: item.proposed ? item.proposed.toLowerCase().replace("_", " ") : item.ai ? (item.ai.veto ? "vetoed" : "reviewed") : "no review", kind: "inferred" },
-    { k: "code", v: blocking ? `${blocking} refusal${blocking > 1 ? "s" : ""}` : "all checks passed", kind: blocking ? "blocking" : "cleared" },
+    { k: "code", v: traded ? "all checks passed" : blocking ? `${blocking} refusal${blocking > 1 ? "s" : ""}` : "held: edge or conviction below the bar", kind: traded ? "cleared" : "blocking" },
     { k: "outcome", v: item.decision.toLowerCase().replace("_", " "), kind: traded ? "cleared" : "blocking" },
   ]
   const exportRecord = () => {
