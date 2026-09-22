@@ -14,13 +14,8 @@ name: WAKE paper engine
 # an hour of log density rather than everything.
 
 on:
-  schedule:
-    # Hourly, deliberately off the top of the hour to dodge scheduler contention.
-    - cron: "7 * * * *"
-  push:
-    branches: [main]
-    paths-ignore:
-      - "data/paper/**"
+  # Retired from the schedule: this is a separate basis engine, not WAKE's incident strategy,
+  # and its hourly commits buried the agent's own record. It still runs on demand.
   workflow_dispatch:
     inputs:
       ticks:

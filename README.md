@@ -1,8 +1,10 @@
 # WAKE
 
-WAKE watches blockchains for exploits and decides, with evidence, whether an exploit should move a market that can be traded. It detects the drain, reconstructs what happened from chain data alone, measures who bears the loss, and hands the whole packet to Claude. Claude makes the trading decision. Code can only refuse it. Anything that survives is placed on Bitget Demo Trading, and the result is read back from the exchange.
+[![ci](https://github.com/jenzylove/wake/actions/workflows/ci.yml/badge.svg)](https://github.com/jenzylove/wake/actions/workflows/ci.yml) [![live watch](https://github.com/jenzylove/wake/actions/workflows/live-watch.yml/badge.svg)](https://github.com/jenzylove/wake/actions/workflows/live-watch.yml)
 
-It is paper and Demo only. It does not support Bitget live trading.
+**Live console:** [bitget-lilac.vercel.app](https://bitget-lilac.vercel.app) · **Track:** Bitget AI Genesis S2, Agentic Trading, Event Driven Agent
+
+WAKE is an event driven trading agent that reads its events straight from the chain. It watches Ethereum, Base and Arbitrum for two kinds of event: drains of protocol funds, and large holders moving tokens onto exchanges. For each one it measures, from chain data alone, who absorbs the consequence and how large it is, then hands the evidence to Claude. Claude makes the trading decision. Code can only refuse it. Anything that survives is placed on Bitget Demo Trading, and the result is read back from the exchange.
 
 ## The rule: Claude decides, code refuses
 
