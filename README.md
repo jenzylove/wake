@@ -44,6 +44,19 @@ Exploits are rare, so a watcher that only trades exploits almost never trades. T
 
 Supply records carry `eventClass: "SUPPLY_TO_EXCHANGE"` and are reported apart from drains and blind tests. The reproducible replay command is `node scripts/replay-supply.mjs --as-of <fixed-ISO-time>`; it preserves each persisted Claude decision and gate result, embeds the historical Bitget candles used for the subsequent mark, and keeps rejected events out of strategy P&L. `scripts/probe-supply.mjs` remains a read-only frequency probe, not a performance claim.
 
+## Point in time replay: what Claude's judgement is worth
+
+The live supply class trades about once a day, so a live record alone cannot show much. `scripts/backtest-supply.mjs` replays every deposit of $500,000 or more of LINK, UNI, PEPE or SHIB into an exchange between 3 and 21 September 2026, as the live watcher would have seen it at its next hourly pass. Chain state comes from archive nodes at that block, and prices, volatility and volume come only from data that existed by then. The window starts after the model's training data ends, so Claude cannot know how any event turned out. The gates are the live gates, unchanged. Every decision is hash chained to `data/backtest/supply-decisions.jsonl` before any outcome is fetched, and a separate phase marks the next 18 hours with fees, spread and the stop. Bitget publishes no historical order book, so the spread is the live book's at replay time, recorded as a proxy. This is a backtest, labelled as one, and it is kept apart from the live record.
+
+| 161 deposits replayed | Trades | Wins | Result, $100 per trade |
+|---|---|---|---|
+| Rules only: code's gates, no Claude | 6 | 1 | −24.18 USDT (−4.03% per trade) |
+| WAKE: Claude decides, code refuses | 0 | 0 | 0 |
+
+Six deposits cleared code's bar. Claude declined all six, avoiding five losers, including stops at −7.7% and −14.1%, and missing one +2.9% winner. Its reasons are in the log: a wallet with 245,000 transactions acting as a conduit rather than a seller, a short into a +4.8% two hour rally, a block too small against real volume. Six is a small sample; what it shows is that the model's refusals were right more often than the rules' trades, not that WAKE has a proven edge. Rerun with `node --env-file=.env.local scripts/backtest-supply.mjs decide` then `mark`; results are in `data/backtest/supply-results.json`.
+
+A correction found while building it: the gate used to count a move against the trade as extra edge, so a rally made a short look better. A move already made in the trade's direction now comes off the edge and a move the other way adds nothing. This only ever makes the gate stricter.
+
 ## Trade record, verified by the exchange
 
 Realised profit and loss is not computed by WAKE. After each close the agent reads Bitget's own position history (`/api/v2/mix/position/history-position`) and records the venue's net profit, including fees and funding, as `pnlUsd` with `pnlSource: "bitget"`. The value WAKE computed is kept beside it as `pnlComputedUsd`.

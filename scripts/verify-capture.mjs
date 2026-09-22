@@ -26,7 +26,8 @@ const agentLog = verifyDiscoveryLog(path.resolve("data", "wake-paper", "log.json
 
 const blindLog = verifyDiscoveryLog(path.resolve("data", "blind", "runs.jsonl"))
 const liveLog = verifyDiscoveryLog(path.resolve("data", "live", "log.jsonl"))
+const replayLog = verifyDiscoveryLog(path.resolve("data", "backtest", "supply-decisions.jsonl"))
 
-const ok = results.every((result) => result.ok) && discoveryLog.ok && agentLog.ok && blindLog.ok && liveLog.ok
-console.log(JSON.stringify({ ok, packets: results, discoveryLog, agentLog, blindLog, liveLog }, null, 2))
+const ok = results.every((result) => result.ok) && discoveryLog.ok && agentLog.ok && blindLog.ok && liveLog.ok && replayLog.ok
+console.log(JSON.stringify({ ok, packets: results, discoveryLog, agentLog, blindLog, liveLog, replayLog }, null, 2))
 process.exit(ok ? 0 : 1)

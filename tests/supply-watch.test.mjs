@@ -53,3 +53,11 @@ test("a depositor already in a position is refused", () => {
   assert.equal(r.decision, "NO_TRADE")
   assert.ok(r.refusals.some((x) => x.includes("already")))
 })
+
+test("a move against the trade never adds to its edge", () => {
+  assert.equal(enforce(trade, cand({ modeledDeltaPct: 0.3, marketDeltaPct: -8 })).decision, "NO_TRADE")
+})
+
+test("a move already made in the trade's direction comes off the edge", () => {
+  assert.equal(enforce(trade, cand({ modeledDeltaPct: 0.6, marketDeltaPct: 0.3 })).decision, "NO_TRADE")
+})
