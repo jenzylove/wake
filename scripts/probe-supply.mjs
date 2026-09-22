@@ -1,10 +1,10 @@
 // Frequency probe: run the supply detector over the last N hours of Ethereum blocks without
 // deciding or trading, and report how many deposits exist and how many would clear the cost bar.
 // Usage: node scripts/probe-supply.mjs [hours=24]
-import { WATCHED, rpc } from "../lib/chain-watch.mjs"
+import { chainConfig, rpc } from "../lib/chain-watch.mjs"
 import { LABELLED_HUBS, SUPPLY_TOKENS, findDeposits, hubCandidates, roundTripCost, supplyImpactPct, supplyMinEdgePct } from "../lib/supply-watch.mjs"
 
-const chain = WATCHED["1"]
+const chain = chainConfig("1")
 const call = (m, p) => rpc(chain.rpc, m, p, 3, chain.fallbacks)
 const TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
 const hours = Number(process.argv[2] || 24)
@@ -30,7 +30,7 @@ for (let s = from, step = 50; s <= head; s += step) {
   let logs
   try { logs = await call("eth_getLogs", [{ address: Object.keys(SUPPLY_TOKENS), topics: [TRANSFER], fromBlock: `0x${s.toString(16)}`, toBlock: `0x${Math.min(s + step - 1, head).toString(16)}` }]) }
   catch (e) { if (step > 10) { step = Math.floor(step / 2); s -= step; continue } throw e }
-  if (!Array.isArray(logs)) { s -= step; continue }
+  if (!Array.isArray(logs)) throw new Error(`eth_getLogs returned no array for ${s}-${Math.min(s + step - 1, head)}`)
   for (const l of logs) {
     if (l.topics.length !== 3) continue
     const meta = SUPPLY_TOKENS[l.address.toLowerCase()]

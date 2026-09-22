@@ -13,7 +13,7 @@
 import { createHash } from "node:crypto"
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
-import { WATCHED, MIN_DRAIN_USD, RESTING_MINUTES, confirmDrain, recurringSenders, rpc, scanWindow, watchedTransfers } from "../lib/chain-watch.mjs"
+import { WATCHED, MIN_DRAIN_USD, RESTING_MINUTES, chainConfig, confirmDrain, recurringSenders, rpc, scanWindow, watchedTransfers } from "../lib/chain-watch.mjs"
 import { quantifyExposure } from "../lib/onchain-exposure.mjs"
 import { aiFalsifier, interpretAnywhere } from "../lib/ai-interpret.mjs"
 import { decideAnywhere, enforce } from "../lib/ai-decide.mjs"
@@ -197,7 +197,8 @@ async function main() {
   const ethUsd = await ethUsdPrice()
   const report = { at: now(), ethUsd, chains: {}, opened: [] }
 
-  for (const [chainId, chain] of Object.entries(WATCHED)) {
+  for (const chainId of Object.keys(WATCHED)) {
+    const chain = chainConfig(chainId)
     const seen = state.chains[chainId] ?? {}
     try {
       const head = Number(await rpc(chain.rpc, "eth_blockNumber", [], 3, chain.fallbacks ?? []))
@@ -208,6 +209,7 @@ async function main() {
       let step = chain.blockSeconds < 1 ? 400 : 200
       let start = from
       let failures = 0
+      const failedRanges = []
       while (start <= to && failures < 6) {
         const end = Math.min(start + step - 1, to)
         try {
@@ -217,8 +219,10 @@ async function main() {
           const msg = String(error.message ?? error)
           if (/too large|exceeds limit|range|limited/i.test(msg) && step > 12) { step = Math.floor(step / 2); continue }
           failures += 1
+          failedRanges.push({ from: start, to: end, error: msg.slice(0, 160) })
           report.chains[chainId] = { lastError: `${start}-${end}: ${msg.slice(0, 110)}` }
-          start = end + 1
+          // Do not step over an unread range. The next scheduled pass must retry it.
+          break
         }
       }
 
@@ -232,13 +236,16 @@ async function main() {
       // Public nodes throttle aggressively, so candidates are confirmed slowly and in order of size.
       const confirmed = []
       let rejected = 0
+      const confirmationErrors = []
       for (const t of [...bySender.values()].slice(0, 14)) {
         try {
           const drain = await confirmDrain({ url: chain.rpc, transfer: t, fallbacks: chain.fallbacks ?? [], restingBlocks })
           if (!drain.candidate) rejected += 1
           if (drain.candidate) confirmed.push({ transfer: t, drain })
         } catch (error) {
-          report.chains[chainId] = { ...(report.chains[chainId] ?? {}), lastError: String(error.message ?? error).slice(0, 110) }
+          const message = String(error.message ?? error).slice(0, 160)
+          confirmationErrors.push({ tx: t.tx, block: t.block, error: message })
+          report.chains[chainId] = { ...(report.chains[chainId] ?? {}), lastError: message }
         }
         await sleep(chain.blockSeconds < 1 ? 250 : 400)
       }
@@ -247,9 +254,16 @@ async function main() {
         if (record) report.opened.push({ id: record.id, decision: record.decision, usd: record.detection.approxUsd, protocol: record.protocol?.name ?? null })
       }
 
-      state.chains[chainId] = { lastBlock: to, scannedAt: now() }
+      const logCoverageComplete = failedRanges.length === 0 && start > to
+      // Historical balance errors do not invalidate the log scan, but they do invalidate a claim
+      // that the event evidence is complete. Keep the distinction visible in both state and UI.
+      const evidenceComplete = logCoverageComplete && confirmationErrors.length === 0
+      const scannedTo = evidenceComplete ? to : Math.max(from - 1, start - 1)
+      state.chains[chainId] = { lastBlock: scannedTo, scannedAt: now(), logCoverageComplete, evidenceComplete,
+        failedRanges, confirmationErrors }
       report.chains[chainId] = { ...(report.chains[chainId] ?? {}), name: chain.name, from, to, blocks: to - from + 1, skipped,
-        largeTransfers: transfers.length, recurringSenders: recurring.size, rejectedCandidates: rejected, drains: confirmed.length }
+        largeTransfers: transfers.length, recurringSenders: recurring.size, rejectedCandidates: rejected, drains: confirmed.length,
+        logCoverageComplete, evidenceComplete, failedRanges, confirmationErrors }
     } catch (error) {
       report.chains[chainId] = { name: chain.name, error: String(error.message ?? error).slice(0, 160) }
     }

@@ -12,7 +12,7 @@
 import { createHash } from "node:crypto"
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
-import { WATCHED, rpc, scanWindow } from "../lib/chain-watch.mjs"
+import { chainConfig, rpc, scanWindow } from "../lib/chain-watch.mjs"
 import { LABELLED_HUBS, MIN_DEPOSIT_USD, SUPPLY_TOKENS, findDeposits, hubCandidates, roundTripCost, supplyImpactPct, supplyMinEdgePct } from "../lib/supply-watch.mjs"
 import { decideAnywhere, enforce } from "../lib/ai-decide.mjs"
 import { demoListed } from "../lib/demo-listing.mjs"
@@ -25,7 +25,7 @@ const STATE = path.join(OUT, "supply-state.json")
 const LOG = path.join(OUT, "log.jsonl")
 const TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
 const SCAN_MIN_USD = 50_000 // funding hops and sweeps are read from this size up
-const chain = WATCHED["1"]
+const chain = chainConfig("1")
 const call = (method, params) => rpc(chain.rpc, method, params, 3, chain.fallbacks)
 const now = () => new Date().toISOString()
 const sha256 = (v) => createHash("sha256").update(JSON.stringify(v)).digest("hex")
