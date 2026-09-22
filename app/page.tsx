@@ -661,7 +661,7 @@ export default function Console() {
             <div><div className="k">blind exploits caught</div><div className="v">{blind ? `${blind.detected}/${blind.runs}` : "--"}</div></div>
             <div><div className="k">false positives</div><div className="v">{blind?.falsePositives ?? "--"}</div></div>
             <div><div className="k">decisions with a reason</div><div className="v">{mix.trade + mix.noTrade + mix.monitor}</div></div>
-            <div><div className="k">realised, per Bitget</div><div className="v">{closed.length ? `${realised >= 0 ? "+" : ""}${realised.toFixed(2)}` : "--"}<small style={{ fontSize: 12, marginLeft: 6 }}>{closed.length} trades</small></div></div>
+            <div><div className="k">realised per Bitget, {closed.length} trades</div><div className="v">{closed.length ? `${realised >= 0 ? "+" : ""}${realised.toFixed(2)} USDT` : "--"}</div></div>
           </div>
           <h2 id="wkc-close">{mix.trade + mix.noTrade + mix.monitor} judged, <em>{mix.trade} cleared the bar</em></h2>
           <p className="wkc-venue-note" style={{ margin: "0 auto 22px", textAlign: "center" }}>
