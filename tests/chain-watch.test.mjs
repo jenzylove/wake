@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { DRAIN_SHARE, MIN_DRAIN_USD, WATCHED, scanWindow } from "../lib/chain-watch.mjs"
+import { DRAIN_SHARE, MIN_DRAIN_USD, WATCHED, chainConfig, scanWindow } from "../lib/chain-watch.mjs"
 
 test("every watched chain has an RPC, a block time and priced assets", () => {
   for (const [chainId, chain] of Object.entries(WATCHED)) {
@@ -25,6 +25,11 @@ test("a normal pass resumes exactly where the last one stopped", () => {
   assert.equal(from, 1_000_001)
   assert.equal(to, 1_000_100)
   assert.equal(skipped, 0)
+})
+
+test("chain-specific RPC overrides do not leak a generic provider onto other chains", () => {
+  assert.equal(chainConfig("1").name, "ethereum")
+  assert.equal(chainConfig("42161").name, "arbitrum")
 })
 
 test("after a long outage the pass is capped and says how much it skipped", () => {
