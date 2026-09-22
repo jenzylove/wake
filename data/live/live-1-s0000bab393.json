@@ -1,0 +1,125 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s0000bab393",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T18:14:43.612Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x0000bab393cf446b151df1b6901e164c1e316e3173d1fe75d70b3838b3cf4d60",
+    "txs": [
+      "0x0000bab393cf446b151df1b6901e164c1e316e3173d1fe75d70b3838b3cf4d60"
+    ],
+    "fundingTx": "0x400f3c5c3dd15f9a3aa1662039208d38d48b4956285f9b06d8761eca9cd9a8e3",
+    "block": 26034375,
+    "contract": "0x841ed663f2636863d40be4ee76243377dff13a34",
+    "recipient": "0xf8191d98ae98d2f7abdfb63a9b0b812b93c873aa",
+    "exchange": "unlabelled exchange",
+    "hubSource": "inferred: many distinct senders into one wallet",
+    "asset": "PEPE",
+    "amount": 442315983022,
+    "approxUsd": 2171639,
+    "balanceRemovedShare": 0.1393
+  },
+  "depositor": {
+    "address": "0x841ed663f2636863d40be4ee76243377dff13a34",
+    "isContract": false,
+    "transactionCount": 17055,
+    "balanceBefore": 3175781144924.9673,
+    "shareOfBalanceSent": 0.1393,
+    "shareOfSupply": 0.001051,
+    "viaDepositAddress": "0x18ec285a48499a67a35bf38ecfa17542e94c603a"
+  },
+  "instrument": "PEPEUSDT",
+  "market": {
+    "movePct": 0.892,
+    "roundTripCostPct": 0.1465,
+    "book": {
+      "bid": 0.0000049089,
+      "ask": 0.0000049102
+    },
+    "dailySigma": 0.10678,
+    "dailyVolumeUsd": 1040385070,
+    "bitgetVolume24hUsd": 165768248
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 2254.679506155211,
+    "maxLossUsd": 500,
+    "stopPct": 0.21355903416819383,
+    "costPct": 0.008201973830953802,
+    "spreadPct": 0.007001973830953801,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.10677951708409691,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 165768247.86195132,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.007001973830953801,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.488,
+  "marketDeltaPct": -0.892,
+  "minEdgePct": 0.439,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 76,
+    "thesis": "A 17k-transaction EOA moving 13.9% of its PEPE balance (~$2.17M, 0.105% of supply) into an unlabelled hub looks like routine flow from an active trading/market-making wallet, not team or treasury supply. Modeled impact of 0.49% against $1.04B daily volume is negligible and the market has already moved the other way.",
+    "invalidation": "Same wallet sends the remainder of its 3.17T PEPE balance to exchanges, or the address is identified as a team/treasury/unlock wallet with a fresh distribution pattern.",
+    "rationale": "High transaction count and partial-balance transfer via a deposit address are hallmarks of a recycling hot wallet, not sellable supply. Block size is trivial relative to PEPE's billion-dollar daily volume, so square-root impact (0.488%) sits below the cost threshold and market has moved 0.892% against the short. No credible edge."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "PEPEUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "f002e8d80bc5e4b9c983b126d41a3954d5200b54efaaa47beda60ff92d6e5bc5"
+}

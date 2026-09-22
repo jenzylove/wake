@@ -1,0 +1,125 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s0b5ee60b88",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T18:15:09.865Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x0b5ee60b88d2da98a3d95526893a636c43deb44526a3758d2373e813993102a4",
+    "txs": [
+      "0x0b5ee60b88d2da98a3d95526893a636c43deb44526a3758d2373e813993102a4"
+    ],
+    "fundingTx": null,
+    "block": 26033848,
+    "contract": "0x924a2ff3a6f3b9937fad8c310f2e80d334b3a206",
+    "recipient": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "exchange": "Binance",
+    "hubSource": "public label",
+    "asset": "UNI",
+    "amount": 74999.98362625,
+    "approxUsd": 692475,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0x924a2ff3a6f3b9937fad8c310f2e80d334b3a206",
+    "isContract": false,
+    "transactionCount": 800,
+    "balanceBefore": 74999.98362625,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.000075,
+    "viaDepositAddress": null
+  },
+  "instrument": "UNIUSDT",
+  "market": {
+    "movePct": 0.599,
+    "roundTripCostPct": 0.1417,
+    "book": {
+      "bid": 9.236,
+      "ask": 9.238
+    },
+    "dailySigma": 0.097837,
+    "dailyVolumeUsd": 1525048225,
+    "bitgetVolume24hUsd": 62972947
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 2452.7415600330105,
+    "maxLossUsd": 500,
+    "stopPct": 0.1956737205644464,
+    "costPct": 0.00817979916523549,
+    "spreadPct": 0.00697979916523549,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.0978368602822232,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 62972946.779,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.00697979916523549,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.208,
+  "marketDeltaPct": -0.599,
+  "minEdgePct": 0.425,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 85,
+    "thesis": "75k UNI (~$0.69M) into Binance is trivial against $1.5B daily volume; modeled impact 0.21% is below the 0.43% edge threshold, and price has already ticked up 0.6%, not down. No tradable supply shock.",
+    "invalidation": "A materially larger UNI deposit (multi-million USD, >0.1% of supply) from a treasury/unlock wallet, or a cluster of such deposits within hours.",
+    "rationale": "Block size is immaterial relative to real liquidity; square-root impact (0.21%) is under minimum edge and the market has moved the opposite way. Depositor is an EOA with 800 txs that sent 100% of a small balance, consistent with routine transfer rather than a treasury distribution. No edge, no trade."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "UNIUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "213899997cce12eb71502b8e2f1df1e9737337b74cd2b47ce45d206598d5c3ca"
+}

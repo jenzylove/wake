@@ -1,0 +1,125 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-se23d3d53af",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T18:14:52.820Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0xe23d3d53af3a9eb41169de9ee668712e7988e3d034df6c2d3d74abbe6cf8c5d8",
+    "txs": [
+      "0xe23d3d53af3a9eb41169de9ee668712e7988e3d034df6c2d3d74abbe6cf8c5d8"
+    ],
+    "fundingTx": "0x372d56ba9f82c59f9f7e7c5ad64ef0f16e705ffdb7dfc59391a1cf4938a0b838",
+    "block": 26034375,
+    "contract": "0x841ed663f2636863d40be4ee76243377dff13a34",
+    "recipient": "0xf8191d98ae98d2f7abdfb63a9b0b812b93c873aa",
+    "exchange": "unlabelled exchange",
+    "hubSource": "inferred: many distinct senders into one wallet",
+    "asset": "SHIB",
+    "amount": 246095430957,
+    "approxUsd": 1482725,
+    "balanceRemovedShare": 0.0766
+  },
+  "depositor": {
+    "address": "0x841ed663f2636863d40be4ee76243377dff13a34",
+    "isContract": false,
+    "transactionCount": 17055,
+    "balanceBefore": 3214654040816.759,
+    "shareOfBalanceSent": 0.0766,
+    "shareOfSupply": 0.000246,
+    "viaDepositAddress": "0x18ec285a48499a67a35bf38ecfa17542e94c603a"
+  },
+  "instrument": "SHIBUSDT",
+  "market": {
+    "movePct": -0.512,
+    "roundTripCostPct": 0.1698,
+    "book": {
+      "bid": 0.000006026,
+      "ask": 0.000006029
+    },
+    "dailySigma": 0.052933,
+    "dailyVolumeUsd": 215908711,
+    "bitgetVolume24hUsd": 14790477
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 4459.136945495161,
+    "maxLossUsd": 500,
+    "stopPct": 0.10586559199871022,
+    "costPct": 0.0062637294622788905,
+    "spreadPct": 0.005063729462278891,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.05293279599935511,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 14790477.1276,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.005063729462278891,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.439,
+  "marketDeltaPct": 0.512,
+  "minEdgePct": 0.509,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 78,
+    "thesis": "Wallet with 17k transactions moving 7.7% of a 3.2T SHIB balance into an unlabelled hub via a deposit address looks like routine exchange/market-maker flow, not distribution of treasury or unlock supply. Modeled impact 0.44% is already exceeded by the 0.51% two-hour move, so no edge remains.",
+    "invalidation": "Attribution of the sender to a team/treasury/fund wallet, or a much larger follow-on block (multi-percent of supply) hitting the same hub with price still flat.",
+    "rationale": "High-frequency depositor behaviour (17,055 txs, partial balance, intermediary deposit address) is the classic non-signal profile. Size is only 0.025% of supply and ~0.7% of daily volume. Market has already moved further than the modeled square-root impact, leaving edge below the minimum threshold."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "SHIBUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "1eda76c3e3d9b31e8b28d2cb03fc348145b85bab2a9a35fa98e3f510ace17907"
+}

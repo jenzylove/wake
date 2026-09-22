@@ -1,0 +1,181 @@
+{
+  "schema": "wake.live.incident.v1",
+  "id": "live-1-92c89a8ced",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-22T18:11:48.145Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x92c89a8ced4334e1abefc2cb2292fdb137fcab880462b73dbfcad005518846d7",
+    "block": 26034692,
+    "contract": "0x8454d827b30df013932f921c48e21b1ea2e79181",
+    "recipient": "0x64abd99857b2741f1c0d533e2471e30c03662675",
+    "asset": "USDC",
+    "amount": 20081201.39,
+    "approxUsd": 20081201,
+    "balanceRemovedShare": 0.8009
+  },
+  "exposure": {
+    "quantified": true,
+    "chainId": "1",
+    "txHash": "0x92c89a8ced4334e1abefc2cb2292fdb137fcab880462b73dbfcad005518846d7",
+    "block": 26034692,
+    "victim": "0x8454d827b30df013932f921c48e21b1ea2e79181",
+    "drainedUsd": 20080122.74947941,
+    "drainedTokens": [
+      {
+        "token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        "symbol": "USDC",
+        "amount": -20081201.39,
+        "usd": -20080122.74947941
+      }
+    ],
+    "victimIssuesToken": false,
+    "holderScan": "skipped: victim does not issue a token",
+    "integrators": [],
+    "method": "receipt Transfer logs, ERC20 state at the block before and the block of the exploit, DefiLlama current prices"
+  },
+  "protocol": null,
+  "instrument": null,
+  "market": null,
+  "sizing": {
+    "computable": false,
+    "reason": "no instrument"
+  },
+  "evidence": [
+    {
+      "key": "drain",
+      "ok": true,
+      "weight": 25,
+      "detail": "80% of the contract's USDC left in one transaction"
+    },
+    {
+      "key": "loss-path",
+      "ok": true,
+      "weight": 25,
+      "detail": "measured $20,080,123"
+    },
+    {
+      "key": "protocol",
+      "ok": false,
+      "weight": 20,
+      "detail": "contract does not match a known protocol"
+    },
+    {
+      "key": "instrument",
+      "ok": false,
+      "weight": 15,
+      "detail": "no Bitget perpetual for the affected protocol"
+    },
+    {
+      "key": "ai-review",
+      "ok": false,
+      "weight": 15,
+      "detail": "unknown (vetoed)"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "loss-path",
+      "question": "Is the loss path measured from chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "market",
+      "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+      "status": "UNRESOLVED",
+      "blocksTrade": true
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "SUPPORTED",
+      "blocksTrade": true,
+      "answer": "Mechanism is ambiguous and the outflow may be authorised: the packet contains no caller, role, permission or function evidence, and the note itself flags that a treasury movement, bridge settlement or migration looks the same. Exposure lists no integrators, so no loss path is shown."
+    }
+  ],
+  "confidence": null,
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0,
+  "decision": "NO_TRADE",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": false,
+        "value": "$0",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "2 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "2 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "unknown",
+    "mechanism": "Packet shows only a single outflow of USDC from 0x8454d827b30df013932f921c48e21b1ea2e79181 removing 80.09% of the balance. No call path, caller role, permission check, oracle input, reinitialisation or redemption artefact is supplied, so no exploit mechanism can be named. A treasury sweep, bridge settlement or migration would look identical.",
+    "lossBearer": "Unattributed. Balance loss sits with the contract at 0x8454d827b30df013932f921c48e21b1ea2e79181 and whoever its beneficial owners are; no protocol, token holders or integrators are identified in the e",
+    "narrative": "Roughly $20.08m of USDC left one contract in a single transaction, about 80% of what it held. That is all the evidence establishes. There is no record here of who called it, whether the caller held a legitimate role, or what function was used. A drain by an unauthorised party and a planned treasury or bridge movement produce exactly this footprint on chain. No downstream protocol or integrator exposure is listed, so there is no identified party whose loss could be traded against. Until the caller's authorisation and the destination are established, this should be treated as an unexplained large transfer, not a confirmed exploit.",
+    "veto": true,
+    "vetoReason": "Mechanism is ambiguous and the outflow may be authorised: the packet contains no caller, role, permission or function evidence, and the note itself flags that a treasury movement, bridge settlement or migration looks the same. Exposure lists no integrators, so no loss path is shown.",
+    "concerns": [
+      "No caller identity, role or authorisation evidence for the outflow",
+      "No protocol or instrument identified; drained contract's function is unknown",
+      "exposure.integrators is empty, so no downstream loss bearer is demonstrated",
+      "Destination of the 20,081,201.39 USDC is not supplied, so a sweep to an owned address cannot be ruled out"
+    ]
+  },
+  "aiError": null,
+  "policyDecision": "MONITOR",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "confidence": 85,
+    "thesis": "Single USDC outflow removing 80% of an unidentified contract's balance, with no call path, caller role or permission artefact. Indistinguishable from a treasury sweep, bridge settlement or migration. No protocol or token holders identified as loss bearers, and no listed instrument maps to the contract.",
+    "invalidation": "Attribution of the contract to a listed protocol plus evidence of unauthorised access (unpermissioned caller, oracle manipulation, reinit) would reopen this.",
+    "rationale": "Investigator veto stands: causal path to an exploit is not established and the loss bearer is unattributed. There are also zero candidates, so no market exists that would pay even if the thesis were right. Authorised-operation base rate for a lone large stablecoin transfer is high."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": []
+  },
+  "integrity": "c7c4aa9aa9abb346026c128d0a06aad81117f369a86a9759e738b23e2e4b94fc"
+}
