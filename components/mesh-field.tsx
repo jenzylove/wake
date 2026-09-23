@@ -14,8 +14,9 @@ import React from "react"
 
 type Node = { x: number; y: number; z: number; vx: number; vy: number; vz: number }
 
-const COUNT = 150
-const LINK = 0.34      // neighbour distance, in the unit volume
+const COUNT = 260
+const LINK = 0.24      // neighbour distance, in the unit volume
+const CLUSTERS = 8     // nodes gather into groups, the way holders of one asset do
 const FOV = 1.9
 const NEAR = 0.6
 
@@ -31,10 +32,17 @@ export function MeshField({ className }: { className?: string }) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
     const rand = (() => { let s = 20260922; return () => ((s = (s * 1103515245 + 12345) % 2147483648) / 2147483648) })()
-    const nodes: Node[] = Array.from({ length: COUNT }, () => ({
-      x: rand() * 2 - 1, y: (rand() * 2 - 1) * 0.62, z: rand() * 2 - 1,
-      vx: (rand() - 0.5) * 0.00042, vy: (rand() - 0.5) * 0.00032, vz: (rand() - 0.5) * 0.00042,
-    }))
+    const gauss = () => (rand() + rand() + rand() - 1.5) * 0.9
+    const centres = Array.from({ length: CLUSTERS }, () => ({ x: (rand() * 2 - 1) * 0.82, y: (rand() * 2 - 1) * 0.5, z: (rand() * 2 - 1) * 0.82 }))
+    const nodes: Node[] = Array.from({ length: COUNT }, (_, i) => {
+      const c = centres[i % CLUSTERS]
+      return {
+        x: Math.max(-1, Math.min(1, c.x + gauss() * 0.26)),
+        y: Math.max(-0.62, Math.min(0.62, c.y + gauss() * 0.17)),
+        z: Math.max(-1, Math.min(1, c.z + gauss() * 0.26)),
+        vx: (rand() - 0.5) * 0.00035, vy: (rand() - 0.5) * 0.00026, vz: (rand() - 0.5) * 0.00035,
+      }
+    })
     // Who is near whom, recomputed rarely: the mesh drifts slowly enough that it holds.
     let links: Array<[number, number, number]> = []
     const relink = () => {
@@ -122,7 +130,7 @@ export function MeshField({ className }: { className?: string }) {
         const depth = Math.max(0, Math.min(1, (k - 0.55) / 0.85))
         const near = 1 - d / LINK
         const glow = Math.max(lit(dist[i]), lit(dist[j]))
-        const alpha = (0.05 + near * 0.16) * (0.25 + depth * 0.9)
+        const alpha = (0.05 + near * 0.3) * (0.14 + depth * 1.25)
         ctx.strokeStyle = glow > 0.01
           ? `rgba(47, 127, 209, ${(alpha + glow * 0.5).toFixed(3)})`
           : `rgba(120, 150, 185, ${alpha.toFixed(3)})`
@@ -134,12 +142,14 @@ export function MeshField({ className }: { className?: string }) {
         const k = scale[i]
         const depth = Math.max(0, Math.min(1, (k - 0.55) / 0.85))
         const glow = lit(dist[i])
-        const r = (0.9 + depth * 2.6) * (1 + glow * 1.5)
+        const r = (0.7 + depth * 3.1) * (1 + glow * 1.5)
         ctx.beginPath(); ctx.arc(px[i], py[i], r, 0, Math.PI * 2)
         ctx.fillStyle = glow > 0.01
           ? `rgba(31, 111, 208, ${(0.35 + glow * 0.6).toFixed(3)})`
-          : `rgba(96, 129, 168, ${(0.16 + depth * 0.5).toFixed(3)})`
+          : `rgba(86, 120, 162, ${(0.12 + depth * 0.7).toFixed(3)})`
+        if (depth > 0.72) { ctx.shadowColor = "rgba(47,127,209,.35)"; ctx.shadowBlur = 9 }
         ctx.fill()
+        ctx.shadowBlur = 0
         if (i === hit.node && elapsed > 0 && elapsed < 3) {
           ctx.beginPath(); ctx.arc(px[i], py[i], r + elapsed * 34, 0, Math.PI * 2)
           ctx.strokeStyle = `rgba(31, 111, 208, ${Math.max(0, 0.32 - elapsed * 0.11).toFixed(3)})`
