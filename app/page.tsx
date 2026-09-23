@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import "./console.css"
-import { ImpactTape } from "@/components/impact-tape"
+import { MeshField } from "@/components/mesh-field"
 
 // The WAKE console.
 //
@@ -320,7 +320,7 @@ export default function Console() {
 
       <section className="wkc-hero" aria-labelledby="wkc-title">
         <div className="wkc-stage">
-          <ImpactTape className="wkc-field" />
+          <MeshField className="wkc-field" />
 
           <div className="wkc-float wkc-float-tl">
             <span className={live ? "wkc-pulse" : "wkc-dot is-idle"} />
