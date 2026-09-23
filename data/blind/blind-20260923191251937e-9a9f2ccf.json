@@ -1,0 +1,253 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260923191251937e-9a9f2ccf",
+  "runId": "20260923191251937e",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 97,
+    "blockTimestamp": 1790190822
+  },
+  "detection": {
+    "tx": "0x1e03b482ef3fb9d0032941281ef7f53e10d5d758db2d977116352b8f632e61ec",
+    "txs": [
+      "0x1e03b482ef3fb9d0032941281ef7f53e10d5d758db2d977116352b8f632e61ec"
+    ],
+    "firstDetectedAt": "2026-09-23T19:13:44.815Z",
+    "victim": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "token": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "before": 884072,
+    "after": 0,
+    "detectedAt": "2026-09-23T19:13:44.815Z",
+    "latencyMs": 2815
+  },
+  "investigation": {
+    "from": "0x9977b6797c9eb73c7d3a9d556d82dc9e7bc01036",
+    "to": "0x79c6758c84aa0a95cc43ace9c2d7c16dae2b8703",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x79c6758c84aa0a95cc43ace9c2d7c16dae2b8703",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 884072,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+      "lossUsd": 884072,
+      "name": "Umber Reserve",
+      "instrument": "UNIUSDT",
+      "marketCapUsd": 34000000,
+      "modeledDeltaPct": 0.65,
+      "markAtDetection": 9.176,
+      "markAtDecision": 9.176,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2177.3302772554125,
+        "maxLossUsd": 500,
+        "stopPct": 0.22145375860822672,
+        "costPct": 0.008185265486117125,
+        "spreadPct": 0.006985265486117124,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.11072687930411336,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 188424202.25499997,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.006985265486117124,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.65,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x1e03b482ef3fb9d0032941281ef7f53e10d5d758db2d977116352b8f632e61ec succeeded in block 97"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x9977b6797c9eb73c7d3a9d556d82dc9e7bc01036 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $884,072 at Umber Reserve"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.7%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "policyDecision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "eff6f70fe48b2eae34d7ff6a1790099b337a9998cba9ca275cc9b7bec15d8a1e"
+}
