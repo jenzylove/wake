@@ -1,0 +1,121 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s6c347a9a55",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-24T19:24:48.190Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x6c347a9a5500a7ed28f5aa487386497f030ab1725a29b4d24bc10e7e78ff4ba1",
+    "txs": [
+      "0x6c347a9a5500a7ed28f5aa487386497f030ab1725a29b4d24bc10e7e78ff4ba1"
+    ],
+    "fundingTx": null,
+    "block": 26049156,
+    "contract": "0x4266bbc1c8e0c8be1ed48ff3e9e976fe1a152a82",
+    "recipient": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+    "exchange": "Coinbase",
+    "hubSource": "public label",
+    "asset": "UNI",
+    "amount": 104204.99793969939,
+    "approxUsd": 969002,
+    "balanceRemovedShare": 0.7893
+  },
+  "depositor": {
+    "address": "0x4266bbc1c8e0c8be1ed48ff3e9e976fe1a152a82",
+    "isContract": false,
+    "transactionCount": 52,
+    "balanceBefore": 132020.27396882616,
+    "shareOfBalanceSent": 0.7893,
+    "shareOfSupply": 0.000104,
+    "viaDepositAddress": null
+  },
+  "instrument": "UNIUSDT",
+  "market": {
+    "movePct": 0.118,
+    "roundTripCostPct": 0.1308,
+    "book": {
+      "bid": 9.296,
+      "ask": 9.297
+    },
+    "dailySigma": 0.108893,
+    "dailyVolumeUsd": 1078981914,
+    "bitgetVolume24hUsd": 50379531
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 2216.9521857696873,
+    "maxLossUsd": 500,
+    "stopPct": 0.21778573564924064,
+    "costPct": 0.007749123969939043,
+    "spreadPct": 0.006549123969939044,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.10889286782462032,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 50379531.353999995,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.006549123969939044,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.326,
+  "marketDeltaPct": -0.118,
+  "minEdgePct": 0.392,
+  "decision": "MONITOR",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ],
+    "instrument": "UNIUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "ad4e327ba7bb49031aaea821c762e95657e17e10fdaabd26e0ef1bfd5fb26062"
+}
