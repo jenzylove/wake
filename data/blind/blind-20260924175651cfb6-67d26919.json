@@ -1,0 +1,237 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260924175651cfb6-67d26919",
+  "runId": "20260924175651cfb6",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 90,
+    "blockTimestamp": 1790272662
+  },
+  "detection": {
+    "tx": "0xb78f618957b4719558d7423670b8847a27f56858039ea33c7b186cc20baf1caa",
+    "txs": [
+      "0xb2dbfc662747c8890f44271e515afb8bfe781af2475aba76a7fde8e517691be4",
+      "0x771b044d9e37c593d314229dde04a46de4b1365b8c4532eee130d9d61dedc1f6",
+      "0xb78f618957b4719558d7423670b8847a27f56858039ea33c7b186cc20baf1caa"
+    ],
+    "firstDetectedAt": "2026-09-24T17:57:45.325Z",
+    "victim": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+    "token": "0xc5a5c42992decbae36851359345fe25997f5c42d",
+    "before": 526445,
+    "after": 0,
+    "detectedAt": "2026-09-24T17:57:47.514Z",
+    "latencyMs": 5514
+  },
+  "investigation": {
+    "from": "0x524378ebfb5e03015d1b80caf179e768f5ddd0bb",
+    "to": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+    "selector": "0xa24188df",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+        "selector": "0xa24188df",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xc5a5c42992decbae36851359345fe25997f5c42d",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0xc5a5c42992decbae36851359345fe25997f5c42d",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 1,
+    "receiptSupplyBefore": 118441,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+      "lossUsd": 526445,
+      "name": "Juniper Vault",
+      "instrument": "XRPUSDT",
+      "marketCapUsd": 51000000,
+      "modeledDeltaPct": 0.258,
+      "markAtDetection": 1.5269,
+      "markAtDecision": 1.5269,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 4997.641713053046,
+        "maxLossUsd": 500,
+        "stopPct": 0.09475126977424063,
+        "costPct": 0.005295918221265217,
+        "spreadPct": 0.0040959182212652176,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.047375634887120315,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 1187315937.7959995,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0040959182212652176,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.258,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xb78f618957b4719558d7423670b8847a27f56858039ea33c7b186cc20baf1caa succeeded in block 90"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x524378ebfb5e03015d1b80caf179e768f5ddd0bb is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 1.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $526,445 at Juniper Vault"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.3%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "policyDecision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "c977e5fedf488f6343e9c4e73156adc536f1317402a66ac0d649dd52e3b7b56b"
+}
