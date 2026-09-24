@@ -1,0 +1,328 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-2026092421462472a3-68b1d87f",
+  "runId": "2026092421462472a3",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 79,
+    "blockTimestamp": 1790286420
+  },
+  "detection": {
+    "tx": "0xe0b309ee638f409f707585bea42d02caa13f0768c2523d13f520bde0569cf55a",
+    "txs": [
+      "0xe0b309ee638f409f707585bea42d02caa13f0768c2523d13f520bde0569cf55a"
+    ],
+    "firstDetectedAt": "2026-09-24T21:47:01.367Z",
+    "victim": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+    "token": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "before": 729032,
+    "after": 0,
+    "detectedAt": "2026-09-24T21:47:01.367Z",
+    "latencyMs": 1367
+  },
+  "investigation": {
+    "from": "0x2631a424b6358a048d9c7c1d0117ae80cb374d35",
+    "to": "0x90f038fed947cabc53646d7fdbf4166e1bc66ad0",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x90f038fed947cabc53646d7fdbf4166e1bc66ad0",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 729032,
+    "integrators": [
+      {
+        "address": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+        "heldSharesBefore": 189476.24,
+        "heldSharesAfter": 189476.24,
+        "collateralValueBeforeUsd": 189476.24,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 129756.2928,
+        "badDebtUsd": 129756.2928
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+      "lossUsd": 729032,
+      "name": "Ember Pool",
+      "instrument": "DOTUSDT",
+      "marketCapUsd": 6000000,
+      "modeledDeltaPct": 3.038,
+      "markAtDetection": 1.1715,
+      "markAtDecision": 1.1715,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 4849.091216969158,
+        "maxLossUsd": 500,
+        "stopPct": 0.09784763931777052,
+        "costPct": 0.005264465121567389,
+        "spreadPct": 0.00406446512156739,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.04892381965888526,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 40414728.59000001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.00406446512156739,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 3.038,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+      "lossUsd": 129756.2928,
+      "name": "Halo Lend",
+      "instrument": "NEARUSDT",
+      "marketCapUsd": 76000000,
+      "modeledDeltaPct": 0.043,
+      "markAtDetection": 4.6616,
+      "markAtDecision": 4.6616,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2392.358161020208,
+        "maxLossUsd": 500,
+        "stopPct": 0.19837620902477832,
+        "costPct": 0.010622597318991595,
+        "spreadPct": 0.009422597318991595,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.09918810451238916,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 378768052.0353,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.009422597318991595,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.043,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xe0b309ee638f409f707585bea42d02caa13f0768c2523d13f520bde0569cf55a succeeded in block 79"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x2631a424b6358a048d9c7c1d0117ae80cb374d35 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $729,032 at Ember Pool"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": true,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": true,
+        "value": "3.0%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "policyDecision": "TRADE_DIRECT",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "4df4499bed55714ba25b4b963ee2a0b1dfb77654c50bb8b1b5b6e213deaa9a62"
+}
