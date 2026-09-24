@@ -1,48 +1,53 @@
 {
   "chains": {
     "1": {
-      "lastBlock": 26045134,
-      "scannedAt": "2026-09-24T05:07:13.671Z",
+      "lastBlock": 26046665,
+      "scannedAt": "2026-09-24T10:17:25.975Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 51718543,
-      "scannedAt": "2026-09-24T05:09:25.565Z",
+      "lastBlock": 51727849,
+      "scannedAt": "2026-09-24T10:18:13.495Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 508343347,
-      "scannedAt": "2026-09-24T05:10:37.391Z",
+      "lastBlock": 508412034,
+      "scannedAt": "2026-09-24T10:19:55.717Z",
       "logCoverageComplete": true,
       "evidenceComplete": false,
       "failedRanges": [],
       "confirmationErrors": [
         {
-          "tx": "0x5bda275ccd360c308095e58d0c2110bd671391ceb43b2997f40ac31738ba6a26",
-          "block": 508316147,
+          "tx": "0xf5713e6e66e1152e4db6767bd4b0a8ad4edbf6bc4cb521830536705bff02e7d1",
+          "block": 508386796,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        },
+        {
+          "tx": "0x2bc36012e07e9f29a3bfdb72c5678ec9f8fe99fcc7313173f1259798021e0d35",
+          "block": 508388584,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         }
       ]
     }
   },
   "lastRun": {
-    "at": "2026-09-24T05:06:48.821Z",
-    "ethUsd": 2693.5,
+    "at": "2026-09-24T10:16:45.642Z",
+    "ethUsd": 2639.7,
     "chains": {
       "1": {
         "name": "ethereum",
-        "from": 26044234,
-        "to": 26045134,
+        "from": 26045765,
+        "to": 26046665,
         "blocks": 901,
-        "skipped": 1647,
-        "largeTransfers": 1543,
-        "recurringSenders": 169,
+        "skipped": 631,
+        "largeTransfers": 2810,
+        "recurringSenders": 311,
         "rejectedCandidates": 14,
         "drains": 0,
         "logCoverageComplete": true,
@@ -52,12 +57,12 @@
       },
       "8453": {
         "name": "base",
-        "from": 51713143,
-        "to": 51718543,
+        "from": 51722449,
+        "to": 51727849,
         "blocks": 5401,
-        "skipped": 9975,
-        "largeTransfers": 13828,
-        "recurringSenders": 69,
+        "skipped": 3906,
+        "largeTransfers": 6659,
+        "recurringSenders": 83,
         "rejectedCandidates": 14,
         "drains": 0,
         "logCoverageComplete": true,
@@ -68,21 +73,26 @@
       "42161": {
         "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
         "name": "arbitrum",
-        "from": 508300147,
-        "to": 508343347,
+        "from": 508368834,
+        "to": 508412034,
         "blocks": 43201,
-        "skipped": 65634,
-        "largeTransfers": 77,
-        "recurringSenders": 10,
-        "rejectedCandidates": 13,
+        "skipped": 25487,
+        "largeTransfers": 137,
+        "recurringSenders": 19,
+        "rejectedCandidates": 12,
         "drains": 0,
         "logCoverageComplete": true,
         "evidenceComplete": false,
         "failedRanges": [],
         "confirmationErrors": [
           {
-            "tx": "0x5bda275ccd360c308095e58d0c2110bd671391ceb43b2997f40ac31738ba6a26",
-            "block": 508316147,
+            "tx": "0xf5713e6e66e1152e4db6767bd4b0a8ad4edbf6bc4cb521830536705bff02e7d1",
+            "block": 508386796,
+            "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+          },
+          {
+            "tx": "0x2bc36012e07e9f29a3bfdb72c5678ec9f8fe99fcc7313173f1259798021e0d35",
+            "block": 508388584,
             "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
           }
         ]
