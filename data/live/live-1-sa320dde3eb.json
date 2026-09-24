@@ -1,0 +1,122 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-sa320dde3eb",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-09-24T22:38:37.486Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0xa320dde3eb8da5981d686be2da957d7f770fbd9ac3a95b4557e6c719aa1f5922",
+    "txs": [
+      "0xa320dde3eb8da5981d686be2da957d7f770fbd9ac3a95b4557e6c719aa1f5922",
+      "0xa55c859c68b42568d92e3a8dccbb8dfb8627de05e9557a3fcaea699a8516c44f"
+    ],
+    "fundingTx": null,
+    "block": 26050159,
+    "contract": "0xd312d0403a2196d95bc4eb5beac60703a93b1944",
+    "recipient": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+    "exchange": "Coinbase",
+    "hubSource": "public label",
+    "asset": "LINK",
+    "amount": 247729.1476854381,
+    "approxUsd": 3277209,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0xd312d0403a2196d95bc4eb5beac60703a93b1944",
+    "isContract": false,
+    "transactionCount": 82,
+    "balanceBefore": 111440.51010947574,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.000248,
+    "viaDepositAddress": null
+  },
+  "instrument": "LINKUSDT",
+  "market": {
+    "movePct": -0.271,
+    "roundTripCostPct": 0.1276,
+    "book": {
+      "bid": 13.225,
+      "ask": 13.226
+    },
+    "dailySigma": 0.046591,
+    "dailyVolumeUsd": 664330884,
+    "bitgetVolume24hUsd": 23039877
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 5074.648320057505,
+    "maxLossUsd": 500,
+    "stopPct": 0.09318122171960914,
+    "costPct": 0.005347773486571784,
+    "spreadPct": 0.004147773486571784,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.04659061085980457,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 23039877.012999997,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.004147773486571784,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.327,
+  "marketDeltaPct": 0.271,
+  "minEdgePct": 0.383,
+  "decision": "MONITOR",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ],
+    "instrument": "LINKUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "0e70c2e14a9a550925b8ff425cbf922a989d322bebf6df99d80698f095d8d595"
+}
