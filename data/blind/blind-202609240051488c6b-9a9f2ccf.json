@@ -1,0 +1,229 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202609240051488c6b-9a9f2ccf",
+  "runId": "202609240051488c6b",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 85,
+    "blockTimestamp": 1790211171
+  },
+  "detection": {
+    "tx": "0x4d9bb25d1e460d4f2eba8a0563799094a50fcaf8fb6892c84186cc88fb30b5f9",
+    "txs": [
+      "0x4d9bb25d1e460d4f2eba8a0563799094a50fcaf8fb6892c84186cc88fb30b5f9"
+    ],
+    "firstDetectedAt": "2026-09-24T00:52:53.418Z",
+    "victim": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "token": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "before": 1096508,
+    "after": 438603.2,
+    "detectedAt": "2026-09-24T00:52:53.418Z",
+    "latencyMs": 2418
+  },
+  "investigation": {
+    "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "selector": "0x6ea056a9",
+    "authorised": true,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0.4,
+    "receiptSupplyBefore": 1096508,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+      "lossUsd": 657904.8,
+      "name": "Iris Pool",
+      "instrument": "SOLUSDT",
+      "marketCapUsd": 9000000,
+      "modeledDeltaPct": 1.828,
+      "markAtDetection": 114.87,
+      "markAtDecision": 114.87,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 8169.483093252812,
+        "maxLossUsd": 500,
+        "stopPct": 0.05645682740011609,
+        "costPct": 0.004746555273256571,
+        "spreadPct": 0.0035465552732565713,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.028228413700058044,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 978348423.4513001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0035465552732565713,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 1.828,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x4d9bb25d1e460d4f2eba8a0563799094a50fcaf8fb6892c84186cc88fb30b5f9 succeeded in block 85"
+    },
+    {
+      "key": "unauthorised",
+      "ok": false,
+      "weight": 20,
+      "detail": "sent by the contract owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "2 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.4000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $657,905 at Iris Pool"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "SUPPORTED",
+      "blocksTrade": true
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 80,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "80%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": true,
+        "value": "1.8%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "4 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "1 blocking check",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "policyDecision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "904f269e7630700b38a508ae3fc081d40d467441b9431715511e8c7caa7f7ef9"
+}
