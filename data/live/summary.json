@@ -1,17 +1,17 @@
 {
-  "updatedAt": "2026-09-23T20:37:46.738Z",
+  "updatedAt": "2026-09-24T05:10:47.400Z",
   "minUsd": 250000,
   "chains": {
     "1": {
       "name": "ethereum",
-      "from": 26041687,
-      "to": 26042587,
+      "from": 26044234,
+      "to": 26045134,
       "blocks": 901,
-      "skipped": 67,
-      "largeTransfers": 2037,
-      "recurringSenders": 247,
-      "rejectedCandidates": 13,
-      "drains": 1,
+      "skipped": 1647,
+      "largeTransfers": 1543,
+      "recurringSenders": 169,
+      "rejectedCandidates": 14,
+      "drains": 0,
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
@@ -19,14 +19,14 @@
     },
     "8453": {
       "name": "base",
-      "from": 51697768,
-      "to": 51703168,
+      "from": 51713143,
+      "to": 51718543,
       "blocks": 5401,
-      "skipped": 439,
-      "largeTransfers": 14559,
+      "skipped": 9975,
+      "largeTransfers": 13828,
       "recurringSenders": 69,
-      "rejectedCandidates": 13,
-      "drains": 1,
+      "rejectedCandidates": 14,
+      "drains": 0,
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
@@ -35,31 +35,21 @@
     "42161": {
       "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
       "name": "arbitrum",
-      "from": 508191313,
-      "to": 508234513,
+      "from": 508300147,
+      "to": 508343347,
       "blocks": 43201,
-      "skipped": 612,
-      "largeTransfers": 223,
-      "recurringSenders": 29,
-      "rejectedCandidates": 11,
+      "skipped": 65634,
+      "largeTransfers": 77,
+      "recurringSenders": 10,
+      "rejectedCandidates": 13,
       "drains": 0,
       "logCoverageComplete": true,
       "evidenceComplete": false,
       "failedRanges": [],
       "confirmationErrors": [
         {
-          "tx": "0x7e6f9afc8514baa9bfde58223a8a2d62da9aa2b57400c15998c9e519d175e93c",
-          "block": 508211550,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        },
-        {
-          "tx": "0x427e33c7247ed4342071aa9bd3a2a54c348a4d14ebef6eda3de6f1cbc6d98b59",
-          "block": 508201815,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        },
-        {
-          "tx": "0x427e33c7247ed4342071aa9bd3a2a54c348a4d14ebef6eda3de6f1cbc6d98b59",
-          "block": 508201815,
+          "tx": "0x5bda275ccd360c308095e58d0c2110bd671391ceb43b2997f40ac31738ba6a26",
+          "block": 508316147,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         }
       ]
@@ -67,47 +57,126 @@
   },
   "scanned": {
     "1": {
-      "lastBlock": 26042587,
-      "scannedAt": "2026-09-23T20:34:43.043Z",
+      "lastBlock": 26045134,
+      "scannedAt": "2026-09-24T05:07:13.671Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 51703168,
-      "scannedAt": "2026-09-23T20:35:52.803Z",
+      "lastBlock": 51718543,
+      "scannedAt": "2026-09-24T05:09:25.565Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 508234513,
-      "scannedAt": "2026-09-23T20:37:36.036Z",
+      "lastBlock": 508343347,
+      "scannedAt": "2026-09-24T05:10:37.391Z",
       "logCoverageComplete": true,
       "evidenceComplete": false,
       "failedRanges": [],
       "confirmationErrors": [
         {
-          "tx": "0x7e6f9afc8514baa9bfde58223a8a2d62da9aa2b57400c15998c9e519d175e93c",
-          "block": 508211550,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        },
-        {
-          "tx": "0x427e33c7247ed4342071aa9bd3a2a54c348a4d14ebef6eda3de6f1cbc6d98b59",
-          "block": 508201815,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        },
-        {
-          "tx": "0x427e33c7247ed4342071aa9bd3a2a54c348a4d14ebef6eda3de6f1cbc6d98b59",
-          "block": 508201815,
+          "tx": "0x5bda275ccd360c308095e58d0c2110bd671391ceb43b2997f40ac31738ba6a26",
+          "block": 508316147,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         }
       ]
     }
   },
   "incidents": [
+    {
+      "id": "live-1-s5c3d31b8b5",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-24T05:10:46.994Z",
+      "chain": "ethereum",
+      "tx": "0x5c3d31b8b5bd42ae385557663da43194507fb8cf8907f4aa02adccdf1b8a8e64",
+      "contract": "0x628f0371870b0997914b29ace817c2281e4ab268",
+      "asset": "LINK",
+      "approxUsd": 3233858,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": "LINKUSDT",
+      "exchange": "Coinbase",
+      "depositor": {
+        "address": "0x628f0371870b0997914b29ace817c2281e4ab268",
+        "isContract": false,
+        "transactionCount": 161,
+        "balanceBefore": 259831.08423471014,
+        "shareOfBalanceSent": 1,
+        "shareOfSupply": 0.00026,
+        "viaDepositAddress": null
+      },
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": 0.278,
+      "marketDeltaPct": -0.785,
+      "minEdgePct": 0.384,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 6157.570698610781,
+        "maxLossUsd": 500,
+        "stopPct": 0.0757147068176885,
+        "costPct": 0.005486147297199009,
+        "spreadPct": 0.004286147297199009,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.03785735340884425,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 26614768.555,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004286147297199009,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
     {
       "id": "live-1-sdb6a05e5d9",
       "eventClass": "SUPPLY_TO_EXCHANGE",
@@ -3476,26 +3545,20 @@
     }
   ],
   "supply": {
-    "at": "2026-09-23T20:37:46.735Z",
-    "from": 26041704,
-    "to": 26042604,
+    "at": "2026-09-24T05:10:47.395Z",
+    "from": 26044253,
+    "to": 26045153,
     "blocks": 901,
-    "transfers": 178,
+    "transfers": 141,
     "hubs": 8,
     "inferredHubs": 0,
-    "deposits": 2,
+    "deposits": 1,
     "minUsd": 500000,
     "opened": [
       {
-        "id": "live-1-s6760fead68",
-        "token": "UNI",
-        "usd": 1219761,
-        "decision": "MONITOR"
-      },
-      {
-        "id": "live-1-sdb6a05e5d9",
-        "token": "UNI",
-        "usd": 627886,
+        "id": "live-1-s5c3d31b8b5",
+        "token": "LINK",
+        "usd": 3233858,
         "decision": "MONITOR"
       }
     ]
