@@ -1,0 +1,236 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260925173122c6f4-8a791620",
+  "runId": "20260925173122c6f4",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 76,
+    "blockTimestamp": 1790357516
+  },
+  "detection": {
+    "tx": "0xfde37d3f227d196e1fa0f5b11d58b15ab2bdfd5b8d80133fd0b962a2e59cffc7",
+    "txs": [
+      "0xb6232ff32ba2906c48fe50fdc20bf868e170c33cb3eb463d29da777f8f9e32f3",
+      "0xfde37d3f227d196e1fa0f5b11d58b15ab2bdfd5b8d80133fd0b962a2e59cffc7"
+    ],
+    "firstDetectedAt": "2026-09-25T17:31:59.866Z",
+    "victim": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+    "token": "0x2279b7a0a67db372996a5fab50d91eaa73d2ebe6",
+    "before": 644396,
+    "after": 0,
+    "detectedAt": "2026-09-25T17:32:03.493Z",
+    "latencyMs": 7493
+  },
+  "investigation": {
+    "from": "0xf2aeae6f811a8b917b3f33b959744a9e160ed88a",
+    "to": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+    "selector": "0xa24188df",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+        "selector": "0xa24188df",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x2279b7a0a67db372996a5fab50d91eaa73d2ebe6",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x2279b7a0a67db372996a5fab50d91eaa73d2ebe6",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 1,
+    "receiptSupplyBefore": 272976,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+      "lossUsd": 644396,
+      "name": "Mistral Yield",
+      "instrument": "XRPUSDT",
+      "marketCapUsd": 14000000,
+      "modeledDeltaPct": 1.151,
+      "markAtDetection": 1.553,
+      "markAtDecision": 1.5529,
+      "marketDeltaPct": 0.006,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 5485.091697530643,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.0858015351704102,
+        "costPct": 0.005354643718102683,
+        "spreadPct": 0.004154643718102684,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.0429007675852051,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 1124943962.9655004,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.004154643718102684,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 1.145,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0xfde37d3f227d196e1fa0f5b11d58b15ab2bdfd5b8d80133fd0b962a2e59cffc7 succeeded in block 76"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xf2aeae6f811a8b917b3f33b959744a9e160ed88a is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 1.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $644,396 at Mistral Yield"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "1.1%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "policyDecision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "32a32275ac8e1fa5f7030f15ef9e642e3d8d07a379673e43632312e0d006ccb8"
+}
