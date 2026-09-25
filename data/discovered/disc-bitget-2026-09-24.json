@@ -1,0 +1,47 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-bitget-2026-09-24",
+  "discoveredAt": "2026-09-25T01:27:44.222Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1790208000,
+      "name": "Bitget",
+      "classification": "Key Compromise",
+      "technique": "Hot Wallet Key Compromised",
+      "amount": 351600000,
+      "chain": null,
+      "bridgeHack": false,
+      "targetType": "CEX",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "2352",
+      "language": null
+    },
+    "sha256": "756321cc77d23f77e7987e6922e68a421d9b35ecfa766a46cee359b3fa4613e4"
+  },
+  "protocol": {
+    "id": "2352",
+    "name": "Bitget",
+    "slug": "bitget",
+    "symbol": "-",
+    "category": "CEX",
+    "mcapUsd": null
+  },
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "integrity": "d77c3fc1662cdf477cd46cef54fef25fffea1caaecee29a5a1082e1ccaca4f7d"
+}
