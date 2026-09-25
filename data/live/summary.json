@@ -1,15 +1,15 @@
 {
-  "updatedAt": "2026-09-24T22:38:41.719Z",
+  "updatedAt": "2026-09-25T01:44:03.905Z",
   "minUsd": 250000,
   "chains": {
     "1": {
       "name": "ethereum",
-      "from": 26049427,
-      "to": 26050327,
+      "from": 26050346,
+      "to": 26051246,
       "blocks": 901,
-      "skipped": 64,
-      "largeTransfers": 2368,
-      "recurringSenders": 257,
+      "skipped": 19,
+      "largeTransfers": 1179,
+      "recurringSenders": 163,
       "rejectedCandidates": 14,
       "drains": 0,
       "logCoverageComplete": true,
@@ -19,14 +19,14 @@
     },
     "8453": {
       "name": "base",
-      "from": 51744599,
-      "to": 51749999,
+      "from": 51750159,
+      "to": 51755559,
       "blocks": 5401,
-      "skipped": 419,
-      "largeTransfers": 7836,
-      "recurringSenders": 79,
-      "rejectedCandidates": 13,
-      "drains": 1,
+      "skipped": 160,
+      "largeTransfers": 8490,
+      "recurringSenders": 64,
+      "rejectedCandidates": 12,
+      "drains": 2,
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
@@ -35,31 +35,36 @@
     "42161": {
       "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
       "name": "arbitrum",
-      "from": 508539542,
-      "to": 508582742,
-      "blocks": 43201,
-      "skipped": 3108,
-      "largeTransfers": 454,
-      "recurringSenders": 53,
-      "rejectedCandidates": 11,
+      "from": 508582743,
+      "to": 508622371,
+      "blocks": 39629,
+      "skipped": 0,
+      "largeTransfers": 53,
+      "recurringSenders": 8,
+      "rejectedCandidates": 10,
       "drains": 0,
       "logCoverageComplete": true,
       "evidenceComplete": false,
       "failedRanges": [],
       "confirmationErrors": [
         {
-          "tx": "0xcc84b43a98432e8c3903a97cf00a5278f0bf77e8cf77ea2e9c9c2850346e24ee",
-          "block": 508561460,
+          "tx": "0xc3fbe137a8a8bd9733e56f014d36695f41247defa20c97d7e7f5bff6788af1ec",
+          "block": 508614974,
+          "error": "eth_call: historical state 93867b8d3c765e653e6ada15d6bcf703f2a58b1ebfbe92aa7fee84ac47827c45 is not available"
+        },
+        {
+          "tx": "0x50649af1c997b0a4c004b956321f48053562d5c53603e786c19e2bcdbb4dff6a",
+          "block": 508586516,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         },
         {
-          "tx": "0xd0dd2e64f4a51c2d6027df0e650e54d89eebdf83efd30f15951b055af1234b1e",
-          "block": 508569509,
+          "tx": "0x4b603c76f41ff3b552b5e80e19df1a7455df3ebd2cdf8f4d4682208257f287a8",
+          "block": 508585196,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         },
         {
-          "tx": "0xd0dd2e64f4a51c2d6027df0e650e54d89eebdf83efd30f15951b055af1234b1e",
-          "block": 508569509,
+          "tx": "0x37d2c5da3296c7de39dcbea0ff8f54b8a28a07fb1658b7327efc8a0351368afe",
+          "block": 508593537,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         }
       ]
@@ -67,47 +72,229 @@
   },
   "scanned": {
     "1": {
-      "lastBlock": 26050327,
-      "scannedAt": "2026-09-24T22:35:45.548Z",
+      "lastBlock": 26051246,
+      "scannedAt": "2026-09-25T01:41:06.869Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 51749999,
-      "scannedAt": "2026-09-24T22:36:44.586Z",
+      "lastBlock": 51755559,
+      "scannedAt": "2026-09-25T01:42:27.846Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 508582742,
-      "scannedAt": "2026-09-24T22:38:28.800Z",
+      "lastBlock": 508622371,
+      "scannedAt": "2026-09-25T01:43:55.189Z",
       "logCoverageComplete": true,
       "evidenceComplete": false,
       "failedRanges": [],
       "confirmationErrors": [
         {
-          "tx": "0xcc84b43a98432e8c3903a97cf00a5278f0bf77e8cf77ea2e9c9c2850346e24ee",
-          "block": 508561460,
+          "tx": "0xc3fbe137a8a8bd9733e56f014d36695f41247defa20c97d7e7f5bff6788af1ec",
+          "block": 508614974,
+          "error": "eth_call: historical state 93867b8d3c765e653e6ada15d6bcf703f2a58b1ebfbe92aa7fee84ac47827c45 is not available"
+        },
+        {
+          "tx": "0x50649af1c997b0a4c004b956321f48053562d5c53603e786c19e2bcdbb4dff6a",
+          "block": 508586516,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         },
         {
-          "tx": "0xd0dd2e64f4a51c2d6027df0e650e54d89eebdf83efd30f15951b055af1234b1e",
-          "block": 508569509,
+          "tx": "0x4b603c76f41ff3b552b5e80e19df1a7455df3ebd2cdf8f4d4682208257f287a8",
+          "block": 508585196,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         },
         {
-          "tx": "0xd0dd2e64f4a51c2d6027df0e650e54d89eebdf83efd30f15951b055af1234b1e",
-          "block": 508569509,
+          "tx": "0x37d2c5da3296c7de39dcbea0ff8f54b8a28a07fb1658b7327efc8a0351368afe",
+          "block": 508593537,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         }
       ]
     }
   },
   "incidents": [
+    {
+      "id": "live-1-s56bfa0227e",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-09-25T01:44:03.499Z",
+      "chain": "ethereum",
+      "tx": "0x56bfa0227ea4c451e1a82d3bb847b436d8d023346663878b091063c61bcea204",
+      "contract": "0x4266bbc1c8e0c8be1ed48ff3e9e976fe1a152a82",
+      "asset": "UNI",
+      "approxUsd": 589316,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": "UNIUSDT",
+      "exchange": "Coinbase",
+      "depositor": {
+        "address": "0x4266bbc1c8e0c8be1ed48ff3e9e976fe1a152a82",
+        "isContract": false,
+        "transactionCount": 53,
+        "balanceBefore": 64209.6188362204,
+        "shareOfBalanceSent": 1,
+        "shareOfSupply": 0.000064,
+        "viaDepositAddress": null
+      },
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": 0.263,
+      "marketDeltaPct": -0.306,
+      "minEdgePct": 0.458,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2239.0920569630725,
+        "maxLossUsd": 500,
+        "stopPct": 0.21589653545776777,
+        "costPct": 0.007408262772886685,
+        "spreadPct": 0.006208262772886685,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.10794826772888388,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 47139129.212,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.006208262772886685,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-8453-194bdd498f",
+      "eventClass": "DRAIN",
+      "detectedAt": "2026-09-25T01:42:27.845Z",
+      "chain": "base",
+      "tx": "0x194bdd498fcaf114fc8dae7be54ca9b0e9f2fa7469cb950429ca6874c92ddd8e",
+      "contract": "0x44734ddac252d78751f7daca93d73081277db70f",
+      "asset": "USDC",
+      "approxUsd": 538489,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": null,
+      "exchange": null,
+      "depositor": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "minEdgePct": null,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        }
+      ],
+      "ai": null
+    },
+    {
+      "id": "live-8453-48f9c42f17",
+      "eventClass": "DRAIN",
+      "detectedAt": "2026-09-25T01:42:26.809Z",
+      "chain": "base",
+      "tx": "0x48f9c42f174a2bb113c4f34d0ce3ac5c53adaefabb3dd99b74cbf4f63ab163c7",
+      "contract": "0x2406aacbdf8463176deb285adaa81768415b6c7e",
+      "asset": "USDC",
+      "approxUsd": 2483365,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": null,
+      "exchange": null,
+      "depositor": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "minEdgePct": null,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        }
+      ],
+      "ai": null
+    },
     {
       "id": "live-1-s45b3421239",
       "eventClass": "SUPPLY_TO_EXCHANGE",
@@ -4537,221 +4724,23 @@
           "Small unexplained gap between asset amount ($13,001,509) and exposure.drainedUsd ($12,998,457)"
         ]
       }
-    },
-    {
-      "id": "live-1-44b300bcc4",
-      "eventClass": "DRAIN",
-      "detectedAt": "2026-09-21T14:06:42.079Z",
-      "chain": "ethereum",
-      "tx": "0x44b300bcc403f9c313dd3f79757b53943904b71f869af78f89ada3f6c70cf0ca",
-      "contract": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
-      "asset": "USDC",
-      "approxUsd": 50000000,
-      "removedShare": 0.7747,
-      "protocol": null,
-      "instrument": null,
-      "exchange": null,
-      "depositor": null,
-      "decision": "MONITOR",
-      "gatePassed": false,
-      "confidence": null,
-      "side": "SHORT",
-      "proposed": null,
-      "refusals": [],
-      "aiDecision": null,
-      "modeledDeltaPct": null,
-      "marketDeltaPct": 0,
-      "minEdgePct": null,
-      "exposureMeasured": true,
-      "sizing": null,
-      "falsification": [
-        {
-          "key": "loss-path",
-          "question": "Is the loss path measured from chain state?",
-          "status": "REJECTED",
-          "blocksTrade": false
-        },
-        {
-          "key": "market",
-          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
-          "status": "UNRESOLVED",
-          "blocksTrade": true
-        },
-        {
-          "key": "ai-review",
-          "question": "Does the investigator's review support the loss path?",
-          "status": "SUPPORTED",
-          "blocksTrade": true,
-          "answer": "The outflow is indistinguishable from an authorised treasury, exchange or bridge movement: the packet shows no unauthorised-access indicator and no protocol or integrator exposure to price a loss against."
-        }
-      ],
-      "ai": {
-        "exploitClass": "unknown",
-        "veto": true,
-        "narrative": "An address moved 50,000,000.05 USDC out in one transaction, taking 77.47% of what it held. That is the entire evidence. There is no protocol attached, no integrator exposure listed, and nothing in the packet showing the transfer was unauthorised: no hijacked admin role, no reinitialisation, no price distortion, no reentrant call. A round-figure fifty-million stablecoin transfer draining most of a balance is exactly what an exchange hot-wallet rebalance, treasury sweep or bridge settlement looks like. Absent authorisation evidence, treating this as an exploit would be a guess, so no loss path is supported.",
-        "lossBearer": "Unidentified. The holder of 0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43 bears the balance reduction, but no protocol, depositor base or integrator is shown to be exposed.",
-        "concerns": [
-          "No call trace, signer or permission-change evidence to test whether the outflow was authorised",
-          "Round-number 50M USDC transfer draining most of a balance is a typical operational sweep pattern",
-          "protocol and instrument are null; the drained address is unlabelled, so the loss bearer is unknown",
-          "exposure.integrators is empty, so no downstream party is shown to carry the loss"
-        ]
-      }
-    },
-    {
-      "id": "live-1-bbc70ec38b",
-      "eventClass": "DRAIN",
-      "detectedAt": "2026-09-21T13:01:45.040Z",
-      "chain": "ethereum",
-      "tx": "0xbbc70ec38b845a49e6c527965459b1ac5ed823d928b6aea4ef2ec0be771a5c64",
-      "contract": "0xa2cf88762c80c65cad9f51f8e245282d6d329913",
-      "asset": "USDC",
-      "approxUsd": 4000000,
-      "removedShare": 1,
-      "protocol": null,
-      "instrument": null,
-      "exchange": null,
-      "depositor": null,
-      "decision": "MONITOR",
-      "gatePassed": false,
-      "confidence": null,
-      "side": "SHORT",
-      "proposed": null,
-      "refusals": [],
-      "aiDecision": null,
-      "modeledDeltaPct": null,
-      "marketDeltaPct": 0,
-      "minEdgePct": null,
-      "exposureMeasured": true,
-      "sizing": null,
-      "falsification": [
-        {
-          "key": "loss-path",
-          "question": "Is the loss path measured from chain state?",
-          "status": "REJECTED",
-          "blocksTrade": false
-        },
-        {
-          "key": "market",
-          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
-          "status": "UNRESOLVED",
-          "blocksTrade": true
-        },
-        {
-          "key": "ai-review",
-          "question": "Does the investigator's review support the loss path?",
-          "status": "SUPPORTED",
-          "blocksTrade": true,
-          "answer": "Mechanism is ambiguous and the loss path is unsupported: the packet shows a full-balance outflow with no caller, authorisation context or protocol attribution, and lists zero integrator exposure. An authorised treasury movement or bridge settlement is indistinguishable on this evidence."
-        }
-      ],
-      "ai": {
-        "exploitClass": "unknown",
-        "veto": true,
-        "narrative": "A contract on Ethereum had its entire USDC balance, 4,000,000 USDC (about $3,998,911), moved out in one transaction. That is 100% of what it held. Beyond that, the packet tells us nothing: no protocol name, no attacker or authorised-signer context, no function called, and no integrators listed as exposed. A treasury sweep, a bridge settlement or a contract migration produces exactly this shape on chain. Without a caller or authorisation signal there is no basis to call this an exploit, and no identified counterparty whose loss we could trade against.",
-        "lossBearer": "Not established. The only identified party is the drained contract 0xa2cf...9913; no protocol, depositor base or integrator exposure is shown in the packet.",
-        "concerns": [
-          "No caller or authorisation data: cannot distinguish attacker from privileged operator.",
-          "Protocol and instrument fields are null; drained contract is unattributed.",
-          "Integrator list is empty, so no exposed counterparty is demonstrated.",
-          "balanceRemovedShare of 1 is typical of both a sweep exploit and a routine migration."
-        ]
-      }
-    },
-    {
-      "id": "live-1-04dce13dc6",
-      "eventClass": "DRAIN",
-      "detectedAt": "2026-09-21T12:59:01.077Z",
-      "chain": "ethereum",
-      "tx": "0x04dce13dc657262e1584c449440d3528c9a4f5a33a3fdac5f6931c888de00457",
-      "contract": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
-      "asset": "USDT",
-      "approxUsd": 19652782,
-      "removedShare": 0.6412,
-      "protocol": null,
-      "instrument": null,
-      "exchange": null,
-      "depositor": null,
-      "decision": "MONITOR",
-      "gatePassed": false,
-      "confidence": null,
-      "side": "SHORT",
-      "proposed": null,
-      "refusals": [],
-      "aiDecision": null,
-      "modeledDeltaPct": null,
-      "marketDeltaPct": 0,
-      "minEdgePct": null,
-      "exposureMeasured": true,
-      "sizing": null,
-      "falsification": [
-        {
-          "key": "loss-path",
-          "question": "Is the loss path measured from chain state?",
-          "status": "REJECTED",
-          "blocksTrade": false
-        },
-        {
-          "key": "market",
-          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
-          "status": "UNRESOLVED",
-          "blocksTrade": true
-        },
-        {
-          "key": "ai-review",
-          "question": "Does the investigator's review support the loss path?",
-          "status": "SUPPORTED",
-          "blocksTrade": true,
-          "answer": "Mechanism is ambiguous and the outflow may be authorised: the packet contains no caller, trace, role or authorisation evidence, no protocol attribution, and no integrator exposure, so the proposed loss path is unsupported."
-        }
-      ],
-      "ai": {
-        "exploitClass": "unknown",
-        "veto": true,
-        "narrative": "A single Ethereum transaction moved 19,652,782.262853 USDT out of contract 0x1601843c5e9bc251a3272907010afa41fa18347e, about 64% of that balance. That is the entire substance of the evidence. There is no trace of who called it, no permission change, no failed access check, and no named protocol or product behind the address. A treasury sweep, a bridge settlement or a scheduled migration would look exactly like this on chain. The packet also reports drained exposure of $57,397,377 against a $19,652,782 single-asset move, and that gap is not explained. Nothing here establishes an unauthorised loss path, so I am not endorsing a trade on it.",
-        "lossBearer": "Undetermined. Nominally whoever holds the claim on the balance at 0x1601843c5e9bc251a3272907010afa41fa18347e; no protocol, depositor set or integrator exposure is identified in the packet.",
-        "concerns": [
-          "No call trace, caller or signer supplied; cannot distinguish exploit from authorised treasury or bridge movement.",
-          "No protocol or instrument attribution for the drained contract; loss bearer unidentifiable.",
-          "exposure.drainedUsd $57,397,377 is inconsistent with the single reported move of ~$19,652,782 and is unexplained.",
-          "Integrator list is empty, so no traded exposure path is evidenced."
-        ]
-      }
     }
   ],
   "supply": {
-    "at": "2026-09-24T22:38:41.713Z",
-    "from": 26049443,
-    "to": 26050343,
+    "at": "2026-09-25T01:44:03.900Z",
+    "from": 26050363,
+    "to": 26051263,
     "blocks": 901,
-    "transfers": 183,
+    "transfers": 84,
     "hubs": 8,
     "inferredHubs": 0,
-    "deposits": 4,
+    "deposits": 1,
     "minUsd": 500000,
     "opened": [
       {
-        "id": "live-1-sd29500771a",
-        "token": "LINK",
-        "usd": 3470481,
-        "decision": "MONITOR"
-      },
-      {
-        "id": "live-1-sa320dde3eb",
-        "token": "LINK",
-        "usd": 3277209,
-        "decision": "MONITOR"
-      },
-      {
-        "id": "live-1-s59bcfbc861",
+        "id": "live-1-s56bfa0227e",
         "token": "UNI",
-        "usd": 1829407,
-        "decision": "MONITOR"
-      },
-      {
-        "id": "live-1-s45b3421239",
-        "token": "LINK",
-        "usd": 1813193,
+        "usd": 589316,
         "decision": "MONITOR"
       }
     ]
