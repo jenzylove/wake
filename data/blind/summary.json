@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-09-25T17:32:08.789Z",
-  "runs": 49,
-  "detected": 48,
+  "updatedAt": "2026-09-25T20:44:46.570Z",
+  "runs": 50,
+  "detected": 49,
   "decoysDismissed": 36,
   "contagionFound": {
     "found": 15,
     "applicable": 15
   },
-  "tradeTargetCorrect": 48,
+  "tradeTargetCorrect": 49,
   "gateCleared": 5,
-  "falsePositives": 13,
-  "medianDetectionMs": 4006,
+  "falsePositives": 14,
+  "medianDetectionMs": 3939,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "20260925204418d18d",
+      "commitment": "18432330c0b2d576936d0e9ed70b7f77dbbe7dba91acf5fa13587a254223684b",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 1656,
+      "decoyDismissed": false,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "decidedBy": "none",
+      "proposed": null,
+      "falsePositives": 1,
+      "at": "2026-09-25T20:44:46.570Z",
+      "prevHash": "563449f184722e7c19ef1ad04f3f622ad399b8e58f58bdd58832db4e395091d3",
+      "hash": "b62307df4cee8a3d4814a27de5c90af013b358cf8030d4d4f1deb1f5f619c7a2"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "20260925173122c6f4",
@@ -220,28 +239,63 @@
       "at": "2026-09-23T19:13:51.250Z",
       "prevHash": "faab5b71c1fb55d62627e451e8b042c22479655d6c09c94e812286913b7640dc",
       "hash": "15971e7ce4a1ec43bed211826b52b1abc2b68271762897ddf54552fb2690d4f0"
-    },
+    }
+  ],
+  "incidents": [
     {
-      "event": "BLIND_RUN",
-      "runId": "202609231016022862",
-      "commitment": "9a65a8714dbedc3eff58b5bf215b1cdf4598a0d567ffbe2bd4c56fdd4ee72189",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 7592,
-      "decoyDismissed": false,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
+      "id": "blind-20260925204418d18d-9a9f2ccf",
+      "runId": "20260925204418d18d",
+      "detectedAt": "2026-09-25T20:44:39.656Z",
+      "latencyMs": 1656,
+      "victim": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+      "authorised": false,
       "decision": "MONITOR",
       "gatePassed": false,
       "decidedBy": "none",
       "proposed": null,
-      "falsePositives": 1,
-      "at": "2026-09-23T10:17:57.257Z",
-      "prevHash": "95c0e74658c9e81688e570fdc5207ff64ceee76cc2e0786e0d59b44024bec38b",
-      "hash": "faab5b71c1fb55d62627e451e8b042c22479655d6c09c94e812286913b7640dc"
-    }
-  ],
-  "incidents": [
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 374554,
+      "target": "Nimbus Vault",
+      "modeledDeltaPct": 0.39,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": null
+    },
+    {
+      "id": "blind-20260925204418d18d-5fc8d326",
+      "runId": "20260925204418d18d",
+      "detectedAt": "2026-09-25T20:44:35.318Z",
+      "latencyMs": 1318,
+      "victim": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+      "authorised": true,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "decidedBy": "none",
+      "proposed": null,
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 614839.2,
+      "target": "Fjord Pool",
+      "modeledDeltaPct": 0.29,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": null
+    },
     {
       "id": "blind-20260925173122c6f4-0b306bf9",
       "runId": "20260925173122c6f4",
