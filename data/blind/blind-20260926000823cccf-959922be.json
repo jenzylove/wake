@@ -1,0 +1,310 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20260926000823cccf-959922be",
+  "runId": "20260926000823cccf",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 82,
+    "blockTimestamp": 1790381394
+  },
+  "detection": {
+    "tx": "0x6e294db11b87a12ec32802f57254ef5b8834c8c206a1960cd2a47a94aee8bdd2",
+    "txs": [
+      "0x6e294db11b87a12ec32802f57254ef5b8834c8c206a1960cd2a47a94aee8bdd2"
+    ],
+    "firstDetectedAt": "2026-09-26T00:09:56.647Z",
+    "victim": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "token": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+    "before": 809721,
+    "after": 0,
+    "detectedAt": "2026-09-26T00:09:56.647Z",
+    "latencyMs": 2647
+  },
+  "investigation": {
+    "from": "0xb27fb035434898a9143fce29108b544d9bd90ea0",
+    "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "selector": "0xa441d067",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0xa441d067",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 809721,
+    "integrators": [
+      {
+        "address": "0x09635f643e140090a9a8dcd712ed6285858cebef",
+        "heldSharesBefore": 577355.08,
+        "heldSharesAfter": 577355.08,
+        "collateralValueBeforeUsd": 577355.08,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 352282.71959999995,
+        "badDebtUsd": 352282.71959999995
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+      "lossUsd": 809721,
+      "name": "Fjord Yield",
+      "instrument": "NEARUSDT",
+      "marketCapUsd": 49000000,
+      "modeledDeltaPct": 0.413,
+      "markAtDetection": 4.9622,
+      "markAtDecision": 4.9622,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 2459.8635363003295,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.19216384364988476,
+        "costPct": 0.011099464505821794,
+        "spreadPct": 0.009899464505821794,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.09608192182494238,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 398423056.6572,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.009899464505821794,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.413,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0x09635f643e140090a9a8dcd712ed6285858cebef",
+      "lossUsd": 352282.71959999995,
+      "name": "Halo Lend",
+      "instrument": "SOLUSDT",
+      "marketCapUsd": 114000000,
+      "modeledDeltaPct": 0.077,
+      "markAtDetection": 122.035,
+      "markAtDecision": 122.035,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 8093.004245363448,
+        "maxLossUsd": 500,
+        "stopPct": 0.057308761724614896,
+        "costPct": 0.004472992595661696,
+        "spreadPct": 0.0032729925956616955,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.028654380862307448,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 860786955.8794001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0032729925956616955,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.077,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x6e294db11b87a12ec32802f57254ef5b8834c8c206a1960cd2a47a94aee8bdd2 succeeded in block 82"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xb27fb035434898a9143fce29108b544d9bd90ea0 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $809,721 at Fjord Yield"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.4%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "policyDecision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "316b1ebaab4fb1e54a1c934b0c3d60891a5d42b4b4089cab2e06b10d2701d850"
+}
