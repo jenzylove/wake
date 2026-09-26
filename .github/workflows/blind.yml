@@ -4,7 +4,7 @@ name: WAKE blind challenge
 # labelled BLIND_TEST and reported separately from real incidents in data/wake-paper/metrics.json.
 on:
   schedule:
-    - cron: "41 * * * *"
+    - cron: "41 6 * * *" # daily: detection is proven, and each run spends model calls
   workflow_dispatch:
 permissions:
   contents: write

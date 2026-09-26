@@ -14,7 +14,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import path from "node:path"
 import { chainConfig, rpc, scanWindow } from "../lib/chain-watch.mjs"
 import { LABELLED_HUBS, MIN_DEPOSIT_USD, SUPPLY_TOKENS, findDeposits, hubCandidates, roundTripCost, supplyImpactPct, supplyMinEdgePct } from "../lib/supply-watch.mjs"
-import { decideAnywhere, enforce } from "../lib/ai-decide.mjs"
+import { codeRefusesAnyTrade, decideAnywhere, enforce } from "../lib/ai-decide.mjs"
 import { demoListed } from "../lib/demo-listing.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
 import { appendHashLog } from "../lib/hash-log.mjs"
@@ -152,24 +152,27 @@ async function investigate(dep, hubs, px, busy) {
     viaDepositAddress: dep.depositAddress,
   }
   const candidates = [{
-    kind: "DIRECT", instrument: meta.instrument, modeledDeltaPct: modeled, marketDeltaPct: marketDelta, minEdgePct: minEdge,
+    kind: "DIRECT", instrument: meta.instrument, sides: ["LONG", "SHORT"], modeledDeltaPct: modeled, marketDeltaPct: marketDelta, minEdgePct: minEdge,
     sizing, demoListed: (await demoListed([meta.instrument]))[meta.instrument] === true, sameSenderOpen: busy.has(dep.depositor),
   }]
 
   let decisionAi = null
   let decisionError = null
-  try {
+  const precheck = codeRefusesAnyTrade(candidates)
+  if (!precheck) try {
     decisionAi = await decideAnywhere({
       eventClass: "SUPPLY_TO_EXCHANGE",
       token: meta.symbol, amount: Math.round(dep.amount), approxUsd: Math.round(dep.usd),
       exchange: { name: dep.exchange, hub: dep.hub, identifiedBy: dep.hubSource },
       depositor,
       market: { dailyVolumeUsd: m.dailyVolumeUsd && Math.round(m.dailyVolumeUsd), dailySigma: Number(m.dailySigma.toFixed(4)), moveLastTwoHoursPct: m.movePct },
-      candidates: candidates.map((c, i) => ({ index: i, kind: c.kind, instrument: c.instrument, modeledDeltaPct: c.modeledDeltaPct,
+      candidates: candidates.map((c, i) => ({ index: i, kind: c.kind, instrument: c.instrument, sides: c.sides, modeledDeltaPct: c.modeledDeltaPct,
         marketDeltaPct: c.marketDeltaPct, minEdgePct: c.minEdgePct, sizeable: Boolean(c.sizing?.computable), demoListed: c.demoListed })),
     })
   } catch (error) { decisionError = String(error.message ?? error) }
-  const final = enforce(decisionAi, candidates)
+  const final = precheck
+    ? { decision: "NO_TRADE", chosen: null, side: null, proposed: null, refusals: [precheck] }
+    : enforce(decisionAi, candidates)
 
   const record = {
     schema: "wake.live.incident.v1", eventClass: "SUPPLY_TO_EXCHANGE",
@@ -185,8 +188,8 @@ async function investigate(dep, hubs, px, busy) {
     sizing, modeledDeltaPct: modeled, marketDeltaPct: marketDelta, minEdgePct: minEdge,
     decision: final.decision, aiDecision: decisionAi, aiDecisionError: decisionError, refusals: final.refusals, proposed: final.proposed,
     agent: final.chosen
-      ? { decision: final.decision, gatePassed: true, decidedBy: "claude", instrument: meta.instrument, side: "SHORT", kind: "DIRECT", sizing }
-      : { decision: final.decision, gatePassed: false, decidedBy: decisionAi ? "claude" : "none", refusals: final.refusals, instrument: meta.instrument, side: "SHORT" },
+      ? { decision: final.decision, gatePassed: true, decidedBy: "claude", instrument: meta.instrument, side: final.side, kind: "DIRECT", sizing }
+      : { decision: final.decision, gatePassed: false, decidedBy: decisionAi ? "claude" : precheck ? "code (Claude not consulted: no trade was possible)" : "none", refusals: final.refusals, instrument: meta.instrument, side: "SHORT" },
   }
   record.integrity = sha256({ ...record, integrity: undefined })
   writeFileSync(file, JSON.stringify(record, null, 2) + "\n")

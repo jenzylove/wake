@@ -16,7 +16,7 @@ import path from "node:path"
 import { WATCHED, MIN_DRAIN_USD, RESTING_MINUTES, chainConfig, confirmDrain, recurringSenders, rpc, scanWindow, watchedTransfers } from "../lib/chain-watch.mjs"
 import { quantifyExposure } from "../lib/onchain-exposure.mjs"
 import { aiFalsifier, interpretAnywhere } from "../lib/ai-interpret.mjs"
-import { decideAnywhere, enforce } from "../lib/ai-decide.mjs"
+import { codeRefusesAnyTrade, decideAnywhere, enforce } from "../lib/ai-decide.mjs"
 import { demoListed } from "../lib/demo-listing.mjs"
 import { deriveDecisionPolicy, evaluateRiskGatePolicy } from "../lib/wake-policy.mjs"
 import { computePositionSizing } from "../lib/sizing.mjs"
@@ -107,7 +107,8 @@ async function investigate({ chainId, chain, transfer, drain }) {
 
   let ai = null
   let aiError = null
-  try {
+  // With no listed market there is nothing to trade, so the model is not asked to explain or decide.
+  if (instrument) try {
     ai = await interpretAnywhere({
       chain: chain.name,
       transaction: transfer.tx,
@@ -151,7 +152,8 @@ async function investigate({ chainId, chain, transfer, drain }) {
   }] : []
   let decisionAi = null
   let decisionError = null
-  try {
+  const precheck = codeRefusesAnyTrade(candidates)
+  if (!precheck) try {
     decisionAi = await decideAnywhere({
       chain: chain.name, transaction: transfer.tx, drainedContract: victim,
       asset: { symbol: transfer.symbol, approxUsd: Math.round(transfer.usd) },
@@ -163,7 +165,9 @@ async function investigate({ chainId, chain, transfer, drain }) {
       note: candidates.length ? undefined : "No listed instrument maps to this contract, so there is nothing to trade.",
     })
   } catch (error) { decisionError = String(error.message ?? error) }
-  const final = enforce(decisionAi, candidates)
+  const final = precheck
+    ? { decision: candidates.length ? "NO_TRADE" : "MONITOR", chosen: null, side: null, proposed: null, refusals: [precheck] }
+    : enforce(decisionAi, candidates)
   const decision = final.decision
 
   const record = {
