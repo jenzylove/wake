@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-09-27T12:27:08.604Z",
-  "runs": 53,
-  "detected": 52,
+  "updatedAt": "2026-09-28T14:28:34.560Z",
+  "runs": 54,
+  "detected": 53,
   "decoysDismissed": 36,
   "contagionFound": {
     "found": 16,
     "applicable": 16
   },
-  "tradeTargetCorrect": 52,
+  "tradeTargetCorrect": 53,
   "gateCleared": 5,
-  "falsePositives": 17,
-  "medianDetectionMs": 3875,
+  "falsePositives": 18,
+  "medianDetectionMs": 3814,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "202609281427560914",
+      "commitment": "8f5f1a55af3414dd08be6d3a816a57c93a261a4cf8b25e0025bcf3688a1f89e8",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": 3439,
+      "decoyDismissed": false,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "decidedBy": "none",
+      "proposed": null,
+      "falsePositives": 1,
+      "at": "2026-09-28T14:28:34.559Z",
+      "prevHash": "c0dda5500c05dea85f59d9f5e95d987896ca903f490b78eba5d45036d9891249",
+      "hash": "03a0862edcddf2800d897bb4b0941ec7e3dca661f71bff471111f26cc15af02b"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "202609271226206ea4",
@@ -220,28 +239,63 @@
       "at": "2026-09-24T12:54:22.531Z",
       "prevHash": "03ce598972f8d1ba3915636e445e5baa235661229e3f6bf6ca7412a9730e4a74",
       "hash": "81459da31cf82c7f6ff56a5378472982111c1abdcd10a212472fabdf2773a93d"
-    },
+    }
+  ],
+  "incidents": [
     {
-      "event": "BLIND_RUN",
-      "runId": "202609240643072445",
-      "commitment": "7507e702c3fe54e054282ddb06d53db6b950ebab4e41a840156e9b5104b18744",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": 3127,
-      "decoyDismissed": false,
-      "contagionFound": true,
-      "tradeTargetCorrect": true,
+      "id": "blind-202609281427560914-322813fd",
+      "runId": "202609281427560914",
+      "detectedAt": "2026-09-28T14:28:25.439Z",
+      "latencyMs": 3439,
+      "victim": "0x322813fd9a801c5507c9de605d63cea4f2ce6c44",
+      "authorised": false,
       "decision": "MONITOR",
       "gatePassed": false,
       "decidedBy": "none",
       "proposed": null,
-      "falsePositives": 1,
-      "at": "2026-09-24T06:44:21.930Z",
-      "prevHash": "69535b48286b7f1e2ba9cd1720c092c489c87c4f41b0606da8ff13355c0e19f3",
-      "hash": "03ce598972f8d1ba3915636e445e5baa235661229e3f6bf6ca7412a9730e4a74"
-    }
-  ],
-  "incidents": [
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 339523,
+      "target": "Umber Earn",
+      "modeledDeltaPct": 0.354,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": null
+    },
+    {
+      "id": "blind-202609281427560914-b7f8bc63",
+      "runId": "202609281427560914",
+      "detectedAt": "2026-09-28T14:28:17.364Z",
+      "latencyMs": 1364,
+      "victim": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+      "authorised": true,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "decidedBy": "none",
+      "proposed": null,
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 823594.8,
+      "target": "Halo Pool",
+      "modeledDeltaPct": 4.118,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": null
+    },
     {
       "id": "blind-202609271226206ea4-0dcd1bf9",
       "runId": "202609271226206ea4",
