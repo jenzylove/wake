@@ -1,6 +1,60 @@
 {
-  "updatedAt": "2026-09-28T15:23:54.694Z",
+  "updatedAt": "2026-09-28T21:57:50.158Z",
   "incidents": [
+    {
+      "id": "disc-dyorswap-fake-giwa-bridge-2026-09-27",
+      "name": "DYORSWAP / Fake GIWA Bridge",
+      "day": "2026-09-27",
+      "amountUsd": 2080000,
+      "chains": [
+        "Ethereum"
+      ],
+      "technique": "Impersonation Scam",
+      "classification": "Social Engineering",
+      "protocol": null,
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-28T21:57:46.276Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 70,
+        "quoteVolumeUsd": 2799631865.09,
+        "exploitDayMovePct": -0.838,
+        "hourlySigma": 0.003204,
+        "windowSigma": 0.015698
+      },
+      "microstructure": {
+        "observedAt": "2026-09-28T21:57:46.276Z",
+        "mid": 2674.005,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 3160933,
+        "askDepthUsd1pct": 4003862,
+        "fundingRate": 0.0001,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 778813.3899999994
+      },
+      "sizing": {
+        "notionalUsd": 14798.371486822649,
+        "maxLossUsd": 500,
+        "stopPct": 0.031396,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "66dc15f91a6ffc9bd9dfda4e8a07bbd9e400010aa49059193ba8d0af1ac96454",
+      "sourceSha256": "b07d3c3edea206751fdc9b30cd8720aa99a47ae4771c557f22c27e2a1a12e336",
+      "ai": null
+    },
     {
       "id": "disc-payy-network-2026-09-24",
       "name": "Payy Network",
@@ -35,14 +89,14 @@
         "windowSigma": 0.022666
       },
       "microstructure": {
-        "observedAt": "2026-09-28T15:23:53.150Z",
-        "mid": 2659.215,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 2869434,
-        "askDepthUsd1pct": 3302939,
+        "observedAt": "2026-09-28T21:57:48.801Z",
+        "mid": 2674.005,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 3177859,
+        "askDepthUsd1pct": 3243374,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 791080.8699999993
+        "openInterestContracts": 778812.0899999995
       },
       "sizing": {
         "notionalUsd": 10268.550600721399,
@@ -75,8 +129,71 @@
           }
         ]
       },
-      "integrity": "7da1d82a5df130e2fcac1bedf67ab7040cea991ee6058cd8acc97629c39371dd",
+      "integrity": "3786160b6ea8728d753720919643c9829af4ac08e060cda974c1452f0ead6824",
       "sourceSha256": "0ad94923debad4fd1a692170e54e0e748168d046a3a39310ab9ba4c63fc6df3f",
+      "ai": null
+    },
+    {
+      "id": "disc-limit-break-payment-processor-2026-09-24",
+      "name": "Limit Break Payment Processor",
+      "day": "2026-09-24",
+      "amountUsd": 1800000,
+      "chains": [
+        "Ethereum",
+        "ApeChain",
+        "Polygon",
+        "Base"
+      ],
+      "technique": "Token Approval Abuse",
+      "classification": "Access Control",
+      "protocol": null,
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "POLUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Polygon",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-09-28T21:57:48.328Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 5478952216.48,
+        "exploitDayMovePct": 0.224,
+        "hourlySigma": 0.004237,
+        "windowSigma": 0.020756
+      },
+      "microstructure": {
+        "observedAt": "2026-09-28T21:57:48.328Z",
+        "mid": 2674.005,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 3177859,
+        "askDepthUsd1pct": 3243374,
+        "fundingRate": 0.0001,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 778812.0899999995
+      },
+      "sizing": {
+        "notionalUsd": 11124.924526328214,
+        "maxLossUsd": 500,
+        "stopPct": 0.041512,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "f422f57998e9cf39dd35ab2ec8928cdc3ef473ff5dded13e95d018563a2b45a1",
+      "sourceSha256": "9a3b9b960b44dbbbd8d4c17d54516c8d703fbb2047fe05c94d78177ab12bf164",
       "ai": null
     },
     {
@@ -128,14 +245,14 @@
         "windowSigma": 0.022666
       },
       "microstructure": {
-        "observedAt": "2026-09-28T15:23:52.944Z",
-        "mid": 2659.0950000000003,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 2467656,
-        "askDepthUsd1pct": 2695672,
+        "observedAt": "2026-09-28T21:57:48.995Z",
+        "mid": 2674.005,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 3631358,
+        "askDepthUsd1pct": 3266587,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 791080.8699999993
+        "openInterestContracts": 778812.0899999995
       },
       "sizing": {
         "notionalUsd": 10268.550600721399,
@@ -168,7 +285,7 @@
           }
         ]
       },
-      "integrity": "24c959c0d74054f8c191c327ecca1133fc1da4ce4cabe999ecb43173aa7e3287",
+      "integrity": "0347338b170f7ab89ed70c9c66ed58d7b62b4bc8c25f0d303e55653b83e3fc7e",
       "sourceSha256": "316bc9039a2a0a8011a5a74ef4a06dd55e8c9e7323d19f25c372b0e0723f6f2c",
       "ai": null
     },
@@ -330,14 +447,14 @@
         "windowSigma": 0.023536
       },
       "microstructure": {
-        "observedAt": "2026-09-28T15:23:53.354Z",
-        "mid": 2659.215,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 2107198,
-        "askDepthUsd1pct": 3332394,
+        "observedAt": "2026-09-28T21:57:49.379Z",
+        "mid": 2674.005,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 3631358,
+        "askDepthUsd1pct": 3266587,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 791080.8699999993
+        "openInterestContracts": 778812.0899999995
       },
       "sizing": {
         "notionalUsd": 9987.700881141289,
@@ -377,7 +494,7 @@
           }
         ]
       },
-      "integrity": "d1e4a4b187c926ca49acdd0e44bc9121b8f5d3b9fb3b7b09a2ca55f9a0bfce82",
+      "integrity": "6c659480ba2a2884c053ea07f3523276865d8ccac39a7fea2794d534074f5fd3",
       "sourceSha256": "cd7f4f910e73549291b092e62dd7e24957306664c4b484ad54b509140dd9edf6",
       "ai": {
         "exploitClass": "key-compromise",
@@ -427,14 +544,14 @@
         "windowSigma": 0.023536
       },
       "microstructure": {
-        "observedAt": "2026-09-28T15:23:53.549Z",
-        "mid": 2659.215,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 2782519,
-        "askDepthUsd1pct": 3057281,
+        "observedAt": "2026-09-28T21:57:49.176Z",
+        "mid": 2674.005,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 3613773,
+        "askDepthUsd1pct": 3213074,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 791080.8699999993
+        "openInterestContracts": 778812.0899999995
       },
       "sizing": {
         "notionalUsd": 9987.700881141289,
@@ -474,7 +591,7 @@
           }
         ]
       },
-      "integrity": "ffb43c959ba543384fdce7c1a8a7a61be86377ee1079e6337920726efce6bdb6",
+      "integrity": "e9d0e0719d8bc4a6631c7726c22e1ff8156faa19049e220a669a312d4b7ab4e2",
       "sourceSha256": "f5dc7c110bc798868337b3169f5bfbd57ec51ceb7dcad45d3fcb8d1f5bde3f87",
       "ai": {
         "exploitClass": "key-compromise",
@@ -530,14 +647,14 @@
         "windowSigma": 0.093086
       },
       "microstructure": {
-        "observedAt": "2026-09-28T15:23:54.064Z",
-        "mid": 0.0395355,
-        "spreadBps": 6.323,
-        "bidDepthUsd1pct": 123108,
-        "askDepthUsd1pct": 53359,
+        "observedAt": "2026-09-28T21:57:49.562Z",
+        "mid": 0.0399705,
+        "spreadBps": 7.255,
+        "bidDepthUsd1pct": 211830,
+        "askDepthUsd1pct": 76606,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 60035460.80000002
+        "openInterestContracts": 61636336.80000002
       },
       "sizing": {
         "notionalUsd": 2581.2763696243665,
@@ -577,7 +694,7 @@
           }
         ]
       },
-      "integrity": "523baa62dd31cf2d8ef28314066ee2e4ebf6f289c00522a5cb128815f8377ab9",
+      "integrity": "d7ef4701f36e49a7289e5efc2392645d60aec30ac6c2aa69b10311abffe86a0b",
       "sourceSha256": "a5ba1e0c4c075a07d9e23610c5f06cf6e9b0ba3af3aa9efc0a2e256e200ba795",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -633,14 +750,14 @@
         "windowSigma": 0.023092
       },
       "microstructure": {
-        "observedAt": "2026-09-28T15:23:54.289Z",
-        "mid": 2659.215,
-        "spreadBps": 0.038,
-        "bidDepthUsd1pct": 2398491,
-        "askDepthUsd1pct": 2955008,
+        "observedAt": "2026-09-28T21:57:49.756Z",
+        "mid": 2674.005,
+        "spreadBps": 0.037,
+        "bidDepthUsd1pct": 3144895,
+        "askDepthUsd1pct": 3954415,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 791080.8699999993
+        "openInterestContracts": 778812.0899999995
       },
       "sizing": {
         "notionalUsd": 10057.337193082429,
@@ -680,7 +797,7 @@
           }
         ]
       },
-      "integrity": "af7f0f3864aa1afeab2f540ac4668d09cac9de4b17369e63ab32be482130a7aa",
+      "integrity": "75f34c739d893d152edd4653d1b3b7f944af79b2169c56bba7336b92fc55910e",
       "sourceSha256": "4db1acd661af1253c4b6298aaa787d910351b4e7cf6df87e1c3ac39919407188",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -736,14 +853,14 @@
         "windowSigma": 0.012226
       },
       "microstructure": {
-        "observedAt": "2026-09-28T15:23:54.464Z",
-        "mid": 0.333455,
-        "spreadBps": 0.9,
-        "bidDepthUsd1pct": 352170,
-        "askDepthUsd1pct": 117946,
-        "fundingRate": -0.000079,
+        "observedAt": "2026-09-28T21:57:49.954Z",
+        "mid": 0.3355,
+        "spreadBps": 1.788,
+        "bidDepthUsd1pct": 370759,
+        "askDepthUsd1pct": 372154,
+        "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 29123291
+        "openInterestContracts": 29309879
       },
       "sizing": {
         "notionalUsd": 18994.636739694917,
@@ -783,7 +900,7 @@
           }
         ]
       },
-      "integrity": "a2e04806c048bfbac2123afa7f941ad5bae81a2c20252b31209333fe9973b8bf",
+      "integrity": "b1e58a35e05ea7ae179a029a3417b4ca02fcb4bb988d7d547c1b2e87a53e8a8f",
       "sourceSha256": "8c569e59ad6e81569ec8a383dacbfb32f8bd18b2cc2729eb14123fa530cb7f6a",
       "ai": {
         "exploitClass": "bridge",
@@ -846,14 +963,14 @@
         "windowSigma": 0.025142
       },
       "microstructure": {
-        "observedAt": "2026-09-28T15:23:54.690Z",
-        "mid": 758.125,
-        "spreadBps": 0.132,
-        "bidDepthUsd1pct": 772769,
-        "askDepthUsd1pct": 197853,
-        "fundingRate": 0.000088,
+        "observedAt": "2026-09-28T21:57:50.153Z",
+        "mid": 760.885,
+        "spreadBps": 0.131,
+        "bidDepthUsd1pct": 201214,
+        "askDepthUsd1pct": 1253098,
+        "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 87338.40000000002
+        "openInterestContracts": 87016.77000000003
       },
       "sizing": {
         "notionalUsd": 9413.336066672246,
@@ -893,7 +1010,7 @@
           }
         ]
       },
-      "integrity": "cc2c0b781573a149c749945649b762b35d754ea4d81b91a544f8ce9629d2ecc4",
+      "integrity": "093ef7633746a3a6b70d70bd5ba9f930fecaaeb590f0aa184f8a5838e60fdb16",
       "sourceSha256": "9ac936ccab0550e2e1758c3f57d7bf6de46afa68833b4b6da910379a14c2d693",
       "ai": {
         "exploitClass": "bridge",

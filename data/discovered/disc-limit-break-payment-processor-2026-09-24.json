@@ -1,26 +1,29 @@
 {
   "schema": "wake.discovered.v1",
-  "id": "disc-payy-network-2026-09-24",
-  "discoveredAt": "2026-09-25T01:27:44.958Z",
+  "id": "disc-limit-break-payment-processor-2026-09-24",
+  "discoveredAt": "2026-09-28T21:57:48.328Z",
   "source": {
     "feed": "https://api.llama.fi/hacks",
     "record": {
       "date": 1790208000,
-      "name": "Payy Network",
-      "classification": "Bridge & Cross-Chain",
-      "technique": "Bridge Logic Flaw",
-      "amount": 1828589.378132,
+      "name": "Limit Break Payment Processor",
+      "classification": "Access Control",
+      "technique": "Token Approval Abuse",
+      "amount": 1800000,
       "chain": [
-        "Ethereum"
+        "Ethereum",
+        "ApeChain",
+        "Polygon",
+        "Base"
       ],
-      "bridgeHack": true,
-      "targetType": "DeFi Protocol",
+      "bridgeHack": false,
+      "targetType": "NFTfi",
       "source": "",
       "returnedFunds": null,
       "defillamaId": null,
       "language": "Solidity"
     },
-    "sha256": "0ad94923debad4fd1a692170e54e0e748168d046a3a39310ab9ba4c63fc6df3f"
+    "sha256": "9a3b9b960b44dbbbd8d4c17d54516c8d703fbb2047fe05c94d78177ab12bf164"
   },
   "protocol": null,
   "exposures": [
@@ -28,6 +31,12 @@
       "symbol": "ETHUSDT",
       "kind": "CONTAGION",
       "relation": "native token of Ethereum",
+      "epistemic": "INFERRED"
+    },
+    {
+      "symbol": "POLUSDT",
+      "kind": "CONTAGION",
+      "relation": "native token of Polygon",
       "epistemic": "INFERRED"
     }
   ],
@@ -37,17 +46,8 @@
     "granularity": "1H",
     "symbol": "ETHUSDT",
     "startTime": 1790121600000,
-    "endTime": 1790299664706,
+    "endTime": 1790380800000,
     "candles": [
-      {
-        "timestamp": 1790118000000,
-        "open": 2751.7,
-        "high": 2774.95,
-        "low": 2748,
-        "close": 2752.92,
-        "baseVolume": 28812.83,
-        "quoteVolume": 79564080.7937
-      },
       {
         "timestamp": 1790121600000,
         "open": 2752.92,
@@ -488,210 +488,227 @@
         "close": 2689.42,
         "baseVolume": 12744.43,
         "quoteVolume": 34302443.9363
+      },
+      {
+        "timestamp": 1790298000000,
+        "open": 2689.42,
+        "high": 2697.68,
+        "low": 2681.34,
+        "close": 2688.6,
+        "baseVolume": 14657.54,
+        "quoteVolume": 39419681.4382
+      },
+      {
+        "timestamp": 1790301600000,
+        "open": 2688.6,
+        "high": 2699.64,
+        "low": 2673.39,
+        "close": 2675.61,
+        "baseVolume": 22061.35,
+        "quoteVolume": 59281144.0817
+      },
+      {
+        "timestamp": 1790305200000,
+        "open": 2675.61,
+        "high": 2680.57,
+        "low": 2671.48,
+        "close": 2677.87,
+        "baseVolume": 15299.55,
+        "quoteVolume": 40935753.0283
+      },
+      {
+        "timestamp": 1790308800000,
+        "open": 2677.87,
+        "high": 2684.88,
+        "low": 2670.31,
+        "close": 2679,
+        "baseVolume": 10518.72,
+        "quoteVolume": 28173346.8125
+      },
+      {
+        "timestamp": 1790312400000,
+        "open": 2679,
+        "high": 2684,
+        "low": 2673.8,
+        "close": 2678.94,
+        "baseVolume": 9743.79,
+        "quoteVolume": 26103837.5808
+      },
+      {
+        "timestamp": 1790316000000,
+        "open": 2678.94,
+        "high": 2682,
+        "low": 2667.58,
+        "close": 2673.08,
+        "baseVolume": 13471.5,
+        "quoteVolume": 36021244.9633
+      },
+      {
+        "timestamp": 1790319600000,
+        "open": 2673.08,
+        "high": 2679.69,
+        "low": 2666.23,
+        "close": 2671.16,
+        "baseVolume": 10363.34,
+        "quoteVolume": 27682384.6632
+      },
+      {
+        "timestamp": 1790323200000,
+        "open": 2671.16,
+        "high": 2695.97,
+        "low": 2671.15,
+        "close": 2689.69,
+        "baseVolume": 21399.82,
+        "quoteVolume": 57511511.7904
+      },
+      {
+        "timestamp": 1790326800000,
+        "open": 2689.69,
+        "high": 2718.25,
+        "low": 2689.69,
+        "close": 2703.61,
+        "baseVolume": 52456.13,
+        "quoteVolume": 141894436.8206
+      },
+      {
+        "timestamp": 1790330400000,
+        "open": 2703.61,
+        "high": 2718.69,
+        "low": 2691.08,
+        "close": 2712.99,
+        "baseVolume": 31609.34,
+        "quoteVolume": 85563731.5526
+      },
+      {
+        "timestamp": 1790334000000,
+        "open": 2712.99,
+        "high": 2742.09,
+        "low": 2711.95,
+        "close": 2715.9,
+        "baseVolume": 69952.33,
+        "quoteVolume": 190875189.5927
+      },
+      {
+        "timestamp": 1790337600000,
+        "open": 2715.9,
+        "high": 2723,
+        "low": 2684.76,
+        "close": 2716.81,
+        "baseVolume": 62436.35,
+        "quoteVolume": 168862701.64
+      },
+      {
+        "timestamp": 1790341200000,
+        "open": 2716.81,
+        "high": 2721.87,
+        "low": 2678.8,
+        "close": 2694.44,
+        "baseVolume": 55343.27,
+        "quoteVolume": 149340942.4818
+      },
+      {
+        "timestamp": 1790344800000,
+        "open": 2694.44,
+        "high": 2697.37,
+        "low": 2670.51,
+        "close": 2695.15,
+        "baseVolume": 48648.35,
+        "quoteVolume": 130611969.8679
+      },
+      {
+        "timestamp": 1790348400000,
+        "open": 2695.15,
+        "high": 2698,
+        "low": 2667.34,
+        "close": 2686.2,
+        "baseVolume": 42977.42,
+        "quoteVolume": 115281886.6729
+      },
+      {
+        "timestamp": 1790352000000,
+        "open": 2686.2,
+        "high": 2698,
+        "low": 2680.09,
+        "close": 2682.74,
+        "baseVolume": 35462.26,
+        "quoteVolume": 95377879.5353
+      },
+      {
+        "timestamp": 1790355600000,
+        "open": 2682.74,
+        "high": 2692.66,
+        "low": 2676.54,
+        "close": 2685.06,
+        "baseVolume": 20062.44,
+        "quoteVolume": 53859429.5755
+      },
+      {
+        "timestamp": 1790359200000,
+        "open": 2685.06,
+        "high": 2698.81,
+        "low": 2684.88,
+        "close": 2692.16,
+        "baseVolume": 21820.3,
+        "quoteVolume": 58754076.4458
+      },
+      {
+        "timestamp": 1790362800000,
+        "open": 2692.16,
+        "high": 2695.27,
+        "low": 2689.06,
+        "close": 2692,
+        "baseVolume": 10356.82,
+        "quoteVolume": 27884411.0442
+      },
+      {
+        "timestamp": 1790366400000,
+        "open": 2692,
+        "high": 2695.18,
+        "low": 2682.04,
+        "close": 2683.64,
+        "baseVolume": 8989.54,
+        "quoteVolume": 24171609.9909
+      },
+      {
+        "timestamp": 1790370000000,
+        "open": 2683.64,
+        "high": 2684.89,
+        "low": 2675.21,
+        "close": 2680.64,
+        "baseVolume": 12716.63,
+        "quoteVolume": 34060803.7152
+      },
+      {
+        "timestamp": 1790373600000,
+        "open": 2680.64,
+        "high": 2693.46,
+        "low": 2679.46,
+        "close": 2690.76,
+        "baseVolume": 5548.36,
+        "quoteVolume": 14923087.4828
+      },
+      {
+        "timestamp": 1790377200000,
+        "open": 2690.76,
+        "high": 2693.43,
+        "low": 2689.05,
+        "close": 2690.54,
+        "baseVolume": 3010.61,
+        "quoteVolume": 8102162.0582
       }
     ],
     "observed": {
-      "hours": 50,
-      "quoteVolumeUsd": 3943823074.44,
+      "hours": 72,
+      "quoteVolumeUsd": 5478952216.48,
       "exploitDayMovePct": 0.224,
-      "hourlySigma": 0.004627,
-      "windowSigma": 0.022666
+      "hourlySigma": 0.004237,
+      "windowSigma": 0.020756
     }
   },
   "marketError": null,
   "timeline": [
     {
-      "observedAt": "2026-09-25T01:27:44.958Z",
-      "mid": 2690.275,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2474456,
-      "askDepthUsd1pct": 3664959,
-      "fundingRate": 0.000011,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 783200.1599999992
-    },
-    {
-      "observedAt": "2026-09-25T07:44:25.644Z",
-      "mid": 2669.5150000000003,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 3243452,
-      "askDepthUsd1pct": 3685091,
-      "fundingRate": 0.000055,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 778241.2300000002
-    },
-    {
-      "observedAt": "2026-09-25T13:43:40.116Z",
-      "mid": 2694.005,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 748390,
-      "askDepthUsd1pct": 2710566,
-      "fundingRate": 0.000092,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 774424.0500000005
-    },
-    {
-      "observedAt": "2026-09-25T18:33:56.675Z",
-      "mid": 2692.175,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 4687528,
-      "askDepthUsd1pct": 3668142,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 772441.5099999993
-    },
-    {
-      "observedAt": "2026-09-25T22:17:33.554Z",
-      "mid": 2685.895,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 7844086,
-      "askDepthUsd1pct": 1944186,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 774189.8099999994
-    },
-    {
-      "observedAt": "2026-09-26T01:30:57.594Z",
-      "mid": 2687.295,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 8715127,
-      "askDepthUsd1pct": 2663687,
-      "fundingRate": 0.000087,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 772554.4799999995
-    },
-    {
-      "observedAt": "2026-09-26T07:37:41.052Z",
-      "mid": 2688.745,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 1059292,
-      "askDepthUsd1pct": 6702616,
-      "fundingRate": 0.000099,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 774431.2099999995
-    },
-    {
-      "observedAt": "2026-09-26T13:02:37.790Z",
-      "mid": 2689.4449999999997,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 4429473,
-      "askDepthUsd1pct": 2730479,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 784097.1999999994
-    },
-    {
-      "observedAt": "2026-09-26T17:07:45.338Z",
-      "mid": 2687.1549999999997,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2559905,
-      "askDepthUsd1pct": 7170652,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 784110.9199999992
-    },
-    {
-      "observedAt": "2026-09-26T19:49:36.528Z",
-      "mid": 2683.5150000000003,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 1600501,
-      "askDepthUsd1pct": 6051122,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 785054.1599999993
-    },
-    {
-      "observedAt": "2026-09-26T22:46:46.687Z",
-      "mid": 2686.295,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2722258,
-      "askDepthUsd1pct": 7672199,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 783307.8699999993
-    },
-    {
-      "observedAt": "2026-09-27T01:24:31.472Z",
-      "mid": 2692.565,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2972387,
-      "askDepthUsd1pct": 10249493,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 779626.7199999993
-    },
-    {
-      "observedAt": "2026-09-27T08:05:26.918Z",
-      "mid": 2716.295,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2489856,
-      "askDepthUsd1pct": 2364868,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 787831.5399999992
-    },
-    {
-      "observedAt": "2026-09-27T13:55:32.800Z",
-      "mid": 2705.975,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2114267,
-      "askDepthUsd1pct": 7411954,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 769552.9199999998
-    },
-    {
-      "observedAt": "2026-09-27T18:20:44.259Z",
-      "mid": 2694.495,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 4011527,
-      "askDepthUsd1pct": 5441000,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 780484.5099999994
-    },
-    {
-      "observedAt": "2026-09-27T22:07:27.340Z",
-      "mid": 2677.085,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 1455498,
-      "askDepthUsd1pct": 1582634,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 777704.309999999
-    },
-    {
-      "observedAt": "2026-09-28T00:42:19.257Z",
-      "mid": 2674.4049999999997,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2329693,
-      "askDepthUsd1pct": 2199734,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 789251.6299999991
-    },
-    {
-      "observedAt": "2026-09-28T06:50:02.392Z",
-      "mid": 2649.665,
-      "spreadBps": 0.038,
-      "bidDepthUsd1pct": 2359416,
-      "askDepthUsd1pct": 5959478,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 799478.0799999989
-    },
-    {
-      "observedAt": "2026-09-28T15:23:53.150Z",
-      "mid": 2659.215,
-      "spreadBps": 0.038,
-      "bidDepthUsd1pct": 2869434,
-      "askDepthUsd1pct": 3302939,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 791080.8699999993
-    },
-    {
-      "observedAt": "2026-09-28T21:57:48.801Z",
+      "observedAt": "2026-09-28T21:57:48.328Z",
       "mid": 2674.005,
       "spreadBps": 0.037,
       "bidDepthUsd1pct": 3177859,
@@ -703,26 +720,26 @@
   ],
   "sizing": {
     "computable": true,
-    "notionalUsd": 10268.550600721399,
-    "maxLossUsd": 500.00000000000006,
-    "stopPct": 0.045332,
-    "costPct": 0.003360363649147665,
-    "spreadPct": 0.002160363649147665,
+    "notionalUsd": 11124.924526328214,
+    "maxLossUsd": 500,
+    "stopPct": 0.041512,
+    "costPct": 0.0034321251324178816,
+    "spreadPct": 0.0022321251324178815,
     "bindingConstraint": "risk budget",
     "inputs": [
       {
         "label": "Window volatility",
-        "value": 0.022666,
+        "value": 0.020756,
         "provenance": "OBSERVED"
       },
       {
         "label": "Window traded value (USD)",
-        "value": 3943823074.44,
+        "value": 5478952216.48,
         "provenance": "OBSERVED"
       },
       {
         "label": "Spread (Corwin-Schultz on 1m candles)",
-        "value": 0.002160363649147665,
+        "value": 0.0022321251324178815,
         "provenance": "ESTIMATED"
       },
       {
@@ -758,70 +775,5 @@
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": null,
   "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
-  "integrity": "3786160b6ea8728d753720919643c9829af4ac08e060cda974c1452f0ead6824",
-  "gate": {
-    "passed": false,
-    "checks": [
-      {
-        "key": "confidence",
-        "label": "Causal confidence",
-        "passed": false,
-        "value": "n/a",
-        "threshold": "≥ 75%"
-      },
-      {
-        "key": "residual",
-        "label": "Residual edge",
-        "passed": false,
-        "value": "n/a",
-        "threshold": "≥ 1.2%"
-      },
-      {
-        "key": "loss-bound",
-        "label": "Maximum loss bound",
-        "passed": true,
-        "value": "$500",
-        "threshold": "defined"
-      },
-      {
-        "key": "evidence",
-        "label": "Evidence packet",
-        "passed": false,
-        "value": "1 sources",
-        "threshold": "≥ 3 sources"
-      },
-      {
-        "key": "causal",
-        "label": "Causal challenge",
-        "passed": false,
-        "value": "3 blocking checks",
-        "threshold": "0 blocking checks"
-      }
-    ]
-  },
-  "assessment": {
-    "modeledDeltaPct": null,
-    "marketDeltaPct": 0.224,
-    "confidence": null,
-    "falsification": [
-      {
-        "key": "receipt",
-        "question": "Is there an on-chain receipt proving the loss path?",
-        "status": "UNRESOLVED",
-        "blocksTrade": true
-      },
-      {
-        "key": "loss-path",
-        "question": "Is the downstream exposure quantified from chain state?",
-        "status": "UNRESOLVED",
-        "blocksTrade": true
-      },
-      {
-        "key": "market-cap",
-        "question": "Is there a market capitalisation to measure the loss against?",
-        "status": "UNRESOLVED",
-        "blocksTrade": true
-      }
-    ]
-  }
+  "integrity": "f422f57998e9cf39dd35ab2ec8928cdc3ef473ff5dded13e95d018563a2b45a1"
 }
