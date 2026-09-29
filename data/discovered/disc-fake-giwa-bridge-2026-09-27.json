@@ -1,12 +1,12 @@
 {
   "schema": "wake.discovered.v1",
-  "id": "disc-dyorswap-fake-giwa-bridge-2026-09-27",
-  "discoveredAt": "2026-09-28T21:57:46.276Z",
+  "id": "disc-fake-giwa-bridge-2026-09-27",
+  "discoveredAt": "2026-09-29T20:44:31.363Z",
   "source": {
     "feed": "https://api.llama.fi/hacks",
     "record": {
       "date": 1790467200,
-      "name": "DYORSWAP / Fake GIWA Bridge",
+      "name": "Fake GIWA Bridge",
       "classification": "Social Engineering",
       "technique": "Impersonation Scam",
       "amount": 2080000,
@@ -14,13 +14,13 @@
         "Ethereum"
       ],
       "bridgeHack": true,
-      "targetType": "Chain",
+      "targetType": "DeFi Protocol",
       "source": "",
       "returnedFunds": null,
       "defillamaId": null,
       "language": "Solidity"
     },
-    "sha256": "b07d3c3edea206751fdc9b30cd8720aa99a47ae4771c557f22c27e2a1a12e336"
+    "sha256": "3e33bb63b659d1d6323070ed037bac51319172230c255019e8036ca3016ac180"
   },
   "protocol": null,
   "exposures": [
@@ -37,17 +37,8 @@
     "granularity": "1H",
     "symbol": "ETHUSDT",
     "startTime": 1790380800000,
-    "endTime": 1790632665877,
+    "endTime": 1790640000000,
     "candles": [
-      {
-        "timestamp": 1790377200000,
-        "open": 2690.76,
-        "high": 2693.43,
-        "low": 2689.05,
-        "close": 2690.54,
-        "baseVolume": 3010.61,
-        "quoteVolume": 8102162.0582
-      },
       {
         "timestamp": 1790380800000,
         "open": 2690.54,
@@ -668,91 +659,78 @@
         "close": 2682.33,
         "baseVolume": 7666.75,
         "quoteVolume": 20549016.8256
+      },
+      {
+        "timestamp": 1790629200000,
+        "open": 2682.33,
+        "high": 2689.29,
+        "low": 2673.25,
+        "close": 2673.53,
+        "baseVolume": 16191.03,
+        "quoteVolume": 43421195.2985
+      },
+      {
+        "timestamp": 1790632800000,
+        "open": 2673.53,
+        "high": 2686.94,
+        "low": 2666.68,
+        "close": 2686.9,
+        "baseVolume": 11393.5,
+        "quoteVolume": 30457779.7784
+      },
+      {
+        "timestamp": 1790636400000,
+        "open": 2686.9,
+        "high": 2693.67,
+        "low": 2683.91,
+        "close": 2687.65,
+        "baseVolume": 13050.64,
+        "quoteVolume": 35075435.5569
       }
     ],
     "observed": {
-      "hours": 70,
-      "quoteVolumeUsd": 2799631865.09,
+      "hours": 72,
+      "quoteVolumeUsd": 2900484113.67,
       "exploitDayMovePct": -0.838,
-      "hourlySigma": 0.003204,
-      "windowSigma": 0.015698
+      "hourlySigma": 0.003231,
+      "windowSigma": 0.015831
     }
   },
   "marketError": null,
   "timeline": [
     {
-      "observedAt": "2026-09-28T21:57:46.276Z",
-      "mid": 2674.005,
+      "observedAt": "2026-09-29T20:44:31.362Z",
+      "mid": 2692.495,
       "spreadBps": 0.037,
-      "bidDepthUsd1pct": 3160933,
-      "askDepthUsd1pct": 4003862,
+      "bidDepthUsd1pct": 2466314,
+      "askDepthUsd1pct": 9013757,
       "fundingRate": 0.0001,
       "fundingIntervalHours": 8,
-      "openInterestContracts": 778813.3899999994
-    },
-    {
-      "observedAt": "2026-09-29T01:54:32.790Z",
-      "mid": 2664.4049999999997,
-      "spreadBps": 0.038,
-      "bidDepthUsd1pct": 2886172,
-      "askDepthUsd1pct": 5081443,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 783817.1299999993
-    },
-    {
-      "observedAt": "2026-09-29T08:25:35.583Z",
-      "mid": 2725.775,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2773868,
-      "askDepthUsd1pct": 2632394,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 769862.6800000003
-    },
-    {
-      "observedAt": "2026-09-29T15:47:13.630Z",
-      "mid": 2678.365,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 2231546,
-      "askDepthUsd1pct": 1522914,
-      "fundingRate": 0.000082,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 752336.1999999997
-    },
-    {
-      "observedAt": "2026-09-29T20:44:33.194Z",
-      "mid": 2692.325,
-      "spreadBps": 0.037,
-      "bidDepthUsd1pct": 6100219,
-      "askDepthUsd1pct": 4649794,
-      "fundingRate": 0.0001,
-      "fundingIntervalHours": 8,
-      "openInterestContracts": 763095.3300000001
+      "openInterestContracts": 763095.3400000001
     }
   ],
   "sizing": {
     "computable": true,
-    "notionalUsd": 14798.371486822649,
+    "notionalUsd": 14664.357238720397,
     "maxLossUsd": 500,
-    "stopPct": 0.031396,
-    "costPct": 0.0023915015805103775,
-    "spreadPct": 0.0011915015805103778,
+    "stopPct": 0.031662,
+    "costPct": 0.002434277924802496,
+    "spreadPct": 0.001234277924802496,
     "bindingConstraint": "risk budget",
     "inputs": [
       {
         "label": "Window volatility",
-        "value": 0.015698,
+        "value": 0.015831,
         "provenance": "OBSERVED"
       },
       {
         "label": "Window traded value (USD)",
-        "value": 2799631865.09,
+        "value": 2900484113.67,
         "provenance": "OBSERVED"
       },
       {
         "label": "Spread (Corwin-Schultz on 1m candles)",
-        "value": 0.0011915015805103778,
+        "value": 0.001234277924802496,
         "provenance": "ESTIMATED"
       },
       {
@@ -788,70 +766,5 @@
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": null,
   "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
-  "integrity": "d05c9bff0ca54960e74e83e674ccb3a2173cb30e8e9d41993aebf931fe36dca3",
-  "gate": {
-    "passed": false,
-    "checks": [
-      {
-        "key": "confidence",
-        "label": "Causal confidence",
-        "passed": false,
-        "value": "n/a",
-        "threshold": "≥ 75%"
-      },
-      {
-        "key": "residual",
-        "label": "Residual edge",
-        "passed": false,
-        "value": "n/a",
-        "threshold": "≥ 1.2%"
-      },
-      {
-        "key": "loss-bound",
-        "label": "Maximum loss bound",
-        "passed": true,
-        "value": "$500",
-        "threshold": "defined"
-      },
-      {
-        "key": "evidence",
-        "label": "Evidence packet",
-        "passed": false,
-        "value": "1 sources",
-        "threshold": "≥ 3 sources"
-      },
-      {
-        "key": "causal",
-        "label": "Causal challenge",
-        "passed": false,
-        "value": "3 blocking checks",
-        "threshold": "0 blocking checks"
-      }
-    ]
-  },
-  "assessment": {
-    "modeledDeltaPct": null,
-    "marketDeltaPct": -0.838,
-    "confidence": null,
-    "falsification": [
-      {
-        "key": "receipt",
-        "question": "Is there an on-chain receipt proving the loss path?",
-        "status": "UNRESOLVED",
-        "blocksTrade": true
-      },
-      {
-        "key": "loss-path",
-        "question": "Is the downstream exposure quantified from chain state?",
-        "status": "UNRESOLVED",
-        "blocksTrade": true
-      },
-      {
-        "key": "market-cap",
-        "question": "Is there a market capitalisation to measure the loss against?",
-        "status": "UNRESOLVED",
-        "blocksTrade": true
-      }
-    ]
-  }
+  "integrity": "434733d5e35a18ea249caa1166362544cdaede40efae4e813bb28e63d0d7b558"
 }
