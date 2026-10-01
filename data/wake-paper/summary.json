@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-10-01T16:24:32.725Z",
+    "updatedAt": "2026-10-01T19:42:19.730Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 261,
+    "incidentsEvaluated": 263,
     "eligibleNow": 0,
     "open": 0,
     "closedTrades": 3,
@@ -36,13 +36,13 @@
     "bySource": {
       "captured": 6,
       "discovered": 21,
-      "live": 123,
+      "live": 125,
       "blind": 111
     }
   },
   "exchange": {
     "account": {
-      "equity": 9978.44085602,
+      "equity": 9978.49825602,
       "available": 9985.49755602,
       "marginCoin": "USDT"
     },
@@ -52,13 +52,13 @@
         "side": "SHORT",
         "size": 0.14,
         "entryPrice": 678.835,
-        "markPrice": 729.24,
-        "unrealizedPnlUsd": -7.0567,
+        "markPrice": 728.83,
+        "unrealizedPnlUsd": -6.9993,
         "marginMode": "crossed",
         "leverage": 2
       }
     ],
-    "at": "2026-10-01T16:24:32.725Z"
+    "at": "2026-10-01T19:42:19.730Z"
   },
   "open": [],
   "closed": [
@@ -148,6 +148,50 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 263,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-10-01T19:42:19.730Z",
+      "prevHash": "b61de0312d6437dd715188686a7bcde6d1770b8f17155f0cee25e575d9ad4fbb",
+      "hash": "7a1232bb8cc3b1450c70782866a8c1d63668abf72ebbd651dc8dfb5ce33e540b"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-1-s27258960b3",
+      "source": "live",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held",
+        "no computed position size"
+      ],
+      "at": "2026-10-01T19:42:19.730Z",
+      "prevHash": "57321598ee08963d2dac592183d02037d8d65ec2adc4ef1eed436792e27635aa",
+      "hash": "b61de0312d6437dd715188686a7bcde6d1770b8f17155f0cee25e575d9ad4fbb"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-1-254414d1e3",
+      "source": "live",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held",
+        "no computed position size",
+        "no Bitget instrument",
+        "no side"
+      ],
+      "at": "2026-10-01T19:42:19.730Z",
+      "prevHash": "c868d71883f7c5c587cf05ad9cd846a24cffefd6aa81702422f63d665b3d4535",
+      "hash": "57321598ee08963d2dac592183d02037d8d65ec2adc4ef1eed436792e27635aa"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -957,48 +1001,7 @@
       "at": "2026-09-29T02:12:23.840Z",
       "prevHash": "b80b06a50d21a97473080b3e7f18e69297462685d6a99c0a19e72601e1187d0d",
       "hash": "4137912edec4070e7e72779d8e44dbf50f786d7729798d720dbbb78e7c7fc377"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 230,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-09-29T01:54:34.615Z",
-      "prevHash": "e423631abc8a69bc8622843f383629c3900d1b11415e84bd030f482b34a151c2",
-      "hash": "b80b06a50d21a97473080b3e7f18e69297462685d6a99c0a19e72601e1187d0d"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 230,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-09-28T22:14:27.025Z",
-      "prevHash": "9500055045244356c237edf505c109edae2aab4c428666c9b6b693dcc6025695",
-      "hash": "e423631abc8a69bc8622843f383629c3900d1b11415e84bd030f482b34a151c2"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "live-42161-c733bc7a40",
-      "source": "live",
-      "decision": "MONITOR",
-      "eligible": false,
-      "reasons": [
-        "decision is MONITOR",
-        "risk gate held",
-        "no computed position size",
-        "no Bitget instrument",
-        "no side"
-      ],
-      "at": "2026-09-28T22:14:27.025Z",
-      "prevHash": "f649cf32a7f998e4c9951e42d70ca165998f48237f283e7401224564c59e7e25",
-      "hash": "9500055045244356c237edf505c109edae2aab4c428666c9b6b693dcc6025695"
     }
   ],
-  "logEntries": 464
+  "logEntries": 467
 }
