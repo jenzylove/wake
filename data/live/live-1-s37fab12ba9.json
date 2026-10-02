@@ -1,0 +1,126 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s37fab12ba9",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-10-02T12:59:42.241Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x37fab12ba9e635d60ae0a81d1c6c60de50729e4847d9a83f6003135d1f75f6cb",
+    "txs": [
+      "0x37fab12ba9e635d60ae0a81d1c6c60de50729e4847d9a83f6003135d1f75f6cb"
+    ],
+    "fundingTx": "0x9eda4647511e55eb44babee7981341a81fdc7134b401a8c1020b070001d02426",
+    "block": 26104016,
+    "contract": "0xc5d3d8fbad6480f1234e7511a735f5718f2231bd",
+    "recipient": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "exchange": "Binance",
+    "hubSource": "public label",
+    "asset": "SHIB",
+    "amount": 260732307265.25186,
+    "approxUsd": 1545100,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0xc5d3d8fbad6480f1234e7511a735f5718f2231bd",
+    "isContract": false,
+    "transactionCount": 20187,
+    "balanceBefore": 260732307265.25186,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.000261,
+    "viaDepositAddress": "0x31a2ee8b5e84b969ecf70d637016ae3b74cdfdda"
+  },
+  "instrument": "SHIBUSDT",
+  "market": {
+    "movePct": 0,
+    "roundTripCostPct": 0.1369,
+    "book": {
+      "bid": 0.000005926,
+      "ask": 0.000005927
+    },
+    "dailySigma": 0.034956,
+    "dailyVolumeUsd": 108100822,
+    "bitgetVolume24hUsd": 5933555
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 6742.537862374185,
+    "maxLossUsd": 500,
+    "stopPct": 0.0699122831218625,
+    "costPct": 0.004243770608318532,
+    "spreadPct": 0.003043770608318532,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.03495614156093125,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 5933554.5777,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.003043770608318532,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.418,
+  "marketDeltaPct": 0,
+  "minEdgePct": 0.411,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "side": null,
+    "confidence": 72,
+    "thesis": "A 20,187-transaction EOA routing $1.55M of SHIB to Binance through an intermediate deposit address looks like routine operational/market-maker flow, not holder distribution. The block is ~1.4% of SHIB's $108M daily volume and 0.026% of supply, implying only a 0.42% impact that barely clears the cost floor.",
+    "invalidation": "Repeated deposits from the same cluster totalling >$15M, or identification of the wallet as team/treasury/unlock rather than an operational hot wallet, would make this real sell supply.",
+    "rationale": "High transaction count and full-balance sweep via a dedicated deposit address are the signature of a hot/market-maker wallet cycling inventory, not a holder liquidating. Size is immaterial against SHIB's liquidity, modeled 0.418% sits essentially on the 0.411% minimum edge, and the market has not moved at all, so there is no confirmation of pressure. Direction is unjudgeable; stand aside."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "SHIBUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "615d01927f1a564908517944c46f2d9d4bc4e594af7c8dcd05103ee44a87a72b"
+}
