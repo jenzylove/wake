@@ -509,6 +509,16 @@
       "fundingRate": 0.000002,
       "fundingIntervalHours": 8,
       "openInterestContracts": 734671.2299999999
+    },
+    {
+      "observedAt": "2026-10-02T08:28:04.196Z",
+      "mid": 2759.175,
+      "spreadBps": 0.036,
+      "bidDepthUsd1pct": 1979498,
+      "askDepthUsd1pct": 1347581,
+      "fundingRate": 0.0001,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 742494.5499999998
     }
   ],
   "sizing": {
@@ -581,5 +591,77 @@
       "Loss size (305000 USD) is negligible against 3309320738.28 USD quote volume; no mechanism links it to price."
     ]
   },
-  "integrity": "47b8f499515fed62f8354cbc4e52e189de2dd809a265547461f37ace6c8bdc85"
+  "integrity": "a95d5fa5faa0e3be43d2f0e46af5e9ebdd956882779a9864f875b23d0bfdcf6c",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "4 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": 0.819,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "ai-review",
+        "question": "Does the investigator's review support the loss path?",
+        "status": "SUPPORTED",
+        "blocksTrade": true,
+        "answer": "The packet is a feed record with no on-chain receipt, so the loss path is unverified and the loss bearer is unidentified. The only exposure is an INFERRED chain-native link to ETHUSDT, and the observed day move (0.819%) sits well inside window sigma (2.16%) on 3.31bn USD volume — no evidenced path f"
+      }
+    ]
+  }
 }
