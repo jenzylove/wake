@@ -487,6 +487,16 @@
       "fundingRate": 0.0001,
       "fundingIntervalHours": 8,
       "openInterestContracts": 15614796
+    },
+    {
+      "observedAt": "2026-10-02T01:40:26.741Z",
+      "mid": 4.843450000000001,
+      "spreadBps": 0.619,
+      "bidDepthUsd1pct": 253278,
+      "askDepthUsd1pct": 248481,
+      "fundingRate": 0.0001,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 15572672
     }
   ],
   "sizing": {
@@ -546,5 +556,70 @@
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": null,
   "aiError": "interpret route 502: anthropic 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.",
-  "integrity": "e53c279d1550fac9e77df4e1e408cc92e45fa23ebbf81b6cca42f5c523657144"
+  "integrity": "cf2ff6f7ff82f5ba5eaea492822db528a982bcc0fa02f9ee327df22b12d3e83b",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "3 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": -9.272,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      }
+    ]
+  }
 }
