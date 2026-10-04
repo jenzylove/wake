@@ -2,20 +2,6 @@
   "schema": "wake.discovered.index.v1",
   "incidents": [
     {
-      "id": "disc-flashloopadapter-2026-10-01",
-      "day": "2026-10-01",
-      "name": "FlashLoopAdapter",
-      "amountUsd": 305000,
-      "chains": [
-        "Ethereum"
-      ],
-      "technique": "Improper Access Control",
-      "instrument": "ETHUSDT",
-      "decision": "MONITOR",
-      "exploitDayMovePct": 0.819,
-      "discoveredAt": "2026-10-02T01:40:06.658Z"
-    },
-    {
       "id": "disc-near-intents-2026-10-01",
       "day": "2026-10-01",
       "name": "NEAR Intents",
@@ -30,18 +16,18 @@
       "discoveredAt": "2026-10-01T21:48:05.426Z"
     },
     {
-      "id": "disc-fake-giwa-bridge-2026-09-27",
-      "day": "2026-09-27",
-      "name": "Fake GIWA Bridge",
-      "amountUsd": 2080000,
+      "id": "disc-flashloopadapter-2026-10-01",
+      "day": "2026-10-01",
+      "name": "FlashLoopAdapter",
+      "amountUsd": 305000,
       "chains": [
         "Ethereum"
       ],
-      "technique": "Impersonation Scam",
+      "technique": "Improper Access Control",
       "instrument": "ETHUSDT",
       "decision": "MONITOR",
-      "exploitDayMovePct": -0.838,
-      "discoveredAt": "2026-09-29T20:44:31.363Z"
+      "exploitDayMovePct": 0.819,
+      "discoveredAt": "2026-10-02T01:40:06.658Z"
     },
     {
       "id": "disc-dyorswap-fake-giwa-bridge-2026-09-27",
@@ -58,21 +44,44 @@
       "discoveredAt": "2026-09-28T21:57:46.276Z"
     },
     {
-      "id": "disc-limit-break-payment-processor-2026-09-24",
-      "day": "2026-09-24",
-      "name": "Limit Break Payment Processor",
-      "amountUsd": 1800000,
+      "id": "disc-fake-giwa-bridge-2026-09-27",
+      "day": "2026-09-27",
+      "name": "Fake GIWA Bridge",
+      "amountUsd": 2080000,
       "chains": [
-        "Ethereum",
-        "ApeChain",
-        "Polygon",
-        "Base"
+        "Ethereum"
       ],
-      "technique": "Token Approval Abuse",
+      "technique": "Impersonation Scam",
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "exploitDayMovePct": -0.838,
+      "discoveredAt": "2026-09-29T20:44:31.363Z"
+    },
+    {
+      "id": "disc-payy-network-2026-09-24",
+      "day": "2026-09-24",
+      "name": "Payy Network",
+      "amountUsd": 1828589.378132,
+      "chains": [
+        "Ethereum"
+      ],
+      "technique": "Bridge Logic Flaw",
       "instrument": "ETHUSDT",
       "decision": "MONITOR",
       "exploitDayMovePct": 0.224,
-      "discoveredAt": "2026-09-28T21:57:48.328Z"
+      "discoveredAt": "2026-09-25T01:27:44.958Z"
+    },
+    {
+      "id": "disc-bitget-2026-09-24",
+      "day": "2026-09-24",
+      "name": "Bitget",
+      "amountUsd": 351600000,
+      "chains": null,
+      "technique": "Hot Wallet Key Compromised",
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "exploitDayMovePct": null,
+      "discoveredAt": "2026-09-25T01:27:44.222Z"
     },
     {
       "id": "disc-duelbits-2026-09-24",
@@ -92,44 +101,21 @@
       "discoveredAt": "2026-09-25T01:27:42.473Z"
     },
     {
-      "id": "disc-bitget-2026-09-24",
+      "id": "disc-limit-break-payment-processor-2026-09-24",
       "day": "2026-09-24",
-      "name": "Bitget",
-      "amountUsd": 351600000,
-      "chains": null,
-      "technique": "Hot Wallet Key Compromised",
-      "instrument": null,
-      "decision": "NO_TRADE",
-      "exploitDayMovePct": null,
-      "discoveredAt": "2026-09-25T01:27:44.222Z"
-    },
-    {
-      "id": "disc-payy-network-2026-09-24",
-      "day": "2026-09-24",
-      "name": "Payy Network",
-      "amountUsd": 1828589.378132,
+      "name": "Limit Break Payment Processor",
+      "amountUsd": 1800000,
       "chains": [
-        "Ethereum"
+        "Ethereum",
+        "ApeChain",
+        "Polygon",
+        "Base"
       ],
-      "technique": "Bridge Logic Flaw",
+      "technique": "Token Approval Abuse",
       "instrument": "ETHUSDT",
       "decision": "MONITOR",
       "exploitDayMovePct": 0.224,
-      "discoveredAt": "2026-09-25T01:27:44.958Z"
-    },
-    {
-      "id": "disc-astroport-2026-09-22",
-      "day": "2026-09-22",
-      "name": "Astroport",
-      "amountUsd": 4900000,
-      "chains": [
-        "Neutron"
-      ],
-      "technique": "Malicious Proposal",
-      "instrument": null,
-      "decision": "NO_TRADE",
-      "exploitDayMovePct": null,
-      "discoveredAt": "2026-09-22T18:52:10.615Z"
+      "discoveredAt": "2026-09-28T21:57:48.328Z"
     },
     {
       "id": "disc-drop-2026-09-22",
@@ -146,18 +132,18 @@
       "discoveredAt": "2026-09-22T18:51:51.068Z"
     },
     {
-      "id": "disc-nunet-2026-09-19",
-      "day": "2026-09-19",
-      "name": "NuNet",
-      "amountUsd": 462730,
+      "id": "disc-astroport-2026-09-22",
+      "day": "2026-09-22",
+      "name": "Astroport",
+      "amountUsd": 4900000,
       "chains": [
-        "Ethereum"
+        "Neutron"
       ],
-      "technique": "Private Key Compromised",
-      "instrument": "ETHUSDT",
-      "decision": "MONITOR",
-      "exploitDayMovePct": 0.601,
-      "discoveredAt": "2026-09-20T21:30:46.920Z"
+      "technique": "Malicious Proposal",
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "exploitDayMovePct": null,
+      "discoveredAt": "2026-09-22T18:52:10.615Z"
     },
     {
       "id": "disc-fetch-ai-2026-09-19",
@@ -172,6 +158,20 @@
       "decision": "MONITOR",
       "exploitDayMovePct": 0.601,
       "discoveredAt": "2026-09-20T21:30:30.774Z"
+    },
+    {
+      "id": "disc-nunet-2026-09-19",
+      "day": "2026-09-19",
+      "name": "NuNet",
+      "amountUsd": 462730,
+      "chains": [
+        "Ethereum"
+      ],
+      "technique": "Private Key Compromised",
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "exploitDayMovePct": 0.601,
+      "discoveredAt": "2026-09-20T21:30:46.920Z"
     },
     {
       "id": "disc-nostra-money-market-2026-09-17",
@@ -273,18 +273,18 @@
       "discoveredAt": "2026-09-19T20:13:26.943Z"
     },
     {
-      "id": "disc-aquifer-2026-08-31",
+      "id": "disc-radix-2026-08-31",
       "day": "2026-08-31",
-      "name": "Aquifer",
-      "amountUsd": 2469729,
+      "name": "Radix",
+      "amountUsd": 1249946,
       "chains": [
-        "Solana"
+        "Radix"
       ],
-      "technique": "Arbitrary External Call",
-      "instrument": "SOLUSDT",
+      "technique": "Improper Access Control",
+      "instrument": null,
       "decision": "NO_TRADE",
-      "exploitDayMovePct": 1.433,
-      "discoveredAt": "2026-09-19T20:13:39.249Z"
+      "exploitDayMovePct": null,
+      "discoveredAt": "2026-09-19T20:13:44.826Z"
     },
     {
       "id": "disc-ankr-2026-08-31",
@@ -301,18 +301,18 @@
       "discoveredAt": "2026-09-19T20:13:44.820Z"
     },
     {
-      "id": "disc-radix-2026-08-31",
+      "id": "disc-aquifer-2026-08-31",
       "day": "2026-08-31",
-      "name": "Radix",
-      "amountUsd": 1249946,
+      "name": "Aquifer",
+      "amountUsd": 2469729,
       "chains": [
-        "Radix"
+        "Solana"
       ],
-      "technique": "Improper Access Control",
-      "instrument": null,
+      "technique": "Arbitrary External Call",
+      "instrument": "SOLUSDT",
       "decision": "NO_TRADE",
-      "exploitDayMovePct": null,
-      "discoveredAt": "2026-09-19T20:13:44.826Z"
+      "exploitDayMovePct": 1.433,
+      "discoveredAt": "2026-09-19T20:13:39.249Z"
     },
     {
       "id": "disc-tectonic-2026-08-30",
@@ -329,7 +329,7 @@
       "discoveredAt": "2026-09-19T20:13:44.830Z"
     }
   ],
-  "updatedAt": "2026-10-04T02:34:54.860Z",
+  "updatedAt": "2026-10-04T09:43:08.801Z",
   "lastRun": {
     "lookbackDays": 21,
     "minUsd": 250000,
