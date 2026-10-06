@@ -1,0 +1,567 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-makerdao-eth-a-liquidation-keeper-bot-2026-10-06",
+  "discoveredAt": "2026-10-06T23:49:33.057Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1791244800,
+      "name": "MakerDAO ETH-A Liquidation Keeper Bot",
+      "classification": "Access Control",
+      "technique": "Improper Access Control",
+      "amount": 538000,
+      "chain": [
+        "Ethereum"
+      ],
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": null,
+      "language": "Solidity"
+    },
+    "sha256": "bc4d76d0bf31e832d45bf05368214a86f855a3d436831372229cc6a54bc0e0cc"
+  },
+  "protocol": null,
+  "exposures": [
+    {
+      "symbol": "ETHUSDT",
+      "kind": "CONTAGION",
+      "relation": "native token of Ethereum",
+      "epistemic": "INFERRED"
+    }
+  ],
+  "instrument": "ETHUSDT",
+  "market": {
+    "source": "bitget-public-history-candles",
+    "granularity": "1H",
+    "symbol": "ETHUSDT",
+    "startTime": 1791158400000,
+    "endTime": 1791330572617,
+    "candles": [
+      {
+        "timestamp": 1791154800000,
+        "open": 2729.61,
+        "high": 2738.66,
+        "low": 2723.15,
+        "close": 2725.51,
+        "baseVolume": 19225.89,
+        "quoteVolume": 52494739.9153
+      },
+      {
+        "timestamp": 1791158400000,
+        "open": 2725.51,
+        "high": 2730,
+        "low": 2716.25,
+        "close": 2728.03,
+        "baseVolume": 17195.35,
+        "quoteVolume": 46822428.7683
+      },
+      {
+        "timestamp": 1791162000000,
+        "open": 2728.03,
+        "high": 2732.22,
+        "low": 2721.08,
+        "close": 2723.47,
+        "baseVolume": 15204.65,
+        "quoteVolume": 41445655.8273
+      },
+      {
+        "timestamp": 1791165600000,
+        "open": 2723.47,
+        "high": 2736.39,
+        "low": 2723.24,
+        "close": 2729.45,
+        "baseVolume": 21671.12,
+        "quoteVolume": 59192186.0291
+      },
+      {
+        "timestamp": 1791169200000,
+        "open": 2729.45,
+        "high": 2729.46,
+        "low": 2712,
+        "close": 2714.61,
+        "baseVolume": 27480.51,
+        "quoteVolume": 74788921.8069
+      },
+      {
+        "timestamp": 1791172800000,
+        "open": 2714.61,
+        "high": 2716.88,
+        "low": 2696.18,
+        "close": 2701.55,
+        "baseVolume": 43095.17,
+        "quoteVolume": 116567991.1105
+      },
+      {
+        "timestamp": 1791176400000,
+        "open": 2701.55,
+        "high": 2707.3,
+        "low": 2693.55,
+        "close": 2705.52,
+        "baseVolume": 23254.05,
+        "quoteVolume": 62784376.269
+      },
+      {
+        "timestamp": 1791180000000,
+        "open": 2705.52,
+        "high": 2728.56,
+        "low": 2705.43,
+        "close": 2724.63,
+        "baseVolume": 29267.96,
+        "quoteVolume": 79508039.2198
+      },
+      {
+        "timestamp": 1791183600000,
+        "open": 2724.63,
+        "high": 2730.95,
+        "low": 2718.91,
+        "close": 2725.33,
+        "baseVolume": 25871.59,
+        "quoteVolume": 70505361.6982
+      },
+      {
+        "timestamp": 1791187200000,
+        "open": 2725.33,
+        "high": 2733.84,
+        "low": 2711.37,
+        "close": 2719.76,
+        "baseVolume": 33128.7,
+        "quoteVolume": 90238909.0653
+      },
+      {
+        "timestamp": 1791190800000,
+        "open": 2719.76,
+        "high": 2721.19,
+        "low": 2715.55,
+        "close": 2716.59,
+        "baseVolume": 9255.34,
+        "quoteVolume": 25156548.0943
+      },
+      {
+        "timestamp": 1791194400000,
+        "open": 2716.59,
+        "high": 2720.48,
+        "low": 2710.04,
+        "close": 2716.16,
+        "baseVolume": 15196.37,
+        "quoteVolume": 41259064.6278
+      },
+      {
+        "timestamp": 1791198000000,
+        "open": 2716.16,
+        "high": 2723.08,
+        "low": 2709.49,
+        "close": 2716.77,
+        "baseVolume": 14273.25,
+        "quoteVolume": 38766652.743
+      },
+      {
+        "timestamp": 1791201600000,
+        "open": 2716.77,
+        "high": 2719.17,
+        "low": 2707.72,
+        "close": 2709.92,
+        "baseVolume": 11910.08,
+        "quoteVolume": 32297776.718
+      },
+      {
+        "timestamp": 1791205200000,
+        "open": 2709.92,
+        "high": 2724.95,
+        "low": 2709.92,
+        "close": 2721.32,
+        "baseVolume": 24420.31,
+        "quoteVolume": 66397397.6806
+      },
+      {
+        "timestamp": 1791208800000,
+        "open": 2721.32,
+        "high": 2729.49,
+        "low": 2694.86,
+        "close": 2702.99,
+        "baseVolume": 53753.26,
+        "quoteVolume": 145647070.3546
+      },
+      {
+        "timestamp": 1791212400000,
+        "open": 2702.99,
+        "high": 2704.93,
+        "low": 2694,
+        "close": 2696.09,
+        "baseVolume": 23718.83,
+        "quoteVolume": 64030190.8878
+      },
+      {
+        "timestamp": 1791216000000,
+        "open": 2696.09,
+        "high": 2698.02,
+        "low": 2678,
+        "close": 2695.27,
+        "baseVolume": 72095.66,
+        "quoteVolume": 193912930.8485
+      },
+      {
+        "timestamp": 1791219600000,
+        "open": 2695.27,
+        "high": 2706,
+        "low": 2692.17,
+        "close": 2704.49,
+        "baseVolume": 12527.68,
+        "quoteVolume": 33818162.6252
+      },
+      {
+        "timestamp": 1791223200000,
+        "open": 2704.49,
+        "high": 2709.92,
+        "low": 2703.21,
+        "close": 2709.14,
+        "baseVolume": 10492.78,
+        "quoteVolume": 28407756.663
+      },
+      {
+        "timestamp": 1791226800000,
+        "open": 2709.14,
+        "high": 2711.81,
+        "low": 2705.03,
+        "close": 2707.98,
+        "baseVolume": 5781.82,
+        "quoteVolume": 15660677.4161
+      },
+      {
+        "timestamp": 1791230400000,
+        "open": 2707.98,
+        "high": 2714,
+        "low": 2705.03,
+        "close": 2711.46,
+        "baseVolume": 5076.11,
+        "quoteVolume": 13761087.7455
+      },
+      {
+        "timestamp": 1791234000000,
+        "open": 2711.46,
+        "high": 2717.81,
+        "low": 2709.24,
+        "close": 2716.78,
+        "baseVolume": 5115.57,
+        "quoteVolume": 13885230.7178
+      },
+      {
+        "timestamp": 1791237600000,
+        "open": 2716.78,
+        "high": 2721.39,
+        "low": 2713.42,
+        "close": 2714.58,
+        "baseVolume": 10056.52,
+        "quoteVolume": 27320174.0714
+      },
+      {
+        "timestamp": 1791241200000,
+        "open": 2714.58,
+        "high": 2718,
+        "low": 2708.41,
+        "close": 2708.77,
+        "baseVolume": 8120.56,
+        "quoteVolume": 22030656.1925
+      },
+      {
+        "timestamp": 1791244800000,
+        "open": 2708.77,
+        "high": 2717.24,
+        "low": 2708.77,
+        "close": 2717.23,
+        "baseVolume": 4293.91,
+        "quoteVolume": 11649492.3349
+      },
+      {
+        "timestamp": 1791248400000,
+        "open": 2717.23,
+        "high": 2722.48,
+        "low": 2705.7,
+        "close": 2706.87,
+        "baseVolume": 9717.68,
+        "quoteVolume": 26368021.3542
+      },
+      {
+        "timestamp": 1791252000000,
+        "open": 2706.87,
+        "high": 2709.81,
+        "low": 2699.55,
+        "close": 2700.93,
+        "baseVolume": 10720.58,
+        "quoteVolume": 28984930.7393
+      },
+      {
+        "timestamp": 1791255600000,
+        "open": 2700.93,
+        "high": 2702.98,
+        "low": 2691.9,
+        "close": 2698.46,
+        "baseVolume": 14014.17,
+        "quoteVolume": 37796545.7977
+      },
+      {
+        "timestamp": 1791259200000,
+        "open": 2698.46,
+        "high": 2704.38,
+        "low": 2697.12,
+        "close": 2701.87,
+        "baseVolume": 6479.61,
+        "quoteVolume": 17507342.5485
+      },
+      {
+        "timestamp": 1791262800000,
+        "open": 2701.87,
+        "high": 2705.9,
+        "low": 2698.15,
+        "close": 2698.42,
+        "baseVolume": 7125.76,
+        "quoteVolume": 19251122.937
+      },
+      {
+        "timestamp": 1791266400000,
+        "open": 2698.42,
+        "high": 2698.54,
+        "low": 2689.22,
+        "close": 2696.7,
+        "baseVolume": 16934.73,
+        "quoteVolume": 45616379.7133
+      },
+      {
+        "timestamp": 1791270000000,
+        "open": 2696.7,
+        "high": 2708.96,
+        "low": 2694.43,
+        "close": 2706.44,
+        "baseVolume": 9974.65,
+        "quoteVolume": 26951634.0234
+      },
+      {
+        "timestamp": 1791273600000,
+        "open": 2706.44,
+        "high": 2715.45,
+        "low": 2706.21,
+        "close": 2715.39,
+        "baseVolume": 17593.24,
+        "quoteVolume": 47720120.6804
+      },
+      {
+        "timestamp": 1791277200000,
+        "open": 2715.39,
+        "high": 2720.5,
+        "low": 2692.37,
+        "close": 2709.25,
+        "baseVolume": 47631.8,
+        "quoteVolume": 129000819.7738
+      },
+      {
+        "timestamp": 1791280800000,
+        "open": 2709.25,
+        "high": 2716.45,
+        "low": 2707.53,
+        "close": 2712.63,
+        "baseVolume": 10895.22,
+        "quoteVolume": 29559188.3629
+      },
+      {
+        "timestamp": 1791284400000,
+        "open": 2712.63,
+        "high": 2716.55,
+        "low": 2708.26,
+        "close": 2712.9,
+        "baseVolume": 10205.65,
+        "quoteVolume": 27693219.904
+      },
+      {
+        "timestamp": 1791288000000,
+        "open": 2712.9,
+        "high": 2717.53,
+        "low": 2705.44,
+        "close": 2714.29,
+        "baseVolume": 16021.31,
+        "quoteVolume": 43446783.0476
+      },
+      {
+        "timestamp": 1791291600000,
+        "open": 2714.29,
+        "high": 2718.98,
+        "low": 2707.68,
+        "close": 2713.43,
+        "baseVolume": 22135.22,
+        "quoteVolume": 60070208.1907
+      },
+      {
+        "timestamp": 1791295200000,
+        "open": 2713.43,
+        "high": 2721.9,
+        "low": 2704.23,
+        "close": 2720.7,
+        "baseVolume": 27499.27,
+        "quoteVolume": 74610818.5027
+      },
+      {
+        "timestamp": 1791298800000,
+        "open": 2720.7,
+        "high": 2724.14,
+        "low": 2700,
+        "close": 2700.31,
+        "baseVolume": 33966.43,
+        "quoteVolume": 92209907.9847
+      },
+      {
+        "timestamp": 1791302400000,
+        "open": 2700.31,
+        "high": 2706.42,
+        "low": 2694.35,
+        "close": 2694.78,
+        "baseVolume": 29953.76,
+        "quoteVolume": 80879711.5067
+      },
+      {
+        "timestamp": 1791306000000,
+        "open": 2694.78,
+        "high": 2699.69,
+        "low": 2692.31,
+        "close": 2698.88,
+        "baseVolume": 13902.84,
+        "quoteVolume": 37472546.9331
+      },
+      {
+        "timestamp": 1791309600000,
+        "open": 2698.88,
+        "high": 2702.43,
+        "low": 2688.15,
+        "close": 2689.53,
+        "baseVolume": 11452.15,
+        "quoteVolume": 30855280.2005
+      },
+      {
+        "timestamp": 1791313200000,
+        "open": 2689.53,
+        "high": 2692.69,
+        "low": 2683,
+        "close": 2691.49,
+        "baseVolume": 22876.53,
+        "quoteVolume": 61455554.8622
+      },
+      {
+        "timestamp": 1791316800000,
+        "open": 2691.49,
+        "high": 2698.19,
+        "low": 2690.2,
+        "close": 2697.87,
+        "baseVolume": 8775.98,
+        "quoteVolume": 23646418.1212
+      },
+      {
+        "timestamp": 1791320400000,
+        "open": 2697.87,
+        "high": 2698.37,
+        "low": 2693.78,
+        "close": 2697.63,
+        "baseVolume": 3038.37,
+        "quoteVolume": 8192186.8206
+      },
+      {
+        "timestamp": 1791324000000,
+        "open": 2697.63,
+        "high": 2699.54,
+        "low": 2694.31,
+        "close": 2695.88,
+        "baseVolume": 3077.05,
+        "quoteVolume": 8297619.9442
+      }
+    ],
+    "observed": {
+      "hours": 48,
+      "quoteVolumeUsd": 2425935841.38,
+      "exploitDayMovePct": -0.476,
+      "hourlySigma": 0.002842,
+      "windowSigma": 0.013923
+    }
+  },
+  "marketError": null,
+  "timeline": [
+    {
+      "observedAt": "2026-10-06T23:49:33.057Z",
+      "mid": 2698.7650000000003,
+      "spreadBps": 0.037,
+      "bidDepthUsd1pct": 3638204,
+      "askDepthUsd1pct": 7270939,
+      "fundingRate": 0.0001,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 769251.9100000003
+    }
+  ],
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 16591.94443730728,
+    "maxLossUsd": 500,
+    "stopPct": 0.027846,
+    "costPct": 0.0022891057369587844,
+    "spreadPct": 0.0010891057369587845,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.013923,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 2425935841.38,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.0010891057369587845,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "receipt": null,
+  "decision": "MONITOR",
+  "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": {
+    "model": "claude-opus-5",
+    "exploitClass": "access-control",
+    "mechanism": "Feed classifies this as improper access control affecting a MakerDAO ETH-A liquidation keeper bot on Ethereum (Solidity). The specific privileged entrypoint, caller and call path are not captured — no on-chain receipt exists in the packet, so the exact permission that failed is unverified.",
+    "lossBearer": "Per the feed, the keeper bot and whoever capitalises it absorb the 538000 loss. Nothing in the packet shows MakerDAO core vaults, Dai holders or any named integrator bearing it.",
+    "narrative": "A liquidation keeper bot operating around MakerDAO ETH-A is reported to have lost 538000 to an access-control failure — a privileged function reachable by someone who should not have reached it. Keeper bots sit beside the protocol, not inside it, and the packet contains no receipt, no protocol record and no integrator exposure, so we cannot say Maker itself was touched. The only market link is ETHUSDT, flagged INFERRED purely because ETH is Ethereum's native token. ETHUSDT traded 2425935841.38 over 48h and moved -0.476% on the day, inside the 0.013923 window sigma. No tradable signal here.",
+    "veto": true,
+    "vetoReason": "No on-chain receipt captured; the sole market exposure is an INFERRED contagion link to ETHUSDT based only on ETH being the chain's native token, with no shown path from a 538000 keeper-bot loss to ETH. The exploit-day move of -0.476% sits within the 0.013923 window sigma on 2425935841.38 of volume ",
+    "concerns": [
+      "Feed record only, no on-chain receipt: mechanism and caller unverified",
+      "Loss bearer may be a third-party keeper operator, not MakerDAO — ambiguity unresolved",
+      "ETHUSDT exposure is INFERRED contagion via native-token relation, not demonstrated",
+      "Reported 538000 is immaterial against 2425935841.38 of 48h quote volume"
+    ]
+  },
+  "integrity": "90e66259a8d51dd580f597823e3142ac335bda53d6daf72557306e4da8edfdc1"
+}
