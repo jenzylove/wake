@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-06T23:49:52.865Z",
+  "updatedAt": "2026-10-07T05:54:01.606Z",
   "incidents": [
     {
       "id": "disc-makerdao-eth-a-liquidation-keeper-bot-2026-10-06",
@@ -35,14 +35,14 @@
         "windowSigma": 0.013923
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:33.057Z",
-        "mid": 2698.7650000000003,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 3638204,
-        "askDepthUsd1pct": 7270939,
+        "observedAt": "2026-10-07T05:53:59.973Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1183293,
+        "askDepthUsd1pct": 446204,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769251.9100000003
+        "openInterestContracts": 809039.8000000003
       },
       "sizing": {
         "notionalUsd": 16591.94443730728,
@@ -50,8 +50,39 @@
         "stopPct": 0.027846,
         "bindingConstraint": "risk budget"
       },
-      "assessment": null,
-      "integrity": "90e66259a8d51dd580f597823e3142ac335bda53d6daf72557306e4da8edfdc1",
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": -0.476,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "ai-review",
+            "question": "Does the investigator's review support the loss path?",
+            "status": "SUPPORTED",
+            "blocksTrade": true,
+            "answer": "No on-chain receipt captured; the sole market exposure is an INFERRED contagion link to ETHUSDT based only on ETH being the chain's native token, with no shown path from a 538000 keeper-bot loss to ETH. The exploit-day move of -0.476% sits within the 0.013923 window sigma on 2425935841.38 of volume "
+          }
+        ]
+      },
+      "integrity": "cb1fde9fde9e7291cac3c9b7c6be6f8f3429eb7ddd630d5f494dc4811f102455",
       "sourceSha256": "bc4d76d0bf31e832d45bf05368214a86f855a3d436831372229cc6a54bc0e0cc",
       "ai": {
         "exploitClass": "access-control",
@@ -114,14 +145,14 @@
         "windowSigma": 0.074324
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:50.787Z",
-        "mid": 5.07045,
-        "spreadBps": 0.197,
-        "bidDepthUsd1pct": 97971,
-        "askDepthUsd1pct": 507304,
+        "observedAt": "2026-10-07T05:54:00.261Z",
+        "mid": 5.03175,
+        "spreadBps": 0.199,
+        "bidDepthUsd1pct": 230783,
+        "askDepthUsd1pct": 141925,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 15746133
+        "openInterestContracts": 15440216
       },
       "sizing": {
         "notionalUsd": 3160.1819654846868,
@@ -154,7 +185,7 @@
           }
         ]
       },
-      "integrity": "14e85a84916928c866fad03a52c57dc7879e30f99f4eea94473969d4394c5f51",
+      "integrity": "5108400dd542db052bf47378a225c34ee28d0d78273e9815f62bd6c192c078eb",
       "sourceSha256": "a1d6995e2120ef395f3a8fbb6eeccf92573ea4e1986252a0bbaf58031ea3a885",
       "ai": null
     },
@@ -192,14 +223,14 @@
         "windowSigma": 0.021599
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:50.975Z",
-        "mid": 2698.995,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 6313114,
-        "askDepthUsd1pct": 2710184,
+        "observedAt": "2026-10-07T05:54:00.116Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1183293,
+        "askDepthUsd1pct": 407317,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769223.7300000002
+        "openInterestContracts": 809039.8000000003
       },
       "sizing": {
         "notionalUsd": 10788.003236136494,
@@ -239,7 +270,7 @@
           }
         ]
       },
-      "integrity": "0b94a794674b0e484bdc155da60576083dc1c8078d1aced0b224ea9bdf6971dd",
+      "integrity": "ee9d157fb9b77684b8e6b45d79b5648cc4a998aab75a1ac66d9bad095638711a",
       "sourceSha256": "b9cefc49101f57b4b9e0bab6dfce105bbc268359f685e6eea95fb44eec401a64",
       "ai": {
         "exploitClass": "access-control",
@@ -289,14 +320,14 @@
         "windowSigma": 0.015831
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:51.385Z",
-        "mid": 2698.995,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 6198033,
-        "askDepthUsd1pct": 2719364,
+        "observedAt": "2026-10-07T05:54:00.400Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1498283,
+        "askDepthUsd1pct": 476237,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769223.7600000002
+        "openInterestContracts": 809039.8000000003
       },
       "sizing": {
         "notionalUsd": 14664.357238720397,
@@ -329,7 +360,7 @@
           }
         ]
       },
-      "integrity": "921ae6b3c9594b9715b3f846ed19ad191a01f431c722ae2ceb1fdd64fca04f63",
+      "integrity": "cf983bcd6256ec30221e0ef4c12cf3ac3b8c43d3f9426669d3d39f1d112a2449",
       "sourceSha256": "3e33bb63b659d1d6323070ed037bac51319172230c255019e8036ca3016ac180",
       "ai": null
     },
@@ -367,14 +398,14 @@
         "windowSigma": 0.015698
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:51.187Z",
-        "mid": 2698.995,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 6200057,
-        "askDepthUsd1pct": 2718878,
+        "observedAt": "2026-10-07T05:54:00.744Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1180754,
+        "askDepthUsd1pct": 502811,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769223.7300000002
+        "openInterestContracts": 809285.5400000004
       },
       "sizing": {
         "notionalUsd": 14798.371486822649,
@@ -407,7 +438,7 @@
           }
         ]
       },
-      "integrity": "60eb78d1b34aeab66473ff4b70fc57e5eeaf98d7261400209a13d61af6de9d6a",
+      "integrity": "3bf641305463116e765440dea15e101f704057b192e17323cf41c8b4882d1036",
       "sourceSha256": "b07d3c3edea206751fdc9b30cd8720aa99a47ae4771c557f22c27e2a1a12e336",
       "ai": null
     },
@@ -445,14 +476,14 @@
         "windowSigma": 0.022666
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:51.586Z",
-        "mid": 2698.995,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 6197818,
-        "askDepthUsd1pct": 2718312,
+        "observedAt": "2026-10-07T05:54:01.173Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1183267,
+        "askDepthUsd1pct": 474589,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769223.7600000002
+        "openInterestContracts": 809285.5400000004
       },
       "sizing": {
         "notionalUsd": 10268.550600721399,
@@ -485,7 +516,7 @@
           }
         ]
       },
-      "integrity": "938e8b96a66e774ba966f7b60a3e0e5c6562e39436b2284b3e2c7c5482079de3",
+      "integrity": "10956c782d395df296cd03fd9a775d9e4de338f1cb83834b260e77bbabdbc379",
       "sourceSha256": "0ad94923debad4fd1a692170e54e0e748168d046a3a39310ab9ba4c63fc6df3f",
       "ai": null
     },
@@ -532,14 +563,14 @@
         "windowSigma": 0.020756
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:52.041Z",
-        "mid": 2698.995,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 6202837,
-        "askDepthUsd1pct": 2718797,
+        "observedAt": "2026-10-07T05:54:00.887Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1183267,
+        "askDepthUsd1pct": 474589,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769223.7600000002
+        "openInterestContracts": 809039.8000000003
       },
       "sizing": {
         "notionalUsd": 11124.924526328214,
@@ -572,7 +603,7 @@
           }
         ]
       },
-      "integrity": "da900c4b534f487819314d9c27d29943846463fd5e8d8a169639099645c63dbb",
+      "integrity": "a6efdf13e8df99daf0dffab5c0a15c135fde1e400f66b8f228b2f1cea62f0862",
       "sourceSha256": "9a3b9b960b44dbbbd8d4c17d54516c8d703fbb2047fe05c94d78177ab12bf164",
       "ai": null
     },
@@ -625,14 +656,14 @@
         "windowSigma": 0.022666
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:51.830Z",
-        "mid": 2698.995,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 6198033,
-        "askDepthUsd1pct": 2718824,
+        "observedAt": "2026-10-07T05:54:01.026Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1180205,
+        "askDepthUsd1pct": 429324,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769223.7600000002
+        "openInterestContracts": 809039.8000000003
       },
       "sizing": {
         "notionalUsd": 10268.550600721399,
@@ -665,7 +696,7 @@
           }
         ]
       },
-      "integrity": "3abb6c47bef2c4fca596c55e1a84325e13f05fcaa83fdccd11e34a3c62f42258",
+      "integrity": "0770a1e72307268180678f8f5e1c6c584bd9722e4d120db7e4aa9c0b71bf856d",
       "sourceSha256": "316bc9039a2a0a8011a5a74ef4a06dd55e8c9e7323d19f25c372b0e0723f6f2c",
       "ai": null
     },
@@ -827,14 +858,14 @@
         "windowSigma": 0.023536
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:52.472Z",
-        "mid": 2698.995,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 6202837,
-        "askDepthUsd1pct": 2718798,
+        "observedAt": "2026-10-07T05:54:01.322Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1639320,
+        "askDepthUsd1pct": 330308,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769223.7600000002
+        "openInterestContracts": 809285.5400000004
       },
       "sizing": {
         "notionalUsd": 9987.700881141289,
@@ -874,7 +905,7 @@
           }
         ]
       },
-      "integrity": "d31ed5c88c1affc8b7a3295fcaa1a4656f6a2fd5daa7d58f83e20c276ca3d396",
+      "integrity": "df03153011a62c543ad9381b24c849352d3a6cfdcd58e344a2d8b93a657b0591",
       "sourceSha256": "cd7f4f910e73549291b092e62dd7e24957306664c4b484ad54b509140dd9edf6",
       "ai": {
         "exploitClass": "key-compromise",
@@ -924,14 +955,14 @@
         "windowSigma": 0.023536
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:52.262Z",
-        "mid": 2698.995,
-        "spreadBps": 0.037,
-        "bidDepthUsd1pct": 6200813,
-        "askDepthUsd1pct": 2718312,
+        "observedAt": "2026-10-07T05:54:01.457Z",
+        "mid": 2617.7349999999997,
+        "spreadBps": 0.038,
+        "bidDepthUsd1pct": 1183267,
+        "askDepthUsd1pct": 474589,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 769223.7600000002
+        "openInterestContracts": 809285.5400000004
       },
       "sizing": {
         "notionalUsd": 9987.700881141289,
@@ -971,7 +1002,7 @@
           }
         ]
       },
-      "integrity": "8dc6f10b3bbf9a26cf29fb8c5056183f5176138eaef078a3f5b3156d954fb176",
+      "integrity": "36e6ea2e351d7b32e05d354c1bdad2aedc8e0c058a2af8af71f1dd40f020567b",
       "sourceSha256": "f5dc7c110bc798868337b3169f5bfbd57ec51ceb7dcad45d3fcb8d1f5bde3f87",
       "ai": {
         "exploitClass": "key-compromise",
@@ -1027,14 +1058,14 @@
         "windowSigma": 0.093086
       },
       "microstructure": {
-        "observedAt": "2026-10-06T23:49:52.674Z",
-        "mid": 0.0515685,
-        "spreadBps": 4.072,
-        "bidDepthUsd1pct": 39480,
-        "askDepthUsd1pct": 54896,
+        "observedAt": "2026-10-07T05:54:01.601Z",
+        "mid": 0.051382,
+        "spreadBps": 5.449,
+        "bidDepthUsd1pct": 51208,
+        "askDepthUsd1pct": 59841,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 64469165.8
+        "openInterestContracts": 62417989
       },
       "sizing": {
         "notionalUsd": 2581.2763696243665,
@@ -1074,7 +1105,7 @@
           }
         ]
       },
-      "integrity": "20f774c9de9a849cb667bf158f1b0639abf55e60025abf449e80fc7d5a4a70de",
+      "integrity": "bcd497db2aa0a9ad17f363cfe98def7138cbddbd74ba9f10d5c65e3a68c48701",
       "sourceSha256": "a5ba1e0c4c075a07d9e23610c5f06cf6e9b0ba3af3aa9efc0a2e256e200ba795",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -1116,8 +1147,8 @@
         }
       ],
       "instrument": "ETHUSDT",
-      "decision": "MONITOR",
-      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "decision": "NO_TRADE",
+      "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
       "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
       "discoveredAt": "2026-09-19T20:13:07.320Z",
       "hasReceipt": false,
@@ -1177,7 +1208,7 @@
           }
         ]
       },
-      "integrity": "cad242b29b5112fa1a17f9a3bf6f49d09261668e3a5649f35b74ef502d1627bb",
+      "integrity": "454f8ddd9647c67000d4fd955755ba01123639e89cf3b5427192db746e2fd3aa",
       "sourceSha256": "4db1acd661af1253c4b6298aaa787d910351b4e7cf6df87e1c3ac39919407188",
       "ai": {
         "exploitClass": "oracle-manipulation",
