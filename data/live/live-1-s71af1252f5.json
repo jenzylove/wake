@@ -1,0 +1,127 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s71af1252f5",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-10-09T21:07:26.139Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x71af1252f5012242a528883bb777cf8d75398dc7c3e04f1fa11d258efca2ce37",
+    "txs": [
+      "0x71af1252f5012242a528883bb777cf8d75398dc7c3e04f1fa11d258efca2ce37",
+      "0x595cc8d1b1156210b6ecdf9fe34adc45857091fa6894b3d2c876bd3aee4bdb8e"
+    ],
+    "fundingTx": "0x2f03bf93b7c50c740a6a9ebdcb2182ae112ea3c14474559e189afa8aaed40836",
+    "block": 26157106,
+    "contract": "0xa42d0a18b834f52e41beddeaa2940165db3da9a3",
+    "recipient": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "exchange": "Binance",
+    "hubSource": "public label",
+    "asset": "LINK",
+    "amount": 4000001,
+    "approxUsd": 51172013,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0xa42d0a18b834f52e41beddeaa2940165db3da9a3",
+    "isContract": true,
+    "transactionCount": 1,
+    "balanceBefore": 3399999.001705,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.004,
+    "viaDepositAddress": "0x9b1c1752b6b6eaf62a8c491a8681b32c1f7ecde9"
+  },
+  "instrument": "LINKUSDT",
+  "market": {
+    "movePct": 0.008,
+    "roundTripCostPct": 0.1278,
+    "book": {
+      "bid": 12.792,
+      "ask": 12.793
+    },
+    "dailySigma": 0.041449,
+    "dailyVolumeUsd": 266628207,
+    "bitgetVolume24hUsd": 10927829
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 5773.5035487404775,
+    "maxLossUsd": 500,
+    "stopPct": 0.08289853802708552,
+    "costPct": 0.003703989498696952,
+    "spreadPct": 0.0025039894986969525,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.04144926901354276,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 10927829.085,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.0025039894986969525,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 1.816,
+  "marketDeltaPct": -0.008,
+  "minEdgePct": 0.383,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "NO_TRADE",
+    "candidate": null,
+    "side": null,
+    "confidence": 66,
+    "thesis": "A freshly created single-transaction contract forwarding its entire balance through an intermediate deposit address into Binance's hub is the signature of automated routing (custody/OTC/ops funding), not of a holder deciding to distribute. LINK-to-Binance blocks of this shape recur and are routinely absorbed by $267M of daily volume.",
+    "invalidation": "Depositor traces to an identified Chainlink treasury/team or fund wallet with a history of post-deposit sells, or LINK breaks down >1.5% on visible exchange sell flow within hours of the deposit.",
+    "rationale": "Depositor facts argue against real supply: isContract, txCount 1, 100% of balance, routed viaDepositAddress into a labelled hub, with a balanceBefore/amount mismatch implying pass-through rather than a held position. $51M is only ~19% of daily volume, and the modelled 1.8% assumes the whole block is market-sold, which single-use forwarders usually do not do. No side can be justified, so no trade."
+  },
+  "aiDecisionError": null,
+  "refusals": [],
+  "proposed": "NO_TRADE",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [],
+    "instrument": "LINKUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "b63685fdc3849b6a35404a5057cbfc5016cb3f730360ab6b91084120ea69d83e"
+}

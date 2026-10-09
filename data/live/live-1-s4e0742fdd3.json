@@ -1,0 +1,133 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s4e0742fdd3",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-10-09T21:06:50.293Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x4e0742fdd30929d76de56c076d5e6c720df69fb9ac1745b7741a21cd017b95af",
+    "txs": [
+      "0x4e0742fdd30929d76de56c076d5e6c720df69fb9ac1745b7741a21cd017b95af",
+      "0xa98a109dcc7ce53a48eb26dea457ca89d328b2315630f49bfba2d8dd5b652274",
+      "0x460cd8ebf63e2b270c7579c63f5dfd7309167dd613a48e85b934bf19d8702cea",
+      "0x7a26b6029edea016ad95a14094c966e2af98240fe8afd2cf78f5e5d1cc311db6"
+    ],
+    "fundingTx": "0x3cba7b3dcf66adc773141a7ccaceb625547f664245f5de575399fb39b718968e",
+    "block": 26157403,
+    "contract": "0xfb682b0de4e0093835ea21cfabb5449ca9ac9e5e",
+    "recipient": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "exchange": "Binance",
+    "hubSource": "public label",
+    "asset": "LINK",
+    "amount": 5650000,
+    "approxUsd": 72280450,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0xfb682b0de4e0093835ea21cfabb5449ca9ac9e5e",
+    "isContract": true,
+    "transactionCount": 1,
+    "balanceBefore": 3999999.0018499997,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.00565,
+    "viaDepositAddress": "0x9b1c1752b6b6eaf62a8c491a8681b32c1f7ecde9"
+  },
+  "instrument": "LINKUSDT",
+  "market": {
+    "movePct": -0.008,
+    "roundTripCostPct": 0.1278,
+    "book": {
+      "bid": 12.793,
+      "ask": 12.794
+    },
+    "dailySigma": 0.041447,
+    "dailyVolumeUsd": 266628207,
+    "bitgetVolume24hUsd": 10927803
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 5773.748997562946,
+    "maxLossUsd": 499.99999999999994,
+    "stopPct": 0.082894856452356,
+    "costPct": 0.003703989498696952,
+    "spreadPct": 0.0025039894986969525,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.041447428226178,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 10927803.495000001,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.0025039894986969525,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 2.158,
+  "marketDeltaPct": 0.008,
+  "minEdgePct": 0.383,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "TRADE_DIRECT",
+    "candidate": 0,
+    "side": "SHORT",
+    "confidence": 58,
+    "thesis": "5.65M LINK (~$72M, 0.57% of supply) moved to Binance via a single-use contract with one lifetime transaction that swept 100% of its balance through a dedicated deposit address. That is one-off distribution behaviour, not market-maker inventory cycling. Size is ~27% of real daily volume and the tape has barely moved (-0.01% vs 2.16% modeled).",
+    "invalidation": "LINK fails to break lower within hours, or the depositor/recipient is identified as Chainlink node-operator ops, custody migration or OTC settlement rather than a sale; also invalid if coins return on-chain.",
+    "rationale": "Fresh contract, txCount 1, full-balance sweep to a labelled Binance hub is the canonical supply-to-exchange fingerprint; MMs and custodians show repeated two-way flow, which is absent. Block is material against $267M daily volume and essentially unpriced. Confidence capped because large LINK programmatic transfers to exchanges have historically sometimes been operational, and balanceBefore/amount are inconsistent in the evidence."
+  },
+  "aiDecisionError": null,
+  "refusals": [
+    "conviction 58 is below 75"
+  ],
+  "proposed": "TRADE_DIRECT",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [
+      "conviction 58 is below 75"
+    ],
+    "instrument": "LINKUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "f19243ce19107a4ee78a5029234d5edeff5601be097d67faf9c03c3424dc61ab"
+}

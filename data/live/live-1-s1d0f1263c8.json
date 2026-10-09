@@ -1,0 +1,130 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s1d0f1263c8",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-10-09T21:07:05.687Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x1d0f1263c828d4ff2a147c05ef27b96f6527a2a7f032e8cf1e02a4e82e459c4e",
+    "txs": [
+      "0x1d0f1263c828d4ff2a147c05ef27b96f6527a2a7f032e8cf1e02a4e82e459c4e"
+    ],
+    "fundingTx": null,
+    "block": 26157168,
+    "contract": "0x9b1c1752b6b6eaf62a8c491a8681b32c1f7ecde9",
+    "recipient": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "exchange": "Binance",
+    "hubSource": "public label",
+    "asset": "LINK",
+    "amount": 4499999,
+    "approxUsd": 57568487,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0x9b1c1752b6b6eaf62a8c491a8681b32c1f7ecde9",
+    "isContract": false,
+    "transactionCount": 58,
+    "balanceBefore": 4499999,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.0045,
+    "viaDepositAddress": null
+  },
+  "instrument": "LINKUSDT",
+  "market": {
+    "movePct": -0.008,
+    "roundTripCostPct": 0.1278,
+    "book": {
+      "bid": 12.793,
+      "ask": 12.794
+    },
+    "dailySigma": 0.041447,
+    "dailyVolumeUsd": 266628207,
+    "bitgetVolume24hUsd": 10927803
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 5773.748997562946,
+    "maxLossUsd": 499.99999999999994,
+    "stopPct": 0.082894856452356,
+    "costPct": 0.003703989498696952,
+    "spreadPct": 0.0025039894986969525,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.041447428226178,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 10927803.495000001,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.0025039894986969525,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 1.926,
+  "marketDeltaPct": 0.008,
+  "minEdgePct": 0.383,
+  "decision": "NO_TRADE",
+  "aiDecision": {
+    "model": "claude-opus-5",
+    "action": "TRADE_DIRECT",
+    "candidate": 0,
+    "side": "SHORT",
+    "confidence": 58,
+    "thesis": "An EOA with only 58 lifetime transactions sent its entire 4.5M LINK balance (~$57.6M, 0.45% of supply) to Binance's labelled hot wallet. Low activity plus full-balance drain fits a long-held holder/treasury distributing, not a market maker cycling inventory. Square-root impact models ~1.9% versus a market that has moved ~0.01%, so the supply is unpriced.",
+    "invalidation": "LINK withdrawn from Binance back to the same or related wallet, disclosure of an OTC/custody migration, or price failing to break lower within hours while spot absorbs the block.",
+    "rationale": "Depositor is a wallet, not a contract, with a tiny transaction count and no deposit-address routing — inconsistent with MM or exchange internal flow. 100% of balance sent is terminal behaviour typical of distribution. Loss path to price is the sell itself; size is material at 0.45% of supply against $267M daily volume. Modeled 1.93% far exceeds the 0.383% min edge and the market has not moved. Main risk is an unreported OTC settlement, hence moderate confidence."
+  },
+  "aiDecisionError": null,
+  "refusals": [
+    "conviction 58 is below 75"
+  ],
+  "proposed": "TRADE_DIRECT",
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "claude",
+    "refusals": [
+      "conviction 58 is below 75"
+    ],
+    "instrument": "LINKUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "4cbbb01962b717d047d1e18ea4497e857239547c051cfe9bc03fbb7edc3af7b6"
+}
