@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-10-10T05:47:16.893Z",
+    "updatedAt": "2026-10-10T07:26:31.512Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 329,
+    "incidentsEvaluated": 331,
     "eligibleNow": 0,
     "open": 0,
     "closedTrades": 3,
@@ -36,13 +36,13 @@
     "bySource": {
       "captured": 6,
       "discovered": 24,
-      "live": 188,
+      "live": 190,
       "blind": 111
     }
   },
   "exchange": {
     "account": {
-      "equity": 9979.9925466,
+      "equity": 9979.9911466,
       "available": 9985.5316466,
       "marginCoin": "USDT"
     },
@@ -52,13 +52,13 @@
         "side": "SHORT",
         "size": 0.14,
         "entryPrice": 678.835,
-        "markPrice": 718.4,
-        "unrealizedPnlUsd": -5.5391,
+        "markPrice": 718.41,
+        "unrealizedPnlUsd": -5.5405,
         "marginMode": "crossed",
         "leverage": 2
       }
     ],
-    "at": "2026-10-10T05:47:16.893Z"
+    "at": "2026-10-10T07:26:31.512Z"
   },
   "open": [],
   "closed": [
@@ -148,6 +148,52 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 331,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-10-10T07:26:31.512Z",
+      "prevHash": "eac1c9a4f120cc826e612440e0afba2fefe4caeda0e08b969a1b97f7ccbdccdb",
+      "hash": "acdc5ee873f81181b0a7bbfa36176290ffe0212e5a850d07bab68aa575faabbe"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-8453-512f02495c",
+      "source": "live",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held",
+        "no computed position size",
+        "no Bitget instrument",
+        "no side"
+      ],
+      "at": "2026-10-10T07:26:31.512Z",
+      "prevHash": "8cd0c925323ea5bc5ac9a3b2e1776c47517be7aa72cf2d0c75f2f6d39adf6b84",
+      "hash": "eac1c9a4f120cc826e612440e0afba2fefe4caeda0e08b969a1b97f7ccbdccdb"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-8453-1e5e141bdd",
+      "source": "live",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held",
+        "no computed position size",
+        "no Bitget instrument",
+        "no side"
+      ],
+      "at": "2026-10-10T07:26:31.512Z",
+      "prevHash": "d266fd61f891fe0ec96b972c6e63d6ba569300685d453234dc433eee20949a92",
+      "hash": "8cd0c925323ea5bc5ac9a3b2e1776c47517be7aa72cf2d0c75f2f6d39adf6b84"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -930,48 +976,7 @@
       "at": "2026-10-06T23:49:52.931Z",
       "prevHash": "2562ce692b35d87ecbffe660cdfe6711572e08c2382fdec34133c47dfff380d8",
       "hash": "5b44a97da681001aacfaea4df3424026daad67c4b415e1a8c15b2d1cfdaf3cbd"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "disc-makerdao-eth-a-liquidation-keeper-bot-2026-10-06",
-      "source": "discovered",
-      "decision": "MONITOR",
-      "eligible": false,
-      "reasons": [
-        "decision is MONITOR",
-        "risk gate held"
-      ],
-      "at": "2026-10-06T23:49:52.931Z",
-      "prevHash": "6e0671eebd0cf1abe36c0175b52155825cead77172091613d32a396da659bbc9",
-      "hash": "2562ce692b35d87ecbffe660cdfe6711572e08c2382fdec34133c47dfff380d8"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 305,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-10-06T21:49:50.052Z",
-      "prevHash": "fe01c8d50b533a973ccef2bf62c52515e63a745f2cbcda9d1e3236782b5e13de",
-      "hash": "6e0671eebd0cf1abe36c0175b52155825cead77172091613d32a396da659bbc9"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "live-1-sd4be965426",
-      "source": "live",
-      "decision": "NO_TRADE",
-      "eligible": false,
-      "reasons": [
-        "decision is NO_TRADE",
-        "risk gate held",
-        "no computed position size"
-      ],
-      "at": "2026-10-06T21:49:50.052Z",
-      "prevHash": "f374d44c58ad1956571e137f69a7e269be01336d69fcfd866693cccf033c5096",
-      "hash": "fe01c8d50b533a973ccef2bf62c52515e63a745f2cbcda9d1e3236782b5e13de"
     }
   ],
-  "logEntries": 619
+  "logEntries": 622
 }
