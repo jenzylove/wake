@@ -1213,8 +1213,8 @@
     ]
   },
   "receipt": null,
-  "decision": "MONITOR",
-  "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+  "decision": "NO_TRADE",
+  "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": {
     "model": "claude-opus-5",
@@ -1231,7 +1231,7 @@
       "'bridgeHack' flag is unexplained — cannot tell whether a bridge validator set or a single signer was compromised."
     ]
   },
-  "integrity": "a39395a5514cfc0c61a463935e1bd40a91071497c5b93ed85dd86676d6f2a2ee",
+  "integrity": "c0b0f9efe19738bb78368571dc3a57d579618032ef38af6e96de590049d76195",
   "gate": {
     "passed": false,
     "checks": [

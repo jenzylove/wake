@@ -1213,8 +1213,8 @@
     ]
   },
   "receipt": null,
-  "decision": "MONITOR",
-  "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+  "decision": "NO_TRADE",
+  "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": {
     "model": "claude-opus-5",
@@ -1231,7 +1231,7 @@
       "No protocol record, no identified attacker or drained addresses, no returned-funds status"
     ]
   },
-  "integrity": "03c7418f9b2a8aa52373dac43b2a48fafa15aabef34090a62ae77df4f81d49e1",
+  "integrity": "e391740448918365b4bf4c6c160b31a57dd834906cd6bd1f2c531673210d815d",
   "gate": {
     "passed": false,
     "checks": [
