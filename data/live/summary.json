@@ -1,17 +1,17 @@
 {
-  "updatedAt": "2026-10-12T06:17:05.445Z",
+  "updatedAt": "2026-10-12T15:52:16.395Z",
   "minUsd": 250000,
   "chains": {
     "1": {
       "name": "ethereum",
-      "from": 26173626,
-      "to": 26174526,
+      "from": 26176494,
+      "to": 26177394,
       "blocks": 901,
-      "skipped": 1023,
-      "largeTransfers": 1230,
-      "recurringSenders": 132,
-      "rejectedCandidates": 14,
-      "drains": 0,
+      "skipped": 1968,
+      "largeTransfers": 2314,
+      "recurringSenders": 306,
+      "rejectedCandidates": 13,
+      "drains": 1,
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
@@ -19,12 +19,12 @@
     },
     "8453": {
       "name": "base",
-      "from": 52492778,
-      "to": 52498178,
+      "from": 52510026,
+      "to": 52515426,
       "blocks": 5401,
-      "skipped": 6160,
-      "largeTransfers": 20649,
-      "recurringSenders": 71,
+      "skipped": 11848,
+      "largeTransfers": 20694,
+      "recurringSenders": 84,
       "rejectedCandidates": 13,
       "drains": 1,
       "logCoverageComplete": true,
@@ -35,12 +35,12 @@
     "42161": {
       "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
       "name": "arbitrum",
-      "from": 513991255,
-      "to": 514034455,
+      "from": 514114958,
+      "to": 514158158,
       "blocks": 43201,
-      "skipped": 30860,
-      "largeTransfers": 116,
-      "recurringSenders": 10,
+      "skipped": 80503,
+      "largeTransfers": 149,
+      "recurringSenders": 22,
       "rejectedCandidates": 12,
       "drains": 0,
       "logCoverageComplete": true,
@@ -48,13 +48,13 @@
       "failedRanges": [],
       "confirmationErrors": [
         {
-          "tx": "0xb4e863f38f50ee3063b247adfc0712f0aecb47a0eafde4786d456995b30863db",
-          "block": 514019476,
+          "tx": "0x6e98f6b599633e0e2c02620bd24038cb91204b7bfbe8b2a5750311c16e7f1773",
+          "block": 514126711,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         },
         {
-          "tx": "0xd23c056499e0d59841d95d1db0abcff27a510406207c23fedc80cee0b5d899c2",
-          "block": 513994274,
+          "tx": "0x98779440d9a464ad284e189fc54e3333ba4dfce7d3e5ce76f9770ae9efe34326",
+          "block": 514151307,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         }
       ]
@@ -62,42 +62,219 @@
   },
   "scanned": {
     "1": {
-      "lastBlock": 26174526,
-      "scannedAt": "2026-10-12T06:15:03.619Z",
+      "lastBlock": 26177394,
+      "scannedAt": "2026-10-12T15:50:00.852Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 52498178,
-      "scannedAt": "2026-10-12T06:15:48.230Z",
+      "lastBlock": 52515426,
+      "scannedAt": "2026-10-12T15:50:42.322Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 514034455,
-      "scannedAt": "2026-10-12T06:17:03.038Z",
+      "lastBlock": 514158158,
+      "scannedAt": "2026-10-12T15:52:11.710Z",
       "logCoverageComplete": true,
       "evidenceComplete": false,
       "failedRanges": [],
       "confirmationErrors": [
         {
-          "tx": "0xb4e863f38f50ee3063b247adfc0712f0aecb47a0eafde4786d456995b30863db",
-          "block": 514019476,
+          "tx": "0x6e98f6b599633e0e2c02620bd24038cb91204b7bfbe8b2a5750311c16e7f1773",
+          "block": 514126711,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         },
         {
-          "tx": "0xd23c056499e0d59841d95d1db0abcff27a510406207c23fedc80cee0b5d899c2",
-          "block": 513994274,
+          "tx": "0x98779440d9a464ad284e189fc54e3333ba4dfce7d3e5ce76f9770ae9efe34326",
+          "block": 514151307,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         }
       ]
     }
   },
   "incidents": [
+    {
+      "id": "live-1-sec988b3e14",
+      "eventClass": "SUPPLY_TO_EXCHANGE",
+      "detectedAt": "2026-10-12T15:52:15.984Z",
+      "chain": "ethereum",
+      "tx": "0xec988b3e1474ca268ee716b81238fa61279030adf8b4e7ea18380ce5f7b74e23",
+      "contract": "0x1fdfb101107b277530e508a4896724b97ae2fad9",
+      "asset": "UNI",
+      "approxUsd": 764674,
+      "removedShare": 0.3747,
+      "protocol": null,
+      "instrument": "UNIUSDT",
+      "exchange": "Coinbase",
+      "depositor": {
+        "address": "0x1fdfb101107b277530e508a4896724b97ae2fad9",
+        "isContract": false,
+        "transactionCount": 24,
+        "balanceBefore": 275329.4996322013,
+        "shareOfBalanceSent": 0.3747,
+        "shareOfSupply": 0.000103,
+        "viaDepositAddress": null
+      },
+      "decision": "NO_TRADE",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "edge -1.28% is below the 0.4% bar"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": 0.142,
+      "marketDeltaPct": 1.423,
+      "minEdgePct": 0.4,
+      "exposureMeasured": false,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 6522.91964747223,
+        "maxLossUsd": 500,
+        "stopPct": 0.07246743875390213,
+        "costPct": 0.004185352790718629,
+        "spreadPct": 0.002985352790718629,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.036233719376951065,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 15944256.307999998,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.002985352790718629,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "falsification": [],
+      "ai": null
+    },
+    {
+      "id": "live-8453-a7ce147c81",
+      "eventClass": "DRAIN",
+      "detectedAt": "2026-10-12T15:50:42.320Z",
+      "chain": "base",
+      "tx": "0xa7ce147c8160991d6c81134a010477e220c3b8c1e4f7efbe9982f22246d5bc59",
+      "contract": "0xbeeff0be997cca5b1c13a7433c2004637975739e",
+      "asset": "USDC",
+      "approxUsd": 28000000,
+      "removedShare": 0.9666,
+      "protocol": null,
+      "instrument": null,
+      "exchange": null,
+      "depositor": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "no listed instrument to trade, so there is nothing to decide"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "minEdgePct": null,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        }
+      ],
+      "ai": null
+    },
+    {
+      "id": "live-1-c82f4e3f58",
+      "eventClass": "DRAIN",
+      "detectedAt": "2026-10-12T15:50:00.850Z",
+      "chain": "ethereum",
+      "tx": "0xc82f4e3f58334091a05248c63830f20bd6ce87594c62cb76944ebdb8d8e34471",
+      "contract": "0xb93b82f33e2653b544e046128f3cb47879dc917b",
+      "asset": "USDC",
+      "approxUsd": 24790573,
+      "removedShare": 0.7607,
+      "protocol": null,
+      "instrument": null,
+      "exchange": null,
+      "depositor": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "no listed instrument to trade, so there is nothing to decide"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "minEdgePct": null,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        }
+      ],
+      "ai": null
+    },
     {
       "id": "live-8453-9c95f35a4c",
       "eventClass": "DRAIN",
@@ -3383,195 +3560,25 @@
         }
       ],
       "ai": null
-    },
-    {
-      "id": "live-1-1623c70d91",
-      "eventClass": "DRAIN",
-      "detectedAt": "2026-10-03T13:34:17.894Z",
-      "chain": "ethereum",
-      "tx": "0x1623c70d91615d6c463aaf59ca7c1894a8ce7d99ad2ce1dae8d74c0fe4a04440",
-      "contract": "0x100ae042ef0ea159ecc3513e9a378ff21f3829ba",
-      "asset": "USDC",
-      "approxUsd": 4671364,
-      "removedShare": 0.6318,
-      "protocol": null,
-      "instrument": null,
-      "exchange": null,
-      "depositor": null,
-      "decision": "MONITOR",
-      "gatePassed": false,
-      "confidence": null,
-      "side": "SHORT",
-      "proposed": null,
-      "refusals": [
-        "no listed instrument to trade, so there is nothing to decide"
-      ],
-      "aiDecision": null,
-      "modeledDeltaPct": null,
-      "marketDeltaPct": 0,
-      "minEdgePct": null,
-      "exposureMeasured": true,
-      "sizing": null,
-      "falsification": [
-        {
-          "key": "loss-path",
-          "question": "Is the loss path measured from chain state?",
-          "status": "REJECTED",
-          "blocksTrade": false
-        },
-        {
-          "key": "market",
-          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
-          "status": "UNRESOLVED",
-          "blocksTrade": true
-        }
-      ],
-      "ai": null
-    },
-    {
-      "id": "live-1-2e914a5f58",
-      "eventClass": "DRAIN",
-      "detectedAt": "2026-10-03T13:34:17.355Z",
-      "chain": "ethereum",
-      "tx": "0x2e914a5f58e22650fd159b5a32b2ec0005e8aaea982bb01906a2ff18a0c42db4",
-      "contract": "0x755bc7104b98ea061197be76d1e49fa84e3e702f",
-      "asset": "USDC",
-      "approxUsd": 6999990,
-      "removedShare": 0.7064,
-      "protocol": null,
-      "instrument": null,
-      "exchange": null,
-      "depositor": null,
-      "decision": "MONITOR",
-      "gatePassed": false,
-      "confidence": null,
-      "side": "SHORT",
-      "proposed": null,
-      "refusals": [
-        "no listed instrument to trade, so there is nothing to decide"
-      ],
-      "aiDecision": null,
-      "modeledDeltaPct": null,
-      "marketDeltaPct": 0,
-      "minEdgePct": null,
-      "exposureMeasured": true,
-      "sizing": null,
-      "falsification": [
-        {
-          "key": "loss-path",
-          "question": "Is the loss path measured from chain state?",
-          "status": "REJECTED",
-          "blocksTrade": false
-        },
-        {
-          "key": "market",
-          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
-          "status": "UNRESOLVED",
-          "blocksTrade": true
-        }
-      ],
-      "ai": null
-    },
-    {
-      "id": "live-1-s91f2b74520",
-      "eventClass": "SUPPLY_TO_EXCHANGE",
-      "detectedAt": "2026-10-03T08:25:11.111Z",
-      "chain": "ethereum",
-      "tx": "0x91f2b74520a6ee95f4004d61820d140f9c5d34157245adb422697321ae084adf",
-      "contract": "0xee845948e6806d12e966137caa07d49bbe632fe3",
-      "asset": "UNI",
-      "approxUsd": 515599,
-      "removedShare": 1,
-      "protocol": null,
-      "instrument": "UNIUSDT",
-      "exchange": "Binance",
-      "depositor": {
-        "address": "0xee845948e6806d12e966137caa07d49bbe632fe3",
-        "isContract": false,
-        "transactionCount": 91364,
-        "balanceBefore": 56049.4380069,
-        "shareOfBalanceSent": 1,
-        "shareOfSupply": 0.000056,
-        "viaDepositAddress": null
-      },
-      "decision": "NO_TRADE",
-      "gatePassed": false,
-      "confidence": null,
-      "side": "SHORT",
-      "proposed": null,
-      "refusals": [
-        "edge 0.14% is below the 0.393% bar"
-      ],
-      "aiDecision": null,
-      "modeledDeltaPct": 0.139,
-      "marketDeltaPct": -0.481,
-      "minEdgePct": 0.393,
-      "exposureMeasured": false,
-      "sizing": {
-        "computable": true,
-        "notionalUsd": 4637.3153962674205,
-        "maxLossUsd": 500,
-        "stopPct": 0.1016780669409297,
-        "costPct": 0.0061429366514613665,
-        "spreadPct": 0.004942936651461367,
-        "bindingConstraint": "risk budget",
-        "inputs": [
-          {
-            "label": "Window volatility",
-            "value": 0.05083903347046485,
-            "provenance": "OBSERVED"
-          },
-          {
-            "label": "Window traded value (USD)",
-            "value": 20820634.858,
-            "provenance": "OBSERVED"
-          },
-          {
-            "label": "Spread (Corwin-Schultz on 1m candles)",
-            "value": 0.004942936651461367,
-            "provenance": "ESTIMATED"
-          },
-          {
-            "label": "Equity",
-            "value": 100000,
-            "provenance": "ASSUMED"
-          },
-          {
-            "label": "Risk fraction",
-            "value": 0.005,
-            "provenance": "ASSUMED"
-          },
-          {
-            "label": "Stop, in window sigmas",
-            "value": 2,
-            "provenance": "ASSUMED"
-          },
-          {
-            "label": "Participation cap",
-            "value": 0.005,
-            "provenance": "ASSUMED"
-          },
-          {
-            "label": "Taker fee",
-            "value": 0.0006,
-            "provenance": "OBSERVED"
-          }
-        ]
-      },
-      "falsification": [],
-      "ai": null
     }
   ],
   "supply": {
-    "at": "2026-10-12T06:17:05.437Z",
-    "from": 26173638,
-    "to": 26174538,
+    "at": "2026-10-12T15:52:16.386Z",
+    "from": 26176506,
+    "to": 26177406,
     "blocks": 901,
-    "transfers": 109,
+    "transfers": 78,
     "hubs": 8,
     "inferredHubs": 0,
-    "deposits": 0,
+    "deposits": 1,
     "minUsd": 500000,
-    "opened": []
+    "opened": [
+      {
+        "id": "live-1-sec988b3e14",
+        "token": "UNI",
+        "usd": 764674,
+        "decision": "NO_TRADE"
+      }
+    ]
   }
 }
