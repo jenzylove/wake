@@ -1,6 +1,112 @@
 {
-  "updatedAt": "2026-10-19T13:05:24.115Z",
+  "updatedAt": "2026-10-19T19:18:38.947Z",
   "incidents": [
+    {
+      "id": "disc-qubic-2026-10-17",
+      "name": "Qubic",
+      "day": "2026-10-17",
+      "amountUsd": 1300000,
+      "chains": [
+        "Qubic"
+      ],
+      "technique": "Weak Key Generation",
+      "classification": "Key Compromise",
+      "protocol": null,
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-10-19T19:18:35.825Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "4b13dface1e33ca4de08d535db923c35714ee428c5c346e5be29618c1b520c2e",
+      "sourceSha256": "7fed50e1ed5bc60b5ffc07eff566ffbd52940f70292419c015891072bbdd957e",
+      "ai": null
+    },
+    {
+      "id": "disc-gamdom-2026-10-13",
+      "name": "Gamdom",
+      "day": "2026-10-13",
+      "amountUsd": 4208000,
+      "chains": [
+        "Ethereum",
+        "BSC",
+        "Polygon",
+        "Arbitrum",
+        "Optimism",
+        "Solana",
+        "TRON",
+        "Bitcoin"
+      ],
+      "technique": "Key Leaked via Infrastructure",
+      "classification": "Frontend & Infrastructure",
+      "protocol": null,
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "BNBUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of BSC",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "POLUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Polygon",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "SOLUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Solana",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-10-19T19:18:37.756Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 5475431722.73,
+        "exploitDayMovePct": 2.497,
+        "hourlySigma": 0.005136,
+        "windowSigma": 0.025161
+      },
+      "microstructure": {
+        "observedAt": "2026-10-19T19:18:37.755Z",
+        "mid": 2399.645,
+        "spreadBps": 0.042,
+        "bidDepthUsd1pct": 2227025,
+        "askDepthUsd1pct": 9060142,
+        "fundingRate": 0.0001,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 779399.2600000007
+      },
+      "sizing": {
+        "notionalUsd": 9319.490731591872,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.050322,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "a50dde682bec0cefd189ff87149b551db249d1739a06048cf969a875b8f3c1a2",
+      "sourceSha256": "86469941b2b234a7fe8fe9eb729297998331d2a029f0c2655561696bb9c21b78",
+      "ai": null
+    },
     {
       "id": "disc-papertrade-2026-10-10",
       "name": "Papertrade",
@@ -42,14 +148,14 @@
         "windowSigma": 0.024779
       },
       "microstructure": {
-        "observedAt": "2026-10-19T13:05:23.507Z",
-        "mid": 79.894,
-        "spreadBps": 0.25,
-        "bidDepthUsd1pct": 263851,
-        "askDepthUsd1pct": 287780,
-        "fundingRate": 0.000024,
+        "observedAt": "2026-10-19T19:18:38.377Z",
+        "mid": 77.8455,
+        "spreadBps": 0.128,
+        "bidDepthUsd1pct": 210988,
+        "askDepthUsd1pct": 145059,
+        "fundingRate": 0.000017,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 2144838.0500000007
+        "openInterestContracts": 2134636.190000001
       },
       "sizing": {
         "notionalUsd": 9490.26666003151,
@@ -89,7 +195,7 @@
           }
         ]
       },
-      "integrity": "334d2d2ae6cdc8e0c73443959dd187e5269a50493e7465bbb3151944464b4220",
+      "integrity": "d26ae5cb9cc3e568fe472683b58da62c11715f43b456ff4ea05041f9758fb171",
       "sourceSha256": "151cd9a60c7719c3a470380d91b9c74f3f2a62c1cebd59b2dc4c534cd8065507",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -104,6 +210,31 @@
           "Loss bearer is Papertrade's own collateral; no evidence the $1.28m touches HYPE holders."
         ]
       }
+    },
+    {
+      "id": "disc-ledger-supply-chain-2026-10-09",
+      "name": "Ledger (Supply Chain)",
+      "day": "2026-10-09",
+      "amountUsd": 93000000,
+      "chains": null,
+      "technique": "Supply Chain Attack",
+      "classification": "Frontend & Infrastructure",
+      "protocol": null,
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-10-19T19:18:37.868Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "bbca712d853c2599b025950c7c1e03216599ba353bfad3328f79d289196a94a8",
+      "sourceSha256": "f71eeac4eb76f56cf0c93e382dd593aeacb80e85b80c0d8a90c52eb075002034",
+      "ai": null
     },
     {
       "id": "disc-makerdao-eth-a-liquidation-keeper-bot-2026-10-06",
@@ -139,14 +270,14 @@
         "windowSigma": 0.013923
       },
       "microstructure": {
-        "observedAt": "2026-10-19T13:05:23.691Z",
-        "mid": 2428.005,
-        "spreadBps": 0.041,
-        "bidDepthUsd1pct": 6215218,
-        "askDepthUsd1pct": 3270276,
-        "fundingRate": 0.000043,
+        "observedAt": "2026-10-19T19:18:38.556Z",
+        "mid": 2399.645,
+        "spreadBps": 0.042,
+        "bidDepthUsd1pct": 2190574,
+        "askDepthUsd1pct": 9057515,
+        "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 749700.6700000005
+        "openInterestContracts": 779399.2600000007
       },
       "sizing": {
         "notionalUsd": 16591.94443730728,
@@ -186,7 +317,7 @@
           }
         ]
       },
-      "integrity": "ead6ea9519fe60419555209d430bbe02ddb1cd8a831a49c8fcaf6f4adba2f5d1",
+      "integrity": "466ccfb1aa9cc820cd5748ce5a1fe5ea79e84918b5ccb89fd50ce53e98a38b62",
       "sourceSha256": "bc4d76d0bf31e832d45bf05368214a86f855a3d436831372229cc6a54bc0e0cc",
       "ai": {
         "exploitClass": "access-control",
@@ -249,14 +380,14 @@
         "windowSigma": 0.074324
       },
       "microstructure": {
-        "observedAt": "2026-10-19T13:05:24.111Z",
-        "mid": 5.02905,
-        "spreadBps": 0.199,
-        "bidDepthUsd1pct": 147901,
-        "askDepthUsd1pct": 121776,
-        "fundingRate": -0.000007,
+        "observedAt": "2026-10-19T19:18:38.748Z",
+        "mid": 4.94965,
+        "spreadBps": 0.202,
+        "bidDepthUsd1pct": 159328,
+        "askDepthUsd1pct": 169734,
+        "fundingRate": 0.000031,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 16143129
+        "openInterestContracts": 16123804
       },
       "sizing": {
         "notionalUsd": 3160.1819654846868,
@@ -289,7 +420,7 @@
           }
         ]
       },
-      "integrity": "ab672c1ea085656d353e652f67707327dec2e5b7ab901b59aa35d9bfee4e8fce",
+      "integrity": "073e0d5bbb932083a0d6b30c2fb61e59b5ff73a3e69bb80c727429d777344ba8",
       "sourceSha256": "a1d6995e2120ef395f3a8fbb6eeccf92573ea4e1986252a0bbaf58031ea3a885",
       "ai": null
     },
@@ -327,14 +458,14 @@
         "windowSigma": 0.021599
       },
       "microstructure": {
-        "observedAt": "2026-10-19T13:05:23.870Z",
-        "mid": 2428.005,
-        "spreadBps": 0.041,
-        "bidDepthUsd1pct": 8272271,
-        "askDepthUsd1pct": 3229743,
-        "fundingRate": 0.000043,
+        "observedAt": "2026-10-19T19:18:38.941Z",
+        "mid": 2399.645,
+        "spreadBps": 0.042,
+        "bidDepthUsd1pct": 2190550,
+        "askDepthUsd1pct": 9106812,
+        "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 749700.6700000005
+        "openInterestContracts": 779399.2600000007
       },
       "sizing": {
         "notionalUsd": 10788.003236136494,
@@ -374,7 +505,7 @@
           }
         ]
       },
-      "integrity": "7256e4676d4690750e468195f32f1e2a37eca5f16ccd296e1e10e4555db72639",
+      "integrity": "51ea4c21b0b123ed3eb67706667ec3a3fcb2b3b7d6b8cde5b47bcea485d429e3",
       "sourceSha256": "b9cefc49101f57b4b9e0bab6dfce105bbc268359f685e6eea95fb44eec401a64",
       "ai": {
         "exploitClass": "access-control",
