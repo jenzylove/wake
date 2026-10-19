@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-19T19:18:38.947Z",
+  "updatedAt": "2026-10-19T23:36:25.953Z",
   "incidents": [
     {
       "id": "disc-qubic-2026-10-17",
@@ -87,14 +87,14 @@
         "windowSigma": 0.025161
       },
       "microstructure": {
-        "observedAt": "2026-10-19T19:18:37.755Z",
-        "mid": 2399.645,
+        "observedAt": "2026-10-19T23:36:25.157Z",
+        "mid": 2409.465,
         "spreadBps": 0.042,
-        "bidDepthUsd1pct": 2227025,
-        "askDepthUsd1pct": 9060142,
+        "bidDepthUsd1pct": 3040888,
+        "askDepthUsd1pct": 8522245,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 779399.2600000007
+        "openInterestContracts": 782953.3000000006
       },
       "sizing": {
         "notionalUsd": 9319.490731591872,
@@ -102,8 +102,32 @@
         "stopPct": 0.050322,
         "bindingConstraint": "risk budget"
       },
-      "assessment": null,
-      "integrity": "a50dde682bec0cefd189ff87149b551db249d1739a06048cf969a875b8f3c1a2",
+      "assessment": {
+        "modeledDeltaPct": null,
+        "marketDeltaPct": 2.497,
+        "confidence": null,
+        "falsification": [
+          {
+            "key": "receipt",
+            "question": "Is there an on-chain receipt proving the loss path?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "loss-path",
+            "question": "Is the downstream exposure quantified from chain state?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          },
+          {
+            "key": "market-cap",
+            "question": "Is there a market capitalisation to measure the loss against?",
+            "status": "UNRESOLVED",
+            "blocksTrade": true
+          }
+        ]
+      },
+      "integrity": "7d1ac497e9fb31b49b19113e1de5e8979523b20cd5324990963a9d7135b9f850",
       "sourceSha256": "86469941b2b234a7fe8fe9eb729297998331d2a029f0c2655561696bb9c21b78",
       "ai": null
     },
@@ -148,14 +172,14 @@
         "windowSigma": 0.024779
       },
       "microstructure": {
-        "observedAt": "2026-10-19T19:18:38.377Z",
-        "mid": 77.8455,
-        "spreadBps": 0.128,
-        "bidDepthUsd1pct": 210988,
-        "askDepthUsd1pct": 145059,
-        "fundingRate": 0.000017,
+        "observedAt": "2026-10-19T23:36:25.361Z",
+        "mid": 79.3665,
+        "spreadBps": 0.126,
+        "bidDepthUsd1pct": 161497,
+        "askDepthUsd1pct": 263397,
+        "fundingRate": 0.000039,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 2134636.190000001
+        "openInterestContracts": 2133613.590000001
       },
       "sizing": {
         "notionalUsd": 9490.26666003151,
@@ -195,7 +219,7 @@
           }
         ]
       },
-      "integrity": "d26ae5cb9cc3e568fe472683b58da62c11715f43b456ff4ea05041f9758fb171",
+      "integrity": "5b6d69ac1ba7dfea04d215a423fa26ee92747ddfd11c4d843a0ed1511ba34de1",
       "sourceSha256": "151cd9a60c7719c3a470380d91b9c74f3f2a62c1cebd59b2dc4c534cd8065507",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -270,14 +294,14 @@
         "windowSigma": 0.013923
       },
       "microstructure": {
-        "observedAt": "2026-10-19T19:18:38.556Z",
-        "mid": 2399.645,
+        "observedAt": "2026-10-19T23:36:25.569Z",
+        "mid": 2409.465,
         "spreadBps": 0.042,
-        "bidDepthUsd1pct": 2190574,
-        "askDepthUsd1pct": 9057515,
+        "bidDepthUsd1pct": 3040888,
+        "askDepthUsd1pct": 8522245,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 779399.2600000007
+        "openInterestContracts": 782953.3000000006
       },
       "sizing": {
         "notionalUsd": 16591.94443730728,
@@ -317,7 +341,7 @@
           }
         ]
       },
-      "integrity": "466ccfb1aa9cc820cd5748ce5a1fe5ea79e84918b5ccb89fd50ce53e98a38b62",
+      "integrity": "83d36641e56f7424daa44ea35eb5404027da46517b22d6e7cc0d98089d92649c",
       "sourceSha256": "bc4d76d0bf31e832d45bf05368214a86f855a3d436831372229cc6a54bc0e0cc",
       "ai": {
         "exploitClass": "access-control",
@@ -380,14 +404,14 @@
         "windowSigma": 0.074324
       },
       "microstructure": {
-        "observedAt": "2026-10-19T19:18:38.748Z",
-        "mid": 4.94965,
-        "spreadBps": 0.202,
-        "bidDepthUsd1pct": 159328,
-        "askDepthUsd1pct": 169734,
-        "fundingRate": 0.000031,
+        "observedAt": "2026-10-19T23:36:25.948Z",
+        "mid": 4.92265,
+        "spreadBps": 0.203,
+        "bidDepthUsd1pct": 136304,
+        "askDepthUsd1pct": 121779,
+        "fundingRate": -0.000022,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 16123804
+        "openInterestContracts": 16026698
       },
       "sizing": {
         "notionalUsd": 3160.1819654846868,
@@ -420,7 +444,7 @@
           }
         ]
       },
-      "integrity": "073e0d5bbb932083a0d6b30c2fb61e59b5ff73a3e69bb80c727429d777344ba8",
+      "integrity": "fd9f7c2451841c0c070b46ce442113978a3fc40fbe3073352abd561b4629202d",
       "sourceSha256": "a1d6995e2120ef395f3a8fbb6eeccf92573ea4e1986252a0bbaf58031ea3a885",
       "ai": null
     },
@@ -458,14 +482,14 @@
         "windowSigma": 0.021599
       },
       "microstructure": {
-        "observedAt": "2026-10-19T19:18:38.941Z",
-        "mid": 2399.645,
+        "observedAt": "2026-10-19T23:36:25.770Z",
+        "mid": 2409.465,
         "spreadBps": 0.042,
-        "bidDepthUsd1pct": 2190550,
-        "askDepthUsd1pct": 9106812,
+        "bidDepthUsd1pct": 3014434,
+        "askDepthUsd1pct": 7669945,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 779399.2600000007
+        "openInterestContracts": 782953.3000000006
       },
       "sizing": {
         "notionalUsd": 10788.003236136494,
@@ -505,7 +529,7 @@
           }
         ]
       },
-      "integrity": "51ea4c21b0b123ed3eb67706667ec3a3fcb2b3b7d6b8cde5b47bcea485d429e3",
+      "integrity": "0ef4c85084e375830879a243c970d3833f54fca874852296bf0899e03eb16195",
       "sourceSha256": "b9cefc49101f57b4b9e0bab6dfce105bbc268359f685e6eea95fb44eec401a64",
       "ai": {
         "exploitClass": "access-control",
