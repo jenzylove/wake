@@ -1033,8 +1033,8 @@
     ]
   },
   "receipt": null,
-  "decision": "MONITOR",
-  "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+  "decision": "NO_TRADE",
+  "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": {
     "model": "claude-opus-5",
@@ -1051,7 +1051,7 @@
       "Loss size (305000 USD) is negligible against 3309320738.28 USD quote volume; no mechanism links it to price."
     ]
   },
-  "integrity": "9f0b1fd6af354c9a68503f515a7b4ff75c9ec91a9821b88f0011cb493cb6b432",
+  "integrity": "777dbb0e9f94671f26d207ddf954f5f15296d22fff49be4cab30b2a37644cf08",
   "gate": {
     "passed": false,
     "checks": [
