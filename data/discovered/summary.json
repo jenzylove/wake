@@ -1,6 +1,40 @@
 {
-  "updatedAt": "2026-10-23T13:22:08.410Z",
+  "updatedAt": "2026-10-23T18:17:23.317Z",
   "incidents": [
+    {
+      "id": "disc-coindcx-2026-10-21",
+      "name": "CoinDCX",
+      "day": "2026-10-21",
+      "amountUsd": 16000000,
+      "chains": [
+        "TRON"
+      ],
+      "technique": "Hot Wallet Key Compromised",
+      "classification": "Key Compromise",
+      "protocol": {
+        "id": "4042",
+        "name": "CoinDCX",
+        "slug": "coindcx",
+        "symbol": "-",
+        "category": "CEX",
+        "mcapUsd": null
+      },
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-10-23T18:17:21.323Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "8c303d87ddd73463027e0b968761a1abd31ef2901aaf051126761822ec39b83b",
+      "sourceSha256": "584a6ad1e8f732b6152031ea6926674caa6307ce0da705a9c0591daa7efddfc0",
+      "ai": null
+    },
     {
       "id": "disc-qubic-2026-10-17",
       "name": "Qubic",
@@ -121,14 +155,14 @@
         "windowSigma": 0.025161
       },
       "microstructure": {
-        "observedAt": "2026-10-23T13:22:07.998Z",
-        "mid": 2401.7650000000003,
+        "observedAt": "2026-10-23T18:17:22.925Z",
+        "mid": 2407.925,
         "spreadBps": 0.042,
-        "bidDepthUsd1pct": 997718,
-        "askDepthUsd1pct": 5887487,
-        "fundingRate": -0.000001,
+        "bidDepthUsd1pct": 8576615,
+        "askDepthUsd1pct": 2176596,
+        "fundingRate": 0.000071,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 757783.3399999997
+        "openInterestContracts": 760040.3899999998
       },
       "sizing": {
         "notionalUsd": 9319.490731591872,
@@ -161,7 +195,7 @@
           }
         ]
       },
-      "integrity": "95aaf15fa67b98f4f78745050fe9230da75d04cc552b176a6d588a951ff92755",
+      "integrity": "e6f1d567d3dd8d6bb72e3d2fd626bd2af4cb1a901da046cf6423370cfd8f7f59",
       "sourceSha256": "86469941b2b234a7fe8fe9eb729297998331d2a029f0c2655561696bb9c21b78",
       "ai": null
     },
@@ -206,14 +240,14 @@
         "windowSigma": 0.024779
       },
       "microstructure": {
-        "observedAt": "2026-10-23T13:22:08.204Z",
-        "mid": 77.71799999999999,
-        "spreadBps": 0.257,
-        "bidDepthUsd1pct": 238815,
-        "askDepthUsd1pct": 177058,
+        "observedAt": "2026-10-23T18:17:23.118Z",
+        "mid": 78.29650000000001,
+        "spreadBps": 0.128,
+        "bidDepthUsd1pct": 299647,
+        "askDepthUsd1pct": 154275,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 2255715.0500000007
+        "openInterestContracts": 2256600.4300000006
       },
       "sizing": {
         "notionalUsd": 9490.26666003151,
@@ -253,7 +287,7 @@
           }
         ]
       },
-      "integrity": "96b5b21fbf5418250a4ffd492317cfa76a8537fc19a2015778e23e0f4615d321",
+      "integrity": "a4270b69ad8e2fd732dd924b33dd35198f4bedc1d6ae464cc9cb21f5e6405a9a",
       "sourceSha256": "151cd9a60c7719c3a470380d91b9c74f3f2a62c1cebd59b2dc4c534cd8065507",
       "ai": {
         "exploitClass": "oracle-manipulation",
@@ -328,14 +362,14 @@
         "windowSigma": 0.013923
       },
       "microstructure": {
-        "observedAt": "2026-10-23T13:22:08.405Z",
-        "mid": 2401.7650000000003,
+        "observedAt": "2026-10-23T18:17:23.312Z",
+        "mid": 2407.925,
         "spreadBps": 0.042,
-        "bidDepthUsd1pct": 1096358,
-        "askDepthUsd1pct": 5858293,
-        "fundingRate": -0.000001,
+        "bidDepthUsd1pct": 8353669,
+        "askDepthUsd1pct": 2281065,
+        "fundingRate": 0.000071,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 757783.3399999997
+        "openInterestContracts": 760040.3899999998
       },
       "sizing": {
         "notionalUsd": 16591.94443730728,
@@ -375,7 +409,7 @@
           }
         ]
       },
-      "integrity": "72b0f9fb6bef33bb9f7ab434ed3b8cf8b1362644bb7cbbfd8e9d691dce025b32",
+      "integrity": "8be86076fb64a3d25fd9358dcd8e32832751cee6f135016d25972555718a5b58",
       "sourceSha256": "bc4d76d0bf31e832d45bf05368214a86f855a3d436831372229cc6a54bc0e0cc",
       "ai": {
         "exploitClass": "access-control",
