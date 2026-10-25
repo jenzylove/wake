@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-10-25T16:11:00.935Z",
+    "updatedAt": "2026-10-25T17:10:27.855Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 457,
+    "incidentsEvaluated": 459,
     "eligibleNow": 0,
     "open": 0,
     "closedTrades": 3,
@@ -36,13 +36,13 @@
     "bySource": {
       "captured": 6,
       "discovered": 31,
-      "live": 309,
+      "live": 311,
       "blind": 111
     }
   },
   "exchange": {
     "account": {
-      "equity": 9990.84254211,
+      "equity": 9990.84674211,
       "available": 9985.51904211,
       "marginCoin": "USDT"
     },
@@ -52,13 +52,13 @@
         "side": "SHORT",
         "size": 0.14,
         "entryPrice": 678.835,
-        "markPrice": 640.81,
-        "unrealizedPnlUsd": 5.3235,
+        "markPrice": 640.78,
+        "unrealizedPnlUsd": 5.3277,
         "marginMode": "crossed",
         "leverage": 2
       }
     ],
-    "at": "2026-10-25T16:11:00.935Z"
+    "at": "2026-10-25T17:10:27.855Z"
   },
   "open": [],
   "closed": [
@@ -148,6 +148,50 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 459,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-10-25T17:10:27.855Z",
+      "prevHash": "9224385198ea9c1963236c1addfc09f440e5b72ed25b0d2178aa2706636c48e1",
+      "hash": "fb35b2aaf9afc253a61d81b454e8e74546bc7b5d22f773d9f1a5c3e23ee73389"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-8453-279b9d5bf8",
+      "source": "live",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held",
+        "no computed position size",
+        "no Bitget instrument",
+        "no side"
+      ],
+      "at": "2026-10-25T17:10:27.855Z",
+      "prevHash": "e3b397c72fa0a06e3c08865390b9abb17b855befcfa9dd5af4a264339ef65740",
+      "hash": "9224385198ea9c1963236c1addfc09f440e5b72ed25b0d2178aa2706636c48e1"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-1-s40dbaabea9",
+      "source": "live",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held",
+        "no computed position size"
+      ],
+      "at": "2026-10-25T17:10:27.855Z",
+      "prevHash": "aad5a88af9b194e0b080f06a1517a58e0f1aeefa35ab5d6e6d02a466779c3e1c",
+      "hash": "e3b397c72fa0a06e3c08865390b9abb17b855befcfa9dd5af4a264339ef65740"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -931,43 +975,7 @@
       "at": "2026-10-22T22:34:46.795Z",
       "prevHash": "aa65a3b44bbcd8b6637995a480fff6ab784409d19b14622beee1178597f67b77",
       "hash": "78e825ab7b2416a54659f0a26f732b668b451dd643d94cd477122c1d66ed383f"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 435,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-10-22T22:18:31.452Z",
-      "prevHash": "69c90a3d3377cb694f20b75efd15abf6adf69dd3cd490c12a0888b1e12d14344",
-      "hash": "aa65a3b44bbcd8b6637995a480fff6ab784409d19b14622beee1178597f67b77"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 435,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-10-22T19:13:00.544Z",
-      "prevHash": "6ec91c64f34f3d5dbea60a6fd13bac92682dfbb5c23d5e689f30c418c1251f00",
-      "hash": "69c90a3d3377cb694f20b75efd15abf6adf69dd3cd490c12a0888b1e12d14344"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 435,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-10-22T18:43:27.770Z",
-      "prevHash": "324c9ead5854d851a557401001ce3c70891a1259dc91065d854d01e7ddb61b20",
-      "hash": "6ec91c64f34f3d5dbea60a6fd13bac92682dfbb5c23d5e689f30c418c1251f00"
     }
   ],
-  "logEntries": 933
+  "logEntries": 936
 }
