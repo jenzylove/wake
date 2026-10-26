@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-10-25T22:44:17.061Z",
+    "updatedAt": "2026-10-26T00:18:52.084Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 460,
+    "incidentsEvaluated": 461,
     "eligibleNow": 0,
     "open": 0,
     "closedTrades": 3,
@@ -35,15 +35,15 @@
     "openBySource": {},
     "bySource": {
       "captured": 6,
-      "discovered": 31,
+      "discovered": 32,
       "live": 312,
       "blind": 111
     }
   },
   "exchange": {
     "account": {
-      "equity": 9990.84394211,
-      "available": 9985.51904211,
+      "equity": 9990.51978912,
+      "available": 9985.51688912,
       "marginCoin": "USDT"
     },
     "positions": [
@@ -52,13 +52,13 @@
         "side": "SHORT",
         "size": 0.14,
         "entryPrice": 678.835,
-        "markPrice": 640.8,
-        "unrealizedPnlUsd": 5.3249,
+        "markPrice": 643.1,
+        "unrealizedPnlUsd": 5.0029,
         "marginMode": "crossed",
         "leverage": 2
       }
     ],
-    "at": "2026-10-25T22:44:17.061Z"
+    "at": "2026-10-26T00:18:52.084Z"
   },
   "open": [],
   "closed": [
@@ -148,6 +148,32 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 461,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-10-26T00:18:52.084Z",
+      "prevHash": "c136218acc9e8523790a8908963d4248c8f2f34482e7962fc3012f58d650a1a7",
+      "hash": "7aa22e37392076c5c7e11060450a7d2fe0794a537e33fdd34b0418ee9aef162b"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "disc-x100-2026-10-24",
+      "source": "discovered",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held"
+      ],
+      "at": "2026-10-26T00:18:52.084Z",
+      "prevHash": "16fafee094881c1e61577ad5b55dd4ae0f38ebe7191a9f7bc53555123cbeaa90",
+      "hash": "c136218acc9e8523790a8908963d4248c8f2f34482e7962fc3012f58d650a1a7"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -943,31 +969,7 @@
       "at": "2026-10-23T07:49:11.134Z",
       "prevHash": "94df526f91a9c5762b59a844dee9870be492d7a9ec5e644e36be1803732205a2",
       "hash": "f0671d6b96bd3d397140a128aab0abc02f5ead13ef5ab5c433f9a3c3ab356d67"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 438,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-10-23T07:26:44.967Z",
-      "prevHash": "3a1c2953fee2b6bf37648a6fcd3249ddcd19cfd04b1dc17ed2b1091509dfafbd",
-      "hash": "94df526f91a9c5762b59a844dee9870be492d7a9ec5e644e36be1803732205a2"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 438,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-10-23T01:45:56.673Z",
-      "prevHash": "2db541ce543e309f63b39f4b2446936c9044ec7418b4eaa34106d125632f6fc5",
-      "hash": "3a1c2953fee2b6bf37648a6fcd3249ddcd19cfd04b1dc17ed2b1091509dfafbd"
     }
   ],
-  "logEntries": 941
+  "logEntries": 943
 }
