@@ -1015,8 +1015,8 @@
     ]
   },
   "receipt": null,
-  "decision": "MONITOR",
-  "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+  "decision": "NO_TRADE",
+  "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": {
     "model": "claude-opus-5",
@@ -1033,7 +1033,7 @@
       "Reported 538000 is immaterial against 2425935841.38 of 48h quote volume"
     ]
   },
-  "integrity": "54bf00e2de5bcc2d1219f56fb86998924a8426d85b3e04a434cb74b39feb64f0",
+  "integrity": "38451f3b14182d2cdc7e956af6ae3fd7cf64d9ab43d557f6698d0c156332f2f8",
   "gate": {
     "passed": false,
     "checks": [
