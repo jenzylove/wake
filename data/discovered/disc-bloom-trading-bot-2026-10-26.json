@@ -714,6 +714,16 @@
       "fundingRate": 0.0001,
       "fundingIntervalHours": 8,
       "openInterestContracts": 4254521.599999961
+    },
+    {
+      "observedAt": "2026-10-28T18:49:52.404Z",
+      "mid": 102.1575,
+      "spreadBps": 0.098,
+      "bidDepthUsd1pct": 1297365,
+      "askDepthUsd1pct": 816501,
+      "fundingRate": 0.000099,
+      "fundingIntervalHours": 8,
+      "openInterestContracts": 4236280.499999961
     }
   ],
   "sizing": {
@@ -773,5 +783,70 @@
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": null,
   "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
-  "integrity": "416caf3813bbcd8702ce38fbdbcad5580d3a33f66b31d0e685fde8a0dcd2f592"
+  "integrity": "55bfe6e57d2f3dba30f88fa2374e55cf942dd5185f92ff1620b3ba8972615b69",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "1 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "3 blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "assessment": {
+    "modeledDeltaPct": null,
+    "marketDeltaPct": -0.54,
+    "confidence": null,
+    "falsification": [
+      {
+        "key": "receipt",
+        "question": "Is there an on-chain receipt proving the loss path?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "loss-path",
+        "question": "Is the downstream exposure quantified from chain state?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      },
+      {
+        "key": "market-cap",
+        "question": "Is there a market capitalisation to measure the loss against?",
+        "status": "UNRESOLVED",
+        "blocksTrade": true
+      }
+    ]
+  }
 }
