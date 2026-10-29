@@ -1,53 +1,58 @@
 {
   "chains": {
     "1": {
-      "lastBlock": 26296492,
-      "scannedAt": "2026-10-29T06:06:51.656Z",
+      "lastBlock": 26298687,
+      "scannedAt": "2026-10-29T13:26:47.989Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 53232332,
-      "scannedAt": "2026-10-29T06:07:37.262Z",
+      "lastBlock": 53245530,
+      "scannedAt": "2026-10-29T13:27:26.424Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 519277242,
-      "scannedAt": "2026-10-29T06:08:56.823Z",
+      "lastBlock": 519369398,
+      "scannedAt": "2026-10-29T13:28:54.732Z",
       "logCoverageComplete": true,
       "evidenceComplete": false,
       "failedRanges": [],
       "confirmationErrors": [
         {
-          "tx": "0x7cf54b082214e290e96ad6e3b2fe363ed830ada262c1932c83abe7e0129ead37",
-          "block": 519249281,
+          "tx": "0xdbbd8b5afd46b2065c0c32a58088add17a46616924fe924c328c4ab8dd562c70",
+          "block": 519356636,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         },
         {
-          "tx": "0xf940ef2fb7bfd686638ac584a03b98c74d055266c467ae605ce074d186f40872",
-          "block": 519247092,
+          "tx": "0x1e25c0281559432f3edb623307eeb365a1f205b7eba1118e0e59050c0889c903",
+          "block": 519333676,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        },
+        {
+          "tx": "0x710aacd702beed1b2667a84e71231e052bb300e73e57d7c12e00569eef9b5b9a",
+          "block": 519330839,
           "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
         }
       ]
     }
   },
   "lastRun": {
-    "at": "2026-10-29T06:06:33.893Z",
-    "ethUsd": 2322.72,
+    "at": "2026-10-29T13:26:26.358Z",
+    "ethUsd": 2323.46,
     "chains": {
       "1": {
         "name": "ethereum",
-        "from": 26295592,
-        "to": 26296492,
+        "from": 26297787,
+        "to": 26298687,
         "blocks": 901,
-        "skipped": 879,
-        "largeTransfers": 1166,
-        "recurringSenders": 155,
+        "skipped": 1295,
+        "largeTransfers": 2378,
+        "recurringSenders": 299,
         "rejectedCandidates": 14,
         "drains": 0,
         "logCoverageComplete": true,
@@ -57,14 +62,14 @@
       },
       "8453": {
         "name": "base",
-        "from": 53226932,
-        "to": 53232332,
+        "from": 53240130,
+        "to": 53245530,
         "blocks": 5401,
-        "skipped": 5386,
-        "largeTransfers": 6084,
-        "recurringSenders": 52,
-        "rejectedCandidates": 14,
-        "drains": 0,
+        "skipped": 7798,
+        "largeTransfers": 5982,
+        "recurringSenders": 76,
+        "rejectedCandidates": 13,
+        "drains": 1,
         "logCoverageComplete": true,
         "evidenceComplete": true,
         "failedRanges": [],
@@ -73,31 +78,43 @@
       "42161": {
         "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
         "name": "arbitrum",
-        "from": 519234042,
-        "to": 519277242,
+        "from": 519326198,
+        "to": 519369398,
         "blocks": 43201,
-        "skipped": 30910,
-        "largeTransfers": 96,
-        "recurringSenders": 13,
-        "rejectedCandidates": 12,
+        "skipped": 48956,
+        "largeTransfers": 235,
+        "recurringSenders": 28,
+        "rejectedCandidates": 11,
         "drains": 0,
         "logCoverageComplete": true,
         "evidenceComplete": false,
         "failedRanges": [],
         "confirmationErrors": [
           {
-            "tx": "0x7cf54b082214e290e96ad6e3b2fe363ed830ada262c1932c83abe7e0129ead37",
-            "block": 519249281,
+            "tx": "0xdbbd8b5afd46b2065c0c32a58088add17a46616924fe924c328c4ab8dd562c70",
+            "block": 519356636,
             "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
           },
           {
-            "tx": "0xf940ef2fb7bfd686638ac584a03b98c74d055266c467ae605ce074d186f40872",
-            "block": 519247092,
+            "tx": "0x1e25c0281559432f3edb623307eeb365a1f205b7eba1118e0e59050c0889c903",
+            "block": 519333676,
+            "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+          },
+          {
+            "tx": "0x710aacd702beed1b2667a84e71231e052bb300e73e57d7c12e00569eef9b5b9a",
+            "block": 519330839,
             "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
           }
         ]
       }
     },
-    "opened": []
+    "opened": [
+      {
+        "id": "live-8453-1b786cd30a",
+        "decision": "MONITOR",
+        "usd": 1376268,
+        "protocol": null
+      }
+    ]
   }
 }
