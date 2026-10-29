@@ -1,15 +1,15 @@
 {
-  "updatedAt": "2026-10-29T00:10:36.502Z",
+  "updatedAt": "2026-10-29T06:09:01.676Z",
   "minUsd": 250000,
   "chains": {
     "1": {
       "name": "ethereum",
-      "from": 26293813,
-      "to": 26294713,
+      "from": 26295592,
+      "to": 26296492,
       "blocks": 901,
-      "skipped": 422,
-      "largeTransfers": 1612,
-      "recurringSenders": 186,
+      "skipped": 879,
+      "largeTransfers": 1166,
+      "recurringSenders": 155,
       "rejectedCandidates": 14,
       "drains": 0,
       "logCoverageComplete": true,
@@ -19,12 +19,12 @@
     },
     "8453": {
       "name": "base",
-      "from": 53216146,
-      "to": 53221546,
+      "from": 53226932,
+      "to": 53232332,
       "blocks": 5401,
-      "skipped": 2543,
-      "largeTransfers": 6772,
-      "recurringSenders": 53,
+      "skipped": 5386,
+      "largeTransfers": 6084,
+      "recurringSenders": 52,
       "rejectedCandidates": 14,
       "drains": 0,
       "logCoverageComplete": true,
@@ -33,45 +33,68 @@
       "confirmationErrors": []
     },
     "42161": {
+      "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
       "name": "arbitrum",
-      "from": 519159932,
-      "to": 519203132,
+      "from": 519234042,
+      "to": 519277242,
       "blocks": 43201,
-      "skipped": 18084,
-      "largeTransfers": 73,
-      "recurringSenders": 4,
-      "rejectedCandidates": 13,
-      "drains": 1,
+      "skipped": 30910,
+      "largeTransfers": 96,
+      "recurringSenders": 13,
+      "rejectedCandidates": 12,
+      "drains": 0,
       "logCoverageComplete": true,
-      "evidenceComplete": true,
+      "evidenceComplete": false,
       "failedRanges": [],
-      "confirmationErrors": []
+      "confirmationErrors": [
+        {
+          "tx": "0x7cf54b082214e290e96ad6e3b2fe363ed830ada262c1932c83abe7e0129ead37",
+          "block": 519249281,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        },
+        {
+          "tx": "0xf940ef2fb7bfd686638ac584a03b98c74d055266c467ae605ce074d186f40872",
+          "block": 519247092,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        }
+      ]
     }
   },
   "scanned": {
     "1": {
-      "lastBlock": 26294713,
-      "scannedAt": "2026-10-29T00:07:20.294Z",
+      "lastBlock": 26296492,
+      "scannedAt": "2026-10-29T06:06:51.656Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 53221546,
-      "scannedAt": "2026-10-29T00:08:36.387Z",
+      "lastBlock": 53232332,
+      "scannedAt": "2026-10-29T06:07:37.262Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 519203132,
-      "scannedAt": "2026-10-29T00:10:31.113Z",
+      "lastBlock": 519277242,
+      "scannedAt": "2026-10-29T06:08:56.823Z",
       "logCoverageComplete": true,
-      "evidenceComplete": true,
+      "evidenceComplete": false,
       "failedRanges": [],
-      "confirmationErrors": []
+      "confirmationErrors": [
+        {
+          "tx": "0x7cf54b082214e290e96ad6e3b2fe363ed830ada262c1932c83abe7e0129ead37",
+          "block": 519249281,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        },
+        {
+          "tx": "0xf940ef2fb7bfd686638ac584a03b98c74d055266c467ae605ce074d186f40872",
+          "block": 519247092,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        }
+      ]
     }
   },
   "incidents": [
@@ -3662,11 +3685,11 @@
     }
   ],
   "supply": {
-    "at": "2026-10-29T00:10:36.489Z",
-    "from": 26293830,
-    "to": 26294730,
+    "at": "2026-10-29T06:09:01.666Z",
+    "from": 26295604,
+    "to": 26296504,
     "blocks": 901,
-    "transfers": 97,
+    "transfers": 87,
     "hubs": 8,
     "inferredHubs": 0,
     "deposits": 0,
