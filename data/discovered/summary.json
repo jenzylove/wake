@@ -1,6 +1,146 @@
 {
-  "updatedAt": "2026-10-29T21:47:13.645Z",
+  "updatedAt": "2026-10-30T01:55:56.140Z",
   "incidents": [
+    {
+      "id": "disc-polymarket-international-2026-10-29",
+      "name": "Polymarket International",
+      "day": "2026-10-29",
+      "amountUsd": 2700000,
+      "chains": [
+        "Polygon"
+      ],
+      "technique": "Supply Chain Attack",
+      "classification": "Frontend & Infrastructure",
+      "protocol": {
+        "id": "711",
+        "name": "Polymarket International",
+        "slug": "polymarket-international",
+        "symbol": "-",
+        "category": "Prediction Market",
+        "mcapUsd": null
+      },
+      "exposures": [
+        {
+          "symbol": "POLUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Polygon",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "POLUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-10-30T01:55:52.257Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 50,
+        "quoteVolumeUsd": 2811762.98,
+        "exploitDayMovePct": -6.301,
+        "hourlySigma": 0.007748,
+        "windowSigma": 0.037955
+      },
+      "microstructure": {
+        "observedAt": "2026-10-30T01:55:52.256Z",
+        "mid": 0.08421000000000001,
+        "spreadBps": 7.125,
+        "bidDepthUsd1pct": 31286,
+        "askDepthUsd1pct": 26496,
+        "fundingRate": -0.000037,
+        "fundingIntervalHours": 4,
+        "openInterestContracts": 36741821
+      },
+      "sizing": {
+        "notionalUsd": 6275.060129452996,
+        "maxLossUsd": 500,
+        "stopPct": 0.07591,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "32b9c339cfb9250014a1804a866ce1a942bb9c0c501f20e567862f415def6311",
+      "sourceSha256": "6fc6b7523ff163376d0611ab9e220f525f8d6de37d29c94ff6395054a473eb9c",
+      "ai": null
+    },
+    {
+      "id": "disc-binance-cex-2026-10-29",
+      "name": "Binance CEX",
+      "day": "2026-10-29",
+      "amountUsd": 5780000000,
+      "chains": [
+        "Ethereum",
+        "Bitcoin",
+        "TRON",
+        "Avalanche",
+        "Optimism",
+        "Arbitrum",
+        "Base"
+      ],
+      "technique": "Hot Wallet Key Compromised",
+      "classification": "Key Compromise",
+      "protocol": {
+        "id": "2269",
+        "name": "Binance CEX",
+        "slug": "binance-cex",
+        "symbol": "BNB",
+        "category": "CEX",
+        "mcapUsd": null
+      },
+      "exposures": [
+        {
+          "symbol": "BNBUSDT",
+          "kind": "DIRECT",
+          "relation": "protocol token",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "AVAXUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Avalanche",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "BNBUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-10-30T01:55:54.278Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 50,
+        "quoteVolumeUsd": 111505011.62,
+        "exploitDayMovePct": -8.353,
+        "hourlySigma": 0.010853,
+        "windowSigma": 0.053168
+      },
+      "microstructure": {
+        "observedAt": "2026-10-30T01:55:54.278Z",
+        "mid": 700.095,
+        "spreadBps": 0.143,
+        "bidDepthUsd1pct": 201861,
+        "askDepthUsd1pct": 494863,
+        "fundingRate": 0.000014,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 91227.92000000007
+      },
+      "sizing": {
+        "notionalUsd": 4561.5326727172815,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.106336,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "a66fc431be800fd886d1e28254195512ea78b1b466d919e7e86af80992ce9827",
+      "sourceSha256": "740d97252a8c0f9b71bfd9de8b5fd8d9f88623c1754a0ae12768649c3a380513",
+      "ai": null
+    },
     {
       "id": "disc-zklink-nova-2026-10-28",
       "name": "zkLink Nova",
@@ -42,14 +182,14 @@
         "windowSigma": 0.019376
       },
       "microstructure": {
-        "observedAt": "2026-10-29T21:47:12.383Z",
-        "mid": 2270.795,
-        "spreadBps": 0.044,
-        "bidDepthUsd1pct": 679972,
-        "askDepthUsd1pct": 374132,
-        "fundingRate": 0.00004,
+        "observedAt": "2026-10-30T01:55:54.683Z",
+        "mid": 2198.025,
+        "spreadBps": 0.045,
+        "bidDepthUsd1pct": 721833,
+        "askDepthUsd1pct": 499464,
+        "fundingRate": 0.000013,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 766250.3199999997
+        "openInterestContracts": 780675.5100000001
       },
       "sizing": {
         "notionalUsd": 11992.633077797262,
@@ -82,7 +222,7 @@
           }
         ]
       },
-      "integrity": "790aeca633b6b2b3ce2053c2a83a3427bbdf425bd7adb98e43c0167277d2f0c0",
+      "integrity": "601811b85d5d1d096fb368ab3ed38e9e7b68362117898374af3a1eed50675b8f",
       "sourceSha256": "3c33235b56a54d3f4bcc57459f65fefd57cd92f4a504a1e5072641db9e9e452f",
       "ai": null
     },
@@ -127,14 +267,14 @@
         "windowSigma": 0.016281
       },
       "microstructure": {
-        "observedAt": "2026-10-29T21:47:12.803Z",
-        "mid": 705.005,
-        "spreadBps": 0.142,
-        "bidDepthUsd1pct": 108929,
-        "askDepthUsd1pct": 76962,
-        "fundingRate": 0.0001,
+        "observedAt": "2026-10-30T01:55:54.867Z",
+        "mid": 700.245,
+        "spreadBps": 0.143,
+        "bidDepthUsd1pct": 192778,
+        "askDepthUsd1pct": 452056,
+        "fundingRate": 0.000014,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 88590.63000000005
+        "openInterestContracts": 91227.92000000007
       },
       "sizing": {
         "notionalUsd": 14287.28362379728,
@@ -167,7 +307,7 @@
           }
         ]
       },
-      "integrity": "447543edc598b5f9ad9a64e5e7f75dbfa3d9aa6f9d24de1dc5139ec0f97c7985",
+      "integrity": "3fa0b45494cde7638d38b6649db335a8e38ffc034f1bfd55e54fafde09ce14c1",
       "sourceSha256": "890dc2b0cc41d16dee828579f330c6a304d5a8b70deba0454a8685859f81ae07",
       "ai": null
     },
@@ -212,14 +352,14 @@
         "windowSigma": 0.024639
       },
       "microstructure": {
-        "observedAt": "2026-10-29T21:47:12.591Z",
-        "mid": 8.459,
-        "spreadBps": 2.364,
-        "bidDepthUsd1pct": 1428981,
-        "askDepthUsd1pct": 1420395,
-        "fundingRate": 0.000024,
+        "observedAt": "2026-10-30T01:55:55.066Z",
+        "mid": 8.2055,
+        "spreadBps": 1.219,
+        "bidDepthUsd1pct": 1400569,
+        "askDepthUsd1pct": 1686405,
+        "fundingRate": -0.000021,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 2854836.3
+        "openInterestContracts": 2848760.5999999996
       },
       "sizing": {
         "notionalUsd": 9406.82315184388,
@@ -252,7 +392,7 @@
           }
         ]
       },
-      "integrity": "5cbbf735cc2d2bf7c2a7287189fa11e6aae057397efbd5e05fdc6a9eecf6aff0",
+      "integrity": "8a2c305415335c251c60720f3e18bf5d10b2f93a350eb86ca897f495f1316d29",
       "sourceSha256": "f5bf260968aa43061c52e93a82a3393236a61d4799b2e85bbaf6ae6ff6de0760",
       "ai": null
     },
@@ -297,14 +437,14 @@
         "windowSigma": 0.020756
       },
       "microstructure": {
-        "observedAt": "2026-10-29T21:47:13.007Z",
-        "mid": 97.2655,
-        "spreadBps": 0.103,
-        "bidDepthUsd1pct": 983869,
-        "askDepthUsd1pct": 2894965,
-        "fundingRate": 0.000046,
+        "observedAt": "2026-10-30T01:55:55.243Z",
+        "mid": 93.9495,
+        "spreadBps": 0.106,
+        "bidDepthUsd1pct": 1007687,
+        "askDepthUsd1pct": 871706,
+        "fundingRate": -0.000013,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 4259627.299999962
+        "openInterestContracts": 4308167.599999961
       },
       "sizing": {
         "notionalUsd": 11116.236871748588,
@@ -337,7 +477,7 @@
           }
         ]
       },
-      "integrity": "0668215ff01ea427695ce5c7bfb8ab01f05557feb739d56238b6ea5a08107f4b",
+      "integrity": "c9aaf72149229f32c1fb53ca2f961a2a1e963e87cf34fbb08a34e551b3b191ed",
       "sourceSha256": "c63248ac0579a432ad10008c64dc124ebb80ad8f422440dedf9865922f08f092",
       "ai": null
     },
@@ -375,14 +515,14 @@
         "windowSigma": 0.021697
       },
       "microstructure": {
-        "observedAt": "2026-10-29T21:47:13.208Z",
-        "mid": 2271.145,
-        "spreadBps": 0.044,
-        "bidDepthUsd1pct": 507126,
-        "askDepthUsd1pct": 743370,
-        "fundingRate": 0.00004,
+        "observedAt": "2026-10-30T01:55:55.499Z",
+        "mid": 2198.025,
+        "spreadBps": 0.045,
+        "bidDepthUsd1pct": 770658,
+        "askDepthUsd1pct": 396355,
+        "fundingRate": 0.000013,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 766250.3199999997
+        "openInterestContracts": 780675.5100000001
       },
       "sizing": {
         "notionalUsd": 10806.725256406244,
@@ -415,7 +555,7 @@
           }
         ]
       },
-      "integrity": "32702711db0c7412a47acf0fdb3f914f7cc5f3ff7b848cfe723d5989143007b1",
+      "integrity": "2baddd716e1617c040b325a768e2e3415ee2690f1bd0e3c6cde609280df84bd5",
       "sourceSha256": "72c699b9df15ba0332c4f15ed6a8fa362beb624a54f39a1edbb611e2b91e25d8",
       "ai": null
     },
@@ -600,14 +740,14 @@
         "windowSigma": 0.025161
       },
       "microstructure": {
-        "observedAt": "2026-10-29T21:47:13.435Z",
-        "mid": 2271.145,
-        "spreadBps": 0.044,
-        "bidDepthUsd1pct": 492809,
-        "askDepthUsd1pct": 555431,
-        "fundingRate": 0.00004,
+        "observedAt": "2026-10-30T01:55:55.726Z",
+        "mid": 2198.025,
+        "spreadBps": 0.045,
+        "bidDepthUsd1pct": 471393,
+        "askDepthUsd1pct": 385320,
+        "fundingRate": 0.000013,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 766250.3199999997
+        "openInterestContracts": 780675.5100000001
       },
       "sizing": {
         "notionalUsd": 9319.490731591872,
@@ -640,7 +780,7 @@
           }
         ]
       },
-      "integrity": "4062356ccb20f6e31d96bf1a4312ab97be2c4a6049dc6fb68ee47580bec57924",
+      "integrity": "0d75e10b8ff59ee37410d0c5253b256405bfed28c4213c6c76a5dbc2504b0efb",
       "sourceSha256": "86469941b2b234a7fe8fe9eb729297998331d2a029f0c2655561696bb9c21b78",
       "ai": null
     },
@@ -685,14 +825,14 @@
         "windowSigma": 0.024779
       },
       "microstructure": {
-        "observedAt": "2026-10-29T21:47:13.637Z",
-        "mid": 92.91149999999999,
-        "spreadBps": 0.969,
-        "bidDepthUsd1pct": 203259,
-        "askDepthUsd1pct": 114275,
+        "observedAt": "2026-10-30T01:55:56.136Z",
+        "mid": 89.73949999999999,
+        "spreadBps": 0.111,
+        "bidDepthUsd1pct": 223090,
+        "askDepthUsd1pct": 100368,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 2335235.4100000015
+        "openInterestContracts": 2286393.6600000015
       },
       "sizing": {
         "notionalUsd": 9490.26666003151,
@@ -732,7 +872,7 @@
           }
         ]
       },
-      "integrity": "12dec067db66237c94179ac77b777d2a121548b6fa90d3b03297534acdd99eba",
+      "integrity": "e8171a740f01e70b14222aff1b145edf2fb519bb299719e505a92fd08de37f20",
       "sourceSha256": "151cd9a60c7719c3a470380d91b9c74f3f2a62c1cebd59b2dc4c534cd8065507",
       "ai": {
         "exploitClass": "oracle-manipulation",
