@@ -1238,8 +1238,8 @@
     ]
   },
   "receipt": null,
-  "decision": "MONITOR",
-  "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+  "decision": "NO_TRADE",
+  "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
   "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
   "ai": {
     "model": "claude-opus-5",
@@ -1256,7 +1256,7 @@
       "Loss bearer is Papertrade's own collateral; no evidence the $1.28m touches HYPE holders."
     ]
   },
-  "integrity": "a54180b981566ec090dc79f05c072f8837aa78db01c913cbe6d79f91f5415460",
+  "integrity": "ad7dc8360cecaf1a59281a8a3e70fd1ac26817d5d6b0fef94046037cfba5e003",
   "gate": {
     "passed": false,
     "checks": [
