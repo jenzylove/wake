@@ -1,0 +1,48 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-troves-2026-10-31",
+  "discoveredAt": "2026-10-31T22:27:00.497Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1793404800,
+      "name": "Troves",
+      "classification": "Access Control",
+      "technique": "Improper Access Control",
+      "amount": 666935,
+      "chain": null,
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "4952",
+      "language": null,
+      "description": "On October 31, an attacker exploited permissions retained by a legacy rebalancing contract after it had been replaced, resulting in approximately 8.6 BTC in losses from Troves' xWBTC/WBTC vault. Troves revoked the legacy contract's permissions and paused three vaults as a precaution. No impact on other vaults has been identified"
+    },
+    "sha256": "654f1b3bc8ec9bd6b9a800900fc8885c18b1f2d419819f2d9ffa252729d55047"
+  },
+  "protocol": {
+    "id": "4952",
+    "name": "Troves",
+    "slug": "troves",
+    "symbol": "-",
+    "category": "Yield",
+    "mcapUsd": null
+  },
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "integrity": "d2e3cf3e9b5f8f5b66d3ff0287b8bcde443032306c7168b8bebeaa98b8d283f0"
+}
