@@ -1,6 +1,67 @@
 {
-  "updatedAt": "2026-11-01T20:28:07.664Z",
+  "updatedAt": "2026-11-02T00:39:54.297Z",
   "incidents": [
+    {
+      "id": "disc-premia-v3-2026-11-01",
+      "name": "Premia V3",
+      "day": "2026-11-01",
+      "amountUsd": 437000,
+      "chains": [
+        "Arbitrum"
+      ],
+      "technique": "Withdrawal Logic Flaw",
+      "classification": "Protocol Logic",
+      "protocol": {
+        "id": "3497",
+        "name": "Premia V3",
+        "slug": "premia-v3",
+        "symbol": "PREMIA",
+        "category": "Options",
+        "mcapUsd": null
+      },
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Arbitrum",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-11-02T00:39:51.271Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 49,
+        "quoteVolumeUsd": 905850393.99,
+        "exploitDayMovePct": 0.871,
+        "hourlySigma": 0.001941,
+        "windowSigma": 0.009507
+      },
+      "microstructure": {
+        "observedAt": "2026-11-02T00:39:51.270Z",
+        "mid": 2270.275,
+        "spreadBps": 0.044,
+        "bidDepthUsd1pct": 953085,
+        "askDepthUsd1pct": 5572355,
+        "fundingRate": 0.000008,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 765703.310000001
+      },
+      "sizing": {
+        "notionalUsd": 23600.056180577845,
+        "maxLossUsd": 500,
+        "stopPct": 0.019014,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "414d4ed2f440f902ed6f713ed1ab005e48862c907d3f1b79f4dc4d28b72233e4",
+      "sourceSha256": "a9e3b93316de7f27f13d6b3641704914ae5891276e81341ced26cc6d70cb1732",
+      "ai": null
+    },
     {
       "id": "disc-troves-2026-10-31",
       "name": "Troves",
@@ -74,14 +135,14 @@
         "windowSigma": 0.037955
       },
       "microstructure": {
-        "observedAt": "2026-11-01T20:28:06.330Z",
-        "mid": 0.09056,
-        "spreadBps": 4.417,
-        "bidDepthUsd1pct": 217805,
-        "askDepthUsd1pct": 300787,
+        "observedAt": "2026-11-02T00:39:53.064Z",
+        "mid": 0.09034500000000001,
+        "spreadBps": 5.534,
+        "bidDepthUsd1pct": 176497,
+        "askDepthUsd1pct": 235302,
         "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 34692361
+        "openInterestContracts": 34697045
       },
       "sizing": {
         "notionalUsd": 6275.060129452996,
@@ -114,7 +175,7 @@
           }
         ]
       },
-      "integrity": "d15a72f3524730a1c38c700a8aa42acf2ea602f2decc387579b645a0a45f8ffd",
+      "integrity": "c0f8e724991a8dbfd74c44d8a2b29dbe8aed4a8a756d40de9b3f93778a0c5e87",
       "sourceSha256": "6fc6b7523ff163376d0611ab9e220f525f8d6de37d29c94ff6395054a473eb9c",
       "ai": null
     },
@@ -177,14 +238,14 @@
         "windowSigma": 0.053168
       },
       "microstructure": {
-        "observedAt": "2026-11-01T20:28:06.514Z",
-        "mid": 707.515,
+        "observedAt": "2026-11-02T00:39:52.858Z",
+        "mid": 709.785,
         "spreadBps": 0.141,
-        "bidDepthUsd1pct": 334739,
-        "askDepthUsd1pct": 1003877,
+        "bidDepthUsd1pct": 798495,
+        "askDepthUsd1pct": 231542,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 91694.62000000004
+        "openInterestContracts": 90760.82000000004
       },
       "sizing": {
         "notionalUsd": 4561.5326727172815,
@@ -217,7 +278,7 @@
           }
         ]
       },
-      "integrity": "2f1562ff65ec3f17cfb94380907c0ebf5c34b192e7c244a05c33096720e9c446",
+      "integrity": "dfa266a3497df8d805217aa6fc3062632d07bcf1e198b3c9a0fd67eece389449",
       "sourceSha256": "740d97252a8c0f9b71bfd9de8b5fd8d9f88623c1754a0ae12768649c3a380513",
       "ai": null
     },
@@ -262,14 +323,14 @@
         "windowSigma": 0.019376
       },
       "microstructure": {
-        "observedAt": "2026-11-01T20:28:06.741Z",
-        "mid": 2255.505,
+        "observedAt": "2026-11-02T00:39:53.237Z",
+        "mid": 2270.295,
         "spreadBps": 0.044,
-        "bidDepthUsd1pct": 7156213,
-        "askDepthUsd1pct": 1177471,
-        "fundingRate": 0.000005,
+        "bidDepthUsd1pct": 1058935,
+        "askDepthUsd1pct": 4022694,
+        "fundingRate": 0.000008,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 773059.650000001
+        "openInterestContracts": 765706.920000001
       },
       "sizing": {
         "notionalUsd": 11992.633077797262,
@@ -302,7 +363,7 @@
           }
         ]
       },
-      "integrity": "eeb245909a9e7546e7d3b4292804762e8504c6eef1d090c70420fae46a27277d",
+      "integrity": "1586fa8d5148e73892a1d6c77fe6f8b29ace12a30de4d013c19cec53143134ab",
       "sourceSha256": "3c33235b56a54d3f4bcc57459f65fefd57cd92f4a504a1e5072641db9e9e452f",
       "ai": null
     },
@@ -347,14 +408,14 @@
         "windowSigma": 0.016281
       },
       "microstructure": {
-        "observedAt": "2026-11-01T20:28:06.935Z",
-        "mid": 707.515,
+        "observedAt": "2026-11-02T00:39:53.676Z",
+        "mid": 709.785,
         "spreadBps": 0.141,
-        "bidDepthUsd1pct": 334739,
-        "askDepthUsd1pct": 1003877,
+        "bidDepthUsd1pct": 798511,
+        "askDepthUsd1pct": 266557,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 91694.62000000004
+        "openInterestContracts": 90760.82000000004
       },
       "sizing": {
         "notionalUsd": 14287.28362379728,
@@ -387,7 +448,7 @@
           }
         ]
       },
-      "integrity": "51ba9b55ca9a22074a592804512f1181967d260ed26873ea9acdd0ac4ee99334",
+      "integrity": "4f589bfd980d537b929aa5f56cab44f04d18a7c9b60fbe5f1b8ae2454ba9658a",
       "sourceSha256": "890dc2b0cc41d16dee828579f330c6a304d5a8b70deba0454a8685859f81ae07",
       "ai": null
     },
@@ -432,14 +493,14 @@
         "windowSigma": 0.024639
       },
       "microstructure": {
-        "observedAt": "2026-11-01T20:28:07.116Z",
-        "mid": 8.6665,
-        "spreadBps": 1.154,
-        "bidDepthUsd1pct": 1706085,
-        "askDepthUsd1pct": 1851681,
+        "observedAt": "2026-11-02T00:39:53.504Z",
+        "mid": 8.6615,
+        "spreadBps": 1.155,
+        "bidDepthUsd1pct": 2217078,
+        "askDepthUsd1pct": 2376939,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 2797512.4
+        "openInterestContracts": 2864799.2
       },
       "sizing": {
         "notionalUsd": 9406.82315184388,
@@ -472,7 +533,7 @@
           }
         ]
       },
-      "integrity": "b9c47f0c1a647e03fcb4fbaf64f34dec93f4215cdb54bd20791678b61bcb1604",
+      "integrity": "8aa3dfc983205c6599748de791ee00faa0e0e601bdb279598ca5f306d478f3fe",
       "sourceSha256": "f5bf260968aa43061c52e93a82a3393236a61d4799b2e85bbaf6ae6ff6de0760",
       "ai": null
     },
@@ -517,14 +578,14 @@
         "windowSigma": 0.020756
       },
       "microstructure": {
-        "observedAt": "2026-11-01T20:28:07.311Z",
-        "mid": 93.9445,
+        "observedAt": "2026-11-02T00:39:53.842Z",
+        "mid": 93.9695,
         "spreadBps": 0.106,
-        "bidDepthUsd1pct": 1598090,
-        "askDepthUsd1pct": 1246451,
+        "bidDepthUsd1pct": 1612535,
+        "askDepthUsd1pct": 1326074,
         "fundingRate": 0.0001,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 4274313.999999963
+        "openInterestContracts": 4240525.999999963
       },
       "sizing": {
         "notionalUsd": 11116.236871748588,
@@ -557,7 +618,7 @@
           }
         ]
       },
-      "integrity": "85c88dc96730cc48e956e9a36d16388c92b381adaef3279c005bfe467f374abc",
+      "integrity": "20976e3abcc8532a3d2682d1fdd724a3d2378293c0e2c18313070b9076cd59d6",
       "sourceSha256": "c63248ac0579a432ad10008c64dc124ebb80ad8f422440dedf9865922f08f092",
       "ai": null
     },
@@ -595,14 +656,14 @@
         "windowSigma": 0.021697
       },
       "microstructure": {
-        "observedAt": "2026-11-01T20:28:07.484Z",
-        "mid": 2255.505,
+        "observedAt": "2026-11-02T00:39:54.039Z",
+        "mid": 2270.295,
         "spreadBps": 0.044,
-        "bidDepthUsd1pct": 7156190,
-        "askDepthUsd1pct": 1128594,
-        "fundingRate": 0.000005,
+        "bidDepthUsd1pct": 1128608,
+        "askDepthUsd1pct": 4145189,
+        "fundingRate": 0.000008,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 773059.650000001
+        "openInterestContracts": 765706.920000001
       },
       "sizing": {
         "notionalUsd": 10806.725256406244,
@@ -635,7 +696,7 @@
           }
         ]
       },
-      "integrity": "c9fba87effdb4a20c095a64176dc526e69b9d6376177b2aaaf81450154036dd9",
+      "integrity": "4f5e73fab98658cb5b453cbe6500be21b3cc4b1230afc1389229cf260b79a0ed",
       "sourceSha256": "72c699b9df15ba0332c4f15ed6a8fa362beb624a54f39a1edbb611e2b91e25d8",
       "ai": null
     },
@@ -820,14 +881,14 @@
         "windowSigma": 0.025161
       },
       "microstructure": {
-        "observedAt": "2026-11-01T20:28:07.661Z",
-        "mid": 2255.505,
+        "observedAt": "2026-11-02T00:39:54.276Z",
+        "mid": 2270.295,
         "spreadBps": 0.044,
-        "bidDepthUsd1pct": 4918686,
-        "askDepthUsd1pct": 1060432,
-        "fundingRate": 0.000005,
+        "bidDepthUsd1pct": 1082934,
+        "askDepthUsd1pct": 4145189,
+        "fundingRate": 0.000008,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 773059.650000001
+        "openInterestContracts": 765706.920000001
       },
       "sizing": {
         "notionalUsd": 9319.490731591872,
@@ -860,7 +921,7 @@
           }
         ]
       },
-      "integrity": "4433749827e9e7e79c905fe05ae447d2db79daf4b6c34b0904fbb4f3d1bdf5a2",
+      "integrity": "cdac60e8bfca6b345ab0c35a1e2b3dddfeca768e0e33aa033cfb540db8a2810a",
       "sourceSha256": "86469941b2b234a7fe8fe9eb729297998331d2a029f0c2655561696bb9c21b78",
       "ai": null
     },
