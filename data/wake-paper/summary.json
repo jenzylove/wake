@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-11-04T02:17:15.980Z",
+    "updatedAt": "2026-11-04T06:49:56.498Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 556,
+    "incidentsEvaluated": 558,
     "eligibleNow": 0,
     "open": 0,
     "closedTrades": 3,
@@ -36,13 +36,13 @@
     "bySource": {
       "captured": 6,
       "discovered": 41,
-      "live": 396,
+      "live": 398,
       "blind": 113
     }
   },
   "exchange": {
     "account": {
-      "equity": 9994.88401892,
+      "equity": 9993.60721892,
       "available": 9985.42911892,
       "marginCoin": "USDT"
     },
@@ -52,13 +52,13 @@
         "side": "SHORT",
         "size": 0.14,
         "entryPrice": 678.835,
-        "markPrice": 611.3,
-        "unrealizedPnlUsd": 9.4549,
+        "markPrice": 620.42,
+        "unrealizedPnlUsd": 8.1781,
         "marginMode": "crossed",
         "leverage": 2
       }
     ],
-    "at": "2026-11-04T02:17:15.980Z"
+    "at": "2026-11-04T06:49:56.498Z"
   },
   "open": [],
   "closed": [
@@ -148,6 +148,50 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 558,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-11-04T06:49:56.498Z",
+      "prevHash": "187d43dfcab4948a00a165031a9ab1ff1b713679f1f5d3eeed9bb0ad2e3d9959",
+      "hash": "22be2b75423bc2677efb1a21cbfcb20aa76db7a22398d9d9411b56e1edaa0c52"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-1-s0e7559cb07",
+      "source": "live",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held",
+        "no computed position size"
+      ],
+      "at": "2026-11-04T06:49:56.498Z",
+      "prevHash": "a0ea4aa1762aedda43d8cdbf49f85462d9b351a9b128807e41fc74d72cfaeb5d",
+      "hash": "187d43dfcab4948a00a165031a9ab1ff1b713679f1f5d3eeed9bb0ad2e3d9959"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-1-2cfa757ac6",
+      "source": "live",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held",
+        "no computed position size",
+        "no Bitget instrument",
+        "no side"
+      ],
+      "at": "2026-11-04T06:49:56.498Z",
+      "prevHash": "6b943c628c3050d66d8d4b5a3d6349a8807970a5ca9d83573728fd1dd821d604",
+      "hash": "a0ea4aa1762aedda43d8cdbf49f85462d9b351a9b128807e41fc74d72cfaeb5d"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -945,53 +989,7 @@
       "at": "2026-10-31T22:27:03.227Z",
       "prevHash": "2a063e68605070b81a88f7cc7223f980ed93c763c65216e1fc75cbfb612c1962",
       "hash": "474e83e79d339d0eca4cbdbb165251365e2b0f2ad71c865d9c98803dcd4a5558"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 528,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-10-31T19:28:54.495Z",
-      "prevHash": "f27fecca22f3051d5e55669a5595e6de58426b1a299b76d374db91839277a4ea",
-      "hash": "2a063e68605070b81a88f7cc7223f980ed93c763c65216e1fc75cbfb612c1962"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "live-8453-88259eea95",
-      "source": "live",
-      "decision": "MONITOR",
-      "eligible": false,
-      "reasons": [
-        "decision is MONITOR",
-        "risk gate held",
-        "no computed position size",
-        "no Bitget instrument",
-        "no side"
-      ],
-      "at": "2026-10-31T19:28:54.495Z",
-      "prevHash": "508ab85b0a65c5f24ee79f044e98623754bdc9a44e01a1841d24b7f3360e1a2c",
-      "hash": "f27fecca22f3051d5e55669a5595e6de58426b1a299b76d374db91839277a4ea"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "live-8453-443e021231",
-      "source": "live",
-      "decision": "MONITOR",
-      "eligible": false,
-      "reasons": [
-        "decision is MONITOR",
-        "risk gate held",
-        "no computed position size",
-        "no Bitget instrument",
-        "no side"
-      ],
-      "at": "2026-10-31T19:28:54.495Z",
-      "prevHash": "bb9ad4a68e92919410064c229511e337eb3479564038cb85d1666c4257b1f97f",
-      "hash": "508ab85b0a65c5f24ee79f044e98623754bdc9a44e01a1841d24b7f3360e1a2c"
     }
   ],
-  "logEntries": 1126
+  "logEntries": 1129
 }
