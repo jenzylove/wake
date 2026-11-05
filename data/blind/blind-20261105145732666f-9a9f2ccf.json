@@ -1,0 +1,311 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20261105145732666f-9a9f2ccf",
+  "runId": "20261105145732666f",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 94,
+    "blockTimestamp": 1793890747
+  },
+  "detection": {
+    "tx": "0x262360c12c03b4fc18d61873c26cc24492674459eb00eeb8301d48e95ccaa258",
+    "txs": [
+      "0x7de6b8f53e94038eac32b39bd289b792b03687a5174f07adeebefd677eeb5c4b",
+      "0x262360c12c03b4fc18d61873c26cc24492674459eb00eeb8301d48e95ccaa258"
+    ],
+    "firstDetectedAt": "2026-11-05T14:57:45.273Z",
+    "victim": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "token": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+    "before": 519231.7449,
+    "after": 0,
+    "detectedAt": "2026-11-05T14:57:49.027Z",
+    "latencyMs": -77973
+  },
+  "investigation": {
+    "from": "0x4a9295f301088eaa43d4da689dfd3e7491d819f5",
+    "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+    "selector": "0xa24188df",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+        "selector": "0xa24188df",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 1,
+    "receiptSupplyBefore": 206015.5849,
+    "integrators": [
+      {
+        "address": "0x851356ae760d987e095750cceb3bc6014560891c",
+        "heldSharesBefore": 206015.5849,
+        "heldSharesAfter": 0,
+        "collateralValueBeforeUsd": 206015.5849,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 130810.708331,
+        "badDebtUsd": 130810.708331
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae",
+      "lossUsd": 519231.7449,
+      "name": "Kestrel Pool",
+      "instrument": "BCHUSDT",
+      "marketCapUsd": 16000000,
+      "modeledDeltaPct": 0.811,
+      "markAtDetection": 283.13,
+      "markAtDecision": 283.24,
+      "marketDeltaPct": -0.039,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 6802.473403004375,
+        "maxLossUsd": 500.00000000000006,
+        "stopPct": 0.06937615879401327,
+        "costPct": 0.004126517420666301,
+        "spreadPct": 0.002926517420666301,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.03468807939700663,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 23583216.935599998,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.002926517420666301,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.85,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0x851356ae760d987e095750cceb3bc6014560891c",
+      "lossUsd": 130810.708331,
+      "name": "Rune Lend",
+      "instrument": "DOTUSDT",
+      "marketCapUsd": 6000000,
+      "modeledDeltaPct": 0.545,
+      "markAtDetection": 0.9283,
+      "markAtDecision": 0.9283,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 6419.3295051588475,
+        "maxLossUsd": 500,
+        "stopPct": 0.07403524390984674,
+        "costPct": 0.003854510712996446,
+        "spreadPct": 0.0026545107129964463,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.03701762195492337,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 10249288.231999999,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0026545107129964463,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.545,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x262360c12c03b4fc18d61873c26cc24492674459eb00eeb8301d48e95ccaa258 succeeded in block 94"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0x4a9295f301088eaa43d4da689dfd3e7491d819f5 is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 1.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $519,232 at Kestrel Pool"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "0.9%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "policyDecision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 401: invalid x-api-key",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "bdf4290eeed4340b2f2fa6be8d9c69ade0528279d1d1f82143671229bfa96648"
+}
