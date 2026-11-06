@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-11-06T12:02:24.459Z",
+    "updatedAt": "2026-11-06T14:36:51.440Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 573,
+    "incidentsEvaluated": 575,
     "eligibleNow": 0,
     "open": 0,
     "closedTrades": 3,
@@ -37,12 +37,12 @@
       "captured": 6,
       "discovered": 43,
       "live": 407,
-      "blind": 117
+      "blind": 119
     }
   },
   "exchange": {
     "account": {
-      "equity": 9995.59813158,
+      "equity": 9993.82293158,
       "available": 9985.19543158,
       "marginCoin": "USDT"
     },
@@ -52,13 +52,13 @@
         "side": "SHORT",
         "size": 0.14,
         "entryPrice": 678.835,
-        "markPrice": 604.53,
-        "unrealizedPnlUsd": 10.4027,
+        "markPrice": 617.21,
+        "unrealizedPnlUsd": 8.6275,
         "marginMode": "crossed",
         "leverage": 2
       }
     ],
-    "at": "2026-11-06T12:02:24.459Z"
+    "at": "2026-11-06T14:36:51.440Z"
   },
   "open": [],
   "closed": [
@@ -148,6 +148,52 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 575,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-11-06T14:36:51.440Z",
+      "prevHash": "366e8c8c820f737faeecff25285ffa1a28125ffe706728d4feaaeb8f3288cb91",
+      "hash": "6da93ec6765344d139a84f0f5b2a958deace141c4494adcf2a5938adbf9d08ad"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "blind-20261106143615833e-c6e7df5e",
+      "source": "blind",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held",
+        "no computed position size",
+        "no Bitget instrument",
+        "no side"
+      ],
+      "at": "2026-11-06T14:36:51.440Z",
+      "prevHash": "c865e7bf7765ecd64d5ae299fec160aa939653d8c33f5c6605693156f64da08b",
+      "hash": "366e8c8c820f737faeecff25285ffa1a28125ffe706728d4feaaeb8f3288cb91"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "blind-20261106143615833e-2279b7a0",
+      "source": "blind",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held",
+        "no computed position size",
+        "no Bitget instrument",
+        "no side"
+      ],
+      "at": "2026-11-06T14:36:51.440Z",
+      "prevHash": "dd59e20459dffc328aa35488abdf7a7198ee81ad5334a9eefdf92fe2545c7602",
+      "hash": "c865e7bf7765ecd64d5ae299fec160aa939653d8c33f5c6605693156f64da08b"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -953,47 +999,7 @@
       "at": "2026-11-03T01:00:22.783Z",
       "prevHash": "8caa33c78f5ca5cc54c499c7d0fe81b91171ba81e342d831d25f5766a44a66ba",
       "hash": "26d5853061fc5ac69a2745bdc0b4fb93b72e3482bcc8fcca8a0c3d9aec714c4d"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "disc-mercado-bitcoin-2026-11-02",
-      "source": "discovered",
-      "decision": "MONITOR",
-      "eligible": false,
-      "reasons": [
-        "decision is MONITOR",
-        "risk gate held"
-      ],
-      "at": "2026-11-03T01:00:22.783Z",
-      "prevHash": "555006691a0adf7e249c0a263d19a0ff8964ed227862a980ba88e8cd2008acdb",
-      "hash": "8caa33c78f5ca5cc54c499c7d0fe81b91171ba81e342d831d25f5766a44a66ba"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "disc-gamdom-2026-10-13",
-      "source": "discovered",
-      "decision": "NO_TRADE",
-      "eligible": false,
-      "reasons": [
-        "decision is NO_TRADE",
-        "risk gate held"
-      ],
-      "at": "2026-11-03T01:00:22.783Z",
-      "prevHash": "dccd9a4cafe57e8b41bf7a0727be26c3a5da17772af91b3db18cb92ab00742ae",
-      "hash": "555006691a0adf7e249c0a263d19a0ff8964ed227862a980ba88e8cd2008acdb"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 542,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-11-02T18:40:52.904Z",
-      "prevHash": "0d0c2dc7742a39f83859987fc77b45f1a281335d7d2e8ca3d4b1de2c50ff7130",
-      "hash": "dccd9a4cafe57e8b41bf7a0727be26c3a5da17772af91b3db18cb92ab00742ae"
     }
   ],
-  "logEntries": 1160
+  "logEntries": 1163
 }
