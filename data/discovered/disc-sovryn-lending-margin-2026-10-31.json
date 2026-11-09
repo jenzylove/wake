@@ -1,0 +1,43 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-sovryn-lending-margin-2026-10-31",
+  "discoveredAt": "2026-11-09T18:43:23.917Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1793404800,
+      "name": "Sovryn (Lending & Margin)",
+      "classification": "Protocol Logic",
+      "technique": "Unknown",
+      "amount": 914000,
+      "chain": [
+        "Rootstock"
+      ],
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": null,
+      "language": null,
+      "description": "On October 31, 2026, attackers exploited Sovryn's lending and margin contracts on Rootstock through three transactions, extracting approximately $914,000 in XUSD and WRBTC. Sovryn paused its core protocol and lending pools after detecting the incident. A 24-hour withdrawal delay enabled the team to block seven additional withdrawals totaling approximately 66,134 XUSD before the funds reached the attackers. The underlying vulnerability remains undisclosed while the team completes security repairs and reconciles affected positions"
+    },
+    "sha256": "2040d27f191966291d6e9248cfc1d79bbbfd51ac3d9034f11da64659f9de86da"
+  },
+  "protocol": null,
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "integrity": "f5745fe997740e2c7148c610a6bed8e81387febd1a47b0d9988a1e8eab78e102"
+}
