@@ -1,0 +1,51 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-sovryn-dex-2026-11-01",
+  "discoveredAt": "2026-11-10T02:02:37.859Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1793491200,
+      "name": "Sovryn Dex",
+      "classification": "Protocol Logic",
+      "technique": "Unknown",
+      "amount": 538749,
+      "chain": [
+        "Rootstock"
+      ],
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "329",
+      "parentProtocolId": "parent#sovryn",
+      "language": null,
+      "description": "On November 1, 2026, an attacker exploited Sovryn's XUSD/WRBTC AMM pool on Rootstock, receiving approximately 541,456 XUSD ($538,749) in an attacker-controlled wallet. Portions of the proceeds were subsequently converted into BTC and ETH, while other assets remained under protocol control. Sovryn implemented emergency fee-control changes, delisted the affected pool on November 2, and began reconciling the impact on liquidity providers. The underlying vulnerability and final realized losses remain under investigation"
+    },
+    "sha256": "ac23b0cacb76aef8f52a278b871613bbbccc80319f629a72523c241c2d3426ab"
+  },
+  "protocol": {
+    "id": "329",
+    "name": "Sovryn Dex",
+    "slug": "sovryn-dex",
+    "symbol": "SOV",
+    "category": "Dexs",
+    "mcapUsd": null
+  },
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "integrity": "97552c7658fdd8281ecf933602bb85c049fedece3366146cfcd64e25db84836f"
+}

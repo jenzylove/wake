@@ -1,6 +1,137 @@
 {
-  "updatedAt": "2026-11-09T18:43:27.395Z",
+  "updatedAt": "2026-11-10T02:02:39.818Z",
   "incidents": [
+    {
+      "id": "disc-ankr-bridge-2026-11-09",
+      "name": "Ankr Bridge",
+      "day": "2026-11-09",
+      "amountUsd": 304500,
+      "chains": [
+        "Ethereum"
+      ],
+      "technique": "Cross-Chain Message Spoofing",
+      "classification": "Bridge & Cross-Chain",
+      "protocol": null,
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-11-10T02:02:35.882Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 51,
+        "quoteVolumeUsd": 2938434415.24,
+        "exploitDayMovePct": -0.071,
+        "hourlySigma": 0.007533,
+        "windowSigma": 0.036906
+      },
+      "microstructure": {
+        "observedAt": "2026-11-10T02:02:35.881Z",
+        "mid": 2122.435,
+        "spreadBps": 0.047,
+        "bidDepthUsd1pct": 1915657,
+        "askDepthUsd1pct": 2049282,
+        "fundingRate": -0.000022,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 743682.8600000005
+      },
+      "sizing": {
+        "notionalUsd": 6498.781732108336,
+        "maxLossUsd": 500,
+        "stopPct": 0.073812,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "380857a851f84ba2ee8440409e9b98f43cf6e7042ed7cddc1711accc16808bcd",
+      "sourceSha256": "730fb2d94c6a02a01e294bab397436d71a67fee37f46620e29930c8e81ba39c6",
+      "ai": null
+    },
+    {
+      "id": "disc-acryptos-2026-11-08",
+      "name": "ACryptoS",
+      "day": "2026-11-08",
+      "amountUsd": 665429,
+      "chains": [
+        "Arbitrum",
+        "BSC",
+        "Polygon",
+        "Base",
+        "Optimism"
+      ],
+      "technique": "Missing Input Validation",
+      "classification": "Input Validation",
+      "protocol": {
+        "id": "208",
+        "name": "ACryptoS",
+        "slug": "acryptos",
+        "symbol": "ACS",
+        "category": "Liquidity Manager",
+        "mcapUsd": 170456.39124570973
+      },
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Arbitrum",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "BNBUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of BSC",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "POLUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Polygon",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-11-10T02:02:37.522Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 3173851588.25,
+        "exploitDayMovePct": -4.3,
+        "hourlySigma": 0.006384,
+        "windowSigma": 0.031277
+      },
+      "microstructure": {
+        "observedAt": "2026-11-10T02:02:37.522Z",
+        "mid": 2122.5950000000003,
+        "spreadBps": 0.047,
+        "bidDepthUsd1pct": 1571606,
+        "askDepthUsd1pct": 2810238,
+        "fundingRate": -0.000022,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 743682.8600000005
+      },
+      "sizing": {
+        "notionalUsd": 7667.865750977191,
+        "maxLossUsd": 500,
+        "stopPct": 0.062554,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "5f92f32daf00e29f7286733c094e7724e0507e1e2269a964ba93d077083b153a",
+      "sourceSha256": "31470081402d8e591144050eb16e81d890b787b5ef6566a63358289fff504072",
+      "ai": null
+    },
     {
       "id": "disc-tendril-2026-11-05",
       "name": "TENDRIL",
@@ -35,14 +166,14 @@
         "windowSigma": 0.02789
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:25.459Z",
-        "mid": 687.085,
-        "spreadBps": 0.146,
-        "bidDepthUsd1pct": 257602,
-        "askDepthUsd1pct": 242486,
-        "fundingRate": 0.000098,
+        "observedAt": "2026-11-10T02:02:38.594Z",
+        "mid": 689.345,
+        "spreadBps": 0.145,
+        "bidDepthUsd1pct": 307307,
+        "askDepthUsd1pct": 301588,
+        "fundingRate": 0.000092,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 92921.20000000008
+        "openInterestContracts": 92699.55000000008
       },
       "sizing": {
         "notionalUsd": 8566.686793838437,
@@ -75,7 +206,7 @@
           }
         ]
       },
-      "integrity": "a091d6a598342651b16a42c7757eac6d6a7db04f5cb0cb47b78869338ea011b8",
+      "integrity": "8569cf46c74fa0f94c4a2c2db7bf4bdaf06d2d64ff713d8dc97aa2cf5fd53c9e",
       "sourceSha256": "967c92b88761dfcc398f0021718062882f88503627f4f90c726c892010f91956",
       "ai": null
     },
@@ -146,14 +277,14 @@
         "windowSigma": 0.015195
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:25.849Z",
-        "mid": 2125.835,
+        "observedAt": "2026-11-10T02:02:38.709Z",
+        "mid": 2122.5950000000003,
         "spreadBps": 0.047,
-        "bidDepthUsd1pct": 5611032,
-        "askDepthUsd1pct": 2323145,
-        "fundingRate": 0.00005,
+        "bidDepthUsd1pct": 1254828,
+        "askDepthUsd1pct": 2942893,
+        "fundingRate": -0.000022,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 759599.4200000004
+        "openInterestContracts": 743682.8600000005
       },
       "sizing": {
         "notionalUsd": 15134.020417111467,
@@ -186,7 +317,7 @@
           }
         ]
       },
-      "integrity": "eceff9868e2108c1403f7f2a769c6120934070138c719eb1112ce1e92561f419",
+      "integrity": "00a28e779caee472d9cbb2c97c9d8f59c1a3b5f3bd81ff471a0660bfb8f4402e",
       "sourceSha256": "6a7197ff40e91d18a3252c12c6cd212d1189f00784a1fd9cfd360691ab217439",
       "ai": null
     },
@@ -233,14 +364,14 @@
         "windowSigma": 0.015469
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:25.650Z",
-        "mid": 2125.9049999999997,
+        "observedAt": "2026-11-10T02:02:38.822Z",
+        "mid": 2122.5950000000003,
         "spreadBps": 0.047,
-        "bidDepthUsd1pct": 5616488,
-        "askDepthUsd1pct": 2199754,
-        "fundingRate": 0.00005,
+        "bidDepthUsd1pct": 1254828,
+        "askDepthUsd1pct": 2942893,
+        "fundingRate": -0.000022,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 759599.4200000004
+        "openInterestContracts": 743682.8600000005
       },
       "sizing": {
         "notionalUsd": 14847.837685212911,
@@ -273,8 +404,42 @@
           }
         ]
       },
-      "integrity": "72de1d89a2fdfc2bc6b6c40d472660cc9e54b9cf59263859c8235322acf3e382",
+      "integrity": "45c8189b65c9135e6f2b9b665f1b61b3051716d798c8d338cf85e689fc4ee17e",
       "sourceSha256": "1d13aa1407ed7e2fd2a2143a323200ff0d13058af86242d00ee07174d9cc80cb",
+      "ai": null
+    },
+    {
+      "id": "disc-sovryn-dex-2026-11-01",
+      "name": "Sovryn Dex",
+      "day": "2026-11-01",
+      "amountUsd": 538749,
+      "chains": [
+        "Rootstock"
+      ],
+      "technique": "Unknown",
+      "classification": "Protocol Logic",
+      "protocol": {
+        "id": "329",
+        "name": "Sovryn Dex",
+        "slug": "sovryn-dex",
+        "symbol": "SOV",
+        "category": "Dexs",
+        "mcapUsd": null
+      },
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-11-10T02:02:37.859Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "97552c7658fdd8281ecf933602bb85c049fedece3366146cfcd64e25db84836f",
+      "sourceSha256": "ac23b0cacb76aef8f52a278b871613bbbccc80319f629a72523c241c2d3426ab",
       "ai": null
     },
     {
@@ -318,14 +483,14 @@
         "windowSigma": 0.009507
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:26.029Z",
-        "mid": 2125.9049999999997,
+        "observedAt": "2026-11-10T02:02:38.949Z",
+        "mid": 2122.5950000000003,
         "spreadBps": 0.047,
-        "bidDepthUsd1pct": 5490464,
-        "askDepthUsd1pct": 2288189,
-        "fundingRate": 0.00005,
+        "bidDepthUsd1pct": 1254828,
+        "askDepthUsd1pct": 2942893,
+        "fundingRate": -0.000022,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 759599.4200000004
+        "openInterestContracts": 743682.8600000005
       },
       "sizing": {
         "notionalUsd": 23600.056180577845,
@@ -358,7 +523,7 @@
           }
         ]
       },
-      "integrity": "a26154a3ed7910c7d2888ceae04806b3bd06aebe1e26bc28513d3bb9a1df5de2",
+      "integrity": "d45c22ce2612d9772648c0a483e080664e592b1181ad75314249db77c384fd5a",
       "sourceSha256": "a9e3b93316de7f27f13d6b3641704914ae5891276e81341ced26cc6d70cb1732",
       "ai": null
     },
@@ -422,6 +587,40 @@
       "ai": null
     },
     {
+      "id": "disc-sovryn-lend-2026-10-31",
+      "name": "Sovryn Lend",
+      "day": "2026-10-31",
+      "amountUsd": 914000,
+      "chains": [
+        "Rootstock"
+      ],
+      "technique": "Unknown",
+      "classification": "Protocol Logic",
+      "protocol": {
+        "id": "2843",
+        "name": "Sovryn Lend",
+        "slug": "sovryn-lend",
+        "symbol": "SOV",
+        "category": "Lending",
+        "mcapUsd": null
+      },
+      "exposures": [],
+      "instrument": null,
+      "decision": "NO_TRADE",
+      "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-11-10T02:02:38.189Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": null,
+      "microstructure": null,
+      "sizing": null,
+      "assessment": null,
+      "integrity": "3ab4620c75335729005002b19280f31e26081c294e2b7a8a542331d4a4fcac0c",
+      "sourceSha256": "dfa50df16e09548d0b654a36c4acdf22dd860f9fbecc7fd144e571916454d528",
+      "ai": null
+    },
+    {
       "id": "disc-polymarket-international-2026-10-29",
       "name": "Polymarket International",
       "day": "2026-10-29",
@@ -462,14 +661,14 @@
         "windowSigma": 0.037955
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:26.218Z",
-        "mid": 0.08929000000000001,
-        "spreadBps": 2.24,
-        "bidDepthUsd1pct": 322060,
-        "askDepthUsd1pct": 298723,
-        "fundingRate": -0.000048,
+        "observedAt": "2026-11-10T02:02:39.205Z",
+        "mid": 0.08865,
+        "spreadBps": 4.512,
+        "bidDepthUsd1pct": 331779,
+        "askDepthUsd1pct": 293670,
+        "fundingRate": -0.000039,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 35514401
+        "openInterestContracts": 34946367
       },
       "sizing": {
         "notionalUsd": 6275.060129452996,
@@ -502,7 +701,7 @@
           }
         ]
       },
-      "integrity": "0b4365918451768808c78eedb908fc133b28a24a7387737c06d3e5c277276ffd",
+      "integrity": "44d17016190042ab9863ca71370f091e8924ad1fd817fcbbfee8402d2a3bc8e1",
       "sourceSha256": "6fc6b7523ff163376d0611ab9e220f525f8d6de37d29c94ff6395054a473eb9c",
       "ai": null
     },
@@ -565,14 +764,14 @@
         "windowSigma": 0.053168
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:26.415Z",
-        "mid": 687.115,
-        "spreadBps": 0.146,
-        "bidDepthUsd1pct": 273290,
-        "askDepthUsd1pct": 289471,
-        "fundingRate": 0.000098,
+        "observedAt": "2026-11-10T02:02:39.076Z",
+        "mid": 689.345,
+        "spreadBps": 0.145,
+        "bidDepthUsd1pct": 306804,
+        "askDepthUsd1pct": 301264,
+        "fundingRate": 0.000092,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 92921.20000000008
+        "openInterestContracts": 92699.55000000008
       },
       "sizing": {
         "notionalUsd": 4561.5326727172815,
@@ -605,7 +804,7 @@
           }
         ]
       },
-      "integrity": "c8016c00dda81e1d810c719522c1d197cd11bed13966215f2fe3aa49fbb2748a",
+      "integrity": "95726dad4dba26df32a0b7dac1f59b7a54a60130470014945e8c4c202f5ded24",
       "sourceSha256": "740d97252a8c0f9b71bfd9de8b5fd8d9f88623c1754a0ae12768649c3a380513",
       "ai": null
     },
@@ -650,14 +849,14 @@
         "windowSigma": 0.019376
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:26.611Z",
-        "mid": 2125.9049999999997,
+        "observedAt": "2026-11-10T02:02:39.318Z",
+        "mid": 2122.5950000000003,
         "spreadBps": 0.047,
-        "bidDepthUsd1pct": 5490464,
-        "askDepthUsd1pct": 2288189,
-        "fundingRate": 0.00005,
+        "bidDepthUsd1pct": 1246997,
+        "askDepthUsd1pct": 2973606,
+        "fundingRate": -0.000022,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 759599.4200000004
+        "openInterestContracts": 743682.8600000005
       },
       "sizing": {
         "notionalUsd": 11992.633077797262,
@@ -690,7 +889,7 @@
           }
         ]
       },
-      "integrity": "58ea9c607ad92f0f3616f8ff1f3e4925cd935f6c12b53357995af7ccf8573b5e",
+      "integrity": "19943c88cf263e9a1a4c7b80bfa37a2ec93dc33cb3562cfb276ff8e1a4959637",
       "sourceSha256": "3c33235b56a54d3f4bcc57459f65fefd57cd92f4a504a1e5072641db9e9e452f",
       "ai": null
     },
@@ -735,14 +934,14 @@
         "windowSigma": 0.016281
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:26.808Z",
-        "mid": 687.115,
-        "spreadBps": 0.146,
-        "bidDepthUsd1pct": 279476,
-        "askDepthUsd1pct": 289979,
-        "fundingRate": 0.000098,
+        "observedAt": "2026-11-10T02:02:39.572Z",
+        "mid": 689.345,
+        "spreadBps": 0.145,
+        "bidDepthUsd1pct": 306804,
+        "askDepthUsd1pct": 301264,
+        "fundingRate": 0.000092,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 92921.20000000008
+        "openInterestContracts": 92699.55000000008
       },
       "sizing": {
         "notionalUsd": 14287.28362379728,
@@ -775,7 +974,7 @@
           }
         ]
       },
-      "integrity": "869bdbac8d124b80b93ad270af0d31e585bb39dff0e214a4bdb9c9ac906a207c",
+      "integrity": "a25494843a228f464c7293cd146a5b2516fc67d6fb1f9bba5ab4bff98c74ea07",
       "sourceSha256": "890dc2b0cc41d16dee828579f330c6a304d5a8b70deba0454a8685859f81ae07",
       "ai": null
     },
@@ -820,14 +1019,14 @@
         "windowSigma": 0.024639
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:26.999Z",
-        "mid": 8.5975,
-        "spreadBps": 1.163,
-        "bidDepthUsd1pct": 1540336,
-        "askDepthUsd1pct": 1210924,
-        "fundingRate": 0.0001,
+        "observedAt": "2026-11-10T02:02:39.434Z",
+        "mid": 8.6395,
+        "spreadBps": 1.157,
+        "bidDepthUsd1pct": 1510989,
+        "askDepthUsd1pct": 1132962,
+        "fundingRate": -0.000048,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 2781020.6
+        "openInterestContracts": 2768227.2
       },
       "sizing": {
         "notionalUsd": 9406.82315184388,
@@ -860,7 +1059,7 @@
           }
         ]
       },
-      "integrity": "eaaef9d3f855706f7479ad222ae33dd77ff6357014e32d9a99ff773d9510c446",
+      "integrity": "6a16aaa7bb980249cba7d14c05195a42d58d96c1cf63f007170e22095d79b742",
       "sourceSha256": "f5bf260968aa43061c52e93a82a3393236a61d4799b2e85bbaf6ae6ff6de0760",
       "ai": null
     },
@@ -905,14 +1104,14 @@
         "windowSigma": 0.020756
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:27.178Z",
-        "mid": 86.6505,
-        "spreadBps": 0.115,
-        "bidDepthUsd1pct": 668938,
-        "askDepthUsd1pct": 954348,
-        "fundingRate": 0.000001,
+        "observedAt": "2026-11-10T02:02:39.682Z",
+        "mid": 86.1195,
+        "spreadBps": 0.116,
+        "bidDepthUsd1pct": 671923,
+        "askDepthUsd1pct": 903343,
+        "fundingRate": 0.000017,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 4260686.199999961
+        "openInterestContracts": 4293673.099999961
       },
       "sizing": {
         "notionalUsd": 11116.236871748588,
@@ -945,7 +1144,7 @@
           }
         ]
       },
-      "integrity": "d3f240308f73bff9bfcde360e651a34c4d0eeec7ffe8d069a5bcf24875c9afbd",
+      "integrity": "1ccf8d1de580da1c427c3538bfbf791abe25fcf26523b5cb9a64b482bf43be22",
       "sourceSha256": "c63248ac0579a432ad10008c64dc124ebb80ad8f422440dedf9865922f08f092",
       "ai": null
     },
@@ -983,14 +1182,14 @@
         "windowSigma": 0.021697
       },
       "microstructure": {
-        "observedAt": "2026-11-09T18:43:27.388Z",
-        "mid": 2125.7349999999997,
+        "observedAt": "2026-11-10T02:02:39.812Z",
+        "mid": 2122.5950000000003,
         "spreadBps": 0.047,
-        "bidDepthUsd1pct": 6933288,
-        "askDepthUsd1pct": 2500382,
-        "fundingRate": 0.00005,
+        "bidDepthUsd1pct": 1250902,
+        "askDepthUsd1pct": 2937681,
+        "fundingRate": -0.000022,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 759599.4200000004
+        "openInterestContracts": 743682.8600000005
       },
       "sizing": {
         "notionalUsd": 10806.725256406244,
@@ -1023,7 +1222,7 @@
           }
         ]
       },
-      "integrity": "e6113466ab999e63e48dcc6ab75d11ba9833ba85a941472f4e80f6a6be0e4f54",
+      "integrity": "fe095aad84bba9b00a60983cd2a5312a8a9d629376af157f40107a2334c71222",
       "sourceSha256": "72c699b9df15ba0332c4f15ed6a8fa362beb624a54f39a1edbb611e2b91e25d8",
       "ai": null
     },
