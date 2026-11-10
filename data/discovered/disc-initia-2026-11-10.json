@@ -1,0 +1,43 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-initia-2026-11-10",
+  "discoveredAt": "2026-11-10T23:15:11.455Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1794268800,
+      "name": "Initia",
+      "classification": "Key Compromise",
+      "technique": "Private Key Compromised",
+      "amount": 615000,
+      "chain": [
+        "Initia"
+      ],
+      "bridgeHack": false,
+      "targetType": "Chain",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "chain#initia",
+      "language": null,
+      "description": "On November 10, 2026, an attacker used compromised rollup infrastructure keys to fabricate IBC transfers and withdraw assets from escrow accounts on Initia's Layer 1 that held funds bridged to multiple rollups. Approximately $615,000 in assets, including 605,000 USDC, was transferred out through Noble before validators halted the Initia network at 06:18 UTC. Additional assets were moved from the affected escrow accounts but remained on the halted blockchain. Initia began investigating the compromise with security teams and exchanges, while the full scope of the incident and recovery status remained undetermined"
+    },
+    "sha256": "c978467ab30569888eab4895a0a772ced760919e1c4e43c725c634c04900c5e8"
+  },
+  "protocol": null,
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "integrity": "24090d902b81bd2bbdfdd08b542265d70a75f998234bc555b844c4e5375e18eb"
+}
