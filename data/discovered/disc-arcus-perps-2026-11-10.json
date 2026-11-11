@@ -1,0 +1,51 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-arcus-perps-2026-11-10",
+  "discoveredAt": "2026-11-11T02:47:00.759Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1794268800,
+      "name": "Arcus Perps",
+      "classification": "Protocol Logic",
+      "technique": "Withdrawal Logic Flaw",
+      "amount": 2234391,
+      "chain": [
+        "Robinhood Chain"
+      ],
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": 2234391,
+      "defillamaId": "8141",
+      "parentProtocolId": "parent#arcus",
+      "language": null,
+      "description": "On November 10, 2026 (UTC), an attacker exploited an accounting flaw in Arcus Perps on Robinhood Chain that allowed transfers between subaccounts to artificially inflate an account's recorded balance. The attacker used the inflated balance to withdraw 2,234,391 USDG, while an additional $3 million in withdrawal requests was blocked by the bridge's rate limit and later reversed. Arcus patched the vulnerability, restricted the exploiter's accounts, and covered the entire shortfall from its company treasury, leaving user balances unaffected"
+    },
+    "sha256": "62236cbe2a91c7e35a6f965d1276d74dacc36ee890817042e87677f87e6acf1b"
+  },
+  "protocol": {
+    "id": "8141",
+    "name": "Arcus Perps",
+    "slug": "arcus-perps",
+    "symbol": "-",
+    "category": "Derivatives",
+    "mcapUsd": null
+  },
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "integrity": "b7c59f79ecb6d5196ed21431ed5db332a6d4ffd66bc6c5abda336dcca92c2bcf"
+}
