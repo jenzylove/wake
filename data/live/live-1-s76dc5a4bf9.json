@@ -1,0 +1,121 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s76dc5a4bf9",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-11-11T15:31:45.441Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x76dc5a4bf971a4e1d125f8d117047fcf3ca31e2ce94d86b697a1bf9f618d81b7",
+    "txs": [
+      "0x76dc5a4bf971a4e1d125f8d117047fcf3ca31e2ce94d86b697a1bf9f618d81b7"
+    ],
+    "fundingTx": null,
+    "block": 26391936,
+    "contract": "0xc17a40852e4bfe04bc81af355fdf132c539ba753",
+    "recipient": "0x690c3eebf6ee237f00fc96f9766282f096c191cc",
+    "exchange": "unlabelled exchange",
+    "hubSource": "inferred: many distinct senders into one wallet",
+    "asset": "PEPE",
+    "amount": 552477362096.9337,
+    "approxUsd": 2731835,
+    "balanceRemovedShare": 1
+  },
+  "depositor": {
+    "address": "0xc17a40852e4bfe04bc81af355fdf132c539ba753",
+    "isContract": false,
+    "transactionCount": 261913,
+    "balanceBefore": 552477362096.9337,
+    "shareOfBalanceSent": 1,
+    "shareOfSupply": 0.001313,
+    "viaDepositAddress": null
+  },
+  "instrument": "PEPEUSDT",
+  "market": {
+    "movePct": -0.557,
+    "roundTripCostPct": 0.1281,
+    "book": {
+      "bid": 0.0000049417,
+      "ask": 0.0000049421
+    },
+    "dailySigma": 0.074573,
+    "dailyVolumeUsd": null,
+    "bitgetVolume24hUsd": 40956245
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 3194.4197350224986,
+    "maxLossUsd": 500,
+    "stopPct": 0.14914653488935178,
+    "costPct": 0.007376414965413769,
+    "spreadPct": 0.00617641496541377,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.07457326744467589,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 40956245.3043786,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.00617641496541377,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0.557,
+  "minEdgePct": 0.384,
+  "decision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": null,
+  "refusals": [
+    "edge unknown is below the 0.384% bar"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "code (Claude not consulted: no trade was possible)",
+    "refusals": [
+      "edge unknown is below the 0.384% bar"
+    ],
+    "instrument": "PEPEUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "3746f2e5b0db3907485a757fe57cfb3b6eda16d875784b85eeadda4b37398cf8"
+}
