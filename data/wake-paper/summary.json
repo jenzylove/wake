@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-11-12T20:14:55.668Z",
+    "updatedAt": "2026-11-12T23:38:59.213Z",
     "mode": "bitget-demo",
-    "executorOk": false,
-    "incidentsEvaluated": 648,
+    "executorOk": true,
+    "incidentsEvaluated": 654,
     "eligibleNow": 0,
     "open": 0,
     "closedTrades": 3,
@@ -34,12 +34,32 @@
     },
     "openBySource": {},
     "bySource": {
+      "captured": 6,
       "discovered": 51,
       "live": 466,
       "blind": 131
     }
   },
-  "exchange": null,
+  "exchange": {
+    "account": {
+      "equity": 9991.6697925,
+      "available": 9984.3526925,
+      "marginCoin": "USDT"
+    },
+    "positions": [
+      {
+        "symbol": "METAUSDT",
+        "side": "SHORT",
+        "size": 0.14,
+        "entryPrice": 678.835,
+        "markPrice": 626.57,
+        "unrealizedPnlUsd": 7.3171,
+        "marginMode": "crossed",
+        "leverage": 2
+      }
+    ],
+    "at": "2026-11-12T23:38:59.213Z"
+  },
   "open": [],
   "closed": [
     {
@@ -128,6 +148,18 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 654,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-11-12T23:38:59.213Z",
+      "prevHash": "b6dd2b0aaba55b579622c5ca5e8c909bec366689a040d12cd94c48405419b2a0",
+      "hash": "9cbc58360008949b4014115995096afe57ed121427533042a5639e57742d7d7d"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -964,19 +996,7 @@
       "at": "2026-11-10T09:43:23.248Z",
       "prevHash": "a801d248222dfe0e71c4b9126555d25d9f0218f42b7094a20d5e0bd06b2228f9",
       "hash": "df8fd2ffc2e86c8a7094b673a1471ff07369b09087ee5944ab128e61e501e8ea"
-    },
-    {
-      "event": "TICK",
-      "mode": "bitget-demo",
-      "evaluated": 620,
-      "eligible": 0,
-      "open": 0,
-      "closedTrades": 3,
-      "realizedPnlUsd": -2.0631,
-      "at": "2026-11-10T02:20:59.076Z",
-      "prevHash": "e3b7e72e5ee4dad668bec133a8cb155e940b79a26f32162a78edc56d8b89e6ef",
-      "hash": "a801d248222dfe0e71c4b9126555d25d9f0218f42b7094a20d5e0bd06b2228f9"
     }
   ],
-  "logEntries": 1299
+  "logEntries": 1300
 }
