@@ -1,0 +1,121 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-s9ea4609504",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-11-12T11:37:00.316Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0x9ea46095047193afc0eed095dee07ba9639f2534b3f204a2c2005cec35ed72b1",
+    "txs": [
+      "0x9ea46095047193afc0eed095dee07ba9639f2534b3f204a2c2005cec35ed72b1"
+    ],
+    "fundingTx": null,
+    "block": 26397851,
+    "contract": "0xc93e48d89f2d6dbc1672908aa68ce7c24d0413b4",
+    "recipient": "0xf89d7b9c864f589bbf53a82105107622b35eaa40",
+    "exchange": "Bybit",
+    "hubSource": "public label",
+    "asset": "PEPE",
+    "amount": 240000000000,
+    "approxUsd": 1062600,
+    "balanceRemovedShare": 0.0186
+  },
+  "depositor": {
+    "address": "0xc93e48d89f2d6dbc1672908aa68ce7c24d0413b4",
+    "isContract": false,
+    "transactionCount": 12,
+    "balanceBefore": 12900000000130.02,
+    "shareOfBalanceSent": 0.0186,
+    "shareOfSupply": 0.00057,
+    "viaDepositAddress": null
+  },
+  "instrument": "PEPEUSDT",
+  "market": {
+    "movePct": -0.738,
+    "roundTripCostPct": 0.1562,
+    "book": {
+      "bid": 0.0000044245,
+      "ask": 0.0000044261
+    },
+    "dailySigma": 0.066682,
+    "dailyVolumeUsd": 481373522,
+    "bitgetVolume24hUsd": 43459192
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 3556.3046176464895,
+    "maxLossUsd": 500,
+    "stopPct": 0.1333642417380877,
+    "costPct": 0.007231138511113991,
+    "spreadPct": 0.0060311385111139915,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.06668212086904385,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 43459192.26937959,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.0060311385111139915,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.313,
+  "marketDeltaPct": 0.738,
+  "minEdgePct": 0.468,
+  "decision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": null,
+  "refusals": [
+    "edge -0.42% is below the 0.468% bar"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "code (Claude not consulted: no trade was possible)",
+    "refusals": [
+      "edge -0.42% is below the 0.468% bar"
+    ],
+    "instrument": "PEPEUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "001e71701c9282e7b22ca8d9087bd4219ca03c77d4c7fa76950cf253e03da1be"
+}
