@@ -1,0 +1,328 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-202611131454185863-7a2088a1",
+  "runId": "202611131454185863",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 99,
+    "blockTimestamp": 1794581758
+  },
+  "detection": {
+    "tx": "0x7558d4895cc9e733eea3781fa1f6e0857a5e28260e97b89df53aff109a718ea4",
+    "txs": [
+      "0x7558d4895cc9e733eea3781fa1f6e0857a5e28260e97b89df53aff109a718ea4"
+    ],
+    "firstDetectedAt": "2026-11-13T14:54:35.435Z",
+    "victim": "0x7a2088a1bfc9d81c55368ae168c2c02570cb814f",
+    "token": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+    "before": 1031205,
+    "after": 0,
+    "detectedAt": "2026-11-13T14:54:35.435Z",
+    "latencyMs": -82565
+  },
+  "investigation": {
+    "from": "0xf6f4251ba79a5272d9d98555d61d472ab8ea5a3e",
+    "to": "0xb842359db434131628f903a4cc783abd6a2022a8",
+    "selector": "0xfc4dcacb",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0xb842359db434131628f903a4cc783abd6a2022a8",
+        "selector": "0xfc4dcacb",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x7a2088a1bfc9d81c55368ae168c2c02570cb814f",
+        "selector": "0xc4d66de8",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x7a2088a1bfc9d81c55368ae168c2c02570cb814f",
+        "selector": "0x6f307dc3",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x7a2088a1bfc9d81c55368ae168c2c02570cb814f",
+        "selector": "0x6ea056a9",
+        "type": "CALL"
+      },
+      {
+        "depth": 2,
+        "to": "0x4a679253410272dd5232b3ff7cf5dbb88f295319",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 1031205,
+    "integrators": [
+      {
+        "address": "0xf5059a5d33d5853360d16c683c16e67980206f36",
+        "heldSharesBefore": 572175.54,
+        "heldSharesAfter": 572175.54,
+        "collateralValueBeforeUsd": 572175.54,
+        "collateralValueAfterUsd": 0,
+        "lentUsd": 357972.49899999995,
+        "badDebtUsd": 357972.49899999995
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x7a2088a1bfc9d81c55368ae168c2c02570cb814f",
+      "lossUsd": 1031205,
+      "name": "Basalt Vault",
+      "instrument": "BCHUSDT",
+      "marketCapUsd": 7000000,
+      "modeledDeltaPct": 3.683,
+      "markAtDetection": 227.18,
+      "markAtDecision": 227.18,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 8139.866868413039,
+        "maxLossUsd": 500,
+        "stopPct": 0.05773290748000208,
+        "costPct": 0.0036931585826091885,
+        "spreadPct": 0.0024931585826091884,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.02886645374000104,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 18564616.0466,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.0024931585826091884,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 3.683,
+      "demoListed": true
+    },
+    {
+      "kind": "CONTAGION",
+      "address": "0xf5059a5d33d5853360d16c683c16e67980206f36",
+      "lossUsd": 357972.49899999995,
+      "name": "Tundra Lend",
+      "instrument": "ADAUSDT",
+      "marketCapUsd": 64000000,
+      "modeledDeltaPct": 0.14,
+      "markAtDetection": 0.1734,
+      "markAtDecision": 0.1734,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 8226.85772717876,
+        "maxLossUsd": 500,
+        "stopPct": 0.05673553412863548,
+        "costPct": 0.004041012224921703,
+        "spreadPct": 0.002841012224921703,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.02836776706431774,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 47779113.993300006,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.002841012224921703,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 0.14,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x7558d4895cc9e733eea3781fa1f6e0857a5e28260e97b89df53aff109a718ea4 succeeded in block 99"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xf6f4251ba79a5272d9d98555d61d472ab8ea5a3e is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "6 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $1,031,205 at Basalt Vault"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": true,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": true,
+        "value": "3.7%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "policyDecision": "TRADE_DIRECT",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 401: invalid x-api-key",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "038d82be83ae4dd0bcafea8793db1263e7dd21dad86c3faefc7313ffe07922c2"
+}
