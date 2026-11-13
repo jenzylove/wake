@@ -1,0 +1,121 @@
+{
+  "schema": "wake.live.incident.v1",
+  "eventClass": "SUPPLY_TO_EXCHANGE",
+  "id": "live-1-sba0a434004",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-11-13T01:18:46.762Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0xba0a43400456c9b3958bbb79866a26009c2fc3d23b03b954a4c61396f630fa73",
+    "txs": [
+      "0xba0a43400456c9b3958bbb79866a26009c2fc3d23b03b954a4c61396f630fa73"
+    ],
+    "fundingTx": "0x222c6704d0bd2c43358145f1f217f59a3522f589f841d6d77f9f0a0d97f448a6",
+    "block": 26401847,
+    "contract": "0xef548e08630965497d47be4cff2353ed67853af0",
+    "recipient": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+    "exchange": "Coinbase",
+    "hubSource": "public label",
+    "asset": "LINK",
+    "amount": 146722.52,
+    "approxUsd": 1483805,
+    "balanceRemovedShare": 0.7609
+  },
+  "depositor": {
+    "address": "0xef548e08630965497d47be4cff2353ed67853af0",
+    "isContract": true,
+    "transactionCount": 1,
+    "balanceBefore": 192839.2650956255,
+    "shareOfBalanceSent": 0.7609,
+    "shareOfSupply": 0.000147,
+    "viaDepositAddress": "0xf99fc8d19c2e716c0b7bc90415cfd63c1f589058"
+  },
+  "instrument": "LINKUSDT",
+  "market": {
+    "movePct": 0.437,
+    "roundTripCostPct": 0.1299,
+    "book": {
+      "bid": 10.117,
+      "ask": 10.118
+    },
+    "dailySigma": 0.030463,
+    "dailyVolumeUsd": 259319274,
+    "bitgetVolume24hUsd": 11607469
+  },
+  "sizing": {
+    "computable": true,
+    "notionalUsd": 7699.570628737923,
+    "maxLossUsd": 500,
+    "stopPct": 0.060925476770889,
+    "costPct": 0.004013209307760256,
+    "spreadPct": 0.0028132093077602558,
+    "bindingConstraint": "risk budget",
+    "inputs": [
+      {
+        "label": "Window volatility",
+        "value": 0.0304627383854445,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Window traded value (USD)",
+        "value": 11607469.359000001,
+        "provenance": "OBSERVED"
+      },
+      {
+        "label": "Spread (Corwin-Schultz on 1m candles)",
+        "value": 0.0028132093077602558,
+        "provenance": "ESTIMATED"
+      },
+      {
+        "label": "Equity",
+        "value": 100000,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Risk fraction",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Stop, in window sigmas",
+        "value": 2,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Participation cap",
+        "value": 0.005,
+        "provenance": "ASSUMED"
+      },
+      {
+        "label": "Taker fee",
+        "value": 0.0006,
+        "provenance": "OBSERVED"
+      }
+    ]
+  },
+  "modeledDeltaPct": 0.23,
+  "marketDeltaPct": -0.437,
+  "minEdgePct": 0.39,
+  "decision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": null,
+  "refusals": [
+    "edge 0.23% is below the 0.39% bar"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "NO_TRADE",
+    "gatePassed": false,
+    "decidedBy": "code (Claude not consulted: no trade was possible)",
+    "refusals": [
+      "edge 0.23% is below the 0.39% bar"
+    ],
+    "instrument": "LINKUSDT",
+    "side": "SHORT"
+  },
+  "integrity": "13ddc7cc8de9a1313bc609d3da5849dfe7434f5d2e7ff828184c65d1edfb4d44"
+}
