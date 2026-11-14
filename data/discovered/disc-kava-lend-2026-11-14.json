@@ -1,0 +1,50 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-kava-lend-2026-11-14",
+  "discoveredAt": "2026-11-14T21:26:14.089Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1794614400,
+      "name": "Kava Lend",
+      "classification": "Token & Share Accounting",
+      "technique": "Arithmetic Error",
+      "amount": 3700000,
+      "chain": [
+        "Kava"
+      ],
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "140",
+      "language": "Go",
+      "description": "On November 14, 2026, attackers exploited an arithmetic flaw in Kava Lend's BUSD market that allowed its supply interest index to increase approximately 243,000-fold when calculated against an extremely small effective supply. The attackers used the resulting inflated collateral claims to repeatedly borrow KAVA, then liquidated the loans through a process that erased the debt without recovering sufficient collateral. Approximately 53.9 million KAVA, worth $3.7 million before the subsequent market selloff, was stolen from the lending protocol. The attackers bridged and sold much of the stolen KAVA on BNB Chain, while approximately 612,416 USDT in laundering proceeds was blocked at the Relay bridge"
+    },
+    "sha256": "f2b9d9474ed6992b05d2eafb66864f8da7fc5597aeba3c06775432c727c2669d"
+  },
+  "protocol": {
+    "id": "140",
+    "name": "Kava Lend",
+    "slug": "kava-lend",
+    "symbol": "HARD",
+    "category": "Lending",
+    "mcapUsd": 60672.029750879876
+  },
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "integrity": "794650c758218f46803da89b92a65e3c21a80a7f8b611a113d786a4656fb0648"
+}
