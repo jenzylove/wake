@@ -1,6 +1,6 @@
 {
   "metrics": {
-    "updatedAt": "2026-11-15T21:57:54.562Z",
+    "updatedAt": "2026-11-16T01:59:22.348Z",
     "mode": "bitget-demo",
     "executorOk": true,
     "incidentsEvaluated": 683,
@@ -42,8 +42,8 @@
   },
   "exchange": {
     "account": {
-      "equity": 9989.77556251,
-      "available": 9983.98446251,
+      "equity": 9989.92466964,
+      "available": 9983.94456964,
       "marginCoin": "USDT"
     },
     "positions": [
@@ -52,13 +52,13 @@
         "side": "SHORT",
         "size": 0.14,
         "entryPrice": 678.835,
-        "markPrice": 637.47,
-        "unrealizedPnlUsd": 5.7911,
+        "markPrice": 636.12,
+        "unrealizedPnlUsd": 5.9801,
         "marginMode": "crossed",
         "leverage": 2
       }
     ],
-    "at": "2026-11-15T21:57:54.562Z"
+    "at": "2026-11-16T01:59:22.348Z"
   },
   "open": [],
   "closed": [
@@ -148,6 +148,32 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 683,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-11-16T01:59:22.348Z",
+      "prevHash": "99832c83b74dde089bf2eab8aaa4d3057b878f408cbc7a81c4d662897020d3d0",
+      "hash": "558fc95e35aae12b8c2a12c7f796e2a0879ad24cea0d5065491439b3dc1f2844"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "disc-bloom-trading-bot-2026-10-26",
+      "source": "discovered",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held"
+      ],
+      "at": "2026-11-16T01:59:22.348Z",
+      "prevHash": "5d7573229f4bd50ae465a72e83ff4b4fc8b4049c2835c1f46a7adc057820b6f9",
+      "hash": "99832c83b74dde089bf2eab8aaa4d3057b878f408cbc7a81c4d662897020d3d0"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -980,23 +1006,7 @@
       "at": "2026-11-12T20:14:55.668Z",
       "prevHash": "4ed144afcc5e5ce5267a1cd4ba959d3b4ed6f49a66e02982a6bdbafaf0dd65cc",
       "hash": "b6dd2b0aaba55b579622c5ca5e8c909bec366689a040d12cd94c48405419b2a0"
-    },
-    {
-      "event": "EXECUTOR_UNAVAILABLE",
-      "status": 402,
-      "error": null,
-      "at": "2026-11-12T20:14:55.668Z",
-      "prevHash": "669d2e3348c162f9e8ffde264a8551c89aaf2fcd49e659cf39b0084108a4a0a3",
-      "hash": "4ed144afcc5e5ce5267a1cd4ba959d3b4ed6f49a66e02982a6bdbafaf0dd65cc"
-    },
-    {
-      "event": "SOURCE_ERROR",
-      "source": "captured",
-      "error": "Unexpected token 'P', \"Payment re\"... is not valid JSON",
-      "at": "2026-11-12T20:14:55.668Z",
-      "prevHash": "d78ebef2042f0377da14b61d6130b4e3a9f4ac2654ee7312046d2b17a477f80b",
-      "hash": "669d2e3348c162f9e8ffde264a8551c89aaf2fcd49e659cf39b0084108a4a0a3"
     }
   ],
-  "logEntries": 1356
+  "logEntries": 1358
 }
