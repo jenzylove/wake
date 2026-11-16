@@ -1,0 +1,51 @@
+{
+  "schema": "wake.discovered.v1",
+  "id": "disc-more-markets-2026-11-16",
+  "discoveredAt": "2026-11-16T20:25:07.231Z",
+  "source": {
+    "feed": "https://api.llama.fi/hacks",
+    "record": {
+      "date": 1794787200,
+      "name": "MORE Markets",
+      "classification": "Protocol Logic",
+      "technique": "Unknown",
+      "amount": 308000,
+      "chain": [
+        "Flow"
+      ],
+      "bridgeHack": false,
+      "targetType": "DeFi Protocol",
+      "source": "",
+      "returnedFunds": null,
+      "defillamaId": "5320",
+      "parentProtocolId": "parent#more-markets",
+      "language": "Solidity",
+      "description": "On November 16, 2026, an attacker exploited MORE Markets on Flow EVM, draining approximately $308,000 in WFLOW from its lending reserve. The attacker used flash loans to establish e-mode positions involving ankrFLOW and WFLOW, then repeatedly self-liquidated those positions, leaving unbacked WFLOW debt in the protocol"
+    },
+    "sha256": "c5f0f76d93ea24e4dc8ab9b9c1b99999c5114b9c5b8d902e8b21dede8c1bfd8d"
+  },
+  "protocol": {
+    "id": "5320",
+    "name": "MORE Markets",
+    "slug": "more-markets",
+    "symbol": "-",
+    "category": "Lending",
+    "mcapUsd": null
+  },
+  "exposures": [],
+  "instrument": null,
+  "market": null,
+  "marketError": null,
+  "timeline": [],
+  "sizing": {
+    "computable": false,
+    "reason": "no market window"
+  },
+  "receipt": null,
+  "decision": "NO_TRADE",
+  "reason": "Discovered from the exploit feed, but no Bitget perpetual maps to the protocol or its chain, so there is nothing to trade.",
+  "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "integrity": "4fc999fccd7d0bc0e2a20faff6d8d0fad3a879f0e2569acea03b40b25a751780"
+}
