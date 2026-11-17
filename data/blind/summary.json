@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-11-16T16:24:50.077Z",
-  "runs": 103,
-  "detected": 69,
+  "updatedAt": "2026-11-17T16:28:45.629Z",
+  "runs": 104,
+  "detected": 70,
   "decoysDismissed": 36,
   "contagionFound": {
     "found": 20,
     "applicable": 32
   },
-  "tradeTargetCorrect": 69,
+  "tradeTargetCorrect": 70,
   "gateCleared": 5,
-  "falsePositives": 34,
+  "falsePositives": 35,
   "medianDetectionMs": 2959,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "202611171628146b13",
+      "commitment": "675e95acfc6f583ee5af406c2e35db502e7635fef69b44c2e4c9383d7d020438",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": -73680,
+      "decoyDismissed": false,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "decidedBy": "none",
+      "proposed": null,
+      "falsePositives": 1,
+      "at": "2026-11-17T16:28:45.623Z",
+      "prevHash": "25464e4eaf0aa79cabedbd0582deb53bdb4212ccef90cad7e626f0824f505bb1",
+      "hash": "964183c53f32d0efd99ee65883f333438d2bf708ae7c0fe3c7b53efee0717c05"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "202611161624215380",
@@ -220,28 +239,63 @@
       "at": "2026-11-06T14:36:51.374Z",
       "prevHash": "5cd1f6299adf5d5fa1b8ae16ac83128b7ae84e07131847064ca43928870242ab",
       "hash": "a0daf49f2abea72e007b3e8a08c2e5d930d7d4d8506a8833c654a511a76ea581"
-    },
+    }
+  ],
+  "incidents": [
     {
-      "event": "BLIND_RUN",
-      "runId": "20261105145732666f",
-      "commitment": "84b36e0a22fcca57c5dc458b96e0f7b2eecc9ca49c7071c4793452009bdad9ff",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": -77973,
-      "decoyDismissed": false,
-      "contagionFound": false,
-      "tradeTargetCorrect": true,
+      "id": "blind-202611171628146b13-b7f8bc63",
+      "runId": "202611171628146b13",
+      "detectedAt": "2026-11-17T16:28:39.410Z",
+      "latencyMs": -66590,
+      "victim": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e",
+      "authorised": true,
       "decision": "MONITOR",
       "gatePassed": false,
       "decidedBy": "none",
       "proposed": null,
-      "falsePositives": 1,
-      "at": "2026-11-05T14:57:53.624Z",
-      "prevHash": "774243fa399f786a9aa599672ec69416e0e989422f331cd0b758c7e352e34ceb",
-      "hash": "5cd1f6299adf5d5fa1b8ae16ac83128b7ae84e07131847064ca43928870242ab"
-    }
-  ],
-  "incidents": [
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 617518.2,
+      "target": "Yarrow Vault",
+      "modeledDeltaPct": 0.908,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": null
+    },
+    {
+      "id": "blind-202611171628146b13-5fc8d326",
+      "runId": "202611171628146b13",
+      "detectedAt": "2026-11-17T16:28:31.320Z",
+      "latencyMs": -73680,
+      "victim": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+      "authorised": false,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "decidedBy": "none",
+      "proposed": null,
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 1054125,
+      "target": "Sable Earn",
+      "modeledDeltaPct": 0.909,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": null
+    },
     {
       "id": "blind-202611161624215380-a51c1fc2",
       "runId": "202611161624215380",
