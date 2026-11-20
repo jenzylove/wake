@@ -1,42 +1,48 @@
 {
   "chains": {
     "1": {
-      "lastBlock": 26452080,
-      "scannedAt": "2026-11-19T22:20:21.746Z",
+      "lastBlock": 26453655,
+      "scannedAt": "2026-11-20T03:36:45.682Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 59682231,
-      "scannedAt": "2026-11-19T22:20:44.730Z",
+      "lastBlock": 59777151,
+      "scannedAt": "2026-11-20T03:37:08.645Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 525743676,
-      "scannedAt": "2026-11-19T22:21:30.004Z",
+      "lastBlock": 525810690,
+      "scannedAt": "2026-11-20T03:38:15.778Z",
       "logCoverageComplete": true,
-      "evidenceComplete": true,
+      "evidenceComplete": false,
       "failedRanges": [],
-      "confirmationErrors": []
+      "confirmationErrors": [
+        {
+          "tx": "0x4fdcfa7ff58bd06340c9a7cba705647ae907e19860028f5664a07a1ac4d3e6e4",
+          "block": 525775784,
+          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+        }
+      ]
     }
   },
   "lastRun": {
-    "at": "2026-11-19T22:20:03.327Z",
-    "ethUsd": 1749.3,
+    "at": "2026-11-20T03:36:27.599Z",
+    "ethUsd": 1743.74,
     "chains": {
       "1": {
         "name": "ethereum",
-        "from": 26451180,
-        "to": 26452080,
+        "from": 26452755,
+        "to": 26453655,
         "blocks": 901,
-        "skipped": 1697,
-        "largeTransfers": 2873,
-        "recurringSenders": 366,
+        "skipped": 675,
+        "largeTransfers": 2151,
+        "recurringSenders": 230,
         "rejectedCandidates": 14,
         "drains": 0,
         "logCoverageComplete": true,
@@ -46,35 +52,67 @@
       },
       "8453": {
         "name": "base",
-        "from": 59676831,
-        "to": 59682231,
+        "from": 59771751,
+        "to": 59777151,
         "blocks": 5401,
-        "skipped": 150647,
-        "largeTransfers": 458,
-        "recurringSenders": 25,
-        "rejectedCandidates": 14,
-        "drains": 0,
+        "skipped": 89520,
+        "largeTransfers": 287,
+        "recurringSenders": 17,
+        "rejectedCandidates": 10,
+        "drains": 4,
         "logCoverageComplete": true,
         "evidenceComplete": true,
         "failedRanges": [],
         "confirmationErrors": []
       },
       "42161": {
+        "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
         "name": "arbitrum",
-        "from": 525700476,
-        "to": 525743676,
+        "from": 525767490,
+        "to": 525810690,
         "blocks": 43201,
-        "skipped": 69752,
-        "largeTransfers": 181,
-        "recurringSenders": 24,
-        "rejectedCandidates": 14,
+        "skipped": 23814,
+        "largeTransfers": 183,
+        "recurringSenders": 28,
+        "rejectedCandidates": 13,
         "drains": 0,
         "logCoverageComplete": true,
-        "evidenceComplete": true,
+        "evidenceComplete": false,
         "failedRanges": [],
-        "confirmationErrors": []
+        "confirmationErrors": [
+          {
+            "tx": "0x4fdcfa7ff58bd06340c9a7cba705647ae907e19860028f5664a07a1ac4d3e6e4",
+            "block": 525775784,
+            "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+          }
+        ]
       }
     },
-    "opened": []
+    "opened": [
+      {
+        "id": "live-8453-0dd9d53462",
+        "decision": "MONITOR",
+        "usd": 613886,
+        "protocol": null
+      },
+      {
+        "id": "live-8453-0e7edb0dde",
+        "decision": "MONITOR",
+        "usd": 424286,
+        "protocol": null
+      },
+      {
+        "id": "live-8453-aa52d6a665",
+        "decision": "MONITOR",
+        "usd": 317258,
+        "protocol": null
+      },
+      {
+        "id": "live-8453-69c595d5aa",
+        "decision": "MONITOR",
+        "usd": 263657,
+        "protocol": null
+      }
+    ]
   }
 }
