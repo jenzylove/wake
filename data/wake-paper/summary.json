@@ -1,9 +1,9 @@
 {
   "metrics": {
-    "updatedAt": "2026-11-21T01:28:02.076Z",
+    "updatedAt": "2026-11-21T02:40:08.610Z",
     "mode": "bitget-demo",
     "executorOk": true,
-    "incidentsEvaluated": 736,
+    "incidentsEvaluated": 738,
     "eligibleNow": 0,
     "open": 0,
     "closedTrades": 3,
@@ -36,13 +36,13 @@
     "bySource": {
       "captured": 6,
       "discovered": 60,
-      "live": 523,
+      "live": 525,
       "blind": 147
     }
   },
   "exchange": {
     "account": {
-      "equity": 9998.79138134,
+      "equity": 9998.78858134,
       "available": 9983.30248134,
       "marginCoin": "USDT"
     },
@@ -52,13 +52,13 @@
         "side": "SHORT",
         "size": 0.14,
         "entryPrice": 678.835,
-        "markPrice": 568.2,
-        "unrealizedPnlUsd": 15.4889,
+        "markPrice": 568.22,
+        "unrealizedPnlUsd": 15.4861,
         "marginMode": "crossed",
         "leverage": 2
       }
     ],
-    "at": "2026-11-21T01:28:02.076Z"
+    "at": "2026-11-21T02:40:08.610Z"
   },
   "open": [],
   "closed": [
@@ -148,6 +148,50 @@
     }
   ],
   "recentLog": [
+    {
+      "event": "TICK",
+      "mode": "bitget-demo",
+      "evaluated": 738,
+      "eligible": 0,
+      "open": 0,
+      "closedTrades": 3,
+      "realizedPnlUsd": -2.0631,
+      "at": "2026-11-21T02:40:08.610Z",
+      "prevHash": "d958251b0040a440e7fa0b9b09a8f3c7ed7a42c70b52b5a92e1b6b669fdfb96e",
+      "hash": "5291d062cb4549d3e07def7c8062e2696d5a281788b77f4a08736220af1de057"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-8453-477b20a751",
+      "source": "live",
+      "decision": "MONITOR",
+      "eligible": false,
+      "reasons": [
+        "decision is MONITOR",
+        "risk gate held",
+        "no computed position size",
+        "no Bitget instrument",
+        "no side"
+      ],
+      "at": "2026-11-21T02:40:08.610Z",
+      "prevHash": "513a2937070581290f9e86da46cf181dbbd669f1394ba101edc752e4d664c6e7",
+      "hash": "d958251b0040a440e7fa0b9b09a8f3c7ed7a42c70b52b5a92e1b6b669fdfb96e"
+    },
+    {
+      "event": "EVALUATED",
+      "incidentId": "live-1-s3daaa01f41",
+      "source": "live",
+      "decision": "NO_TRADE",
+      "eligible": false,
+      "reasons": [
+        "decision is NO_TRADE",
+        "risk gate held",
+        "no computed position size"
+      ],
+      "at": "2026-11-21T02:40:08.610Z",
+      "prevHash": "957f5ba7e652859d0493934f0e2760fbd4620c7359a94e874170c7ba5ee6fb07",
+      "hash": "513a2937070581290f9e86da46cf181dbbd669f1394ba101edc752e4d664c6e7"
+    },
     {
       "event": "TICK",
       "mode": "bitget-demo",
@@ -973,58 +1017,7 @@
       "at": "2026-11-17T22:32:29.196Z",
       "prevHash": "e1f8ed65cab03350387c00c4337f44f1d89715202f08980c1ec18950c73dc884",
       "hash": "b594d20bfef11ff048e51951b06635a3f7b7f10e1e0614a3f17c8efffdd22501"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "live-8453-8f6aed6a9f",
-      "source": "live",
-      "decision": "MONITOR",
-      "eligible": false,
-      "reasons": [
-        "decision is MONITOR",
-        "risk gate held",
-        "no computed position size",
-        "no Bitget instrument",
-        "no side"
-      ],
-      "at": "2026-11-17T22:32:29.196Z",
-      "prevHash": "52a66ae6f33de699b7c6e41443d9b4687b6e792b75e5cd656c125c5bc97289da",
-      "hash": "e1f8ed65cab03350387c00c4337f44f1d89715202f08980c1ec18950c73dc884"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "live-8453-3764f1f2ac",
-      "source": "live",
-      "decision": "MONITOR",
-      "eligible": false,
-      "reasons": [
-        "decision is MONITOR",
-        "risk gate held",
-        "no computed position size",
-        "no Bitget instrument",
-        "no side"
-      ],
-      "at": "2026-11-17T22:32:29.196Z",
-      "prevHash": "3088650309656e6d4b123dc09ce5ef4c058b9206e3efaee3eaa0b15c9b30d4f1",
-      "hash": "52a66ae6f33de699b7c6e41443d9b4687b6e792b75e5cd656c125c5bc97289da"
-    },
-    {
-      "event": "EVALUATED",
-      "incidentId": "live-8453-13682bbad5",
-      "source": "live",
-      "decision": "MONITOR",
-      "eligible": false,
-      "reasons": [
-        "decision is MONITOR",
-        "risk gate held",
-        "no computed position size",
-        "no Bitget instrument",
-        "no side"
-      ],
-      "at": "2026-11-17T22:32:29.196Z",
-      "prevHash": "2dc25d83f27af5980035f3c1ee7781b0fca4ea5c9599532ebd6a29c6867fb0d3",
-      "hash": "3088650309656e6d4b123dc09ce5ef4c058b9206e3efaee3eaa0b15c9b30d4f1"
     }
   ],
-  "logEntries": 1451
+  "logEntries": 1454
 }
