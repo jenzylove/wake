@@ -1,0 +1,162 @@
+{
+  "schema": "wake.live.incident.v1",
+  "id": "live-8453-e03fe38c82",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-11-22T08:21:49.947Z",
+  "chain": {
+    "id": "8453",
+    "name": "base"
+  },
+  "detection": {
+    "tx": "0xe03fe38c82409034f6ded862b5059aba134e61aececfcbbcd5ec1d19eb711de4",
+    "block": 60724750,
+    "contract": "0x1fdb12117cc1a53ca0c726e34ed81b023ca7b8a5",
+    "recipient": "0xbb5507daae822ba89c4da61bbfdf4b49a1666bac",
+    "asset": "WETH",
+    "amount": 150.90057411241656,
+    "approxUsd": 253916,
+    "balanceRemovedShare": 0.8939
+  },
+  "exposure": {
+    "quantified": true,
+    "chainId": "8453",
+    "txHash": "0xe03fe38c82409034f6ded862b5059aba134e61aececfcbbcd5ec1d19eb711de4",
+    "block": 60724750,
+    "victim": "0x1fdb12117cc1a53ca0c726e34ed81b023ca7b8a5",
+    "drainedUsd": 457949.07841569115,
+    "drainedTokens": [
+      {
+        "token": "0x4200000000000000000000000000000000000006",
+        "symbol": "WETH",
+        "amount": -150.90057411241656,
+        "usd": -252326.3059412067
+      },
+      {
+        "token": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+        "symbol": "cbBTC",
+        "amount": -3.4719239,
+        "usd": -205622.77247448446
+      }
+    ],
+    "victimIssuesToken": false,
+    "holderScan": "skipped: victim does not issue a token",
+    "integrators": [],
+    "method": "receipt Transfer logs, ERC20 state at the block before and the block of the exploit, DefiLlama current prices"
+  },
+  "protocol": null,
+  "instrument": null,
+  "market": null,
+  "sizing": {
+    "computable": false,
+    "reason": "no instrument"
+  },
+  "evidence": [
+    {
+      "key": "drain",
+      "ok": true,
+      "weight": 25,
+      "detail": "89% of the contract's WETH left in one transaction"
+    },
+    {
+      "key": "loss-path",
+      "ok": true,
+      "weight": 25,
+      "detail": "measured $457,949"
+    },
+    {
+      "key": "protocol",
+      "ok": false,
+      "weight": 20,
+      "detail": "contract does not match a known protocol"
+    },
+    {
+      "key": "instrument",
+      "ok": false,
+      "weight": 15,
+      "detail": "no Bitget perpetual for the affected protocol"
+    },
+    {
+      "key": "ai-review",
+      "ok": false,
+      "weight": 15,
+      "detail": "not run"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "loss-path",
+      "question": "Is the loss path measured from chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "market",
+      "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+      "status": "UNRESOLVED",
+      "blocksTrade": true
+    }
+  ],
+  "confidence": null,
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": false,
+        "value": "$0",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "2 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "1 blocking check",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": null,
+  "policyDecision": "MONITOR",
+  "aiDecision": null,
+  "aiDecisionError": null,
+  "refusals": [
+    "no listed instrument to trade, so there is nothing to decide"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no listed instrument to trade, so there is nothing to decide"
+    ]
+  },
+  "integrity": "e540cf6244c0f36bdf860c7b33f13d7bf4acdb4940bc3419d4c6cbb7d6aae092"
+}
