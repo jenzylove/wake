@@ -1,0 +1,156 @@
+{
+  "schema": "wake.live.incident.v1",
+  "id": "live-8453-050e45e685",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-11-23T15:05:50.601Z",
+  "chain": {
+    "id": "8453",
+    "name": "base"
+  },
+  "detection": {
+    "tx": "0x050e45e6856aa5e190dbf244349e5bb8264ac8fd6530b913f057d4225f4a747a",
+    "block": 61279781,
+    "contract": "0x57c707f9c78c419cb61fa065f343da957c617a59",
+    "recipient": "0x5c1320be14df92e70bcb97b9efb9af1a28aa5ce8",
+    "asset": "USDC",
+    "amount": 1300065,
+    "approxUsd": 1300065,
+    "balanceRemovedShare": 1
+  },
+  "exposure": {
+    "quantified": true,
+    "chainId": "8453",
+    "txHash": "0x050e45e6856aa5e190dbf244349e5bb8264ac8fd6530b913f057d4225f4a747a",
+    "block": 61279781,
+    "victim": "0x57c707f9c78c419cb61fa065f343da957c617a59",
+    "drainedUsd": 1299933.617511204,
+    "drainedTokens": [
+      {
+        "token": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+        "symbol": "USDC",
+        "amount": -1300065,
+        "usd": -1299933.617511204
+      }
+    ],
+    "victimIssuesToken": false,
+    "holderScan": "skipped: victim does not issue a token",
+    "integrators": [],
+    "method": "receipt Transfer logs, ERC20 state at the block before and the block of the exploit, DefiLlama current prices"
+  },
+  "protocol": null,
+  "instrument": null,
+  "market": null,
+  "sizing": {
+    "computable": false,
+    "reason": "no instrument"
+  },
+  "evidence": [
+    {
+      "key": "drain",
+      "ok": true,
+      "weight": 25,
+      "detail": "100% of the contract's USDC left in one transaction"
+    },
+    {
+      "key": "loss-path",
+      "ok": true,
+      "weight": 25,
+      "detail": "measured $1,299,934"
+    },
+    {
+      "key": "protocol",
+      "ok": false,
+      "weight": 20,
+      "detail": "contract does not match a known protocol"
+    },
+    {
+      "key": "instrument",
+      "ok": false,
+      "weight": 15,
+      "detail": "no Bitget perpetual for the affected protocol"
+    },
+    {
+      "key": "ai-review",
+      "ok": false,
+      "weight": 15,
+      "detail": "not run"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "loss-path",
+      "question": "Is the loss path measured from chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "market",
+      "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+      "status": "UNRESOLVED",
+      "blocksTrade": true
+    }
+  ],
+  "confidence": null,
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": false,
+        "value": "$0",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "2 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "1 blocking check",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": null,
+  "policyDecision": "MONITOR",
+  "aiDecision": null,
+  "aiDecisionError": null,
+  "refusals": [
+    "no listed instrument to trade, so there is nothing to decide"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no listed instrument to trade, so there is nothing to decide"
+    ]
+  },
+  "integrity": "89763f469ce1538b5b3f1fe8fa5d606c0bb891e79e4b565ea2f98615dd24b37c"
+}
