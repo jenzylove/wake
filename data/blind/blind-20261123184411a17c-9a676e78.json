@@ -1,0 +1,235 @@
+{
+  "schema": "wake.blind.incident.v1",
+  "id": "blind-20261123184411a17c-9a676e78",
+  "runId": "20261123184411a17c",
+  "provenance": "BLIND_TEST",
+  "chain": {
+    "id": 31337,
+    "rpc": "local anvil",
+    "block": 81,
+    "blockTimestamp": 1795459533
+  },
+  "detection": {
+    "tx": "0x8abadd51c869bfaa0c721c3d6d6b6ff74d4fcacb8c6eb1858b02223a72564e54",
+    "txs": [
+      "0x8abadd51c869bfaa0c721c3d6d6b6ff74d4fcacb8c6eb1858b02223a72564e54"
+    ],
+    "firstDetectedAt": "2026-11-23T18:44:27.752Z",
+    "victim": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+    "token": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+    "before": 872228,
+    "after": 0,
+    "detectedAt": "2026-11-23T18:44:27.752Z",
+    "latencyMs": -65248
+  },
+  "investigation": {
+    "from": "0xf156fa96f3e6fe20ee577afc1b5d84e9638fbabc",
+    "to": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+    "selector": "0xa441d067",
+    "authorised": false,
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "calls": [
+      {
+        "depth": 0,
+        "to": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+        "selector": "0xa441d067",
+        "type": "CALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+        "selector": "0x70a08231",
+        "type": "STATICCALL"
+      },
+      {
+        "depth": 1,
+        "to": "0x0dcd1bf9a1b36ce34237eeafef220932846bcd82",
+        "selector": "0xa9059cbb",
+        "type": "CALL"
+      }
+    ],
+    "sharePriceBefore": 1,
+    "sharePriceAfter": 0,
+    "receiptSupplyBefore": 872228,
+    "integrators": []
+  },
+  "candidates": [
+    {
+      "kind": "DIRECT",
+      "address": "0x9a676e781a523b5d0c0e43731313a708cb607508",
+      "lossUsd": 872228,
+      "name": "Kestrel Yield",
+      "instrument": "DOGEUSDT",
+      "marketCapUsd": 19000000,
+      "modeledDeltaPct": 1.148,
+      "markAtDetection": 0.05708,
+      "markAtDecision": 0.05708,
+      "marketDeltaPct": 0,
+      "sizing": {
+        "computable": true,
+        "notionalUsd": 4412.427544834789,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.10988049805042512,
+        "costPct": 0.003435810244609122,
+        "spreadPct": 0.002235810244609122,
+        "bindingConstraint": "risk budget",
+        "inputs": [
+          {
+            "label": "Window volatility",
+            "value": 0.05494024902521256,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Window traded value (USD)",
+            "value": 74872809.71586001,
+            "provenance": "OBSERVED"
+          },
+          {
+            "label": "Spread (Corwin-Schultz on 1m candles)",
+            "value": 0.002235810244609122,
+            "provenance": "ESTIMATED"
+          },
+          {
+            "label": "Equity",
+            "value": 100000,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Risk fraction",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Stop, in window sigmas",
+            "value": 2,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Participation cap",
+            "value": 0.005,
+            "provenance": "ASSUMED"
+          },
+          {
+            "label": "Taker fee",
+            "value": 0.0006,
+            "provenance": "OBSERVED"
+          }
+        ]
+      },
+      "residualPct": 1.148,
+      "demoListed": true
+    }
+  ],
+  "evidence": [
+    {
+      "key": "receipt",
+      "ok": true,
+      "weight": 20,
+      "detail": "tx 0x8abadd51c869bfaa0c721c3d6d6b6ff74d4fcacb8c6eb1858b02223a72564e54 succeeded in block 81"
+    },
+    {
+      "key": "unauthorised",
+      "ok": true,
+      "weight": 20,
+      "detail": "sender 0xf156fa96f3e6fe20ee577afc1b5d84e9638fbabc is not the owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "key": "trace",
+      "ok": true,
+      "weight": 15,
+      "detail": "3 calls traced"
+    },
+    {
+      "key": "backing",
+      "ok": true,
+      "weight": 20,
+      "detail": "share price 1.0000 to 0.0000"
+    },
+    {
+      "key": "exposure",
+      "ok": true,
+      "weight": 25,
+      "detail": "DIRECT loss $872,228 at Kestrel Yield"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "authorised",
+      "question": "Was the outflow authorised by the contract owner?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "exposure",
+      "question": "Is the loss path quantified from on-chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "ai-review",
+      "question": "Does the investigator's review support the loss path?",
+      "status": "NOT_RUN",
+      "blocksTrade": false
+    }
+  ],
+  "confidence": 100,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": true,
+        "value": "100%",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "1.1%",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": true,
+        "value": "$500",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": true,
+        "value": "5 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": true,
+        "value": "no blocking checks",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": "interpret route 502: anthropic 401: invalid x-api-key",
+  "policyDecision": "NO_TRADE",
+  "aiDecision": null,
+  "aiDecisionError": "decide route 502: anthropic 401: invalid x-api-key",
+  "refusals": [
+    "no model decision was available, so nothing trades"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no model decision was available, so nothing trades"
+    ]
+  },
+  "integrity": "985712f4417eede378bb61fb63cac0401d93d34083b08887d3bf76aea0845bdb"
+}
