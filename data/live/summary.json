@@ -1,15 +1,15 @@
 {
-  "updatedAt": "2026-11-22T22:39:36.138Z",
+  "updatedAt": "2026-11-23T03:52:54.430Z",
   "minUsd": 250000,
   "chains": {
     "1": {
       "name": "ethereum",
-      "from": 26472793,
-      "to": 26473693,
+      "from": 26474358,
+      "to": 26475258,
       "blocks": 901,
-      "skipped": 934,
-      "largeTransfers": 636,
-      "recurringSenders": 100,
+      "skipped": 665,
+      "largeTransfers": 1183,
+      "recurringSenders": 166,
       "rejectedCandidates": 14,
       "drains": 0,
       "logCoverageComplete": true,
@@ -19,95 +19,150 @@
     },
     "8453": {
       "name": "base",
-      "from": 60978162,
-      "to": 60983562,
+      "from": 61072299,
+      "to": 61077699,
       "blocks": 5401,
-      "skipped": 104979,
-      "largeTransfers": 569,
-      "recurringSenders": 15,
-      "rejectedCandidates": 6,
-      "drains": 0,
+      "skipped": 88737,
+      "largeTransfers": 595,
+      "recurringSenders": 27,
+      "rejectedCandidates": 9,
+      "drains": 2,
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastError": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode",
       "name": "arbitrum",
-      "from": 526591070,
-      "to": 526634270,
+      "from": 526654047,
+      "to": 526697247,
       "blocks": 43201,
-      "skipped": 26888,
+      "skipped": 19777,
       "largeTransfers": 131,
-      "recurringSenders": 24,
-      "rejectedCandidates": 11,
+      "recurringSenders": 17,
+      "rejectedCandidates": 14,
       "drains": 0,
       "logCoverageComplete": true,
-      "evidenceComplete": false,
+      "evidenceComplete": true,
       "failedRanges": [],
-      "confirmationErrors": [
-        {
-          "tx": "0x1420a26c45fb77d7763516765017c5fbaaf30963504ee67a4a5f575d6dd90239",
-          "block": 526612629,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        },
-        {
-          "tx": "0x3b764bafc51e1ba0d69d79aade0a6b6f79994698acb68ac2aedac65b5c5af0a2",
-          "block": 526617186,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        },
-        {
-          "tx": "0x5ca3d783442eb40bc27dcd966a03749823139f5a6f72e3c7ca945d9a002c13cb",
-          "block": 526627113,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        }
-      ]
+      "confirmationErrors": []
     }
   },
   "scanned": {
     "1": {
-      "lastBlock": 26473693,
-      "scannedAt": "2026-11-22T22:38:07.880Z",
+      "lastBlock": 26475258,
+      "scannedAt": "2026-11-23T03:51:55.352Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "8453": {
-      "lastBlock": 60983562,
-      "scannedAt": "2026-11-22T22:38:18.270Z",
+      "lastBlock": 61077699,
+      "scannedAt": "2026-11-23T03:52:05.807Z",
       "logCoverageComplete": true,
       "evidenceComplete": true,
       "failedRanges": [],
       "confirmationErrors": []
     },
     "42161": {
-      "lastBlock": 526634270,
-      "scannedAt": "2026-11-22T22:39:32.280Z",
+      "lastBlock": 526697247,
+      "scannedAt": "2026-11-23T03:52:51.137Z",
       "logCoverageComplete": true,
-      "evidenceComplete": false,
+      "evidenceComplete": true,
       "failedRanges": [],
-      "confirmationErrors": [
-        {
-          "tx": "0x1420a26c45fb77d7763516765017c5fbaaf30963504ee67a4a5f575d6dd90239",
-          "block": 526612629,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        },
-        {
-          "tx": "0x3b764bafc51e1ba0d69d79aade0a6b6f79994698acb68ac2aedac65b5c5af0a2",
-          "block": 526617186,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        },
-        {
-          "tx": "0x5ca3d783442eb40bc27dcd966a03749823139f5a6f72e3c7ca945d9a002c13cb",
-          "block": 526627113,
-          "error": "eth_call: Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
-        }
-      ]
+      "confirmationErrors": []
     }
   },
   "incidents": [
+    {
+      "id": "live-8453-683b4dab94",
+      "eventClass": "DRAIN",
+      "detectedAt": "2026-11-23T03:52:05.805Z",
+      "chain": "base",
+      "tx": "0x683b4dab9449ba76b3141035018def10c0627f685ab14d99c40e76602ffcd164",
+      "contract": "0x04bfc1d96a72896bb2c652414c8dd4bbf7ff70e0",
+      "asset": "USDC",
+      "approxUsd": 251311,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": null,
+      "exchange": null,
+      "depositor": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "no listed instrument to trade, so there is nothing to decide"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "minEdgePct": null,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        }
+      ],
+      "ai": null
+    },
+    {
+      "id": "live-8453-585ef53739",
+      "eventClass": "DRAIN",
+      "detectedAt": "2026-11-23T03:52:05.534Z",
+      "chain": "base",
+      "tx": "0x585ef5373935c089a75a207910cf0b215a9b262bdfe88c0312bec07b66626194",
+      "contract": "0xd4b3f24f4c1020d34591118dc4290a78cc5bcc53",
+      "asset": "USDC",
+      "approxUsd": 676374,
+      "removedShare": 1,
+      "protocol": null,
+      "instrument": null,
+      "exchange": null,
+      "depositor": null,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "confidence": null,
+      "side": "SHORT",
+      "proposed": null,
+      "refusals": [
+        "no listed instrument to trade, so there is nothing to decide"
+      ],
+      "aiDecision": null,
+      "modeledDeltaPct": null,
+      "marketDeltaPct": 0,
+      "minEdgePct": null,
+      "exposureMeasured": true,
+      "sizing": null,
+      "falsification": [
+        {
+          "key": "loss-path",
+          "question": "Is the loss path measured from chain state?",
+          "status": "REJECTED",
+          "blocksTrade": false
+        },
+        {
+          "key": "market",
+          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+          "status": "UNRESOLVED",
+          "blocksTrade": true
+        }
+      ],
+      "ai": null
+    },
     {
       "id": "live-8453-c60011328d",
       "eventClass": "DRAIN",
@@ -2884,102 +2939,14 @@
         }
       ],
       "ai": null
-    },
-    {
-      "id": "live-8453-70798cbb02",
-      "eventClass": "DRAIN",
-      "detectedAt": "2026-11-14T03:25:51.644Z",
-      "chain": "base",
-      "tx": "0x70798cbb02e7219bd2557fd67bc8a4f8dac690a229c94e041b1eef766b8bd604",
-      "contract": "0x46f35e3b1554a5d227ecf3b34499140cb21a2d27",
-      "asset": "USDC",
-      "approxUsd": 264400,
-      "removedShare": 1,
-      "protocol": null,
-      "instrument": null,
-      "exchange": null,
-      "depositor": null,
-      "decision": "MONITOR",
-      "gatePassed": false,
-      "confidence": null,
-      "side": "SHORT",
-      "proposed": null,
-      "refusals": [
-        "no listed instrument to trade, so there is nothing to decide"
-      ],
-      "aiDecision": null,
-      "modeledDeltaPct": null,
-      "marketDeltaPct": 0,
-      "minEdgePct": null,
-      "exposureMeasured": true,
-      "sizing": null,
-      "falsification": [
-        {
-          "key": "loss-path",
-          "question": "Is the loss path measured from chain state?",
-          "status": "REJECTED",
-          "blocksTrade": false
-        },
-        {
-          "key": "market",
-          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
-          "status": "UNRESOLVED",
-          "blocksTrade": true
-        }
-      ],
-      "ai": null
-    },
-    {
-      "id": "live-1-d0cac164cf",
-      "eventClass": "DRAIN",
-      "detectedAt": "2026-11-14T03:25:26.626Z",
-      "chain": "ethereum",
-      "tx": "0xd0cac164cf402edb7183e5fc90891ee8e3ff198ea47acd2044189ebc0dd438da",
-      "contract": "0xcd5a64d8deb75def1ffd17ae0095562542fb220c",
-      "asset": "USDC",
-      "approxUsd": 11493445,
-      "removedShare": 0.989,
-      "protocol": null,
-      "instrument": null,
-      "exchange": null,
-      "depositor": null,
-      "decision": "MONITOR",
-      "gatePassed": false,
-      "confidence": null,
-      "side": "SHORT",
-      "proposed": null,
-      "refusals": [
-        "no listed instrument to trade, so there is nothing to decide"
-      ],
-      "aiDecision": null,
-      "modeledDeltaPct": null,
-      "marketDeltaPct": 0,
-      "minEdgePct": null,
-      "exposureMeasured": true,
-      "sizing": null,
-      "falsification": [
-        {
-          "key": "loss-path",
-          "question": "Is the loss path measured from chain state?",
-          "status": "REJECTED",
-          "blocksTrade": false
-        },
-        {
-          "key": "market",
-          "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
-          "status": "UNRESOLVED",
-          "blocksTrade": true
-        }
-      ],
-      "ai": null
     }
   ],
   "supply": {
-    "at": "2026-11-22T22:39:36.119Z",
-    "from": 26472802,
-    "to": 26473702,
+    "at": "2026-11-23T03:52:54.413Z",
+    "from": 26474364,
+    "to": 26475264,
     "blocks": 901,
-    "transfers": 42,
+    "transfers": 124,
     "hubs": 8,
     "inferredHubs": 0,
     "deposits": 0,
