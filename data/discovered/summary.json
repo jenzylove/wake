@@ -1,6 +1,67 @@
 {
-  "updatedAt": "2026-11-22T18:29:32.628Z",
+  "updatedAt": "2026-11-23T00:15:27.554Z",
   "incidents": [
+    {
+      "id": "disc-endurance-bridge-2026-11-22",
+      "name": "Endurance Bridge",
+      "day": "2026-11-22",
+      "amountUsd": 1040000,
+      "chains": [
+        "BSC"
+      ],
+      "technique": "Unbacked Cross-Chain Mint",
+      "classification": "Bridge & Cross-Chain",
+      "protocol": {
+        "id": "4585",
+        "name": "Endurance Bridge",
+        "slug": "endurance-bridge",
+        "symbol": "-",
+        "category": "Bridge",
+        "mcapUsd": null
+      },
+      "exposures": [
+        {
+          "symbol": "BNBUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of BSC",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "BNBUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-11-23T00:15:24.348Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 49,
+        "quoteVolumeUsd": 17719165.23,
+        "exploitDayMovePct": 2.016,
+        "hourlySigma": 0.00919,
+        "windowSigma": 0.045023
+      },
+      "microstructure": {
+        "observedAt": "2026-11-23T00:15:24.347Z",
+        "mid": 559.895,
+        "spreadBps": 0.179,
+        "bidDepthUsd1pct": 413813,
+        "askDepthUsd1pct": 745187,
+        "fundingRate": -0.000008,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 83200.7300000001
+      },
+      "sizing": {
+        "notionalUsd": 5390.421284253674,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.090046,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "cfe168b4557a0060f0b7bbc06002bda47c735ca3fad760214f0a1d811a6ff407",
+      "sourceSha256": "7a22bd2537ee562ca5f6ca9f581068866ccb00ee6346990c655f4b399262f63c",
+      "ai": null
+    },
     {
       "id": "disc-cyberconnect-2026-11-21",
       "name": "CyberConnect",
@@ -55,14 +116,14 @@
         "windowSigma": 0.228527
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:30.959Z",
-        "mid": 0.19955,
-        "spreadBps": 15.034,
-        "bidDepthUsd1pct": 137911,
-        "askDepthUsd1pct": 115703,
-        "fundingRate": -0.001971,
+        "observedAt": "2026-11-23T00:15:26.138Z",
+        "mid": 0.19885,
+        "spreadBps": 15.087,
+        "bidDepthUsd1pct": 105600,
+        "askDepthUsd1pct": 86882,
+        "fundingRate": -0.002358,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 5202781.499999997
+        "openInterestContracts": 5070017.699999998
       },
       "sizing": {
         "notionalUsd": 1067.3009257650235,
@@ -95,7 +156,7 @@
           }
         ]
       },
-      "integrity": "d5cd9d729469826adf528c030694469c91f8f72fba5341c4d0ffdeaffca1fd64",
+      "integrity": "b53a47f7cbd166fd86102479b1c05b8409bc7ff698462a8137f556b2da4f9c4f",
       "sourceSha256": "ae41ebd1066f6c191581c87a8e16974df06bc80bf1c6ec5b7c277ab0122d985e",
       "ai": null
     },
@@ -140,14 +201,14 @@
         "windowSigma": 0.063617
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:30.750Z",
-        "mid": 1712.495,
+        "observedAt": "2026-11-23T00:15:26.262Z",
+        "mid": 1724.085,
         "spreadBps": 0.058,
-        "bidDepthUsd1pct": 3613310,
-        "askDepthUsd1pct": 2081422,
-        "fundingRate": 0.000006,
+        "bidDepthUsd1pct": 1645559,
+        "askDepthUsd1pct": 835712,
+        "fundingRate": -0.000048,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 722641.3200000016
+        "openInterestContracts": 718449.9000000017
       },
       "sizing": {
         "notionalUsd": 3789.351579192,
@@ -180,7 +241,7 @@
           }
         ]
       },
-      "integrity": "67fb2855bcbc9ad5adf6fbde44aa9688c60b8657927c767a38472dd38ab7b5f3",
+      "integrity": "640c5fcde9782a73d186c1858f5b2bc00b49b83e09bd060e20d1bdd35eabf0aa",
       "sourceSha256": "ab3ef445fa7a16ed1f51d029e4edb9e4de59b38929b090bd3162b9b2aea1aa80",
       "ai": null
     },
@@ -218,14 +279,14 @@
         "windowSigma": 0.049644
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:31.086Z",
-        "mid": 62.460499999999996,
-        "spreadBps": 1.121,
-        "bidDepthUsd1pct": 117765,
-        "askDepthUsd1pct": 92832,
-        "fundingRate": -0.000007,
+        "observedAt": "2026-11-23T00:15:26.417Z",
+        "mid": 62.825500000000005,
+        "spreadBps": 0.159,
+        "bidDepthUsd1pct": 96772,
+        "askDepthUsd1pct": 112578,
+        "fundingRate": -0.000002,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 2417500.48
+        "openInterestContracts": 2414813.46
       },
       "sizing": {
         "notionalUsd": 4737.419036175689,
@@ -258,8 +319,135 @@
           }
         ]
       },
-      "integrity": "ef271806f13d159a3e955d35679bd72f7f9abedd2e8ff1eda3ca15f97d149d00",
+      "integrity": "5b2be67a84daf19a7e98d6620b418d7308a724bc5cdb1daccbb5a93f58e95c0c",
       "sourceSha256": "34fddad5dba86f397faee0774cf3dd1a33a904bc50baaab1e661a0dd56785f0f",
+      "ai": null
+    },
+    {
+      "id": "disc-the-moats-2026-11-19",
+      "name": "The Moats",
+      "day": "2026-11-19",
+      "amountUsd": 600000,
+      "chains": [
+        "Avalanche",
+        "Robinhood Chain"
+      ],
+      "technique": "Key Leaked via Infrastructure",
+      "classification": "Frontend & Infrastructure",
+      "protocol": {
+        "id": "9098",
+        "name": "The Moats",
+        "slug": "the-moats",
+        "symbol": "-",
+        "category": "Staking Pool",
+        "mcapUsd": null
+      },
+      "exposures": [
+        {
+          "symbol": "AVAXUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Avalanche",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "AVAXUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-11-23T00:15:25.703Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 16759824.94,
+        "exploitDayMovePct": -0.783,
+        "hourlySigma": 0.008836,
+        "windowSigma": 0.043288
+      },
+      "microstructure": {
+        "observedAt": "2026-11-23T00:15:25.702Z",
+        "mid": 6.6775,
+        "spreadBps": 1.498,
+        "bidDepthUsd1pct": 2393632,
+        "askDepthUsd1pct": 2086460,
+        "fundingRate": -0.000189,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 2449035.6
+      },
+      "sizing": {
+        "notionalUsd": 5478.9939347480495,
+        "maxLossUsd": 499.99999999999994,
+        "stopPct": 0.086576,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "befe19a3413a3bbbf0678d332d2d8629f5b5dc95b0c9ddd2432f2a72b3a197fb",
+      "sourceSha256": "1c0fa9a84f3d006fa68d1b3ab67c2fcc25cd2e23e657171f03b152fd94fdc637",
+      "ai": null
+    },
+    {
+      "id": "disc-fluidkey-2026-11-19",
+      "name": "Fluidkey",
+      "day": "2026-11-19",
+      "amountUsd": 1600000,
+      "chains": [
+        "Ethereum",
+        "Base",
+        "Binance",
+        "Polygon",
+        "Optimism",
+        "Arbitrum"
+      ],
+      "technique": "Database Breach",
+      "classification": "Frontend & Infrastructure",
+      "protocol": null,
+      "exposures": [
+        {
+          "symbol": "ETHUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Ethereum",
+          "epistemic": "INFERRED"
+        },
+        {
+          "symbol": "POLUSDT",
+          "kind": "CONTAGION",
+          "relation": "native token of Polygon",
+          "epistemic": "INFERRED"
+        }
+      ],
+      "instrument": "ETHUSDT",
+      "decision": "MONITOR",
+      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
+      "discoveredAt": "2026-11-23T00:15:25.059Z",
+      "hasReceipt": false,
+      "exposureQuantified": false,
+      "market": {
+        "hours": 72,
+        "quoteVolumeUsd": 4904483287.62,
+        "exploitDayMovePct": -1.093,
+        "hourlySigma": 0.008488,
+        "windowSigma": 0.041581
+      },
+      "microstructure": {
+        "observedAt": "2026-11-23T00:15:25.059Z",
+        "mid": 1724.3449999999998,
+        "spreadBps": 0.058,
+        "bidDepthUsd1pct": 1210568,
+        "askDepthUsd1pct": 2943892,
+        "fundingRate": -0.000048,
+        "fundingIntervalHours": 8,
+        "openInterestContracts": 718449.9000000017
+      },
+      "sizing": {
+        "notionalUsd": 5706.921663296755,
+        "maxLossUsd": 500,
+        "stopPct": 0.083162,
+        "bindingConstraint": "risk budget"
+      },
+      "assessment": null,
+      "integrity": "46d49d7e6243225f9fa4886e0f56efb3664488ce7a42eb5251a84b2e6996d700",
+      "sourceSha256": "781c17829deaf5ed7a16084975bae4db59762c60d90942c37f3bd4157e180f06",
       "ai": null
     },
     {
@@ -303,14 +491,14 @@
         "windowSigma": 0.029795
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:31.345Z",
-        "mid": 0.07538,
-        "spreadBps": 5.306,
-        "bidDepthUsd1pct": 311378,
-        "askDepthUsd1pct": 277204,
-        "fundingRate": 0.000039,
+        "observedAt": "2026-11-23T00:15:26.652Z",
+        "mid": 0.07585,
+        "spreadBps": 2.637,
+        "bidDepthUsd1pct": 312758,
+        "askDepthUsd1pct": 262833,
+        "fundingRate": 0.00005,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 33163105
+        "openInterestContracts": 32562863
       },
       "sizing": {
         "notionalUsd": 3566.3062,
@@ -343,7 +531,7 @@
           }
         ]
       },
-      "integrity": "abade210af3eb3567777f2ccdde5bda6e6f1290016985e82e746427eb846b337",
+      "integrity": "9524029bc333fde3ff4043c8e9b70ebe8baf86e78083134c4cb8ea9860eea59e",
       "sourceSha256": "7b4e478323e409f19da23baea56368712499cce8a9c18e57d01b48f87b708377",
       "ai": null
     },
@@ -415,14 +603,14 @@
         "windowSigma": 0.030844
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:31.213Z",
-        "mid": 1712.495,
+        "observedAt": "2026-11-23T00:15:26.808Z",
+        "mid": 1723.9050000000002,
         "spreadBps": 0.058,
-        "bidDepthUsd1pct": 3995324,
-        "askDepthUsd1pct": 2149006,
-        "fundingRate": 0.000006,
+        "bidDepthUsd1pct": 1277574,
+        "askDepthUsd1pct": 958488,
+        "fundingRate": -0.000048,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 722641.3200000016
+        "openInterestContracts": 718449.9000000017
       },
       "sizing": {
         "notionalUsd": 7660.036660783171,
@@ -455,7 +643,7 @@
           }
         ]
       },
-      "integrity": "34449e251d99974800030352ab08aa61cf8c68174dc488a5632376db361a0942",
+      "integrity": "b26420ffbfd132a7c19441bce2d0ea4bdf01b2bc3596f4423dfb07a21d2f8532",
       "sourceSha256": "7dddeb89bbfedfd4d221e0471fd73d5c256401644e74f3b6f58e5887a79c1be7",
       "ai": null
     },
@@ -493,14 +681,14 @@
         "windowSigma": 0.030844
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:31.503Z",
-        "mid": 1712.495,
+        "observedAt": "2026-11-23T00:15:26.538Z",
+        "mid": 1723.9050000000002,
         "spreadBps": 0.058,
-        "bidDepthUsd1pct": 4069668,
-        "askDepthUsd1pct": 2055963,
-        "fundingRate": 0.000006,
+        "bidDepthUsd1pct": 1068992,
+        "askDepthUsd1pct": 908301,
+        "fundingRate": -0.000048,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 722641.3200000016
+        "openInterestContracts": 718449.9000000017
       },
       "sizing": {
         "notionalUsd": 7660.036660783171,
@@ -533,7 +721,7 @@
           }
         ]
       },
-      "integrity": "53e4413d87d958839fd297166aa669ee9f0ee384dd6e47f25fbbf51ab827f541",
+      "integrity": "ff7d6c26fc8b6fdc3c400bd0a4168438efa191e6eea2d5c8f0c656c6159c5f89",
       "sourceSha256": "a33b225ddc053702328b4e09cf1703b5e763d66bb196aa3484b3f06f5db4b9fa",
       "ai": null
     },
@@ -571,14 +759,14 @@
         "windowSigma": 0.035305
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:31.646Z",
-        "mid": 1712.495,
+        "observedAt": "2026-11-23T00:15:26.920Z",
+        "mid": 1723.9050000000002,
         "spreadBps": 0.058,
-        "bidDepthUsd1pct": 3994812,
-        "askDepthUsd1pct": 2161843,
-        "fundingRate": 0.000006,
+        "bidDepthUsd1pct": 1343491,
+        "askDepthUsd1pct": 837730,
+        "fundingRate": -0.000048,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 722641.3200000016
+        "openInterestContracts": 718449.9000000017
       },
       "sizing": {
         "notionalUsd": 6696.067990829009,
@@ -611,7 +799,7 @@
           }
         ]
       },
-      "integrity": "662ee7735db8172b20c96207690ac480756d220cb9616a558f8cb017648635ea",
+      "integrity": "df3c46b4175c9d6151c4c22747a2b0eec7806b66ec221526a395132e951188db",
       "sourceSha256": "dcaadfbe2270960419c3902e345059d1e9b5b7ffb5512c1f989927d8cdadf1f3",
       "ai": null
     },
@@ -690,14 +878,14 @@
         "windowSigma": 0.085914
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:31.823Z",
-        "mid": 2.3049999999999997,
-        "spreadBps": 8.677,
-        "bidDepthUsd1pct": 14391,
-        "askDepthUsd1pct": 14273,
-        "fundingRate": 0.000013,
+        "observedAt": "2026-11-23T00:15:27.054Z",
+        "mid": 2.3805,
+        "spreadBps": 12.602,
+        "bidDepthUsd1pct": 18020,
+        "askDepthUsd1pct": 16034,
+        "fundingRate": -0.00002,
         "fundingIntervalHours": 4,
-        "openInterestContracts": 1432352
+        "openInterestContracts": 1445096
       },
       "sizing": {
         "notionalUsd": 2798.8445179902174,
@@ -730,7 +918,7 @@
           }
         ]
       },
-      "integrity": "a73d028644021dc26c9e9ac9aacb9700a7c3bf7cb30e18c026381e679cba3e79",
+      "integrity": "6a5c9a494e24c3f5c9036da3d7c3e6e76e18a7be460dfe6fef790888c70f6197",
       "sourceSha256": "6410335d8a493b6b23df38ebc8a8e6b84999634e31a19ff99f7d32b0fd59f4ff",
       "ai": null
     },
@@ -809,14 +997,14 @@
         "windowSigma": 0.019347
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:31.945Z",
-        "mid": 1712.495,
+        "observedAt": "2026-11-23T00:15:27.177Z",
+        "mid": 1723.855,
         "spreadBps": 0.058,
-        "bidDepthUsd1pct": 3661882,
-        "askDepthUsd1pct": 2058447,
-        "fundingRate": 0.000006,
+        "bidDepthUsd1pct": 1451561,
+        "askDepthUsd1pct": 1095274,
+        "fundingRate": -0.000048,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 722641.3200000016
+        "openInterestContracts": 718449.9000000017
       },
       "sizing": {
         "notionalUsd": 11818.906444221022,
@@ -849,7 +1037,7 @@
           }
         ]
       },
-      "integrity": "37ae02eb5d6a1448ef3870b1e7d4c6013591769517f1145805f99ea4807a9a25",
+      "integrity": "4e2353bb9ac27b52fcab1256892a112a4840136548c7c8c225eeb5336af35dea",
       "sourceSha256": "5ea93a1d37589888d40a38912cc77ad7a15310888aadb3fb80ae1185612ad6d7",
       "ai": null
     },
@@ -948,14 +1136,14 @@
         "windowSigma": 0.036906
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:32.072Z",
-        "mid": 1712.495,
+        "observedAt": "2026-11-23T00:15:27.308Z",
+        "mid": 1723.8049999999998,
         "spreadBps": 0.058,
-        "bidDepthUsd1pct": 3995310,
-        "askDepthUsd1pct": 2158608,
-        "fundingRate": 0.000006,
+        "bidDepthUsd1pct": 1425322,
+        "askDepthUsd1pct": 928347,
+        "fundingRate": -0.000048,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 722641.3200000016
+        "openInterestContracts": 718449.9000000017
       },
       "sizing": {
         "notionalUsd": 6498.781732108336,
@@ -988,7 +1176,7 @@
           }
         ]
       },
-      "integrity": "a7b3640a3572d868d184762bc45e68ee73979472d72a59f0a64d4e422ad5238a",
+      "integrity": "be58ab5db0322451b8163675977d4811907a53a878162219dff2d7fc10510e21",
       "sourceSha256": "730fb2d94c6a02a01e294bab397436d71a67fee37f46620e29930c8e81ba39c6",
       "ai": null
     },
@@ -1049,14 +1237,14 @@
         "windowSigma": 0.031277
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:32.215Z",
-        "mid": 1712.495,
+        "observedAt": "2026-11-23T00:15:27.425Z",
+        "mid": 1723.8049999999998,
         "spreadBps": 0.058,
-        "bidDepthUsd1pct": 4113458,
-        "askDepthUsd1pct": 2058447,
-        "fundingRate": 0.000006,
+        "bidDepthUsd1pct": 1442772,
+        "askDepthUsd1pct": 847020,
+        "fundingRate": -0.000048,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 722641.3200000016
+        "openInterestContracts": 718449.9000000017
       },
       "sizing": {
         "notionalUsd": 7667.865750977191,
@@ -1089,7 +1277,7 @@
           }
         ]
       },
-      "integrity": "f1df212dcfd6c2c7453acc13b0a22095e2fa02a20ce68bde0c453894d097cfad",
+      "integrity": "31e91aecd1400c60717154e94ac700c1c79cba8beffb78cf6ec5e6250c52be1f",
       "sourceSha256": "31470081402d8e591144050eb16e81d890b787b5ef6566a63358289fff504072",
       "ai": null
     },
@@ -1127,14 +1315,14 @@
         "windowSigma": 0.02789
       },
       "microstructure": {
-        "observedAt": "2026-11-22T18:29:32.356Z",
-        "mid": 557.445,
+        "observedAt": "2026-11-23T00:15:27.538Z",
+        "mid": 559.845,
         "spreadBps": 0.179,
-        "bidDepthUsd1pct": 449352,
-        "askDepthUsd1pct": 794028,
-        "fundingRate": -0.000005,
+        "bidDepthUsd1pct": 331540,
+        "askDepthUsd1pct": 234400,
+        "fundingRate": -0.000008,
         "fundingIntervalHours": 8,
-        "openInterestContracts": 82229.75000000009
+        "openInterestContracts": 83200.7300000001
       },
       "sizing": {
         "notionalUsd": 8566.686793838437,
@@ -1167,7 +1355,7 @@
           }
         ]
       },
-      "integrity": "9147101e29b4f00ef65d90893111e36c56b09f8798d297884339b155c4724f64",
+      "integrity": "4f1bc39e7d5d5da9ad312140fe8881a48dbb3b54adaa65e49b3fec79cd2fca87",
       "sourceSha256": "967c92b88761dfcc398f0021718062882f88503627f4f90c726c892010f91956",
       "ai": null
     },
@@ -1224,8 +1412,8 @@
         }
       ],
       "instrument": "ETHUSDT",
-      "decision": "MONITOR",
-      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "decision": "NO_TRADE",
+      "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
       "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
       "discoveredAt": "2026-11-03T01:00:19.480Z",
       "hasReceipt": false,
@@ -1278,7 +1466,7 @@
           }
         ]
       },
-      "integrity": "4de3470d9e5f5ed4a3e0a326ce38edda3f23435e4b24d6bb897c4824998116d6",
+      "integrity": "f79a041645d410d4fa07c938ad1bfc9ff629dbd5cc22324ddd1a1227533eefc7",
       "sourceSha256": "6a7197ff40e91d18a3252c12c6cd212d1189f00784a1fd9cfd360691ab217439",
       "ai": null
     },
@@ -1311,8 +1499,8 @@
         }
       ],
       "instrument": "ETHUSDT",
-      "decision": "MONITOR",
-      "reason": "Discovered from the exploit feed. No on-chain receipt is captured yet, so causal confidence is unknown and the policy holds the incident at MONITOR.",
+      "decision": "NO_TRADE",
+      "reason": "No on-chain receipt within 21 days of the exploit. The information gap WAKE trades has closed, so the incident is retired.",
       "nextStep": "Capture the exploit transaction receipt to escalate from MONITOR to a full causal investigation.",
       "discoveredAt": "2026-11-04T18:37:19.819Z",
       "hasReceipt": false,
@@ -1365,7 +1553,7 @@
           }
         ]
       },
-      "integrity": "f8f23a15b558e6a2048bba6f3f5f5349682de1310031737b09d413e08477322a",
+      "integrity": "49b8fa7e1203d2379f199572a1a9546b32f647677479c2aae15c7818fdd80a7f",
       "sourceSha256": "1d13aa1407ed7e2fd2a2143a323200ff0d13058af86242d00ee07174d9cc80cb",
       "ai": null
     },
