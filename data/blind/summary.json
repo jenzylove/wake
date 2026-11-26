@@ -1,17 +1,36 @@
 {
-  "updatedAt": "2026-11-25T17:37:42.945Z",
-  "runs": 112,
-  "detected": 78,
+  "updatedAt": "2026-11-26T17:18:47.548Z",
+  "runs": 113,
+  "detected": 79,
   "decoysDismissed": 36,
   "contagionFound": {
     "found": 25,
     "applicable": 37
   },
-  "tradeTargetCorrect": 78,
+  "tradeTargetCorrect": 79,
   "gateCleared": 5,
-  "falsePositives": 43,
-  "medianDetectionMs": 2747,
+  "falsePositives": 44,
+  "medianDetectionMs": 2647,
   "recent": [
+    {
+      "event": "BLIND_RUN",
+      "runId": "20261126171823ff7e",
+      "commitment": "c6c686d41fb665aaf3ace641015e9ad8c76afebe1a69e7f8fea2b4a067163d3d",
+      "commitmentHolds": true,
+      "exploitDetected": true,
+      "detectionLatencyMs": -65371,
+      "decoyDismissed": false,
+      "contagionFound": null,
+      "tradeTargetCorrect": true,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "decidedBy": "none",
+      "proposed": null,
+      "falsePositives": 1,
+      "at": "2026-11-26T17:18:47.547Z",
+      "prevHash": "4b87bbb7a6c9fb8915a22e25df8eb8b8db50d409df219534c7f8a8d0a6d266f5",
+      "hash": "ceeef6f49a8c68cb6f730b5c6e9b7535ad20f1f67a6a4d485ffd5ddab68062a1"
+    },
     {
       "event": "BLIND_RUN",
       "runId": "20261125173720764e",
@@ -220,28 +239,63 @@
       "at": "2026-11-15T14:18:07.906Z",
       "prevHash": "63311902c46b8b8bb15b6a15f2872cca6a21d626a5afb20e3af24e9f55c06ac0",
       "hash": "8a4d54440c3ff106a919bbb392b25005cf5893cd8b97614c0e607ac0ce7a8613"
-    },
+    }
+  ],
+  "incidents": [
     {
-      "event": "BLIND_RUN",
-      "runId": "20261114134731835c",
-      "commitment": "fa05eba45730d21632ad932cb06483745d3c854551df5e97692c45965b36ff3d",
-      "commitmentHolds": true,
-      "exploitDetected": true,
-      "detectionLatencyMs": -66989,
-      "decoyDismissed": false,
-      "contagionFound": null,
-      "tradeTargetCorrect": true,
+      "id": "blind-20261126171823ff7e-a51c1fc2",
+      "runId": "20261126171823ff7e",
+      "detectedAt": "2026-11-26T17:18:41.048Z",
+      "latencyMs": -61952,
+      "victim": "0xa51c1fc2f0d1a1b8494ed1fe312d7c3a78ed91c0",
+      "authorised": true,
       "decision": "MONITOR",
       "gatePassed": false,
       "decidedBy": "none",
       "proposed": null,
-      "falsePositives": 1,
-      "at": "2026-11-14T13:47:51.567Z",
-      "prevHash": "05e1e4ac8c32324cfbfff03e949ea90a8566f124aa729a9936365ecffb5f7318",
-      "hash": "63311902c46b8b8bb15b6a15f2872cca6a21d626a5afb20e3af24e9f55c06ac0"
-    }
-  ],
-  "incidents": [
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "confidence": 80,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 646039.2,
+      "target": "Juniper Earn",
+      "modeledDeltaPct": 0.299,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": null
+    },
+    {
+      "id": "blind-20261126171823ff7e-a85233c6",
+      "runId": "20261126171823ff7e",
+      "detectedAt": "2026-11-26T17:18:36.629Z",
+      "latencyMs": -65371,
+      "victim": "0xa85233c63b9ee964add6f2cffe00fd84eb32338f",
+      "authorised": false,
+      "decision": "MONITOR",
+      "gatePassed": false,
+      "decidedBy": "none",
+      "proposed": null,
+      "refusals": [
+        "no model decision was available, so nothing trades"
+      ],
+      "aiDecision": null,
+      "confidence": 100,
+      "instrument": null,
+      "kind": null,
+      "side": null,
+      "sizing": null,
+      "lossUsd": 694586,
+      "target": "Garnet Pool",
+      "modeledDeltaPct": 2.171,
+      "marketDeltaPct": 0,
+      "integrators": 0,
+      "ai": null
+    },
     {
       "id": "blind-20261125173720764e-a51c1fc2",
       "runId": "20261125173720764e",
