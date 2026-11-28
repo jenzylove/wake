@@ -1,0 +1,178 @@
+{
+  "schema": "wake.live.incident.v1",
+  "id": "live-1-de000e3645",
+  "provenance": "REAL_CAPTURE",
+  "numbersProvenance": "COMPUTED",
+  "detectedAt": "2026-11-28T04:02:16.824Z",
+  "chain": {
+    "id": "1",
+    "name": "ethereum"
+  },
+  "detection": {
+    "tx": "0xde000e3645affcd901dd39b98f413b13aafcae0a6e334dfa75fe50454e04b85a",
+    "block": 26511150,
+    "contract": "0x355a1c6a3f1946d4dbd7ce932492925ab9f261a7",
+    "recipient": "0xcad2496a37c874ecb613aef57581d623e489e473",
+    "asset": "USDC",
+    "amount": 14963973.424038,
+    "approxUsd": 14963973,
+    "balanceRemovedShare": 1
+  },
+  "exposure": {
+    "quantified": true,
+    "chainId": "1",
+    "txHash": "0xde000e3645affcd901dd39b98f413b13aafcae0a6e334dfa75fe50454e04b85a",
+    "block": 26511150,
+    "victim": "0x355a1c6a3f1946d4dbd7ce932492925ab9f261a7",
+    "drainedUsd": 956924.8037138861,
+    "drainedTokens": [
+      {
+        "token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        "symbol": "USDC",
+        "amount": -957031.0895530004,
+        "usd": -956924.8037138861
+      }
+    ],
+    "victimIssuesToken": true,
+    "holderScan": "7 recent counterparties from node Transfer logs",
+    "integrators": [
+      {
+        "address": "0x9f230218cf7fde6a9246e6f8cb0b888377e92639",
+        "heldBefore": 39.68080334593623,
+        "heldAfter": 39.729391831044275,
+        "holdingValueUsdBefore": null,
+        "pricedWith": null
+      },
+      {
+        "address": "0x637b1cf2be6331330b28f8bb0cd8881c6ad53822",
+        "heldBefore": 89949.50570469815,
+        "heldAfter": 436418.21612644516,
+        "holdingValueUsdBefore": null,
+        "pricedWith": null
+      },
+      {
+        "address": "0x6d6a7f7ec071b43f35b2f923739400d5d6a00b50",
+        "heldBefore": 4203.093126778221,
+        "heldAfter": 4203.093126778221,
+        "holdingValueUsdBefore": null,
+        "pricedWith": null
+      }
+    ],
+    "method": "receipt Transfer logs, ERC20 state at the block before and the block of the exploit, DefiLlama current prices"
+  },
+  "protocol": null,
+  "instrument": null,
+  "market": null,
+  "sizing": {
+    "computable": false,
+    "reason": "no instrument"
+  },
+  "evidence": [
+    {
+      "key": "drain",
+      "ok": true,
+      "weight": 25,
+      "detail": "100% of the contract's USDC left in one transaction"
+    },
+    {
+      "key": "loss-path",
+      "ok": true,
+      "weight": 25,
+      "detail": "measured $956,925"
+    },
+    {
+      "key": "protocol",
+      "ok": false,
+      "weight": 20,
+      "detail": "contract does not match a known protocol"
+    },
+    {
+      "key": "instrument",
+      "ok": false,
+      "weight": 15,
+      "detail": "no Bitget perpetual for the affected protocol"
+    },
+    {
+      "key": "ai-review",
+      "ok": false,
+      "weight": 15,
+      "detail": "not run"
+    }
+  ],
+  "falsification": [
+    {
+      "key": "loss-path",
+      "question": "Is the loss path measured from chain state?",
+      "status": "REJECTED",
+      "blocksTrade": false
+    },
+    {
+      "key": "market",
+      "question": "Is there a listed instrument and a market capitalisation to size the consequence against?",
+      "status": "UNRESOLVED",
+      "blocksTrade": true
+    }
+  ],
+  "confidence": null,
+  "modeledDeltaPct": null,
+  "marketDeltaPct": 0,
+  "decision": "MONITOR",
+  "gate": {
+    "passed": false,
+    "checks": [
+      {
+        "key": "confidence",
+        "label": "Causal confidence",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 75%"
+      },
+      {
+        "key": "residual",
+        "label": "Residual edge",
+        "passed": false,
+        "value": "n/a",
+        "threshold": "≥ 1.2%"
+      },
+      {
+        "key": "loss-bound",
+        "label": "Maximum loss bound",
+        "passed": false,
+        "value": "$0",
+        "threshold": "defined"
+      },
+      {
+        "key": "evidence",
+        "label": "Evidence packet",
+        "passed": false,
+        "value": "2 sources",
+        "threshold": "≥ 3 sources"
+      },
+      {
+        "key": "causal",
+        "label": "Causal challenge",
+        "passed": false,
+        "value": "1 blocking check",
+        "threshold": "0 blocking checks"
+      }
+    ]
+  },
+  "ai": null,
+  "aiError": null,
+  "policyDecision": "MONITOR",
+  "aiDecision": null,
+  "aiDecisionError": null,
+  "refusals": [
+    "no listed instrument to trade, so there is nothing to decide"
+  ],
+  "proposed": null,
+  "agent": {
+    "decision": "MONITOR",
+    "gatePassed": false,
+    "decidedBy": "none",
+    "refusals": [
+      "no listed instrument to trade, so there is nothing to decide"
+    ]
+  },
+  "integrity": "f45e7e563461c76af9a89a5d0d06d86a679e8363ac767875ded74acfaa3c101c"
+}
